@@ -86,14 +86,6 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-			<!-- Spring Cloud -->
-			<!-- <dependency> -->
-			<!-- <groupId>org.springframework.cloud</groupId> -->
-			<!-- <artifactId>spring-cloud-dependencies</artifactId> -->
-			<!-- <version>${spring.cloud.version}</version> -->
-			<!-- <type>pom</type> -->
-			<!-- <scope>import</scope> -->
-			<!-- </dependency> -->
 		</dependencies>
 	</dependencyManagement>
 	<!-- ============== BUILD ========= -->
@@ -302,7 +294,6 @@
 						<maxmemory>1g</maxmemory>
 						<doclint>none</doclint>
 						<locale>fr_FR</locale>
-						<!-- <locale>en_US</locale> -->
 					</configuration>
 					<executions>
 						<execution>
@@ -385,6 +376,6 @@
 	<!-- ============== MODULES APPLICATIFS ========= -->
 	<modules>
 		<module>jwt-auth-web-api-back-end</module>
-		<!-- <module>jwt-auth-web-api-front-end</module> -->
+		<module>jwt-auth-web-api-ui</module>
 	</modules>
 </project>

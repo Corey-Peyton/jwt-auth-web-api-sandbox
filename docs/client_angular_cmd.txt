@@ -1,0 +1,100 @@
+#########################################################
+####  COMMANDES ET ETAPES DE CREATION DU CLIENT ANGULAR
+#########################################################
+
+--------------------------------------------
+1°) Créer le projet ou le module avec maven 
+--------------------------------------------
+emplacement du projet parent :  "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-ui"
+nom du module :  jwt-auth-web-api-ui
+
+--------------------------------------------
+2°) Créer le projet Angular avec Angular CLI 
+--------------------------------------------
+
+	--------------------------------------
+	- Vérifier les versions de Node et NPM
+	--------------------------------------
+node -v
+npm -v
+
+	--------------------------------------
+	- Installer TypeScript et Angular CLI
+	--------------------------------------
+		TypeScript: 
+npm install -g typescript  
+		Angular CLI : 
+npm install -g @angular/cli
+
+ng --version
+
+	----------------------------------------------
+	- Générer le projet Angular avec Angular CLI
+	---------------------------------------------	
+le projet sera généré sous le répertoire : "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-ui\src\main\web"
+		- Se déplacer dans le répertoire : "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-ui\src\main\"
+cd "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-ui\src\main"
+		- Exécuter la commande suivante :
+
+ng new --directory web jwt-auth-web-api-ui
+
+? Would you like to add Angular routing? Yes
+? Which stylesheet format would you like to use? CSS
+
+avec : --directory=spécifie le répertoire de sortie dnas lequel l'application sera généré (ici dans le dossier "web")
+jwt-auth-web-api-ui= nom de l'applicaion
+
+--------------------------------------------
+3°) Construire le projet Angular avec maven 
+--------------------------------------------
+Modifier le fichier pom.xml de "jwt-auth-web-api-ui" et ajouter la configuration suivante sous <build><plugins>..... :
+
+<plugin>
+	<groupId>com.github.eirslett</groupId>
+	<artifactId>frontend-maven-plugin</artifactId>
+	<version>1.3</version>
+	<configuration>
+		<nodeVersion>v8.11.3</nodeVersion>
+		<npmVersion>6.3.0</npmVersion>
+		<workingDirectory>src/main/web/</workingDirectory>
+	</configuration>
+	<executions>
+		<execution>
+			<id>install node and npm</id>
+			<goals>
+				<goal>install-node-and-npm</goal>
+			</goals>
+		</execution>
+		<execution>
+			<id>npm install</id>
+			<goals>
+				<goal>npm</goal>
+			</goals>
+		</execution>
+		<execution>
+			<id>npm run build</id>
+			<goals>
+				<goal>npm</goal>
+			</goals>
+			<configuration>
+				<arguments>run build</arguments>
+			</configuration>
+		</execution>
+		<execution>
+			<id>prod</id>
+			<goals>
+				<goal>npm</goal>
+			</goals>
+			<configuration>
+				<arguments>run-script build</arguments>
+			</configuration>
+			<phase>generate-resources</phase>
+		</execution>
+	</executions>
+</plugin>
+
+A ce stade on a :
+	- le back-end démarre sous : http://localhost:XXXX/
+	- le client Angular sous : 	http://localhost:4200/
+
+http://localhost:8500/
