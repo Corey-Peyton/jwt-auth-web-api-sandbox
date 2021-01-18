@@ -7,7 +7,7 @@
 	<artifactId>jwt-auth-web-api-sandbox</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name><![CDATA[Application Web de gestion de produits et des utilisateurs - Projet parent]]></name>
+	<name><![CDATA[Application Web de gestion de produits - Projet parent]]></name>
 	<description><![CDATA[Application Sécurisée avec JWT]]></description>
 	<inceptionYear>2021</inceptionYear>
 	<!-- ========= ORGANISATION ============== -->

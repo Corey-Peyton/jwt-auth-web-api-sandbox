@@ -10,8 +10,8 @@
 	</parent>
 	<!-- =========== FRONT-END ANGULAR DE RESOURCE SERVER ========== -->
 	<artifactId>jwt-auth-web-api-ui</artifactId>
-	<name><![CDATA[Application Web de gestion de produits et des utilisateurs - UI Angular Client]]></name>
-	<description><![CDATA[UI Application Web de gestion sécurisée de produits et des utilisateurs.]]></description>
+	<name><![CDATA[Application Web de gestion de produits - UI Angular Client]]></name>
+	<description><![CDATA[UI Application Web de gestion sécurisée de produits.]]></description>
 	<inceptionYear>2021</inceptionYear>
 	<!-- ================= BUILD ================= -->
 	<build>

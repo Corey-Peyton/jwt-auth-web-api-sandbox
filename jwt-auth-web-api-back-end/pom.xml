@@ -10,8 +10,8 @@
 	</parent>
 	<!-- BACK-END SERVER -->
 	<artifactId>jwt-auth-web-api-back-end</artifactId>
-	<name><![CDATA[Gestion de produits et des utilisateurs REST API - Back-End Server]]></name>
-	<description><![CDATA[Serveur de la gestion de l'Authentification et l'Autorisation d'accès aux ressources.]]></description>
+	<name><![CDATA[Gestion de produits REST API - Back-End Server]]></name>
+	<description><![CDATA[Serveur Application Web de gestion sécurisée de produits.]]></description>
 	<inceptionYear>2021</inceptionYear>
 	<!-- ============== PROPRIETES ================= -->
 	<properties>
