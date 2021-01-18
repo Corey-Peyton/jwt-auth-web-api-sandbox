@@ -1,0 +1,35 @@
+###########################################################
+###  COMMANDES POUR LA GENERATION DE CLEFS ET CERTIFICATS
+###########################################################
+
+cd "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-back-end\src\main\resources\crypto"
+
+keytool -genkeypair -dname "CN=server.tuto.vincent.fr,OU=IT,O=OVIOK Group,L=ANTIBES,S=ALPES MARITIMES,C=FR" -alias my-app-recette -keyalg RSA -keysize 4096 -keypass my-app-recette -validity  3650 -storetype JKS -keystore my-app-recette-keystore.jks -storepass my-app-recette -file my-app-recette-keystore.jks
+
+####################################
+######### Export de la clé publique
+####################################
+L'export de la clé publique et du certificat dans un fichier à partir du JKS est effectué par la commande suivante :
+
+keytool -list -rfc --keystore my-app-recette-keystore.jks | openssl x509 -inform pem -pubkey -out my-app-recette.txt
+Enter keystore password:  my-app-recette
+
+#####
+à partir du fichier 'my-app-recette.txt' créer lee fichiers suivants :
+	- my-app-recette-publicKey.txt --> contient uniquement que la clé publique (on supprime le bloc de certificat).
+	- my-app-recette.cer --> contient uniquement que le certificat X509 (on supprime le bloc de la clé publique).
+
+### Uniquement la clé publique mais pas dans un fichier (il suffit ensuite de le copier et coller dans un fichier texte par exemple)
+keytool -list -rfc --keystore my-app-recette-keystore.jks | openssl x509 -inform pem -pubkey -noout 
+Enter keystore password:  my-app-recette
+
+####################################
+######### Export au format PKCS12
+####################################
+# keytool -v -importkeystore -srckeystore my-app-recette-keystore.jks -destkeystore my-app-recette.p12 -deststoretype pkcs12
+
+# Avec le mot de passe de la source --> Confirmer avec le mot de passe de la clé privée 
+keytool -v -importkeystore -srckeystore my-app-recette-keystore.jks -srcstoretype JKS -srcalias my-app-recette -srckeypass my-app-recette -destkeystore my-app-recette.p12 -deststoretype PKCS12 -destalias my-app-recette -deststorepass my-app-recette
+
+# Sans le mot de passe de la source --> Confirmer avec le mot de passe de la clé privéé
+keytool -v -importkeystore -srckeystore my-app-recette-keystore.jks -srcstoretype JKS -srcalias my-app-recette -destkeystore my-app-recette.p12 -deststoretype PKCS12 -destalias my-app-recette -deststorepass my-app-recette

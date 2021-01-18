@@ -1,0 +1,390 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+       	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<!-- ======= PROJET PARENT DES APIS ======== -->
+	<groupId>fr.vincent.tuto</groupId>
+	<artifactId>jwt-auth-web-api-sandbox</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name><![CDATA[Application Web de gestion de produits et des utilisateurs - Projet parent]]></name>
+	<description><![CDATA[Application Sécurisée avec JWT]]></description>
+	<inceptionYear>2021</inceptionYear>
+	<!-- ========= ORGANISATION ============== -->
+	<organization>
+		<name>OVIOK</name>
+	</organization>
+	<!-- ============ CONFIGURATION DES DEPOTS DE SORUCES ============ -->
+	<distributionManagement>
+		<repository>
+			<id>central</id>
+			<name>OVIOK-releases</name>
+			<url>http://localhost:8081/artifactory/libs-release</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>OVIOK-snapshots</name>
+			<url>http://localhost:8081/artifactory/libs-snapshot</url>
+		</snapshotRepository>
+	</distributionManagement>
+	<!-- ============ TEAM ============ -->
+	<developers>
+		<developer>
+			<id>vot</id>
+			<name>Vincent De Paul Otchoun</name>
+			<email>vincokri31@live.fr</email>
+			<organization>OVIOK</organization>
+			<roles>
+				<role>Architecte</role>
+				<role>Developer</role>
+			</roles>
+			<timezone>Europe/Paris</timezone>
+		</developer>
+	</developers>
+	<!-- =========== SOURCES MANAGEMENT ============== -->
+	<scm>
+		<connection>scm:git:https://gitlab.com/oviok-group/jwt-auth-web-api-sandbox/</connection>
+		<developerConnection>scm:git:https://gitlab.com/oviok-group/jwt-auth-web-api-sandbox/</developerConnection>
+		<url>https://gitlab.com/oviok-group/jwt-auth-web-api-sandbox/</url>
+	</scm>
+	<!-- =========== PROJET PROPERTIES ========== -->
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>11</java.version>
+		<!-- 1.8 -->
+		<spring.boot.release.version>2.3.4.RELEASE</spring.boot.release.version>
+		<spring.oauth2.version>${spring.boot.release.version}</spring.oauth2.version>
+		<spring.cloud.version>Hoxton.RELEASE</spring.cloud.version>
+		<commons-io.version>2.8.0</commons-io.version>
+		<!-- Maven -->
+		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+		<maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+		<!-- Jacoco -->
+		<jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+		<jacoco.utReportFolder>${project.build.directory}/jacoco/test</jacoco.utReportFolder>
+		<jacoco.utReportFile>${jacoco.utReportFolder}/test.exec</jacoco.utReportFile>
+		<jacoco.itReportFolder>${project.build.directory}/jacoco/integrationTest</jacoco.itReportFolder>
+		<jacoco.itReportFile>${jacoco.itReportFolder}/integrationTest.exec</jacoco.itReportFile>
+		<junit.utReportFolder>${project.testresult.directory}/test</junit.utReportFolder>
+		<junit.itReportFolder>${project.testresult.directory}/integrationTest</junit.itReportFolder>
+		<project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
+		<oracle.version>11.2.0.3</oracle.version>
+		<modelmapper.version>2.3.5</modelmapper.version>
+	</properties>
+	<!-- ========== DEPENDENCIES MANAGEMENT ========= -->
+	<!-- BOOT dependencies management si on utilise pas BOOT Parent -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring.boot.release.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!-- Spring Cloud -->
+			<!-- <dependency> -->
+			<!-- <groupId>org.springframework.cloud</groupId> -->
+			<!-- <artifactId>spring-cloud-dependencies</artifactId> -->
+			<!-- <version>${spring.cloud.version}</version> -->
+			<!-- <type>pom</type> -->
+			<!-- <scope>import</scope> -->
+			<!-- </dependency> -->
+		</dependencies>
+	</dependencyManagement>
+	<!-- ============== BUILD ========= -->
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!-- Plugin pour la compilation des sources -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<inherited>true</inherited>
+					<configuration>
+						<debug>true</debug>
+						<debuglevel>lines,vars,source</debuglevel>
+						<compilerVersion>${java.version}</compilerVersion>
+						<fork>true</fork>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+						<encoding>${project.build.sourceEncoding}</encoding>
+						<showDeprecation>true</showDeprecation>
+						<showWarnings>true</showWarnings>
+					</configuration>
+				</plugin>
+				<!-- Plugin pour la création des Java archives : .jar -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>3.2.0</version>
+					<!-- Construction du jar des tests -->
+					<executions>
+						<execution>
+							<goals>
+								<goal>test-jar</goal>
+							</goals>
+						</execution>
+					</executions>
+					<!-- Configuration diverses -->
+					<configuration>
+						<archive>
+							<addMavenDescriptor>true</addMavenDescriptor>
+							<manifest>
+								<addClasspath>true</addClasspath>
+								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
+				<!-- Plugin Maven pour creer les web archives : .war -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>${war.plugin.version}</version>
+					<configuration>
+						<webappDirectory>src/main/webapp</webappDirectory>
+						<webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+						<failOnMissingWebXml>false</failOnMissingWebXml>
+						<attachClasses>true</attachClasses>
+						<archive>
+							<manifest>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
+				<!-- Plugin pour les sources -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<!-- Plugin pour les ressources -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<configuration>
+						<encoding>UTF-8</encoding>
+					</configuration>
+				</plugin>
+				<!-- Surefire pour les Tests Unitaires -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<configuration>
+						<argLine>${surefireArgLine}</argLine>
+						<skipTests>false</skipTests>
+						<classesDirectory>${project.build.outputDirectory}</classesDirectory>
+						<runOrder>alphabetical</runOrder>
+						<reportsDirectory>${junit.itReportFolder}</reportsDirectory>
+						<excludes>
+							<exclude>**/*IntegrationTest.java</exclude>
+							<exclude>**/*IT*</exclude>
+							<exclude>**/*IntTest*</exclude>
+						</excludes>
+					</configuration>
+					<executions>
+						<execution>
+							<id>unit-tests</id>
+							<phase>test</phase>
+							<goals>
+								<goal>test</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<!-- Failsafe les Tests d'intégration -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<configuration>
+						<argLine>${surefireArgLine}</argLine>
+						<skipTests>false</skipTests>
+						<!-- Force alphabetical order to have a reproducible build -->
+						<runOrder>alphabetical</runOrder>
+						<reportsDirectory>${junit.utReportFolder}</reportsDirectory>
+						<includes>
+							<include>**/*IntegrationTest.java</include>
+							<include>**/*IT*</include>
+							<include>**/*IntTest*</include>
+						</includes>
+					</configuration>
+					<executions>
+						<execution>
+							<id>integration-tests</id>
+							<goals>
+								<goal>integration-test</goal>
+								<goal>verify</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<!-- Jacoco pour la mesure de la couverture de codes -->
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>${jacoco-maven-plugin.version}</version>
+					<!-- Exclude full package from test coverage -->
+					<configuration>
+						<excludes>
+							<exclude>fr/vincent/tuto/server/model/**/*</exclude>
+						</excludes>
+					</configuration>
+					<executions>
+						<execution>
+							<id>pre-unit-test</id>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+							<configuration>
+								<destFile>${jacoco.utReportFile}</destFile>
+								<propertyName>surefireArgLine</propertyName>
+							</configuration>
+						</execution>
+						<execution>
+							<id>post-unit-test</id>
+							<phase>test</phase>
+							<goals>
+								<goal>report</goal>
+							</goals>
+							<configuration>
+								<dataFile>${jacoco.utReportFile}</dataFile>
+								<outputDirectory>${jacoco.utReportFolder}</outputDirectory>
+							</configuration>
+						</execution>
+						<execution>
+							<id>pre-integration-test</id>
+							<phase>pre-integration-test</phase>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+							<configuration>
+								<propertyName>failsafeArgLine</propertyName>
+								<destFile>${jacoco.itReportFile}</destFile>
+							</configuration>
+						</execution>
+						<execution>
+							<id>post-integration-test</id>
+							<phase>post-integration-test</phase>
+							<goals>
+								<goal>report-integration</goal>
+							</goals>
+							<configuration>
+								<dataFile>${jacoco.itReportFile}</dataFile>
+								<outputDirectory>${jacoco.itReportFolder}</outputDirectory>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<!-- Pour la founiture de la JavaDoc -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>${maven-javadoc-plugin.version}</version>
+					<!-- -->
+					<configuration>
+						<source>${java.version}</source>
+						<minmemory>128m</minmemory>
+						<maxmemory>1g</maxmemory>
+						<doclint>none</doclint>
+						<locale>fr_FR</locale>
+						<!-- <locale>en_US</locale> -->
+					</configuration>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+							<configuration>
+								<sourceFileExcludes>**/module-info.java</sourceFileExcludes>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<!-- BOOT -->
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<executions>
+						<execution>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+							<configuration>
+								<mainClass>${start-class}</mainClass>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<!-- Assembly pour la construction des livrables -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<!-- -->
+		<plugins>
+			<!-- Configuration pour un déploiement dans Artifactory JFrog -->
+			<plugin>
+				<groupId>org.jfrog.buildinfo</groupId>
+				<artifactId>artifactory-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<inherited>false</inherited>
+				<executions>
+					<execution>
+						<id>build-info</id>
+						<goals>
+							<goal>publish</goal>
+						</goals>
+						<configuration>
+							<deployProperties>
+								<groupId>${project.groupId}</groupId>
+								<artifactId>${project.artifactId}</artifactId>
+								<version>${project.version}</version>
+							</deployProperties>
+							<artifactory>
+								<includeEnvVars>true</includeEnvVars>
+								<envVarsExcludePatterns>*password*,*secret*,*key*,*token*,*passphrase*</envVarsExcludePatterns>
+								<timeoutSec>60</timeoutSec>
+							</artifactory>
+							<publisher>
+								<contextUrl>http://localhost:8081/artifactory</contextUrl>
+								<username>${username}</username>
+								<password>${password}</password>
+								<excludePatterns>*-tests.jar</excludePatterns>
+								<repoKey>libs-release-local</repoKey>
+								<snapshotRepoKey>libs-snapshot-local</snapshotRepoKey>
+							</publisher>
+							<buildInfo>
+								<buildName>plugin-demo</buildName>
+								<buildNumber>${buildnumber}</buildNumber>
+								<buildUrl>http://build-url.org</buildUrl>
+							</buildInfo>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<!-- ============== MODULES APPLICATIFS ========= -->
+	<modules>
+		<module>jwt-auth-web-api-back-end</module>
+		<!-- <module>jwt-auth-web-api-front-end</module> -->
+	</modules>
+</project>
