@@ -2,25 +2,13 @@
 
 `My Products` est une application Web sécurisée de gestion des produits avec leur catégorie (`service Web RESTFull`) écrit en **Java** et embarque **Spring** avec d'autres technologies non seulement pour l'intégration des différents composants applicatifs
 mais également la sécurisation des ressources de l'application.  Il fournit principalement :
-- un **Back-End**, embarquant les fonctionnalités ci-dessous :
-	- **le processus de gestion desutilisateurs** : 
-		- _Se Connecter/Déconnecter de l'application_
-		- _Ajouter de nouveaux utilisateurs_ dans le SI avec leurs rôles 
-		- _Mettre à jour les informations_ d'un utilisateur existant.
-		- _Supprimer les informations_ de l'utilisateur du SI.
-		- _Rechercher les informations_ d'un utilisateur dans le SI selon son identifiant. 
-		- _Obtenir la liste_ des utilisateurs du système. 
-	- **Gérer les produits et leur catégorie** : 
-		- _Ajouter de nouveaux produits avec leur catégorie_ dans le SI 
-		- _Mettre à jour les informations_ d'un produit existant avec sa catégorie.
-		- _Supprimer les informations_ d'un produit avec sa catégorie du SI.
-		- _Rechercher les informations_ d'un produit dans le SI selon son identifiant avec la catégorie associée. 
-		- _Obtenir la liste_ des produits du système avec leur catégorie . 		
-	- **Sécuriser l'application** : 
-		- _La Gestion de l'Authentification_ : qui permet de confirmer ou valider l'identité du client/l’utilisateur qui tente d’accéder au système d'informations. 
-		- _La Gestion de l'Autorisation (protection des ressources)_ : permet d’octroyer au client/l’utilisateur l’accès au système d’informations, donc aux ressources.
-	- **Gérer la migration des scripts** de base de données_ (création de schémas, insertion, mise à jour de tables ou de données ...) avec **Flyway**.
-- un **Front-End** (Client Web) pour interagir avec le Back-End par le biais d'une interface utilisateur. Le front fournit les interfaces pour :
+- un **Back-End**, embarquant les exigences ci-dessous :
+	- **les exigences fonctionnelles ou métier** : 
+		- _le processus de gestion des utilisateurs_ : 
+		- _le processus de gestion des produits et leur catégorie_ : 
+		- _le processus de gestion de la sécurité dans l'application_ : 
+	- **les exigences non fonctionnelles** : gestion de logs, des accès à la base de données, migration des scripts ...		
+- un **Front-End** (Client Web) pour interagir avec le Back-End par le biais d'interfaces utilisateur. Le front fournit les éléments pour :
 	- Se Connecter à l'application/ Se Déconnecter de l'application.
 	- Ajouter/Inscrire un nouvel utilisateur dans le SI.
 	- Visualiser les informations des utilisateurs. 
@@ -56,13 +44,28 @@ JWT (**J**SON **W**eb **T**oken), est une spécification pour la représentation
 **NB** :
 JWT peut être choisi comme format pour les jetons d'accès et d'actualisation utilisés dans le protocole OAuth2.
 
-### Brève Présentation JWT 
-Le tableau ci-dessous permet de résumer les rôles définis côté serveur par la spécification OAuth2 pour la gestion desd accès à des ressources sécurisées. 
+### Les Exigences 
+Le tableau ci-dessous fournit une liste non exhaustive des exigences aussi bien fonctionnelles que non qui seront embarquées par le SI.
 |Processus|Fonctionnalités|
 |---|---|
 |**Gestion des utilisateurs**|_Se Connecter/Déconnecter de l'application_| 
 ||_Ajouter de nouveaux utilisateurs_ dans le SI avec leurs rôles_|
-|**Gestion des utilisateurs**|_Entité capable d'accorder ou de contrôler les accès à des ressources protégées (par exemple l'utilisateur final)_|
+||_Mettre à jour les informations_ d'un utilisateur existant_|
+||_Supprimer les informations_ de l'utilisateur du SI_|
+||_Rechercher les informations_ d'un utilisateur dans le SI selon son identifiant_|
+||_Obtenir la liste_ des utilisateurs du système_|
+|**Gestion des produits et leur catégorie**|_Ajouter de nouveaux produits avec leur catégorie_ dans le SI_|
+||_Mettre à jour les informations_ d'un produit existant avec sa catégorie_|
+||_Supprimer les informations_ d'un produit avec sa catégorie du SI_|
+||_Rechercher les informations_ d'un produit dans le SI selon son identifiant avec la catégorie associée_|
+||_Obtenir la liste_ des produits du système avec leur catégorie_|
+|**Gestion de la Sécuriité**|_Gérer l'Authentification : qui permet de confirmer ou valider l'identité du client/l’utilisateur qui tente d’accéder au système d'informations_|
+||_Gérer l'Autorisation (protection des ressources) : permet d’octroyer au client/l’utilisateur l’accès au système d’informations, donc aux ressources_|
+|**Exigences non fonctionnelles**|_Gérer les logs_|
+||_Gérer les erreurs/exceptions_|
+||_Gérer les accès à la base de données_|
+||_Gérer la migration des scripts** de base de données_ (création de schémas, insertion, mise à jour de tables ou de données ...) avec **Flyway*_|
+
 
 ### Architecture Applicative et Technique Globale 
 Le diagramme ci-dessous fournit une vision globale des flux d'échanges entre l'application et les acteurs du système et(ou) briques/composants applicatifs.
@@ -71,8 +74,8 @@ Elle comporte les éléments suivants :
 	- _Le serveur d'autorisation_ : intégrant le processus de validation des informations d'identification de l'utilisateur, production des jetons (jeton d'accès + jeton d'actualisation).
 	- _Le Serveur de ressources_ : intégrant les points de terminaison de l'API REST à sécuriser et les éléments de gestion associés.
 	- _Les différentes configurations_ de sécurisation des élements applicatifs.
-- le **Front-End** : fournissant l'interface utilisateur permettant d'échanger.
-- le **SGBD** : poour le stockage et la persistance des informations métiers de l'application.
+- le **Front-End** : interface utlisateur avec les différents composants permettant d'effectuer/faciliter les échanges avec le back-end Java.
+- le **SGBD** : pour le stockage et la persistance des informations métiers de l'application.
 
 ![DAAT](./docs/images/architecture-applicative-technique-globale.png "Diagrammme Architecture Applicatif et Technique")
 
