@@ -67,24 +67,21 @@ A la lumière de tout ce qui est présenté ci-dessus, l'interface utilisateur d
 ## Architecture Applicative et Technique Globale 
 Le diagramme ci-dessous fournit une vision globale des flux d'échanges entre l'application et les acteurs du système et(ou) briques/composants applicatifs.
 Elle comporte les éléments suivants :
-- le **Back-End** qui embarque :
-	- _Le serveur d'autorisation_ : intégrant le processus de validation des informations d'identification de l'utilisateur, production des jetons (jeton d'accès + jeton d'actualisation).
-	- _Le Serveur de ressources_ : intégrant les points de terminaison de l'API REST à sécuriser et les éléments de gestion associés.
-	- _Les différentes configurations_ de sécurisation des élements applicatifs.
+- le **Back-End** qui embarque les différents composants permettant d'implémenter toute la logique métier de l'application
 - le **Front-End** : interface utlisateur avec les différents composants permettant d'effectuer/faciliter les échanges avec le back-end Java.
 - le **SGBD** : pour le stockage et la persistance des informations métiers de l'application.
 
 ![DAAT](./docs/images/architecture-applicative-technique-globale.png "Diagrammme Architecture Applicatif et Technique")
 
-## Ajouter un nouvel utilisateur dans le SI
+## Le Use Case 'Ajouter un nouvel utilisateur dans le SI'
 Le principe de fonctionnement de l'enrgistrement des informations d'un nouvel utilisateur dans le SI, est présenté par le diagramme de séquences ci-dessous :
 ![DS](./docs/images/fonct-global-enregistrer.png "Diagramme de séquences Ajout nouvel utilisateur")
 
-## Se Connecter/Déconnecter de l'application
+## Le Use Case 'Se Connecter/Déconnecter de l'application'
 Le principe de fonctionnement de la connexion d'un utilisateur du SI avec ses informations, est présenté par le diagramme de séquences ci-dessous :
 ![DS](./docs/images/fonct-global-se-connecter.png "Diagramme de séquences Connexion Utilisateur")
 
-## Le Fonctionnement Global des accès aux ressources de l'application
+## Le Fonctionnement de l'accès aux ressources de l'application
 Une vue macroscopique du fonctionnement global de l'application pour l'accès à ses ressources est fournie par le diagramme de séquences ci-dessous. Il est composé de deux principales phases:
 - La demande et obtention des jetons d'accès après s'être authentifié
 - L'accès proprement dit aux ressources de l'application avec le jeton d'accès.
