@@ -1,44 +1,50 @@
 # Products Management Secure Web REST API    ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?branch=develop)
 
-`My Products` est une application Web des gestion de produits avec leur catégorie (service Web RESTFull) écrit en **Java** et embarque **Spring** et d'autres technologies non seulement pour l'intégration des différents composants applicatifs
+`My Products` est une application Web sécurisée de gestion des produits avec leur catégorie (**service Web RESTFull**) écrit en **Java** et embarque **Spring** avec d'autres technologies non seulement pour l'intégration des différents composants applicatifs
 mais également la sécurisation des ressources de l'application.  Il fournit principalement :
 - un **Back-End**, permettant entre autres de :
-	- _Gérer les utilisateurs : 
-		- _Se Connecter/Déconnecter à l'application_
+	- **Gérer les utilisateurs** : 
+		- _Se Connecter/Déconnecter de l'application_
 		- _Ajouter de nouveaux utilisateurs_ dans le SI avec leur rôle 
 		- _Mettre à jour les informations_ d'un utilisateur existant.
 		- _Supprimer les informations_ de l'utilisateur du SI.
-		- _Rechercher les information_s d'un utilisateur dans le SI selon son identifiant. 
+		- _Rechercher les informations_ d'un utilisateur dans le SI selon son identifiant. 
 		- _Obtenir la liste_ des utilisateurs du système. 
-	- _Gérer les produits et leur catégorie : 
+	- **Gérer les produits et leur catégorie** : 
 		- _Ajouter de nouveaux produits avec leur catégorie_ dans le SI 
 		- _Mettre à jour les informations_ d'un produit existant avec sa catégorie.
 		- _Supprimer les informations_ d'un produit avec sa catégorie du SI.
-		- _Rechercher les information_s d'un produit dans le SI selon son identifiant. 
-		- _Obtenir la liste_ des produits avec leur catégorie du système. 		
-	- _Sécuriser l'application en proposant : 
+		- _Rechercher les informations_ d'un produit dans le SI selon son identifiant avec la catégorie associée. 
+		- _Obtenir la liste_ des produits du système avec leur catégorie . 		
+	- **Sécuriser l'application** : 
 		- _La Gestion de l'Authentification_ : qui permet de confirmer ou valider l'identité du client/l’utilisateur qui tente d’accéder au système d'informations. 
-		- _La Gestion de l'Autorisation (protection des ressources)_ : permet d’octroyer l’accès au système d’informations (donc aux ressources) au client/l’utilisateur.
-	- _Gérer la migration des scripts de base de données_ (création de schémas, insertion, mise à jour de tables ou de données ...) avec **Flyway**.
+		- _La Gestion de l'Autorisation (protection des ressources)_ : permet d’octroyer au client/l’utilisateur l’accès au système d’informations, donc aux ressources.
+	- **Gérer la migration des scripts** de base de données_ (création de schémas, insertion, mise à jour de tables ou de données ...) avec **Flyway**.
 - un **Front-End** (Client Web) pour interagir avec le Back-End par le biais d'une interface utilisateur. Le front fournit les interfaces pour :
 	- Se Connecter à l'application/ Se Déconnecter de l'application.
 	- Ajouter/Inscrire un nouvel utilisateur dans le SI.
 	- Visualiser les informations des utilisateurs. 
 	- Modifier les informations d'un utilisateur.
 	- Supprimer les informations d'un utilisateur. 
+
+**NB** :
+- les données/informations sont stockées dans une base de données relationnelles
+- Voir la section `Stack Technique` pour plus de détails sur l'ensemble des technos utilisées dans cette application.
+- **SI** : Système d'informations.	
+
 	
 ## Spécifications 
 Dans cette section, quelques éléments sont fournis pour faciliter la compréhension du besoin et des réalisations techniques à venir.
-Les élements des processus de gestion des autorisation, authentication et sécurisation des ressources (de l'application), seront mis en place à partir des spécifications
+Les élements des processus de gestion : des autorisation, authentication et sécurisation des ressources (de l'application), seront mis en place à partir des spécifications
 **JWT** avec **Spring Security**. Les échanges se feront principalement entre le client (front-end) et le serveur (back-end). 
 Les éléments ci-dessous sont fournis dans le cadre cette spécification :
-- une brève présentation de **_JWT_** 
+- une brève présentation de **JWT** 
 - le diagramme d'architecture applicative et technique
-- les diagrammes de séquences de fonctionnement global des points suivants :
-	- Accès aux resources protégées : demande été génration des jetons d'accès et d'actualisation
-	- Ajout ou enregistrement de nouveaux utilisateurs dans l'application.
-	- La gestion de la connexion des utilisateurs à l'application
-- les schémas et modèles de données pour la gestion de la persistance des informations dans l'application.
+- les diagrammes de séquences de fonctionnement global pour les points suivants :
+	- Ajouter un nouvel utilisateur aves ses rôles dans le système d'informations.
+	- Gérer la production et fourniture du jeton d'accès à la suite de la connexion des utilisateurs à l'application.	
+	- Accès aux resources protégées : fournir le jeton d'accès dans l'en-tête de la requête.
+- les schémas et modèles de données pour la gestion des informations **métier** de l'application.
 
 
 ### Brève Présentation JWT  
@@ -47,6 +53,7 @@ JWT (**J**SON **W**eb **T**oken), est une spécification pour la représentation
 - **J**SON **W**eb **S**ignature (JWS) ou 
 - **J**SON **W**eb **E**ncryption (JWE).
 
+**NB** :
 JWT peut être choisi comme format pour les jetons d'accès et d'actualisation utilisés dans le protocole OAuth2.
 
 
@@ -60,7 +67,7 @@ Elle comporte les éléments suivants :
 - le **Front-End** : fournissant l'interface utilisateur permettant d'échanger.
 - le **SGBD** : poour le stockage et la persistance des informations métiers de l'application.
 
-![DAAT](.docs/images/architecture-applicative-technique-globale.png "Diagrammme Architecture Applicatif et Technique")
+![DAAT](./docs/images/architecture-applicative-technique-globale.png "Diagrammme Architecture Applicatif et Technique")
 
 ### Le Fonctionnement Global de l'ajout d'un nouvel utilisateur
 Le principe de fonctionnement de l'enrgistrement des informations d'un nouvel utilisateur dans le SI, est présenté par le diagramme de séquences ci-dessous :
