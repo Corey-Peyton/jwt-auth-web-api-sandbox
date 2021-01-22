@@ -5,10 +5,10 @@ mais également la sécurisation des ressources de l'application.  Il fournit pr
 - un **Back-End Java** , embarquant :
 	- _les exigences fonctionnelles ou métier_, 
 	- _les exigences non fonctionnelles_. 
-- un **Front-End Angular** (Client Web ) fournissant les interfaces utilisateurs pour pour interagir avec le Back-End par le biais d'interfaces utilisateur.
+- un **Front-End Angular** (Client Web ) fournissant les interfaces utilisateur pour interagir avec le Back-End.
 
 **NB** :
-- les données/informations sont stockées dans une base de données relationnelles
+- les données/informations sont stockées dans une base de données relationnelles.
 - Voir la section `Les Exigences` pour plus de détails sur les fonctionnalités embarquées.
 - Voir la section `Stack Technique` pour plus de détails sur l'ensemble des technos utilisées dans cette application.
 - **SI** : Système d'informations.	
@@ -44,7 +44,8 @@ Le tableau ci-dessous dresse l'ensemble (une liste non exhaustive) des exigences
 |Processus|Fonctionnalités|
 |---|---|
 |**Gestion des utilisateurs**|_<ul><li>Se Connecter/Déconnecter de l'application</li><li>Ajouter de nouveaux utilisateurs dans le SI avec leurs rôles</li><li>Mettre à jour les informations d'un utilisateur existant</li><li>Supprimer les informations de l'utilisateur du SI</li><li>Rechercher les informations d'un utilisateur dans le SI selon son identifiant</li><li>Obtenir la liste des utilisateurs du système</li></ul>_| 
-|**Gestion des produits et leur catégorie**|_<ul><li>Ajouter de nouveaux produits avec leur catégorie dans le SI</li><li>Mettre à jour les informations d'un produit existant avec sa catégorie</li><li>Supprimer les informations d'un produit du SI</li><li>Supprimer les informations d'une catégorie de produit du SI</li><li>Rechercher les informations d'un produit dans le SI selon son identifiant avec la catégorie associée</li><li>Obtenir la liste des produits du système avec leur catégorie</li></ul>_|
+|**Gestion des produits**|_<ul><li>Ajouter de nouveaux produits dans le SI</li><li>Mettre à jour les informations d'un produit existant</li><li>Supprimer les informations d'un produit du SI</li><li>Rechercher les informations d'un produit dans le SI selon son identifiant</li><li>Obtenir la liste des produits du système</li></ul>_|
+|**Gestion des catégories de produits**|_<ul><li>Ajouter de nouvelles catégories de produits dans le SI</li><li>Mettre à jour les informations d'une catégorie de produits</li><li>Supprimer les informations d'une catégorie de produit du SI</li><li>Rechercher les informations d'une catégorie de produit dans le SI</li><li>Obtenir la liste des catégories de produit du SI</li></ul>_|
 |**Gestion de la Sécuriité**|_<ul><li>Gérer l'Authentification : qui permet de confirmer ou valider l'identité du client/l’utilisateur qui tente d’accéder au système d'informations</li><li>Gérer l'Autorisation (protection des ressources) : permet d’octroyer au client/l’utilisateur l’accès au système d’informations, donc aux ressources</li></ul>_|
 
 ### Les exigences non fonctionnelles 
@@ -60,6 +61,8 @@ A la lumière de tout ce qui est présenté ci-dessus, l'interface utilisateur d
 	- Visualiser les informations des utilisateurs. 
 	- Modifier les informations d'un utilisateur.
 	- Supprimer les informations d'un utilisateur.
+	
+**NB** : cette liste n'est pas exhaustive, elle peut être amenée à évoluer.
 
 ## Architecture Applicative et Technique Globale 
 Le diagramme ci-dessous fournit une vision globale des flux d'échanges entre l'application et les acteurs du système et(ou) briques/composants applicatifs.
@@ -73,11 +76,11 @@ Elle comporte les éléments suivants :
 
 ![DAAT](./docs/images/architecture-applicative-technique-globale.png "Diagrammme Architecture Applicatif et Technique")
 
-## Le Fonctionnement Global pour ajouter un nouvel utilisateur dans le SI
+## Ajouter un nouvel utilisateur dans le SI
 Le principe de fonctionnement de l'enrgistrement des informations d'un nouvel utilisateur dans le SI, est présenté par le diagramme de séquences ci-dessous :
 ![DS](./docs/images/fonct-global-enregistrer.png "Diagramme de séquences Ajout nouvel utilisateur")
 
-## Le Fonctionnement Global pour se Connecter/Déconnecter de l'application
+## Se Connecter/Déconnecter de l'application
 Le principe de fonctionnement de la connexion d'un utilisateur du SI avec ses informations, est présenté par le diagramme de séquences ci-dessous :
 ![DS](./docs/images/fonct-global-se-connecter.png "Diagramme de séquences Connexion Utilisateur")
 
