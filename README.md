@@ -3,17 +3,9 @@
 `My Products` est une application Web sécurisée de gestion de produits avec leur catégorie (`service Web RESTFul Sécurisé`) écrit en **Java** et embarque **Spring** avec d'autres technologies non seulement pour l'intégration des différents composants applicatifs
 mais également la sécurisation des ressources de l'application.  Il fournit principalement :
 - un **Back-End** Java, embarquant les exigences ci-dessous :
-	- **les exigences fonctionnelles ou métier** : 
-		- _le processus de gestion des utilisateurs_,
-		- _le processus de gestion des produits et leur catégorie_, 
-		- _le processus de gestion de la sécurité dans l'application_. 
-	- **les exigences non fonctionnelles** 
+	- _les exigences fonctionnelles ou métier_, 
+	- _les exigences non fonctionnelles_. 
 - un **Front-End** (Client Web Angular) pour interagir avec le Back-End par le biais d'interfaces utilisateur. Le front fournit les éléments pour :
-	- Se Connecter à l'application/ Se Déconnecter de l'application.
-	- Ajouter/Inscrire un nouvel utilisateur dans le SI.
-	- Visualiser les informations des utilisateurs. 
-	- Modifier les informations d'un utilisateur.
-	- Supprimer les informations d'un utilisateur. 
 
 **NB** :
 - les données/informations sont stockées dans une base de données relationnelles
@@ -59,8 +51,15 @@ Le tableau ci-dessous dresse l'ensemble (une liste non exhaustive) des exigences
 Le tableau ci-dessous dresse une liste non exhaustive des exigences non fonctionnelles de l'application.
 |Type Exigence|Fonctionnalités|
 |---|---|
-|**Exigences non fonctionnelles**|_<ul><li>Gérer les logs</li><li>Gérer les erreurs/exceptions</li><li>Gérer les accès à la base de données</li><li>Gérer la migration des scripts** de base de données (création de schémas, insertion, mise à jour de tables ou de données ...) avec **Flyway**</li></ul>_|
+|**Exigences non fonctionnelles**|_<ul><li>Gérer les logs</li><li>Gérer les erreurs/exceptions</li><li>Gérer les accès à la base de données</li><li>Gérer la migration des scripts de base de données (création de schémas, insertion, mise à jour de tables ou de données ...) avec **Flyway**</li></ul>_|
 
+### Le Client (Front-end)
+A la lumière de tout ce qui est présenté ci-dessus, l'interface utilisateur doit permettre : 
+	- Se Connecter à l'application/ Se Déconnecter de l'application.
+	- Ajouter/Inscrire un nouvel utilisateur dans le SI.
+	- Visualiser les informations des utilisateurs. 
+	- Modifier les informations d'un utilisateur.
+	- Supprimer les informations d'un utilisateur.
 
 ## Architecture Applicative et Technique Globale 
 Le diagramme ci-dessous fournit une vision globale des flux d'échanges entre l'application et les acteurs du système et(ou) briques/composants applicatifs.
