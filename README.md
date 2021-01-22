@@ -5,10 +5,10 @@ mais également la sécurisation des ressources de l'application.  Il fournit pr
 - un **Back-End Java** , embarquant :
 	- _les exigences fonctionnelles ou métier_, 
 	- _les exigences non fonctionnelles_. 
-- un **Front-End Angular** (Client Web ) fournissant les interfaces utilisateur pour interagir avec le Back-End.
+- un **Front-End Angular** (`Client Web`) fournissant les interfaces utilisateur pour interagir avec le Back-End.
 
 **NB** :
-- les données/informations sont stockées dans une base de données relationnelles.
+- Les données/informations sont stockées dans une base de données relationnelles.
 - Voir la section `Les Exigences` pour plus de détails sur les fonctionnalités embarquées.
 - Voir la section `Stack Technique` pour plus de détails sur l'ensemble des technos utilisées dans cette application.
 - **SI** : Système d'informations.	
@@ -17,15 +17,15 @@ mais également la sécurisation des ressources de l'application.  Il fournit pr
 # Spécifications 
 Dans cette section, quelques éléments sont fournis pour faciliter la compréhension du besoin et des réalisations techniques à venir.
 Les élements des processus de gestion : des autorisation, authentication et sécurisation des ressources (de l'application), seront mis en place à partir des spécifications
-**JWT** avec **Spring Security**. Les échanges se feront principalement entre le client (front-end) et le serveur (back-end). 
-Les éléments ci-dessous sont fournis dans le cadre cette spécification :
-- une brève présentation de JWT 
-- le diagramme d'architecture applicative et technique
-- les diagrammes de séquences du fonctionnement global pour les points suivants :
-	- Ajouter un nouvel utilisateur avec ses rôles dans le SI.
-	- Gérer la production/fourniture du jeton d'accès à la suite de la connexion des utilisateurs à l'application.	
+**JWT** avec **Spring Security**. 
+Les échanges se feront principalement entre le client (`front-end`) et le serveur (`back-end`). Les éléments ci-dessous sont fournis dans le cadre cette spécification :
+- Une brève présentation de JWT 
+- Le diagramme d'architecture applicative et technique
+- Les diagrammes de séquences du fonctionnement global pour les points suivants :
+	- Ajouter un nouvel utilisateur avec ses rôles dans le SI,
+	- Gérer la production/fourniture du jeton d'accès à la suite de la connexion des utilisateurs à l'application,	
 	- Accès aux resources protégées : fournir le jeton d'accès dans l'en-tête de la requête lors de la demande d'informations.
-- les schéma et modèle de données pour la gestion des informations **métier** de l'application.
+- Les schéma et modèle de données pour la gestion des informations **métier** de l'application.
 
 
 ## Brève Présentation JWT  
@@ -55,12 +55,12 @@ Le tableau ci-dessous dresse une liste non exhaustive des exigences non fonction
 |**Exigences non fonctionnelles**|_<ul><li>Gérer les logs</li><li>Gérer les erreurs/exceptions</li><li>Gérer les accès à la base de données</li><li>Gérer la migration des scripts de base de données (création de schémas, insertion, mise à jour de tables ou de données ...) avec **Flyway**</li></ul>_|
 
 ### Le Client (Front-end)
-A la lumière de tout ce qui est présenté ci-dessus, l'interface utilisateur doit permettre : 
-	- Se Connecter à l'application/ Se Déconnecter de l'application.
-	- Ajouter/Inscrire un nouvel utilisateur dans le SI.
-	- Visualiser les informations des utilisateurs. 
-	- Modifier les informations d'un utilisateur.
-	- Supprimer les informations d'un utilisateur.
+A la lumière de tout ce qui est présenté ci-dessus, l'interface utilisateur doit permettre :
+- Se Connecter à l'application/ Se Déconnecter de l'application,
+- Ajouter/Inscrire un nouvel utilisateur dans le SI,
+- Visualiser les informations des utilisateurs. 
+- Modifier les informations d'un utilisateur.
+- Supprimer les informations d'un utilisateur.
 	
 **NB** : cette liste n'est pas exhaustive, elle peut être amenée à évoluer.
 
