@@ -21,7 +21,7 @@ mais également la sécurisation des ressources de l'application.  Il fournit pr
 - **SI** : Système d'informations.	
 
 	
-## Spécifications 
+# Spécifications 
 Dans cette section, quelques éléments sont fournis pour faciliter la compréhension du besoin et des réalisations techniques à venir.
 Les élements des processus de gestion : des autorisation, authentication et sécurisation des ressources (de l'application), seront mis en place à partir des spécifications
 **JWT** avec **Spring Security**. Les échanges se feront principalement entre le client (front-end) et le serveur (back-end). 
@@ -35,7 +35,7 @@ Les éléments ci-dessous sont fournis dans le cadre cette spécification :
 - les schémas et modèles de données pour la gestion des informations **métier** de l'application.
 
 
-### Brève Présentation JWT  
+## Brève Présentation JWT  
 JWT (**J**SON **W**eb **T**oken), est une spécification pour la représentation des revendications (claims) à transférer entre deux parties. Les revendications sont codées en tant qu'objet JSON utilisé comme charge
  utile d'une structure chiffrée, permettant aux revendications d'être signées ou chiffrées numériquement. La structure peut être :
 - **J**SON **W**eb **S**ignature (JWS) ou 
@@ -44,27 +44,15 @@ JWT (**J**SON **W**eb **T**oken), est une spécification pour la représentation
 **NB** :
 JWT peut être choisi comme format pour les jetons d'accès et d'actualisation utilisés dans le protocole OAuth2.
 
-### Les Exigences 
+## Les Exigences 
 Le tableau ci-dessous fournit une liste non exhaustive des exigences aussi bien fonctionnelles que non qui seront embarquées par le SI.
 |Processus|Fonctionnalités|
 |---|---|
-|**Gestion des utilisateurs**|_Se Connecter/Déconnecter de l'application_| 
-||_Ajouter de nouveaux utilisateurs_ dans le SI avec leurs rôles_|
-||_Mettre à jour les informations_ d'un utilisateur existant_|
-||_Supprimer les informations_ de l'utilisateur du SI_|
-||_Rechercher les informations_ d'un utilisateur dans le SI selon son identifiant_|
-||_Obtenir la liste_ des utilisateurs du système_|
-|**Gestion des produits et leur catégorie**|_Ajouter de nouveaux produits avec leur catégorie_ dans le SI_|
-||_Mettre à jour les informations_ d'un produit existant avec sa catégorie_|
-||_Supprimer les informations_ d'un produit avec sa catégorie du SI_|
-||_Rechercher les informations_ d'un produit dans le SI selon son identifiant avec la catégorie associée_|
-||_Obtenir la liste_ des produits du système avec leur catégorie_|
-|**Gestion de la Sécuriité**|_Gérer l'Authentification : qui permet de confirmer ou valider l'identité du client/l’utilisateur qui tente d’accéder au système d'informations_|
-||_Gérer l'Autorisation (protection des ressources) : permet d’octroyer au client/l’utilisateur l’accès au système d’informations, donc aux ressources_|
-|**Exigences non fonctionnelles**|_Gérer les logs_|
-||_Gérer les erreurs/exceptions_|
-||_Gérer les accès à la base de données_|
-||_Gérer la migration des scripts** de base de données_ (création de schémas, insertion, mise à jour de tables ou de données ...) avec **Flyway*_|
+|**Gestion des utilisateurs**|_<ul><li>Se Connecter/Déconnecter de l'application</li><li>Ajouter de nouveaux utilisateurs_ dans le SI avec leurs rôles</li><li>Mettre à jour les informations_ d'un utilisateur existant</li><li>Supprimer les informations_ de l'utilisateur du SI</li><li>Rechercher les informations_ d'un utilisateur dans le SI selon son identifiant</li><li>Obtenir la liste_ des utilisateurs du système</li></ul>_| 
+|**Gestion des produits et leur catégorie**|_<ul><li>Ajouter de nouveaux produits avec leur catégorie_ dans le SI</li><li>Mettre à jour les informations_ d'un produit existant avec sa catégorie</li><li>Supprimer les informations_ d'un produit du SI</li><li>Supprimer les informations_ d'une catégorie de produit du SI</li><li>Rechercher les informations_ d'un produit dans le SI selon son identifiant avec la catégorie associée</li><li>Obtenir la liste_ des produits du système avec leur catégorie</li></ul>_|
+|**Gestion de la Sécuriité**|_<ul><li>Gérer l'Authentification : qui permet de confirmer ou valider l'identité du client/l’utilisateur qui tente d’accéder au système d'informations</li><li>Gérer l'Autorisation (protection des ressources) : permet d’octroyer au client/l’utilisateur l’accès au système d’informations, donc aux ressources</li></ul>_|
+|**Exigences non fonctionnelles**|_<ul><li>Gérer les logs</li><li>Gérer les erreurs/exceptions</li><li>Gérer les accès à la base de données</li><li>Gérer la migration des scripts** de base de données_ (création de schémas, insertion, mise à jour de tables ou de données ...) avec **Flyway*</li></ul>_|
+
 
 
 ### Architecture Applicative et Technique Globale 
