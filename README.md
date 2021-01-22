@@ -2,10 +2,10 @@
 
 `My Products` est une application Web sécurisée de gestion de produits avec leur catégorie (`service Web RESTFul Sécurisé`) écrit en **Java** et embarque **Spring** avec d'autres technologies non seulement pour l'intégration des différents composants applicatifs
 mais également la sécurisation des ressources de l'application.  Il fournit principalement :
-- un **Back-End** Java, embarquant les exigences ci-dessous :
+- un **Back-End Java** , embarquant :
 	- _les exigences fonctionnelles ou métier_, 
 	- _les exigences non fonctionnelles_. 
-- un **Front-End** (Client Web Angular) pour interagir avec le Back-End par le biais d'interfaces utilisateur. Le front fournit les éléments pour :
+- un **Front-End Angular** (Client Web ) fournissant les interfaces utilisateurs pour pour interagir avec le Back-End par le biais d'interfaces utilisateur.
 
 **NB** :
 - les données/informations sont stockées dans une base de données relationnelles
