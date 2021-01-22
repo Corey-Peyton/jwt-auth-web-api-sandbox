@@ -36,5 +36,5 @@ import fr.vincent.tuto.common.service.props.DatabasePropsService;
 @ConfigurationProperties(prefix = "vot", ignoreUnknownFields = true, ignoreInvalidFields = false)
 public class BackEndServerRootConfig
 {
-
+    //
 }
