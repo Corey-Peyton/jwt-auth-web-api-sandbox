@@ -1,11 +1,11 @@
 # Products Management Secure Web REST API    ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?branch=develop)
 
-`My Products` est une application Web sécurisée de gestion des produits avec leur catégorie (**service Web RESTFull**) écrit en **Java** et embarque **Spring** avec d'autres technologies non seulement pour l'intégration des différents composants applicatifs
+`My Products` est une application Web sécurisée de gestion des produits avec leur catégorie (`service Web RESTFull`) écrit en **Java** et embarque **Spring** avec d'autres technologies non seulement pour l'intégration des différents composants applicatifs
 mais également la sécurisation des ressources de l'application.  Il fournit principalement :
-- un **Back-End**, permettant entre autres de :
-	- **Gérer les utilisateurs** : 
+- un **Back-End**, embarquant les fonctionnalités ci-dessous :
+	- **le processus de gestion desutilisateurs** : 
 		- _Se Connecter/Déconnecter de l'application_
-		- _Ajouter de nouveaux utilisateurs_ dans le SI avec leur rôle 
+		- _Ajouter de nouveaux utilisateurs_ dans le SI avec leurs rôles 
 		- _Mettre à jour les informations_ d'un utilisateur existant.
 		- _Supprimer les informations_ de l'utilisateur du SI.
 		- _Rechercher les informations_ d'un utilisateur dans le SI selon son identifiant. 
@@ -41,7 +41,7 @@ Les éléments ci-dessous sont fournis dans le cadre cette spécification :
 - une brève présentation de **JWT** 
 - le diagramme d'architecture applicative et technique
 - les diagrammes de séquences de fonctionnement global pour les points suivants :
-	- Ajouter un nouvel utilisateur aves ses rôles dans le système d'informations.
+	- Ajouter un nouvel utilisateur avec ses rôles dans le système d'informations.
 	- Gérer la production et fourniture du jeton d'accès à la suite de la connexion des utilisateurs à l'application.	
 	- Accès aux resources protégées : fournir le jeton d'accès dans l'en-tête de la requête.
 - les schémas et modèles de données pour la gestion des informations **métier** de l'application.
@@ -56,6 +56,13 @@ JWT (**J**SON **W**eb **T**oken), est une spécification pour la représentation
 **NB** :
 JWT peut être choisi comme format pour les jetons d'accès et d'actualisation utilisés dans le protocole OAuth2.
 
+### Brève Présentation JWT 
+Le tableau ci-dessous permet de résumer les rôles définis côté serveur par la spécification OAuth2 pour la gestion desd accès à des ressources sécurisées. 
+|Processus|Fonctionnalités|
+|---|---|
+|**Gestion des utilisateurs**|_Se Connecter/Déconnecter de l'application_| 
+||_Ajouter de nouveaux utilisateurs_ dans le SI avec leurs rôles_|
+|**Gestion des utilisateurs**|_Entité capable d'accorder ou de contrôler les accès à des ressources protégées (par exemple l'utilisateur final)_|
 
 ### Architecture Applicative et Technique Globale 
 Le diagramme ci-dessous fournit une vision globale des flux d'échanges entre l'application et les acteurs du système et(ou) briques/composants applicatifs.
