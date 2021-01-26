@@ -46,7 +46,7 @@ Le tableau ci-dessous dresse l'ensemble (une liste non exhaustive) des exigences
 |**Gestion des utilisateurs**|_<ul><li>Se Connecter/Déconnecter de l'application</li><li>Ajouter de nouveaux utilisateurs dans le SI avec leurs rôles</li><li>Mettre à jour les informations d'un utilisateur existant</li><li>Supprimer les informations de l'utilisateur du SI</li><li>Rechercher les informations d'un utilisateur dans le SI selon son identifiant</li><li>Obtenir la liste des utilisateurs du système</li></ul>_| 
 |**Gestion des produits**|_<ul><li>Ajouter de nouveaux produits dans le SI</li><li>Mettre à jour les informations d'un produit existant</li><li>Supprimer les informations d'un produit du SI</li><li>Rechercher les informations d'un produit dans le SI selon son identifiant</li><li>Obtenir la liste des produits du système</li></ul>_|
 |**Gestion des catégories de produits**|_<ul><li>Ajouter de nouvelles catégories de produits dans le SI</li><li>Mettre à jour les informations d'une catégorie de produits</li><li>Supprimer les informations d'une catégorie de produit du SI</li><li>Rechercher les informations d'une catégorie de produit dans le SI</li><li>Obtenir la liste des catégories de produit du SI</li></ul>_|
-|**Gestion de la Sécuriité**|_<ul><li>Gérer l'Authentification : qui permet de confirmer ou valider l'identité du client/l’utilisateur qui tente d’accéder au système d'informations</li><li>Gérer l'Autorisation (protection des ressources) : permet d’octroyer au client/l’utilisateur l’accès au système d’informations, donc aux ressources</li></ul>_|
+|**Gestion de la Sécurité**|_<ul><li>Gérer l'Authentification : qui permet de confirmer ou valider l'identité du client/l’utilisateur qui tente d’accéder au système d'informations</li><li>Gérer l'Autorisation (protection des ressources) : permet d’octroyer au client/l’utilisateur l’accès au système d’informations, donc aux ressources</li></ul>_|
 
 ### Les exigences non fonctionnelles 
 Le tableau ci-dessous dresse une liste non exhaustive des exigences non fonctionnelles de l'application.
@@ -73,15 +73,15 @@ Elle comporte les éléments suivants :
 
 ![DAAT](./docs/images/architecture-applicative-technique-globale.png "Diagrammme Architecture Applicatif et Technique")
 
-## Le Use Case 'Ajouter un nouvel utilisateur dans le SI'
+## Use Case 'Ajouter un nouvel utilisateur dans le SI'
 Le principe de fonctionnement de l'ajout dans le SI des informations d'un nouvel utilisateur, est présenté par le diagramme de séquences ci-dessous :
 ![DS](./docs/images/fonct-global-enregistrer.png "Diagramme de séquences Ajout nouvel utilisateur")
 
-## Le Use Case 'Se Connecter à l'application'
+## Use Case 'Se Connecter à l'application'
 Le principe de fonctionnement de la connexion au SI d'un utilisateur avec ses informations, est présenté par le diagramme de séquences ci-dessous :
 ![DS](./docs/images/fonct-global-se-connecter.png "Diagramme de séquences Connexion Utilisateur")
 
-## Le Fonctionnement de l'accès aux ressources de l'application
+## Accès aux ressources de l'application
 Une vue macroscopique du fonctionnement global de l'application pour l'accès à ses ressources est fournie par le diagramme de séquences ci-dessous. Il est composé de deux principales phases:
 - La demande et obtention des jetons d'accès après s'être authentifié
 - L'accès proprement dit aux ressources de l'application avec le jeton d'accès.
@@ -91,7 +91,7 @@ Une vue macroscopique du fonctionnement global de l'application pour l'accès à
 
 ## Modèles et Schémas de données
 Les modèles fournis sont relatifs au *_*métier_**. Le diagramme de classes ci-dessous présente les relations entre les entités de gestion de la partie métier de l'application.
-![DC](./docs/images/modele-donnees-metier.png "Diagramme de Classes des objets de gestion de l'identification des utilisateurs")
+![DC](./docs/images/modele-donnees-metier_vf.png "Diagramme de Classes des objets de gestion de l'identification des utilisateurs")
 
 
 # Stack Technique

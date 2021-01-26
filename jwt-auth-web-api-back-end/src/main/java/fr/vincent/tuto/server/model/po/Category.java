@@ -1,9 +1,9 @@
 /*
  * ----------------------------------------------
  * Projet ou Module : jwt-auth-web-api-back-end
- * Nom de la classe : Product.java
- * Date de création : 18 janv. 2021
- * Heure de création : 20:22:52
+ * Nom de la classe : Category.java
+ * Date de création : 25 janv. 2021
+ * Heure de création : 09:39:22
  * Package : fr.vincent.tuto.server.model.po
  * Auteur : Vincent Otchoun
  * Copyright © 2021 - All rights reserved.
@@ -12,18 +12,19 @@
 package fr.vincent.tuto.server.model.po;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -31,10 +32,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import fr.vincent.tuto.server.enumeration.CategoryTypeEnum;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -45,12 +48,12 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 /**
- * Mapping des informations des produits en base de données dans la table T_PRODUCTS.
+ * Mapping des informations des catagories de produits en base de données dans la table T_CATEGORIES.
  * 
  * @author Vincent Otchoun
  */
 @Entity
-@Table(name = "T_PRODUCTS")
+@Table(name = "T_CATEGORIES")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Getter
 @Setter
@@ -59,12 +62,12 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class Product implements Serializable
+public class Category extends AbstractPersistable<Long> implements Serializable
 {
     /**
      * 
      */
-    private static final long serialVersionUID = 7219178330020255201L;
+    private static final long serialVersionUID = -1610556115218749258L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,37 +75,27 @@ public class Product implements Serializable
     private Long id; // identifiant technique auto-généré de l'objet en base.
 
     @Column(name = "NAME", nullable = false)
-    private String name; // le nom du produit.
+    private String name; // le nom de la catégorie de produit.
     
     @Column(name = "DESCRIPTION", nullable = false)
-    private String description; // la description du produit.
+    private String description; // la description de la catégorie de produit.
     
-    @Column(name = "QUANTITY", nullable = false)
-    private Long quantity; // la quantité en stock pour le produit.
+    @Column(name = "ENABLED", nullable = false)
+    private Boolean enabled; // indique si la catégorie est active ou non.
     
-    @Column(name = "UNIT_PRICE", nullable = false)
-    private BigDecimal unitPrice; // le prix unitaire du produit.
+    @OneToMany(mappedBy ="category" , fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy
+    @JsonManagedReference
+    private Set<Product> products; // la liste des produits de la catégories.
     
-    @Column(name = "PRICE", nullable = false)
-    private BigDecimal price; // le prix du produit.
+    @Enumerated(EnumType.STRING)
+    @Column(name = "CATEGORY_TYPE", nullable = false)
+    private CategoryTypeEnum categoryType;
     
-    @Column(name = "IS_ACTIVE", nullable = false)
-    private Boolean isActive; // indique si le prOduit est actif/disponible ou non
-    
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "IMAGE_ID")
-    private Image image; // URL de l'image du produit.
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CATEGORY_ID", referencedColumnName = "id")
-    @JsonBackReference
-    private Category category; // Lien vers la catégorie du produit
-
     @JsonIgnore
     @Version
     @Column(name = "OPTLOCK", nullable = false)
     private Integer version; // Gestion de l'optimistic lock (lock optimiste).
-
     
     @Override
     public String toString()
