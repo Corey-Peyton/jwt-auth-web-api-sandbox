@@ -69,7 +69,8 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor // génère le constructeur sans arguments.
 @EqualsAndHashCode(callSuper = false, of = "id") // génère equals et hashCode (et d'autres méthodes) sur les champs donnés.
 @FieldDefaults(level = AccessLevel.PRIVATE) // Passe tous les champs en private.
-@AllArgsConstructor(access = AccessLevel.PROTECTED) // le constructeur avec tous les arguments est nécessaire au Builder, mais pour le rendre inaccessible depuis un autre
+@AllArgsConstructor(access = AccessLevel.PROTECTED) // le constructeur avec tous les arguments est nécessaire au Builder, mais pour le rendre
+                                                    // inaccessible depuis un autre
 // package, mais toujours depuis le Builder, je le place ici en protected
 @Builder // génère une classe interne de type « Builder »
 public class User extends AbstractPersistable<Long> implements Serializable

@@ -13,9 +13,11 @@ package fr.vincent.tuto.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 
 import fr.vincent.tuto.common.config.LogStartConfig;
+import fr.vincent.tuto.server.config.BackEndServerRootConfig;
 
 /**
  * Le Starter du serveur de gestion des accès aux ressources sécurisées.
@@ -23,6 +25,7 @@ import fr.vincent.tuto.common.config.LogStartConfig;
  * @author Vincent Otchoun
  */
 @SpringBootApplication
+@Import(value = { BackEndServerRootConfig.class })
 public class BackendApplicationStarter
 {
 

@@ -91,7 +91,7 @@ Une vue macroscopique du fonctionnement global de l'application pour l'accès à
 
 ## Modèles et Schémas de données
 Les modèles fournis sont relatifs au *_*métier_**. Le diagramme de classes ci-dessous présente les relations entre les entités de gestion de la partie métier de l'application.
-![DC](./docs/images/modele-donnees-metier_vf.png "Diagramme de Classes des objets de gestion de l'identification des utilisateurs")
+![DC](./docs/images/modele-donnees-metier.png "Diagramme de Classes des objets de gestion de l'identification des utilisateurs")
 
 
 # Stack Technique

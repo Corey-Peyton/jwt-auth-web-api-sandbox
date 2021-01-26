@@ -11,6 +11,7 @@
  */
 package fr.vincent.tuto.server.config;
 
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +35,7 @@ import fr.vincent.tuto.common.service.props.DatabasePropsService;
         "classpath:back-end-application.properties" }, ignoreResourceNotFound = false) })
 @ComponentScan(basePackages = { "fr.vincent.tuto.server", "fr.vincent.tuto.common" })
 @ConfigurationProperties(prefix = "vot", ignoreUnknownFields = true, ignoreInvalidFields = false)
+@EntityScan("fr.vincent.tuto.server.model.po")
 public class BackEndServerRootConfig
 {
     //

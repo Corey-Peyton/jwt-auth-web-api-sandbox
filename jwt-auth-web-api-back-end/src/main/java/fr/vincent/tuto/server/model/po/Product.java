@@ -22,7 +22,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -32,7 +31,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AccessLevel;
@@ -73,40 +71,34 @@ public class Product implements Serializable
 
     @Column(name = "NAME", nullable = false)
     private String name; // le nom du produit.
-    
+
     @Column(name = "DESCRIPTION", nullable = false)
     private String description; // la description du produit.
-    
+
     @Column(name = "QUANTITY", nullable = false)
     private Long quantity; // la quantité en stock pour le produit.
-    
+
     @Column(name = "UNIT_PRICE", nullable = false)
     private BigDecimal unitPrice; // le prix unitaire du produit.
-    
+
     @Column(name = "PRICE", nullable = false)
     private BigDecimal price; // le prix du produit.
-    
+
     @Column(name = "IS_ACTIVE", nullable = false)
     private Boolean isActive; // indique si le prOduit est actif/disponible ou non
-    
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "IMAGE_ID")
     private Image image; // URL de l'image du produit.
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CATEGORY_ID", referencedColumnName = "id")
-    @JsonBackReference
-    private Category category; // Lien vers la catégorie du produit
 
     @JsonIgnore
     @Version
     @Column(name = "OPTLOCK", nullable = false)
     private Integer version; // Gestion de l'optimistic lock (lock optimiste).
 
-    
     @Override
     public String toString()
     {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    } 
+    }
 }

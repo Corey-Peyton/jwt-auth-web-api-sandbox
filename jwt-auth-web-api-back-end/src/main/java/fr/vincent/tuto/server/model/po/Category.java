@@ -35,7 +35,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import fr.vincent.tuto.server.enumeration.CategoryTypeEnum;
 import lombok.AccessLevel;
@@ -83,10 +82,9 @@ public class Category extends AbstractPersistable<Long> implements Serializable
     @Column(name = "ENABLED", nullable = false)
     private Boolean enabled; // indique si la catégorie est active ou non.
     
-    @OneToMany(mappedBy ="category" , fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy
-    @JsonManagedReference
-    private Set<Product> products; // la liste des produits de la catégories.
+    private Set<Product> products; // la liste des produits de la catégorie.
     
     @Enumerated(EnumType.STRING)
     @Column(name = "CATEGORY_TYPE", nullable = false)
