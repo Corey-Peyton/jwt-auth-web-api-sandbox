@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import fr.vincent.tuto.common.config.CommonBeansConfig;
@@ -36,6 +37,7 @@ import fr.vincent.tuto.common.service.props.DatabasePropsService;
 @ComponentScan(basePackages = { "fr.vincent.tuto.server", "fr.vincent.tuto.common" })
 @ConfigurationProperties(prefix = "vot", ignoreUnknownFields = true, ignoreInvalidFields = false)
 @EntityScan("fr.vincent.tuto.server.model.po")
+@EnableJpaRepositories(basePackages = "fr.vincent.tuto.server.dao", entityManagerFactoryRef = "entityManagerFactory", transactionManagerRef = "transactionManager")
 public class BackEndServerRootConfig
 {
     //

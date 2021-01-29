@@ -14,7 +14,6 @@ package fr.vincent.tuto.server.model.po;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -122,7 +121,7 @@ public class User extends AbstractPersistable<Long> implements Serializable
 
     @ElementCollection(fetch = FetchType.EAGER)
     @OrderBy
-    private Set<RoleEnum> roles = new HashSet<>();
+    private Set<RoleEnum> roles;
 
     @Column(name = " CREATED_TIME", insertable = true, updatable = false)
     private LocalDateTime createdTime; // horodatage pour la création de l'objet en base.

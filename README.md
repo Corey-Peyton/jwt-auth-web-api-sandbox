@@ -96,7 +96,32 @@ Les modèles fournis sont relatifs au *_*métier_**. Le diagramme de classes ci-
 
 # Stack Technique
 Une liste non exhaustive des technos embarquées pour le développment de cette application :
-TODO
+Une liste non exhaustive des technos embarquées pour le développment de cette application :
+
+![](https://img.shields.io/badge/Java_11-✓-blue.svg)
+![](https://img.shields.io/badge/Maven_3-✓-blue.svg)
+![](https://img.shields.io/badge/Spring_Boot_2-✓-blue.svg)
+![](https://img.shields.io/badge/Spring_Security_5-✓-blue.svg)
+![](https://img.shields.io/badge/JWT-✓-blue.svg)
+![](https://img.shields.io/badge/Jpa_2-✓-blue.svg)
+![](https://img.shields.io/badge/Hibernate_5-✓-blue.svg)
+![](https://img.shields.io/badge/Flyway-✓-blue.svg)
+![](https://img.shields.io/badge/Docker-✓-blue.svg)
+![](https://img.shields.io/badge/Swagger_3-✓-blue.svg)
+![](https://img.shields.io/badge/Model_Mapper-✓-blue.svg)
+![](https://img.shields.io/badge/EhCache-✓-blue.svg)
+![](https://img.shields.io/badge/Lombok-✓-blue.svg)
+![](https://img.shields.io/badge/Angular-✓-blue.svg)
+
+- C'est un projet `Maven` avec `Spring Boot`
+- Il utilise `Spring Security`, `JWT`, pour la sécurisation des échanges (production de jetons, authentification et autorisation).
+- Il offre une configuration permettant d'utiliser `H2`/`MariaDB`/`PostgreSQL` comme base de données aussi bien pour les Tests Unitaires que d'Intégration et de production.
+- Il utilise `Angular JS` pour l'interface utilisateur (le Clent Web).
+- Il utilise `JPA / Hibernate` pour les concepts ORM et DAO.
+- Il utilise `Flyway` pour la migration de bases de données.
+- Il utilise `Docker` pour la containerisation.
+- Il utilise `Lombok` pour simplifier l'écriture des classes métiers (beans).
+- Il utilise `Swagger/OpenAPI 3` pour la documentation et tests de l'API.
 
 
 # Les Tests
@@ -111,7 +136,7 @@ Les outils de tests classiques de Java Spring sont utilisés pour effectuer des 
 Les outils de tests proposés ou utilisées sont les suivants :
 - Outils de Tests de Spring Framework (spring-boot-starter-test) qui intègre:
 	- spring-test, spring-boot-test, spring-boot-test-autoconfigure
-	- JUnit 4+
+	- JUnit 5
 	- Mockito
 	- Assertions avec Assert-J,…
 - Plugin JaCoCo maven (avec les plugin surefire et failsafe) pour produire le rapport de couverture de code.

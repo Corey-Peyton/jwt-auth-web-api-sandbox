@@ -13,15 +13,20 @@ package fr.vincent.tuto.server.constants;
 
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 
 import com.google.common.collect.Sets;
 
 import fr.vincent.tuto.common.constants.AppConstants;
+import fr.vincent.tuto.common.exception.CustomAppException;
 import fr.vincent.tuto.server.enumeration.RoleEnum;
 import lombok.experimental.UtilityClass;
 
@@ -112,21 +117,21 @@ public final class ServerConstants
      * @param pUser     les informations de l'utilisateur en base de données.
      * @return le user de Spring Security.
      */
-    // public static User createSpringSecurityUser(final String pUsername, final fr.vincent.tuto.server.model.po.User pUser)
-    // {
-    // //
-    // final Boolean active = pUser.getEnabled();
-    // if (BooleanUtils.isFalse(active))
-    // {
-    // throw new CustomAppException(USER_MSG + pUsername + USER_MSG_NOT_ACTIVATED);
-    // }
-    //
-    // Set<SimpleGrantedAuthority> grantedAuthorities = pUser.getRoles()//
-    // .stream()//
-    // .map(role -> new SimpleGrantedAuthority(role.getAuthority()))//
-    // .collect(Collectors.toSet());
-    // return new User(pUser.getUsername(), pUser.getPassword(), grantedAuthorities);
-    // }
+    public static User createSpringSecurityUser(final String pUsername, final fr.vincent.tuto.server.model.po.User pUser)
+    {
+        //
+        final Boolean active = pUser.getEnabled();
+        if (BooleanUtils.isFalse(active))
+        {
+            throw new CustomAppException(USER_MSG + pUsername + USER_MSG_NOT_ACTIVATED);
+        }
+
+        Set<SimpleGrantedAuthority> grantedAuthorities = pUser.getRoles()//
+        .stream()//
+        .map(role -> new SimpleGrantedAuthority(role.getAuthority()))//
+        .collect(Collectors.toSet());
+        return new User(pUser.getUsername(), pUser.getPassword(), grantedAuthorities);
+    }
 
     /**
      * Convertit les autorités en une liste d'objets GrantedAuthority.

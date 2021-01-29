@@ -30,6 +30,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -57,7 +58,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class Product implements Serializable
+public class Product extends AbstractPersistable<Long> implements Serializable
 {
     /**
      * 
@@ -88,7 +89,7 @@ public class Product implements Serializable
     private Boolean isActive; // indique si le prOduit est actif/disponible ou non
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "IMAGE_ID")
+    @JoinColumn(name = "IMAGE_ID", nullable = false)
     private Image image; // URL de l'image du produit.
 
     @JsonIgnore
