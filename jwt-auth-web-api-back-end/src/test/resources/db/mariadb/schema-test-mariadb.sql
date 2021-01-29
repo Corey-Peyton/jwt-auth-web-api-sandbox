@@ -20,22 +20,22 @@ DROP TABLE IF EXISTS T_USERS CASCADE;
 DROP TABLE IF EXISTS USER_ROLES CASCADE; 
 
 -- Suprression de la séquence hibernate
-DROP TABLE IF EXISTS hibernate_sequence
+DROP TABLE IF EXISTS HIBERNATE_SEQUENCE;
 
 /*  ----------------------------------------
 	-- Scripts de Création des Tables
 	---------------------------------------
 */
 -- Création de la séquence pour incrément automatique des identifiants des tables
-CREATE TABLE hibernate_sequence (
+CREATE TABLE HIBERNATE_SEQUENCE (
 	NEXT_VAL BIGINT
 ) engine=MyISAM;
 
 -- Initialisation de la séquence pour les différentes tables
-INSERT INTO hibernate_sequence VALUES (1);
-INSERT INTO hibernate_sequence VALUES (1);
-INSERT INTO hibernate_sequence VALUES (1);
-INSERT INTO hibernate_sequence VALUES (1);
+INSERT INTO HIBERNATE_SEQUENCE VALUES (1);
+INSERT INTO HIBERNATE_SEQUENCE VALUES (1);
+INSERT INTO HIBERNATE_SEQUENCE VALUES (1);
+INSERT INTO HIBERNATE_SEQUENCE VALUES (1);
 
 -- Création de la table : T_CATEGORIES
 CREATE TABLE T_CATEGORIES (

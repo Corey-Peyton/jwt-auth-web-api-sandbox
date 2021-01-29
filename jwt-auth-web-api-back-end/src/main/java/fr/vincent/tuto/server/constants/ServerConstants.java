@@ -38,6 +38,16 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public final class ServerConstants
 {
+    // GESTION DU CACHE
+    public static final String HIBERNATE_CACHE_MANAGER = "hibernate.javax.cache.cache_manager";
+    public static final String POINT_ROLES = ".roles";
+    public static final String POINT_PRODUCTS = ".products";
+    
+    public static final String USERS_BY_USERNAME_CACHE = "usersByUsername";
+    public static final String USERS_BY_EMAIL_CACHE = "usersByEmail";
+    public static final String ATTRIBUTE_PATHS = "roles";
+    
+    
     // Cross-Origin - CORS constants
     public static final String ALOW_ORIGIN = HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN;
     public static final String ORIGIN = "*";
@@ -51,11 +61,6 @@ public final class ServerConstants
     public static final String REQUEST_METHOD = HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD;
     public static final String REQUEST_HEADER = HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS;
     public static final String OPTIONS_METHODS = "OPTIONS";
-
-    // DAO
-    public static final String USERS_BY_USERNAME_CACHE = "usersByUsername";
-    public static final String USERS_BY_EMAIL_CACHE = "usersByEmail";
-    public static final String ATTRIBUTE_PATHS = "roles";
 
     // REGEX ET PATTERNS
     public static final Pattern UUID_PATTERN = AppConstants.UUID_PATTERN;
@@ -136,6 +141,6 @@ public final class ServerConstants
     /**
      * Convertit les autorités en une liste d'objets GrantedAuthority.
      */
-    public static final java.util.List<GrantedAuthority> ROLES = AuthorityUtils.createAuthorityList(RoleEnum.ROLE_ANONYMOUS.getAuthority(),
+    public final java.util.List<GrantedAuthority> ROLES = AuthorityUtils.createAuthorityList(RoleEnum.ROLE_ANONYMOUS.getAuthority(),
     RoleEnum.ROLE_ADMIN.getAuthority(), RoleEnum.ROLE_USER.getAuthority(), RoleEnum.ROLE_MODERATOR.getAuthority());
 }

@@ -20,14 +20,15 @@ DROP TABLE IF EXISTS T_USERS CASCADE;
 DROP TABLE IF EXISTS USER_ROLES CASCADE; 
 
 -- Suprression de la séquence hibernate
-DROP SEQUENCE IF EXISTS hibernate_sequence
+DROP SEQUENCE IF EXISTS HIBERNATE_SEQUENCE;
+
 
 /*  ----------------------------------------
 	-- Scripts de Création des Tables
 	---------------------------------------
 */
 -- Création de la séquence pour incrément automatique des identifiants des tables
-CREATE SEQUENCE hibernate_sequence START WITH 1 INCREMENT BY 1
+CREATE SEQUENCE HIBERNATE_SEQUENCE START WITH 1 INCREMENT BY 1;
 
 -- Création de la table : T_CATEGORIES
 CREATE TABLE T_CATEGORIES (

@@ -84,6 +84,7 @@ public class Category extends AbstractPersistable<Long> implements Serializable
     
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Product> products; // la liste des produits de la catégorie.
     
     @Enumerated(EnumType.STRING)
