@@ -1,0 +1,314 @@
+/*
+ * ----------------------------------------------
+ * Projet ou Module : jwt-auth-web-api-back-end
+ * Nom de la classe : TestsDataUtils.java
+ * Date de création : 29 janv. 2021
+ * Heure de création : 15:07:23
+ * Package : fr.vincent.tuto.server.utils
+ * Auteur : Vincent Otchoun
+ * Copyright © 2021 - All rights reserved.
+ * ----------------------------------------------
+ */
+package fr.vincent.tuto.server.utils;
+
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+
+import fr.vincent.tuto.server.enumeration.CategoryTypeEnum;
+import fr.vincent.tuto.server.enumeration.RoleEnum;
+import fr.vincent.tuto.server.model.po.Category;
+import fr.vincent.tuto.server.model.po.Product;
+import fr.vincent.tuto.server.model.po.User;
+import lombok.experimental.UtilityClass;
+
+/**
+ * Utilitaire pour la fourniture des données de tests.
+ * 
+ * @author Vincent Otchoun
+ */
+@UtilityClass
+public final class TestsDataUtils
+{
+
+    public static final String USER_ADMIN_USERNAME = "admin";
+    public static final String ADMIN = "admin";
+    public static final String TOKEN = "token";
+    public static final String ANONYMOUS = "anonymous";
+    public static final String USER_MANAGER = "user_manager";
+    public static final String MODERATEUR = "moderateur";
+    public static final String MODERATEUR_UPPER = "MODERATEUR";
+    public static final String CLIENT = "client";
+
+    public static final String ADMIN_EMAIL = "ADMIN.TEST@LIVE.FR";
+    public static final String ADMIN_EMAIL_LOWER = "admin.test@live.fr";
+    public static final String INACTIVE_USER_MAIL = "client3.test@live.fr";
+
+    public static final String IMAGE_URL_TO_SEARCH = "img/lave-vaisselle-pose-libre-electrolux-esf8650row.jpg";
+    public static final String CATEGORY_NAME_TO_SEARCH = "MEUBLES-DECO";
+    public static final String CATEGORY_NAME_TO_SEARCH_LOWER_CASE = "meubles-deco";
+
+    public static final String PRODUCT_NAME_TO_SEARCH = "TEFAL L2008902";
+    public static final String PRODUCT_NAME_TO_SEARCH_LOWER_CASE = "tefal l2008902";
+
+  
+
+    // Creation des produits : l'active est gérér dans le modèle métier pour la création
+    // ECLETROMENAGER
+    final Product PRODUCT_1 = Product.builder().name("TEFAL L2008902")//
+    .description("Batterie de cuisine 10 pièces Ingenio Essential - Tous feux sauf induction")//
+    .quantity(5L).unitPrice(new BigDecimal("5.539")).price(new BigDecimal("55.39")).imageUrl(
+    "img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg").build();
+
+    final Product PRODUCT_7 = Product.builder().name("PHILIPS FC8243/09 ")//
+    .description("Aspirateur traîneau avec sac PowerGo - Suceur Plat Intégré - 750W - 77 dB - A - Rouge Sportif")//
+    .quantity(1L).unitPrice(new BigDecimal("5.499")).price(new BigDecimal("54.99")).imageUrl(
+    "img/philips-fc8243-09-aspirateur-traineau-avec-sac-pow.jpg").build();
+
+    final Product PRODUCT_4 = Product.builder().name("Lave-vaisselle ELECTROLUX ESF8650ROW")//
+    .description("15 couverts - Largeur 60 cm - Classe A+++ - 44 dB - Blanc")//
+    .quantity(1L).unitPrice(new BigDecimal("439.99")).price(new BigDecimal("439.99")).imageUrl(
+    "img/lave-vaisselle-pose-libre-electrolux-esf8650row.jpg").build();
+
+    // MEUBLE-DECO
+    final Product PRODUCT_2 = Product.builder().name("BARCELONE")//
+    .description("Canapé d'angle convertible 4 places + coffre de rangement - Tissu et simili Noir et Gris")//
+    .quantity(1L).unitPrice(new BigDecimal("499.99")).price(new BigDecimal("499.99")).imageUrl(
+    "img/barcelone-canape-d-angle-convertible-4-places-co.jpg").build();
+
+    final Product PRODUCT_8 = Product.builder().name("TORPE")//
+    .description("Bureau informatique contemporain 90x74x50 cm | Taille compacte + support clavier + tiroir | Table ordinateur | Sonoma")//
+    .quantity(1L).unitPrice(new BigDecimal("259.99")).price(new BigDecimal("259.99")).imageUrl(
+    "img/torpe-bureau-informatique-contemporain-90x74x50.jpg").build();
+
+    final Product PRODUCT_9 = Product.builder().name("COREP")//
+    .description("Lampadaire en métal - E27 - 40 W - Noir et cuivre")//
+    .quantity(1L).unitPrice(new BigDecimal("29.99")).price(new BigDecimal("29.99")).imageUrl("img/corep-lampadaire-en-metal-e27-40-w-noir-et-c.jpg")
+    .build();
+
+    // SON
+    final Product PRODUCT_3 = Product.builder().name("AUNA DS-2")//
+    .description("Chaîne hifi stereo compacte avec platine vinyle , lecteur CD & radio , encodageMP3 , ports USB/SD , haut-parleur 2 voies")//
+    .quantity(1L).unitPrice(new BigDecimal("154.99")).price(new BigDecimal("154.99")).imageUrl(
+    "img/chaine-stereo-platine-vinyle-enregistrement-mp3.jpg").build();
+
+    final Product PRODUCT_10 = Product.builder().name("FunKey")//
+    .description("61 Keyboard noir Set incl. Support de Clavier. Banquette école de clavier inclus")//
+    .quantity(1L).unitPrice(new BigDecimal("111.87")).price(new BigDecimal("111.87")).imageUrl(
+    "img/funkey-61-keyboard-noir-set-incl-support-de-clav.jpg").build();
+
+    final Product PRODUCT_11 = Product.builder().name("LEGEND ")//
+    .description("Pack Guitare Type Stratocaster Black Mat")//
+    .quantity(2L).unitPrice(new BigDecimal("137.99")).price(new BigDecimal("137.99")).imageUrl(
+    "img/legend-pack-guitare-type-stratocaster-black-mat.jpg").build();
+
+    // INFORMATIQUE
+
+    final Product PRODUCT_5 = Product.builder().name("OMEN HP PC Gamer")//
+    .description("15,6\" FHD - AMD Ryzen 7 - RAM 16Go - Stockage 512Go SSD - GTX 1660Ti 6Go - Win 10 - AZERTY")//
+    .quantity(1L).unitPrice(new BigDecimal("1219.99")).price(new BigDecimal("1219.99")).imageUrl(
+    "img/omen-by-hp-pc-gamer-15-en0002nf-15-6-fhd-amd.jpg").build();
+
+    final Product PRODUCT_12 = Product.builder().name("CORSAIR Clavier Gamer")//
+    .description("Membrane K55 RGB - AZERTY (CH-9206015-FR)")//
+    .quantity(1L).unitPrice(new BigDecimal("74.99")).price(new BigDecimal("74.99")).imageUrl(
+    "img/corsair-clavier-gamer-membrane-k55-rgb-azerty-c.jpg").build();
+
+    final Product PRODUCT_13 = Product.builder().name("HP LaserJet Pro M130a")//
+    .description("Imprimante Laser Monochrome Multifonction")//
+    .quantity(1L).unitPrice(new BigDecimal("157.94")).price(new BigDecimal("157.94")).imageUrl(
+    "img/hp-laserjet-pro-m130a-imprimante-laser-monochrom.jpg").build();
+
+    // TELEPHONIE
+    final Product PRODUCT_6 = Product.builder().name("Samsung Galaxy")//
+    .description("S20 FE 5G Blanc")//
+    .quantity(1L).unitPrice(new BigDecimal("759.00")).price(new BigDecimal("759.00")).imageUrl("img/samsung-galaxy-s20-fe-5g-blanc.jpg").build();
+
+    final Product PRODUCT_14 = Product.builder().name("Ecouteur Bluetooth V5.0 3000mAh")//
+    .description("Arbily T22 Antibruit CVC8.0 Hi-FI Son Oreillette Bluetooth Sport Etanche avec Micro Intégré")//
+    .quantity(1L).unitPrice(new BigDecimal("30.99")).price(new BigDecimal("30.99")).imageUrl(
+    "img/ecouteur-bluetooth-v5-0-3000mah-arbily-t22-antibru.jpg").build();
+
+    // Liste des produits
+    public static final List<Product> PRODUCTS()
+    {
+        final List<Product> products = Lists.newArrayList();
+        products.add(PRODUCT_1);
+        products.add(PRODUCT_2);
+        products.add(PRODUCT_3);
+        products.add(PRODUCT_4);
+        products.add(PRODUCT_5);
+        products.add(PRODUCT_6);
+        products.add(PRODUCT_7);
+        products.add(PRODUCT_8);
+        products.add(PRODUCT_9);
+        products.add(PRODUCT_10);
+        products.add(PRODUCT_11);
+        products.add(PRODUCT_12);
+        products.add(PRODUCT_13);
+        products.add(PRODUCT_14);
+        return products;
+    }
+
+    // GESTION DES CATEGORIES DE PRODUITS
+    private static final Set<Product> ELECTROS()
+    {
+        final Set<Product> products = Sets.newHashSet();
+        products.add(PRODUCT_1);
+        products.add(PRODUCT_7);
+        products.add(PRODUCT_4);
+        return products;
+    }
+
+    public static final Category CATEGORY_1 = Category.builder().categoryType(CategoryTypeEnum.ELCETROMENAGER)//
+    .name(CategoryTypeEnum.ELCETROMENAGER.getValue())//
+    .description("Catégorie des produits ELCETRO-MENAGER").products(ELECTROS()).build();
+
+    private static final Set<Product> MEUBLES()
+    {
+        final Set<Product> products = Sets.newHashSet();
+        products.add(PRODUCT_2);
+        products.add(PRODUCT_8);
+        products.add(PRODUCT_9);
+        return products;
+    }
+
+    public static final Category CATEGORY_2 = Category.builder().categoryType(CategoryTypeEnum.MEUBLES_DECO)//
+    .name(CategoryTypeEnum.MEUBLES_DECO.getValue())//
+    .description("Catégorie des produits MEUBLES-DECO").products(MEUBLES()).build();
+
+    private static final Set<Product> SONS()
+    {
+        final Set<Product> products = Sets.newHashSet();
+        products.add(PRODUCT_3);
+        products.add(PRODUCT_10);
+        products.add(PRODUCT_11);
+        return products;
+    }
+
+    public static final Category CATEGORY_3 = Category.builder().categoryType(CategoryTypeEnum.SON)//
+    .name(CategoryTypeEnum.SON.getValue())//
+    .description("Catégorie des produits de SON").products(SONS()).build();
+
+    private static final Set<Product> INFORMATIQUE()
+    {
+        final Set<Product> products = Sets.newHashSet();
+        products.add(PRODUCT_5);
+        products.add(PRODUCT_12);
+        products.add(PRODUCT_13);
+        return products;
+    }
+
+    public static final Category CATEGORY_4 = Category.builder().categoryType(CategoryTypeEnum.INFORMATIQUE)//
+    .name(CategoryTypeEnum.INFORMATIQUE.getValue())//
+    .description("Catégorie des produits INFORMATIQUE").products(INFORMATIQUE()).build();
+
+    private static final Set<Product> TELEPHONIE()
+    {
+        final Set<Product> products = Sets.newHashSet();
+        products.add(PRODUCT_6);
+        products.add(PRODUCT_14);
+        return products;
+    }
+
+    public static final Category CATEGORY_5 = Category.builder().categoryType(CategoryTypeEnum.TELEPHONIE)//
+    .name(CategoryTypeEnum.TELEPHONIE.getValue())//
+    .description("Catégorie des produits TELEPHONIE").products(TELEPHONIE()).build();
+
+    // Liste des produits
+    public static final List<Category> CATEGORIES()
+    {
+        final List<Category> categories = Lists.newArrayList();
+        categories.add(CATEGORY_1);
+        categories.add(CATEGORY_2);
+        categories.add(CATEGORY_3);
+        categories.add(CATEGORY_4);
+        categories.add(CATEGORY_5);
+        return categories;
+    }
+
+    // CREDENTIALS
+    /**
+     * Fournir le jeu de données pour intialisser la base de données pour les tests unitaires et d'intégration de façon
+     * programmatique.
+     * 
+     * @return le jeu de données.
+     */
+    public static final List<User> creerJeuDeDonnees()
+    {
+        final List<User> users = Lists.newArrayList();
+        // ADMIN
+        final User admin = createUser(RoleEnum.ROLE_ADMIN.getAuthority(), "admin", "admin_19511982#", "admin.test@live.fr");
+
+        // CLIENT
+        final User client = createUser(RoleEnum.ROLE_USER.getAuthority(), "client", "client_19511982#", "client.test@live.fr");
+        final User client1 = createUser(RoleEnum.ROLE_USER.getAuthority(), "client1", "client31_19511982#", "client1.test@live.fr");
+        final User client2 = createUser(RoleEnum.ROLE_USER.getAuthority(), "client2", "client2_19511982#", "client2.test@live.fr");
+        final User client3 = createUser(RoleEnum.ROLE_USER.getAuthority(), "client3", "client3_19511982#", "client3.test@live.fr");
+
+        // MODERATEUR
+        final Set<RoleEnum> moderateurSet = new HashSet<>();
+        moderateurSet.add(RoleEnum.valueOf(RoleEnum.ROLE_USER.getAuthority()));
+        moderateurSet.add(RoleEnum.valueOf(RoleEnum.ROLE_MODERATOR.getAuthority()));
+        final User moderateur = createUserWithSet(moderateurSet, "moderateur", "moderateur_19511982#", "moderateur.test@live.fr");
+
+        users.add(admin);
+        users.add(client);
+        users.add(client1);
+        users.add(client2);
+        users.add(client3);
+        users.add(moderateur);
+        return users;
+    }
+
+    public static User createUser(final String pRole, final String pUsername, final String pPwd, final String pEmail)
+    {
+        // ACTIVE USER
+        final Set<RoleEnum> roleEnums = new HashSet<>();
+        roleEnums.add(RoleEnum.valueOf(pRole));
+        final User user = User.builder()//
+        .username(pUsername)//
+        .password(pwdEncoder().encode(pPwd))//
+        .email(pEmail)//
+        // .accountExpired(Boolean.FALSE)//
+        // .accountLocked(Boolean.FALSE)//
+        // .credentialsExpired(Boolean.FALSE)//
+        // .enabled(Boolean.TRUE)//
+        .roles(roleEnums)//
+        // .createdTime(LocalDateTime.now(ZoneId.systemDefault()))//
+        // .updatedTime(LocalDateTime.now(ZoneId.systemDefault()))//
+        // .version(Integer.valueOf(0))//
+        .build();
+        return user;
+    }
+
+    public static User createUserWithSet(final Set<RoleEnum> pRoleEnums, final String pUsername, final String pPwd, final String pEmail)
+    {
+        // ACTIVE USER
+        final User user = User.builder()//
+        .username(pUsername)//
+        .password(pwdEncoder().encode(pPwd))//
+        .email(pEmail)//
+        // .accountExpired(Boolean.FALSE)//
+        // .accountLocked(Boolean.FALSE)//
+        // .credentialsExpired(Boolean.FALSE)//
+        // .enabled(Boolean.TRUE)//
+        .roles(pRoleEnums)//
+        // .createdTime(LocalDateTime.now(ZoneId.systemDefault()))//
+        // .updatedTime(LocalDateTime.now(ZoneId.systemDefault()))//
+        // .version(Integer.valueOf(0))//
+        .build();
+        return user;
+    }
+
+    private static BCryptPasswordEncoder pwdEncoder()
+    {
+        return new BCryptPasswordEncoder(12);
+    }
+}

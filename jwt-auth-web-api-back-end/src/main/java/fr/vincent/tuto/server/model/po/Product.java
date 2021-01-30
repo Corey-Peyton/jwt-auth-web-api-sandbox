@@ -14,15 +14,12 @@ package fr.vincent.tuto.server.model.po;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -86,16 +83,22 @@ public class Product extends AbstractPersistable<Long> implements Serializable
     private BigDecimal price; // le prix du produit.
 
     @Column(name = "IS_ACTIVE", nullable = false)
-    private Boolean isActive; // indique si le prOduit est actif/disponible ou non
+    private Boolean isActive; // indique si le produit est actif/disponible ou non
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "IMAGE_ID", nullable = false)
-    private Image image; // URL de l'image du produit.
+    @Column(name = "IMAGE_URL", nullable = false)
+    private String imageUrl;
 
     @JsonIgnore
     @Version
     @Column(name = "OPTLOCK", nullable = false)
     private Integer version; // Gestion de l'optimistic lock (lock optimiste).
+
+    @PrePersist
+    protected void onCreate()
+    {
+        this.isActive = Boolean.TRUE;
+        this.version = Integer.valueOf(0);
+    }
 
     @Override
     public String toString()
