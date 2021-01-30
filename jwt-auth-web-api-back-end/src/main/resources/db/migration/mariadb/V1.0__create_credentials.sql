@@ -1,46 +1,54 @@
 /*  -------------------------------------
 	-- DDL : Data Definition Language
-	-- BASE DE DONNEES : H2
+	-- BASE DE DONNEES : MARIADB
 	-- SCHEMA OR CATALOG :  
 	-------------------------------------
 */
+
 /* 	---------------------------
 	-- Scripts de Suppressions 
 	---------------------------
 */ 
- -- Suppression de la table T_USERS et éléments rattachés
-DROP SEQUENCE IF EXISTS HIBERNATE_SEQUENCE;
-DROP TABLE IF EXISTS USER_ROLES;
-DROP TABLE IF EXISTS T_USERS;
+
+-- Suppression de la séquence hibernate, la table T_USERS et éléments rattachés
+DROP TABLE IF EXISTS HIBERNATE_SEQUENCE;
+DROP TABLE IF EXISTS T_USERS CASCADE; 
+DROP TABLE IF EXISTS USER_ROLES CASCADE;
 
 /*  ----------------------------------------
 	-- Scripts de Création des Credentials
-	---------------------------------------
+	----------------------------------------
 */
+
 -- Création de la séquence pour incrément automatique des identifiants des tables
-CREATE SEQUENCE HIBERNATE_SEQUENCE START WITH 1 INCREMENT BY 1;
+CREATE TABLE HIBERNATE_SEQUENCE (
+	NEXT_VAL BIGINT(20)
+) engine=MyISAM;
+
+-- Initialisation de la séquence pour la table T_USERS
+INSERT INTO HIBERNATE_SEQUENCE VALUES (1); 
 
 -- Création de la table T_USERS
 CREATE TABLE T_USERS (
-	ID BIGINT NOT NULL,
-	ACCOUNT_EXPIRED BOOLEAN NOT NULL,
-	ACCOUNT_LOCKED BOOLEAN NOT NULL,
-	CREATED_TIME TIMESTAMP,
-	CREDENTIALS_EXPIRED BOOLEAN NOT NULL,
-	EMAIL VARCHAR (254) NOT NULL,
-	ENABLED BOOLEAN NOT NULL,
-	USER_PASSWORD VARCHAR (60) NOT NULL,
-	UPDATED_TIME TIMESTAMP,
-	USER_NAME VARCHAR (80) NOT NULL,
-	OPTLOCK INTEGER NOT NULL DEFAULT '0',
+	ID BIGINT(20) NOT NULL,
+	ACCOUNT_EXPIRED BIT(1) NOT NULL,
+	ACCOUNT_LOCKED BIT(1) NOT NULL,
+	CREATED_TIME DATETIME,
+	CREDENTIALS_EXPIRED BIT(1) NOT NULL,
+	EMAIL VARCHAR(254) NOT NULL,
+	ENABLED BIT(1) NOT NULL,
+	USER_PASSWORD VARCHAR(60) NOT NULL,
+	UPDATED_TIME DATETIME,
+	USER_NAME VARCHAR(80) NOT NULL,
+	OPTLOCK INT(11) NOT NULL DEFAULT '0',
 	PRIMARY KEY (ID)
-);
+)engine=MyISAM;
 
 -- Création de la table USERS_ROLES
-create table USER_ROLES (
-	USER_ID BIGINT NOT NULL,
- 	ROLES INTEGER
-);
+CREATE TABLE USER_ROLES (
+	USER_ID BIGINT(20) NOT NULL,
+	ROLES INT(11)
+)engine=MyISAM;
 
 -- Contrainte unicité de l'adresse électronique
 ALTER TABLE T_USERS 
@@ -54,4 +62,4 @@ ALTER TABLE T_USERS
 ALTER TABLE USER_ROLES 
 	ADD CONSTRAINT FKs6y4k5lgw4a4ei5lj2u2ibkh5 
 		FOREIGN KEY (USER_ID) 
-		REFERENCES T_USERS(ID);
+		REFERENCES T_USERS (ID);

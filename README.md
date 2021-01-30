@@ -117,7 +117,7 @@ Une liste non exhaustive des technos embarquées pour le développment de cette 
 - Il utilise `Spring Security`, `JWT`, pour la sécurisation des échanges (production de jetons, authentification et autorisation).
 - Il offre une configuration permettant d'utiliser `H2`/`MariaDB`/`PostgreSQL` comme base de données aussi bien pour les Tests Unitaires que d'Intégration et de production.
 - Il utilise `Angular JS` pour l'interface utilisateur (le Clent Web).
-- Il utilise `SonarLint` pour la qualité du code (bonnes pratiques de développement).
+- Il utilise `SonarLint` pour la qualité du code (_bonnes pratiques de développement_).
 - Il utilise `JPA / Hibernate` pour les concepts ORM et DAO.
 - Il utilise `Flyway` pour la migration de bases de données.
 - Il utilise `Docker` pour la containerisation.

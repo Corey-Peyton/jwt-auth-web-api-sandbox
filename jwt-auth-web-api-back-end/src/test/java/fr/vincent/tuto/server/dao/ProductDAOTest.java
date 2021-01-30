@@ -62,7 +62,7 @@ class ProductDAOTest
     @BeforeEach
     void setUp() throws Exception
     {
-        this.initData();
+       // this.initData();
     }
 
     /**
@@ -239,7 +239,8 @@ class ProductDAOTest
         assertThat(products.size()).isPositive();
     }
 
-    public void initData()
+    @SuppressWarnings("unused")
+    private void initData()
     {
         TestsDataUtils.PRODUCTS()//
         .forEach(product -> this.productDAO.saveAndFlush(product));

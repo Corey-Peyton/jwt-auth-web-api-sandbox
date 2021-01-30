@@ -25,6 +25,7 @@ DROP SEQUENCE IF EXISTS HIBERNATE_SEQUENCE;
 	-- Scripts de Création des Tables
 	---------------------------------------
 */
+
 -- Création de la séquence pour incrément automatique des identifiants des tables
 CREATE SEQUENCE HIBERNATE_SEQUENCE START 1 INCREMENT 1;
 
@@ -80,6 +81,7 @@ ALTER TABLE T_CATEGORIES_T_PRODUCTS
 	-- Scripts de Création des Credentials
 	---------------------------------------
 */
+
 -- Création de la table T_USERS
 CREATE TABLE T_USERS (
 	ID INT8 NOT NULL,

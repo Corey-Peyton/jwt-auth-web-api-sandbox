@@ -36,7 +36,6 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public final class TestsDataUtils
 {
-
     public static final String USER_ADMIN_USERNAME = "admin";
     public static final String ADMIN = "admin";
     public static final String TOKEN = "token";

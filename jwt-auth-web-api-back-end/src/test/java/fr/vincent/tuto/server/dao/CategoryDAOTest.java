@@ -61,7 +61,7 @@ class CategoryDAOTest
     @BeforeEach
     void setUp() throws Exception
     {
-        this.initData();
+        //this.initData();
     }
 
     /**
@@ -242,6 +242,7 @@ class CategoryDAOTest
         assertThat(categories.size()).isPositive();
     }
 
+    @SuppressWarnings("unused")
     private void initData()
     {
         TestsDataUtils.CATEGORIES()//

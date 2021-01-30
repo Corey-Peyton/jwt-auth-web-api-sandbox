@@ -64,7 +64,7 @@ class UserDAOTest
     @BeforeEach
     void setUp() throws Exception
     {
-        this.initData();
+        //this.initData();
     }
 
     /**
@@ -193,7 +193,7 @@ class UserDAOTest
     {
         final Optional<User> optional = this.userDAO.findOneWithRolesById(3L);
 
-        assertThat(optional).isEmpty();
+        assertThat(optional).isPresent();
     }
 
     @Test
@@ -386,6 +386,7 @@ class UserDAOTest
         assertThat(users).isEmpty();
     }
 
+    @SuppressWarnings("unused")
     private void initData()
     {
         TestsDataUtils.creerJeuDeDonnees()//
