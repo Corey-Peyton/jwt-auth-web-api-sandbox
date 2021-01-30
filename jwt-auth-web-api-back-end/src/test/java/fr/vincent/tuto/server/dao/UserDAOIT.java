@@ -31,6 +31,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import fr.vincent.tuto.common.service.props.DatabasePropsService;
@@ -51,7 +53,8 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
 @ContextConfiguration(name = "userDAOTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistanceConfig.class })
 @SpringBootTest(classes = BackendApplicationStarter.class)
 @ActiveProfiles("test")
-class UserDAOTest
+@Sql(scripts = { "classpath:db/h2/schema-test-h2.sql", "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+class UserDAOIT
 {
     @Autowired
     private UserDAO userDAO;
@@ -62,7 +65,6 @@ class UserDAOTest
     @BeforeEach
     void setUp() throws Exception
     {
-        //this.initData();
     }
 
     /**
@@ -382,12 +384,5 @@ class UserDAOTest
         final List<User> users = (List<User>) this.userDAO.findAllByEnabled(Boolean.FALSE);
 
         assertThat(users).isEmpty();
-    }
-
-    @SuppressWarnings("unused")
-    private void initData()
-    {
-        TestsDataUtils.creerJeuDeDonnees()//
-        .forEach(user -> this.userDAO.saveAndFlush(user));
     }
 }

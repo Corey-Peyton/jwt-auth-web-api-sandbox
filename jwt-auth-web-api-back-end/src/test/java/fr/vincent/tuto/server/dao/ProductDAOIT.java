@@ -29,8 +29,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import fr.vincent.tuto.common.service.props.DatabasePropsService;
 import fr.vincent.tuto.server.BackendApplicationStarter;
@@ -49,8 +50,8 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
 @ContextConfiguration(name = "productDAOTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistanceConfig.class })
 @SpringBootTest(classes = BackendApplicationStarter.class)
 @ActiveProfiles("test")
-@Transactional
-class ProductDAOTest
+@Sql(scripts = { "classpath:db/h2/schema-test-h2.sql", "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+class ProductDAOIT
 {
     @Autowired
     private ProductDAO productDAO;
@@ -61,7 +62,6 @@ class ProductDAOTest
     @BeforeEach
     void setUp() throws Exception
     {
-       // this.initData();
     }
 
     /**
@@ -236,12 +236,5 @@ class ProductDAOTest
         
         assertThat(products.isEmpty()).isFalse();
         assertThat(products.size()).isPositive();
-    }
-
-    @SuppressWarnings("unused")
-    private void initData()
-    {
-        TestsDataUtils.PRODUCTS()//
-        .forEach(product -> this.productDAO.saveAndFlush(product));
     }
 }

@@ -29,6 +29,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import fr.vincent.tuto.common.service.props.DatabasePropsService;
@@ -39,7 +41,7 @@ import fr.vincent.tuto.server.model.po.Category;
 import fr.vincent.tuto.server.utils.TestsDataUtils;
 
 /**
- * Classe des Tests nitares des objets de type {@link CategoryDAO}
+ * Classe des Tests d'intégration des objets de type {@link CategoryDAO}
  * 
  * @author Vincent Otchoun
  */
@@ -48,7 +50,8 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
 @ContextConfiguration(name = "categoryDAOTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistanceConfig.class })
 @SpringBootTest(classes = BackendApplicationStarter.class)
 @ActiveProfiles("test")
-class CategoryDAOTest
+@Sql(scripts = { "classpath:db/h2/schema-test-h2.sql", "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+class CategoryDAOIT
 {
     @Autowired
     private CategoryDAO categoryDAO;
@@ -59,7 +62,6 @@ class CategoryDAOTest
     @BeforeEach
     void setUp() throws Exception
     {
-        //this.initData();
     }
 
     /**
@@ -238,12 +240,5 @@ class CategoryDAOTest
         
         assertThat(categories.isEmpty()).isFalse();
         assertThat(categories.size()).isPositive();
-    }
-
-    @SuppressWarnings("unused")
-    private void initData()
-    {
-        TestsDataUtils.CATEGORIES()//
-        .forEach(category -> this.categoryDAO.saveAndFlush(category));
     }
 }
