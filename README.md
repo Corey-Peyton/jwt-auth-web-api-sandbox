@@ -114,10 +114,11 @@ Une liste non exhaustive des technos embarquées pour le développment de cette 
 - C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage Java : 
 - `Java 11` est utilisé pour la compilation et cible pour l'environnement d'exécution.
 - `Java 8` pour le code source.
-- `Spring Security`, `JWT`, pour la sécuriser les échanges (production de jetons, authentification et autorisation).
+- `Spring Security`, `JWT`, pour sécuriser les échanges (production de jetons, authentification et autorisation).
 - `JPA / Hibernate` pour les concepts ORM et DAO.
 - `H2`ou `MariaDB` ou `PostgreSQL` configurations base de données pour les accès aux données, les TU, TI, ou cible pour l'environnement de production.
 - `Flyway` pour la migration de bases de données.
+- `EhCache` pour optimiser les accès aux données.
 - `Angular` pour le développment de l'interface utilisateur (le Clent Web).
 - `Docker` pour la containerisation.
 - `Lombok` pour simplifier l'écriture des classes métiers (beans).
