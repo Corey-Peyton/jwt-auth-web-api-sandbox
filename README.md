@@ -9,7 +9,7 @@ mais également la sécurisation des ressources de l'application.  Il fournit pr
 
 **NB** :
 - Les données/informations sont stockées dans une base de données relationnelles.
-- Voir la section `Les Exigences` pour plus de détails sur les fonctionnalités embarquées.
+- Voir la section `Exigences` pour plus de détails sur les fonctionnalités embarquées.
 - Voir la section `Stack Technique` pour plus de détails sur l'ensemble des technos utilisées dans cette application.
 - **SI** : Système d'informations.	
 
@@ -44,8 +44,8 @@ Le tableau ci-dessous dresse l'ensemble (une liste non exhaustive) des exigences
 |Processus|Fonctionnalités|
 |---|---|
 |**Gestion des utilisateurs**|_<ul><li>Se Connecter/Déconnecter de l'application</li><li>Ajouter de nouveaux utilisateurs dans le SI avec leurs rôles</li><li>Mettre à jour les informations d'un utilisateur existant</li><li>Supprimer les informations de l'utilisateur du SI</li><li>Rechercher les informations d'un utilisateur dans le SI selon son identifiant</li><li>Obtenir la liste des utilisateurs du système</li></ul>_| 
-|**Gestion des produits**|_<ul><li>Ajouter de nouveaux produits dans le SI</li><li>Mettre à jour les informations d'un produit existant</li><li>Supprimer les informations d'un produit du SI</li><li>Rechercher les informations d'un produit dans le SI selon son identifiant</li><li>Obtenir la liste des produits du système</li></ul>_|
-|**Gestion des catégories de produits**|_<ul><li>Ajouter de nouvelles catégories de produits dans le SI</li><li>Mettre à jour les informations d'une catégorie de produits</li><li>Supprimer les informations d'une catégorie de produit du SI</li><li>Rechercher les informations d'une catégorie de produit dans le SI</li><li>Obtenir la liste des catégories de produit du SI</li></ul>_|
+|**Gestion des produits**|_<ul><li>Ajouter les inforations de nouveaux produits dans le SI</li><li>Mettre à jour les informations d'un produit existant dans le SI</li><li>Supprimer les informations d'un produit du SI</li><li>Rechercher les informations d'un produit dans le SI selon son identifiant</li><li>Obtenir la liste des produits du système</li><li>Obtenir la liste de produits filtrée avec le nom de produit qui `match` avec le `pattern` fourni</li></ul>_|
+|**Gestion des catégories de produits**|_<ul><li>Ajouter de nouvelles catégories de produits dans le SI</li><li>Mettre à jour les informations d'une catégorie de produits dans le SI</li><li>Supprimer les informations d'une catégorie de produits du SI</li><li>Rechercher les informations d'une catégorie de produits dans le SI</li><li>Obtenir la liste des catégories de produits du SI</li><li>Obtenir la liste de catégories de produits filtrée avec le nom de produit qui `match` avec le `pattern` fourni</li></ul>_|
 |**Gestion de la Sécurité**|_<ul><li>Gérer l'Authentification : qui permet de confirmer ou valider l'identité du client/l’utilisateur qui tente d’accéder au système d'informations</li><li>Gérer l'Autorisation (protection des ressources) : permet d’octroyer au client/l’utilisateur l’accès au système d’informations, donc aux ressources</li></ul>_|
 
 ### Les exigences non fonctionnelles 
@@ -73,26 +73,24 @@ Elle comporte les éléments suivants :
 
 ![DAAT](./docs/images/architecture-applicative-technique-globale.png "Diagrammme Architecture Applicatif et Technique")
 
-## Use Case 'Ajouter un nouvel utilisateur dans le SI'
+## Use Case `Ajouter un nouvel utilisateur dans le SI`
 Le principe de fonctionnement de l'ajout dans le SI des informations d'un nouvel utilisateur, est présenté par le diagramme de séquences ci-dessous :
 ![DS](./docs/images/fonct-global-enregistrer.png "Diagramme de séquences Ajout nouvel utilisateur")
 
-## Use Case 'Se Connecter à l'application'
+## Use Case `Se Connecter à l'application`
 Le principe de fonctionnement de la connexion au SI d'un utilisateur avec ses informations, est présenté par le diagramme de séquences ci-dessous :
 ![DS](./docs/images/fonct-global-se-connecter.png "Diagramme de séquences Connexion Utilisateur")
 
-## Accès aux ressources de l'application
+## Use Case `Accès aux ressources de l'application`
 Une vue macroscopique du fonctionnement global de l'application pour l'accès à ses ressources est fournie par le diagramme de séquences ci-dessous. Il est composé de deux principales phases:
 - La demande et obtention des jetons d'accès après s'être authentifié
 - L'accès proprement dit aux ressources de l'application avec le jeton d'accès.
 
 ![DS](./docs/images/fonct-global-acces_resources-protegees.png "Diagramme de séquences du fonctionnement global Accès aux ressources")
 
-
 ## Modèles et Schémas de données
 Les modèles fournis sont relatifs au *_*métier_**. Le diagramme de classes ci-dessous présente les relations entre les entités de gestion de la partie métier de l'application.
 ![DC](./docs/images/modele-donnees-metier_vfinale.png "Diagramme de Classes des objets de gestion de l'identification des utilisateurs")
-
 
 # Stack Technique
 Une liste non exhaustive des technos embarquées pour le développment de cette application :
@@ -104,26 +102,28 @@ Une liste non exhaustive des technos embarquées pour le développment de cette 
 ![](https://img.shields.io/badge/JWT-✓-blue.svg)
 ![](https://img.shields.io/badge/Jpa_2-✓-blue.svg)
 ![](https://img.shields.io/badge/Hibernate_5-✓-blue.svg)
+![](https://img.shields.io/badge/Model_Mapper-✓-blue.svg)
 ![](https://img.shields.io/badge/Flyway-✓-blue.svg)
+![](https://img.shields.io/badge/Angular_11-✓-blue.svg)
 ![](https://img.shields.io/badge/Docker-✓-blue.svg)
 ![](https://img.shields.io/badge/Swagger_3-✓-blue.svg)
-![](https://img.shields.io/badge/Model_Mapper-✓-blue.svg)
 ![](https://img.shields.io/badge/EhCache-✓-blue.svg)
 ![](https://img.shields.io/badge/Lombok-✓-blue.svg)
 ![](https://img.shields.io/badge/SonarLint-✓-blue.svg)
-![](https://img.shields.io/badge/Angular-✓-blue.svg)
 
-- C'est un projet `Maven` avec `Spring Boot`
-- Il utilise `Spring Security`, `JWT`, pour la sécurisation des échanges (production de jetons, authentification et autorisation).
-- Il offre une configuration permettant d'utiliser `H2`/`MariaDB`/`PostgreSQL` comme base de données aussi bien pour les Tests Unitaires que d'Intégration et de production.
-- Il utilise `Angular JS` pour l'interface utilisateur (le Clent Web).
-- Il utilise `SonarLint` pour la qualité du code (_bonnes pratiques de développement_).
-- Il utilise `JPA / Hibernate` pour les concepts ORM et DAO.
-- Il utilise `Flyway` pour la migration de bases de données.
-- Il utilise `Docker` pour la containerisation.
-- Il utilise `Lombok` pour simplifier l'écriture des classes métiers (beans).
-- Il utilise `Swagger/OpenAPI 3` pour la documentation et tests de l'API.
-
+- C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage Java : 
+- `Java 11` est utilisé pour la compilation et cible pour l'environnement d'exécution.
+- `Java 8` pour le code source.
+- `Spring Security`, `JWT`, pour la sécuriser les échanges (production de jetons, authentification et autorisation).
+- `JPA / Hibernate` pour les concepts ORM et DAO.
+- `H2`ou `MariaDB` ou `PostgreSQL` configurations base de données pour les accès aux données, les TU, TI, ou cible pour l'environnement de production.
+- `Flyway` pour la migration de bases de données.
+- `Angular` pour le développment de l'interface utilisateur (le Clent Web).
+- `Docker` pour la containerisation.
+- `Lombok` pour simplifier l'écriture des classes métiers (beans).
+- `Swagger/OpenAPI 3` pour la documentation et tests de l'API.
+- `SonarLint` intégré dans l'IDE pour analyser la qualité du code (_bonnes pratiques de développement_).
+- `MoreUnit` intégré dans l'IDE pour 'taguer' les classes du code source qui sont couvertes par des TU.
 
 # Les Tests
 Les outils de tests classiques de Java Spring sont utilisés pour effectuer des tests.
@@ -136,13 +136,16 @@ Les outils de tests classiques de Java Spring sont utilisés pour effectuer des 
 ## Les Outils de Tests
 Les outils de tests proposés ou utilisées sont les suivants :
 - Outils de Tests de Spring Framework (spring-boot-starter-test) qui intègre:
-	- spring-test, spring-boot-test, spring-boot-test-autoconfigure
-	- JUnit 5
-	- Mockito
-	- Assertions avec Assert-J,…
-- Plugin JaCoCo maven (avec les plugin surefire et failsafe) pour produire le rapport de couverture de code.
-- Postman pour tester l'API
+	- `spring-test`, `spring-boot-test`, `spring-boot-test-autoconfigure`.
+	- `JUnit 5` pour l'écriture des classes des Tests Unitaires et d'intégration.
+	- `Mockito` pour les mocks.
+	- Assertions avec `Assert-J`,…
+- `Swagger`, `Postman` pour tester les fonctionnalités exposées par l'API.
+- Plugin `JaCoCo` maven (avec les plugin surefire et failsafe) pour produire le rapport de couverture de code.
 
 ## Rapport de couverture des tests
-La couverture des tests est mesurée et fournie par JaCoCo. L'image ci-dessous fournit la couverture du code de l'application à l'exception des objets de couche de modèle.
+La couverture des tests est mesurée et fournie par `JaCoCo`. L'image ci-dessous fournit la couverture du code de l'application à l'exception des objets de couche de modèle (objets métiers).
+TODO
+
+# Packaging et Livrables
 TODO
