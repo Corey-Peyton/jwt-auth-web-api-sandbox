@@ -112,6 +112,7 @@ Une liste non exhaustive des technos embarquées pour le développment de cette 
 ![](https://img.shields.io/badge/SonarLint-✓-blue.svg)
 
 - C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage Java : 
+- `EA` (Entreprise Architect) pour la fourniture des éléments de modélisation et conception  des spécifications globales fournie.
 - `Java 11` est utilisé pour la compilation et cible pour l'environnement d'exécution.
 - `Java 8` pour le code source.
 - `Spring Security`, `JWT`, pour sécuriser les échanges (production de jetons, authentification et autorisation).

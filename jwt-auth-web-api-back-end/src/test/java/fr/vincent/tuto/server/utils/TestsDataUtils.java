@@ -11,6 +11,8 @@
  */
 package fr.vincent.tuto.server.utils;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
@@ -56,16 +58,14 @@ public final class TestsDataUtils
     public static final String PRODUCT_NAME_TO_SEARCH = "TEFAL L2008902";
     public static final String PRODUCT_NAME_TO_SEARCH_LOWER_CASE = "tefal l2008902";
 
-  
-
     // Creation des produits : l'active est gérér dans le modèle métier pour la création
     // ECLETROMENAGER
-    final Product PRODUCT_1 = Product.builder().name("TEFAL L2008902")//
+    public final Product PRODUCT_1 = Product.builder().name("TEFAL L2008902")//
     .description("Batterie de cuisine 10 pièces Ingenio Essential - Tous feux sauf induction")//
     .quantity(5L).unitPrice(new BigDecimal("5.539")).price(new BigDecimal("55.39")).imageUrl(
     "img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg").build();
 
-    final Product PRODUCT_7 = Product.builder().name("PHILIPS FC8243/09 ")//
+    final Product PRODUCT_7 = Product.builder().name("PHILIPS FC8243/09")//
     .description("Aspirateur traîneau avec sac PowerGo - Suceur Plat Intégré - 750W - 77 dB - A - Rouge Sportif")//
     .quantity(1L).unitPrice(new BigDecimal("5.499")).price(new BigDecimal("54.99")).imageUrl(
     "img/philips-fc8243-09-aspirateur-traineau-avec-sac-pow.jpg").build();
@@ -76,7 +76,7 @@ public final class TestsDataUtils
     "img/lave-vaisselle-pose-libre-electrolux-esf8650row.jpg").build();
 
     // MEUBLE-DECO
-    final Product PRODUCT_2 = Product.builder().name("BARCELONE")//
+    public final Product PRODUCT_2 = Product.builder().name("BARCELONE")//
     .description("Canapé d'angle convertible 4 places + coffre de rangement - Tissu et simili Noir et Gris")//
     .quantity(1L).unitPrice(new BigDecimal("499.99")).price(new BigDecimal("499.99")).imageUrl(
     "img/barcelone-canape-d-angle-convertible-4-places-co.jpg").build();
@@ -108,7 +108,6 @@ public final class TestsDataUtils
     "img/legend-pack-guitare-type-stratocaster-black-mat.jpg").build();
 
     // INFORMATIQUE
-
     final Product PRODUCT_5 = Product.builder().name("OMEN HP PC Gamer")//
     .description("15,6\" FHD - AMD Ryzen 7 - RAM 16Go - Stockage 512Go SSD - GTX 1660Ti 6Go - Win 10 - AZERTY")//
     .quantity(1L).unitPrice(new BigDecimal("1219.99")).price(new BigDecimal("1219.99")).imageUrl(
@@ -155,8 +154,30 @@ public final class TestsDataUtils
         return products;
     }
 
+    public static void AssertAllProduct(final Product expected, final Product actual)
+    {
+        assertThat(actual.getId()).isEqualTo(expected.getId());
+        assertThat(actual.getName()).isEqualTo(expected.getName());
+        assertThat(actual.getDescription()).isEqualTo(expected.getDescription());
+        assertThat(actual.getUnitPrice()).isEqualTo(expected.getUnitPrice());
+        assertThat(actual.getQuantity()).isEqualTo(expected.getQuantity());
+        assertThat(actual.getPrice()).isEqualTo(expected.getPrice());
+        assertThat(actual.getImageUrl()).isEqualTo(expected.getImageUrl());
+    }
+
+    public static void AssertAllCategories(final Category expected, final Category actual)
+    {
+        assertThat(actual.getId()).isEqualTo(expected.getId());
+        assertThat(actual.getName()).isEqualTo(expected.getName());
+        assertThat(actual.getDescription()).isEqualTo(expected.getDescription());
+        assertThat(actual.getEnabled()).isEqualTo(expected.getEnabled());
+        assertThat(actual.getCategoryType()).isEqualTo(expected.getCategoryType());
+        assertThat(actual.getProducts()).isEqualTo(expected.getProducts());
+        assertThat(actual.getProducts().size()).isEqualTo(expected.getProducts().size());
+    }
+
     // GESTION DES CATEGORIES DE PRODUITS
-    private static final Set<Product> ELECTROS()
+    public static final Set<Product> ELECTROS()
     {
         final Set<Product> products = Sets.newHashSet();
         products.add(PRODUCT_1);

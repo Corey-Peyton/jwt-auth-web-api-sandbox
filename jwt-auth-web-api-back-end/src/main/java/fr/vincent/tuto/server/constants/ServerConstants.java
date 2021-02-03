@@ -11,11 +11,18 @@
  */
 package fr.vincent.tuto.server.constants;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.GrantedAuthority;
@@ -42,12 +49,11 @@ public final class ServerConstants
     public static final String HIBERNATE_CACHE_MANAGER = "hibernate.javax.cache.cache_manager";
     public static final String POINT_ROLES = ".roles";
     public static final String POINT_PRODUCTS = ".products";
-    
+
     public static final String USERS_BY_USERNAME_CACHE = "usersByUsername";
     public static final String USERS_BY_EMAIL_CACHE = "usersByEmail";
     public static final String ATTRIBUTE_PATHS = "roles";
-    
-    
+
     // Cross-Origin - CORS constants
     public static final String ALOW_ORIGIN = HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN;
     public static final String ORIGIN = "*";
@@ -137,6 +143,66 @@ public final class ServerConstants
         .collect(Collectors.toSet());
         return new User(pUser.getUsername(), pUser.getPassword(), grantedAuthorities);
     }
+
+    /**
+     * Gérer la casse lors de l'obtention de la liste filtrée sur les noms des produits dans l'applications.
+     * 
+     * @param pProduct les informations du produit dans le SI.
+     * @param pQuery   le pattern de rchrche sur le nom du produit.
+     * @return true si le nom contient le pattern, false sinon.
+     */
+    public static boolean isQueryMatch(final String pName, final String pQuery)
+    {
+        return StringUtils.isNotBlank(pName) && StringUtils.isNotBlank(pQuery) && (CONTAINS.apply(LOWER_CASE.apply(pName), LOWER_CASE.apply(pQuery)) || CONTAINS.apply(UPPER_CASE
+        .apply(pName), UPPER_CASE.apply(pQuery)));
+    }
+
+    /**
+     * Vérifier que le chaîne contient la sous-chaîne en ignorant la casse.
+     * 
+     * @param pSource la chaîne à vérifier.
+     * @param pQuery  la sous-chaîne.
+     * @return true si vrai, faux sinon.
+     */
+    public static boolean queryIgnorecase(final String pSource, final String pQuery)
+    {
+        return StringUtils.isNotBlank(pSource) && StringUtils.isNotBlank(pQuery) && StringUtils.containsIgnoreCase(pSource, pQuery);
+    }
+
+    /**
+     * @param pSource la chaîne à vérifier.
+     * @param pQuery  la sous-chaîne.
+     * @return
+     */
+    public static boolean strCaseInsentitive(final String pSource, final String pQuery)
+    {
+        return StringUtils.isNotBlank(pSource) //
+        && StringUtils.isNotBlank(pQuery)//
+        && (Pattern.compile(Pattern.quote(pQuery), Pattern.CASE_INSENSITIVE).matcher(pSource).find());
+    }
+
+    /**
+     * Convert Set to List.
+     * 
+     * @param <T>                  element type.
+     * @param pObjectListToBeBound a set to be converted.
+     * @return a list of element otherwise empty list.
+     */
+    public static <T> List<T> convertSetToList(final Set<T> pObjectSetToBeBound)
+    {
+        return Optional.ofNullable(pObjectSetToBeBound)//
+        .orElseGet(Collections::emptySet)//
+        .stream()//
+        .filter(Objects::nonNull)//
+        .collect(Collectors.toList());
+    }
+
+    // Fonctions
+    public static final Function<String, String> UPPER_CASE = String::toUpperCase;
+    public static final Function<String, String> LOWER_CASE = String::toLowerCase;
+    public static final Function<String, Boolean> IS_EMPTY = String::isEmpty;
+    public static final BiFunction<String, String, Boolean> CONTAINS = String::contains;
+    public static final BiFunction<String, String, Boolean> IGNORE_CASE = String::equalsIgnoreCase;
 
     /**
      * Convertit les autorités en une liste d'objets GrantedAuthority.

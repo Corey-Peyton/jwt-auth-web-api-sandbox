@@ -28,6 +28,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -74,12 +75,15 @@ public class Category extends AbstractPersistable<Long> implements Serializable
     @Column(name = "ID", updatable = false, nullable = false)
     private Long id; // identifiant technique auto-généré de l'objet en base.
 
+    @NotNull
     @Column(name = "NAME", nullable = false)
     private String name; // le nom de la catégorie de produit.
     
+    @NotNull
     @Column(name = "DESCRIPTION", nullable = false)
     private String description; // la description de la catégorie de produit.
     
+    @NotNull
     @Column(name = "ENABLED", nullable = false)
     private Boolean enabled; // indique si la catégorie est active ou non.
     
@@ -88,6 +92,7 @@ public class Category extends AbstractPersistable<Long> implements Serializable
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Product> products; // la liste des produits de la catégorie.
     
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "CATEGORY_TYPE", nullable = false)
     private CategoryTypeEnum categoryType;

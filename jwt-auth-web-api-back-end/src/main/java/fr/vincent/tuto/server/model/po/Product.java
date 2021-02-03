@@ -22,6 +22,7 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -67,24 +68,31 @@ public class Product extends AbstractPersistable<Long> implements Serializable
     @Column(name = "ID", updatable = false, nullable = false)
     private Long id; // identifiant technique auto-généré de l'objet en base.
 
+    @NotNull
     @Column(name = "NAME", nullable = false)
     private String name; // le nom du produit.
 
+    @NotNull
     @Column(name = "DESCRIPTION", nullable = false)
     private String description; // la description du produit.
 
+    @NotNull
     @Column(name = "QUANTITY", nullable = false)
     private Long quantity; // la quantité en stock pour le produit.
 
+    @NotNull
     @Column(name = "UNIT_PRICE", nullable = false)
     private BigDecimal unitPrice; // le prix unitaire du produit.
 
+    @NotNull
     @Column(name = "PRICE", nullable = false)
     private BigDecimal price; // le prix du produit.
 
+    @NotNull
     @Column(name = "IS_ACTIVE", nullable = false)
     private Boolean isActive; // indique si le produit est actif/disponible ou non
 
+    @NotNull
     @Column(name = "IMAGE_URL", nullable = false)
     private String imageUrl;
 
