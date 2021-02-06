@@ -151,7 +151,7 @@ public class CategoryService
     {
         log.info("[existsCategoryByName] - Indiquer l'existence d'une catégorie de produits. Nom : [{}].", pName);
 
-        return this.categoryDAO.existsByName(pName);
+        return  this.categoryDAO.existsByName(pName);
     }
 
     /**

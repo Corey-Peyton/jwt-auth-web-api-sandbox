@@ -185,6 +185,30 @@ public final class TestsDataUtils
         products.add(PRODUCT_4);
         return products;
     }
+    
+    public final Product PRODUCT_1_SAVED = Product.builder().id(8L).name("TEFAL L2008902")// 
+    .description("Batterie de cuisine 10 pièces Ingenio Essential - Tous feux sauf induction")//
+    .quantity(5L).unitPrice(new BigDecimal("5.539")).price(new BigDecimal("55.39")).imageUrl(
+    "img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg").build();
+
+    final Product PRODUCT_7_SAVED = Product.builder().id(18L).name("PHILIPS FC8243/09")//
+    .description("Aspirateur traîneau avec sac PowerGo - Suceur Plat Intégré - 750W - 77 dB - A - Rouge Sportif")//
+    .quantity(1L).unitPrice(new BigDecimal("5.499")).price(new BigDecimal("54.99")).imageUrl(
+    "img/philips-fc8243-09-aspirateur-traineau-avec-sac-pow.jpg").build();
+
+    final Product PRODUCT_4_SAVED = Product.builder().id(17L).name("Lave-vaisselle ELECTROLUX ESF8650ROW")//
+    .description("15 couverts - Largeur 60 cm - Classe A+++ - 44 dB - Blanc")//
+    .quantity(1L).unitPrice(new BigDecimal("439.99")).price(new BigDecimal("439.99")).imageUrl(
+    "img/lave-vaisselle-pose-libre-electrolux-esf8650row.jpg").build();
+    
+    public static final Set<Product> ELECTROS_SAVED()
+    {
+        final Set<Product> products = Sets.newHashSet();
+        products.add(PRODUCT_1_SAVED);
+        products.add(PRODUCT_7_SAVED);
+        products.add(PRODUCT_4_SAVED);
+        return products;
+    }
 
     public static final Category CATEGORY_1 = Category.builder().categoryType(CategoryTypeEnum.ELCETROMENAGER)//
     .name(CategoryTypeEnum.ELCETROMENAGER.getValue())//

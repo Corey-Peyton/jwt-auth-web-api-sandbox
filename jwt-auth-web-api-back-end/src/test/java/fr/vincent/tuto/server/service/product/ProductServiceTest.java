@@ -61,7 +61,7 @@ class ProductServiceTest
 {
     private static final String SEARCH_BY_NAME_MSG = "Erreur recherche des informations d'un produit par son nom";
     private static final String SEARCH_BY_ID_MSG = "Erreur recherche des informations d'un produit par identifiant";
-    private static final String SAVE_MSG ="Erreur lors de la sauvegarde en base de donnnées des informations d'un produits";
+    private static final String SAVE_MSG = "Erreur lors de la sauvegarde en base de donnnées des informations d'un produits";
 
     @MockBean
     private ProductDAO productDAO;
@@ -583,7 +583,7 @@ class ProductServiceTest
         when(this.productDAO.save(productToUpdated)).thenReturn(productToUpdated);
         when(this.productDAO.findById(id)).thenReturn(Optional.of(productToUpdated));
         final Optional<Product> productFromDB = this.productService.getProductById(id);
-        
+
         assertThat(productFromDB).isPresent();
 
         this.productService.updateProduct(productFromDB.get().getId(), productToUpdated);

@@ -22,7 +22,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +36,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import fr.vincent.tuto.common.exception.CustomAppException;
 import fr.vincent.tuto.common.service.props.DatabasePropsService;
@@ -54,14 +52,12 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
  * 
  * @author Vincent Otchoun
  */
-@Ignore
 @RunWith(SpringRunner.class)
 @TestPropertySource(value = { "classpath:back-end-db-test.properties", "classpath:back-end-application-test.properties" })
 @ContextConfiguration(name = "categoryServiceTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistanceConfig.class,
         ProductService.class, CategoryService.class })
 @SpringBootTest
 @ActiveProfiles("test")
-@Transactional
 class CategoryServiceTest
 {
     //
@@ -94,7 +90,6 @@ class CategoryServiceTest
         .categoryType(CategoryTypeEnum.ELCETROMENAGER)//
         .products(TestsDataUtils.ELECTROS())//
         .build();
-
     }
 
     /**
@@ -165,7 +160,7 @@ class CategoryServiceTest
     }
 
     @Test
-    void testGetCategoryById_()
+    void testGetCategoryById_ShouldThrowException()
     {
         final Optional<Category> optional = Optional.ofNullable(TestsDataUtils.CATEGORY_1);
 
@@ -179,7 +174,6 @@ class CategoryServiceTest
         final Exception exception = assertThrows(CustomAppException.class, () -> {
             this.categoryService.getCategoryById(id);
         });
-
         final String expectedMessage = SEARCH_BY_ID_MSG;
         final String actualMessage = exception.getMessage();
 
@@ -227,7 +221,6 @@ class CategoryServiceTest
         final Exception exception = assertThrows(CustomAppException.class, () -> {
             this.categoryService.getCategoryByName(name);
         });
-
         final String expectedMessage = SEARCH_BY_NAME_MSG;
         final String actualMessage = exception.getMessage();
 
@@ -277,7 +270,6 @@ class CategoryServiceTest
         final Exception exception = assertThrows(CustomAppException.class, () -> {
             this.categoryService.getCategoryByNameIgnoreCase(upperName);
         });
-
         final String expectedMessage = SEARCH_BY_NAME_MSG;
         final String actualMessage = exception.getMessage();
 

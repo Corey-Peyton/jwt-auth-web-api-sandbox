@@ -56,13 +56,23 @@ Le tableau ci-dessous dresse une liste non exhaustive des exigences non fonction
 
 ### Le Client (Front-end)
 A la lumière de tout ce qui est présenté ci-dessus, l'interface utilisateur doit permettre :
-- Se Connecter à l'application/ Se Déconnecter de l'application,
-- Ajouter/Inscrire un nouvel utilisateur dans le SI,
-- Visualiser les informations des utilisateurs. 
-- Modifier les informations d'un utilisateur.
-- Supprimer les informations d'un utilisateur.
-	
-**NB** : cette liste n'est pas exhaustive, elle peut être amenée à évoluer.
+- _Pour les utilisateurs_ :
+	- Se Connecter/Déconnecter de l'application,
+	- Ajouter/Inscrire un nouvel utilisateur dans le SI,
+	- Visualiser les informations des utilisateurs. 
+	- Modifier les informations d'un utilisateur.
+	- Supprimer les informations d'un utilisateur.
+- _Pour les catégories de produits_ :
+	- Ajouter les informations d'une nouvelle catégorie de produits.
+	- Ajouter les information d'un produit à une catégorie de produits.
+	- Mettre à jour les informations d'une catégorie de produits.
+	- Réchercher les information d'une catégorie de produits (soit par son dientiant, par son nom, ...).
+	- Supprimmer du SI les informations d'une catégorie de produits.	
+- _Pour les produits_ :
+	- Ajouter les informations d'un nouveau produit dans le SI.
+	- Mettre à jour les informations d'un produit existant dans le SI.
+	- Réchercher les information d'un produit (soit par son dientiant, par son nom, ...).
+	- Supprimer du SI les inforamtions d'un produit.
 
 ## Architecture Applicative et Technique Globale 
 Le diagramme ci-dessous fournit une vision globale des flux d'échanges entre l'application et les acteurs du système et(ou) briques/composants applicatifs.
@@ -112,7 +122,7 @@ Une liste non exhaustive des technos embarquées pour le développment de cette 
 ![](https://img.shields.io/badge/SonarLint-✓-blue.svg)
 
 - C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage Java : 
-- `EA` (Entreprise Architect) pour la fourniture des éléments de modélisation et conception  des spécifications globales fournie.
+- `EA` (Entreprise Architect) pour la fourniture des éléments de modélisation et conception des spécifications globales fournies.
 - `Java 11` est utilisé pour la compilation et cible pour l'environnement d'exécution.
 - `Java 8` pour le code source.
 - `Spring Security`, `JWT`, pour sécuriser les échanges (production de jetons, authentification et autorisation).

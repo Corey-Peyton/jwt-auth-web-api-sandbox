@@ -36,11 +36,20 @@ VALUES
 /* Insertion dans la table T_CATEGORIES_T_PRODUCTS */
 INSERT INTO T_CATEGORIES_T_PRODUCTS (CATEGORY_ID, PRODUCTS_ID) 
 VALUES
-	(7, 8),
-	(9, 10),
-	(11, 12),
-	(13, 14),
-	(15, 16);
+	(7, 8), -- ELCETROMENAGER
+	(7, 17), 
+	(7, 18), 
+	(9, 10), -- MEUBLES-DECO
+	(9, 19), 
+	(9, 20), 		
+	(11, 12), -- SON 
+	(11, 21), 
+	(11, 22),  
+	(13, 14), -- INFORMATIQUE
+	(13, 23), 
+	(13, 24), 	
+	(15, 16), -- TELEPHONIE
+	(15, 25); 
 
 /* Insertion dans la table T_USERS */
 INSERT INTO T_USERS (ID, ACCOUNT_EXPIRED, ACCOUNT_LOCKED, CREATED_TIME, CREDENTIALS_EXPIRED, EMAIL, ENABLED, USER_PASSWORD, UPDATED_TIME, USER_NAME, OPTLOCK) 
@@ -60,6 +69,6 @@ VALUES
 	(3, 0),
 	(4, 0),
 	(5, 0),
-	(6, 0),
-	(6, 2); -- role moderateur
+	(6, 0), -- role moderateur
+	(6, 2); 
 	

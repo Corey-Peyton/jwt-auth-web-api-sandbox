@@ -510,19 +510,19 @@ class ProductServiceIT
 
         assertThat(savedProduct).isNotNull();
         assertThat(savedProduct.getId()).isPositive();
-        
+
         final Long id = savedProduct.getId();
-        
+
         // Suppression du produit
         this.productService.deleteProduct(id);
-        
+
         final List<Product> products = (List<Product>) this.productService.getProducts();
 
         assertThat(products).isNotEmpty();
         assertThat(products.size()).isEqualTo(14); // Le fichier data-test-h2.sql d'insertion d'enregistrements dans la table T_PRODUCTS contient déjà
                                                    // 14 enregistrements.
     }
-    
+
     @Test
     void testDeleteProduct_WithNotExistId()
     {
@@ -543,7 +543,7 @@ class ProductServiceIT
     void testDeleteProduct_WithNull()
     {
         final Exception exception = assertThrows(CustomAppException.class, () -> {
-            // Suppression 
+            // Suppression
             this.productService.deleteProduct(null);
         });
 
@@ -566,9 +566,9 @@ class ProductServiceIT
 
         assertThat(optional).isPresent();
         final Product product = optional.get();
-        product.setName("L2008902 Test"); 
-        product.setDescription("Batterie de cuisine 10 pièces L2008902"); 
-        
+        product.setName("L2008902 Test");
+        product.setDescription("Batterie de cuisine 10 pièces L2008902");
+
         final Long id = product.getId();
         this.productService.updateProduct(id, product);
 
@@ -582,7 +582,7 @@ class ProductServiceIT
         assertThat(product.getQuantity()).isEqualTo(5L);
         assertThat(product.getUnitPrice()).isEqualTo(new BigDecimal("5.54"));
     }
-    
+
     @Test
     void testUpdateProduct_WithNotExistId()
     {
@@ -598,8 +598,7 @@ class ProductServiceIT
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
     }
-    
-    
+
     @Test
     void testUpdateProduct_WithNullId()
     {
@@ -613,7 +612,7 @@ class ProductServiceIT
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
     }
-    
+
     @Test
     void testUpdateProduct_WithNull()
     {
