@@ -56,23 +56,23 @@ Le tableau ci-dessous dresse une liste non exhaustive des exigences non fonction
 
 ### Le Client (Front-end)
 A la lumière de tout ce qui est présenté ci-dessus, l'interface utilisateur doit permettre :
-- _Pour les utilisateurs_ :
-	- Se Connecter/Déconnecter de l'application,
-	- Ajouter/Inscrire un nouvel utilisateur dans le SI,
-	- Visualiser les informations des utilisateurs. 
-	- Modifier les informations d'un utilisateur.
+- **Pour les utilisateurs** :
+	- _Se Connecter/Déconnecter de l'application_,
+	- _Ajouter/Inscrire un nouvel utilisateur dans le SI_,
+	- _Visualiser les informations des utilisateurs_, 
+	- _Modifier les informations d'un utilisateur_,
 	- Supprimer les informations d'un utilisateur.
-- _Pour les catégories de produits_ :
-	- Ajouter les informations d'une nouvelle catégorie de produits.
-	- Ajouter les information d'un produit à une catégorie de produits.
-	- Mettre à jour les informations d'une catégorie de produits.
-	- Réchercher les information d'une catégorie de produits (soit par son dientiant, par son nom, ...).
-	- Supprimmer du SI les informations d'une catégorie de produits.	
-- _Pour les produits_ :
-	- Ajouter les informations d'un nouveau produit dans le SI.
-	- Mettre à jour les informations d'un produit existant dans le SI.
-	- Réchercher les information d'un produit (soit par son dientiant, par son nom, ...).
-	- Supprimer du SI les inforamtions d'un produit.
+- **Pour les catégories de produits** :
+	- _Ajouter les informations d'une nouvelle catégorie de produits_,
+	- _Ajouter les information d'un produit à une catégorie de produits_,
+	- _Mettre à jour les informations d'une catégorie de produits_,
+	- _Réchercher les information d'une catégorie de produits (soit par son dientiant, par son nom, ...)_,
+	- _Supprimmer du SI les informations d'une catégorie de produits_.	
+- **Pour les produits** :
+	- _Ajouter les informations d'un nouveau produit dans le SI_,
+	- _Mettre à jour les informations d'un produit existant dans le SI_,
+	- _Réchercher les information d'un produit (soit par son dientiant, par son nom, ...)_,
+	- _Supprimer du SI les inforamtions d'un produit_.
 
 ## Architecture Applicative et Technique Globale 
 Le diagramme ci-dessous fournit une vision globale des flux d'échanges entre l'application et les acteurs du système et(ou) briques/composants applicatifs.
@@ -157,7 +157,9 @@ Les outils de tests proposés ou utilisées sont les suivants :
 
 ## Rapport de couverture des tests
 La couverture des tests est mesurée et fournie par `JaCoCo`. L'image ci-dessous fournit la couverture du code de l'application à l'exception des objets de couche de modèle (objets métiers).
-TODO
+
+La copie d'écran ci-dessous fournit l'image de la couverture des tests lors des 1ères phases de développement du back-end.
+![JaCoCo Tests Coverage Report](./docs/images/tests_coverage_report.png "JaCoCo Tests Coverage Report")
 
 # Packaging et Livrables
 TODO
