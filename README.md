@@ -1,4 +1,7 @@
-# Products Management Secure Web REST API    ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?branch=develop)
+# Products Management Secure Web REST API    
+
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?branch=develop)
+![GitLab last commit](https://img.shields.io/github/last-commit/oviok-group/jwt-auth-web-api-sandbox)
 
 `My Products` est une application Web sécurisée de gestion de produits avec leur catégorie (`service Web RESTFul Sécurisé`) écrit en **Java** et embarque **Spring** avec d'autres technologies non seulement pour l'intégration des différents composants applicatifs
 mais également la sécurisation des ressources de l'application.  Il fournit principalement :
@@ -55,7 +58,7 @@ Le tableau ci-dessous dresse une liste non exhaustive des exigences non fonction
 |**Exigences non fonctionnelles**|_<ul><li>Gérer les logs</li><li>Gérer les erreurs/exceptions</li><li>Gérer les accès à la base de données</li><li>Gérer la migration des scripts de base de données (création de schémas, insertion, mise à jour de tables ou de données ...) avec **Flyway**</li></ul>_|
 
 ### Le Client (Front-end)
-A la lumière de tout ce qui est présenté ci-dessus, l'interface utilisateur doit permettre :
+A la lumière de tout ce qui est présenté ci-dessus, l'interface utilisateur doit permettre selon le rôle (les droits de l'utilisateurs) :
 - **Pour les utilisateurs** :
 	- _Se Connecter/Déconnecter de l'application_,
 	- _Ajouter/Inscrire un nouvel utilisateur dans le SI_,
@@ -112,6 +115,10 @@ Une liste non exhaustive des technos embarquées pour le développment de cette 
 ![](https://img.shields.io/badge/JWT-✓-blue.svg)
 ![](https://img.shields.io/badge/Jpa_2-✓-blue.svg)
 ![](https://img.shields.io/badge/Hibernate_5-✓-blue.svg)
+![](https://img.shields.io/badge/H2-✓-blue.svg)
+![](https://img.shields.io/badge/MariaDB-✓-blue.svg)
+![](https://img.shields.io/badge/PostgreSQL_12-✓-blue.svg)
+![](https://img.shields.io/badge/PJunit_5-✓-blue.svg)
 ![](https://img.shields.io/badge/Model_Mapper-✓-blue.svg)
 ![](https://img.shields.io/badge/Flyway-✓-blue.svg)
 ![](https://img.shields.io/badge/Angular_11-✓-blue.svg)
@@ -123,22 +130,22 @@ Une liste non exhaustive des technos embarquées pour le développment de cette 
 
 - C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage Java : 
 - `EA` (Entreprise Architect) pour la fourniture des éléments de modélisation et conception des spécifications globales fournies.
-- `Java 11` est utilisé pour la compilation et cible pour l'environnement d'exécution.
-- `Java 8` pour le code source.
+- `Java 11` est utilisé pour la compilation et cible pour l'environnement d'exécution. Le code source est en partie en `Java 8` pour le code source.
 - `Spring Security`, `JWT`, pour sécuriser les échanges (production de jetons, authentification et autorisation).
 - `JPA / Hibernate` pour les concepts ORM et DAO.
-- `H2`ou `MariaDB` ou `PostgreSQL` configurations base de données pour les accès aux données, les TU, TI, ou cible pour l'environnement de production.
+- `H2`, `MariaDB`, `PostgreSQL` configurations base de données pour les accès aux données, les TU, TI, ou cible pour l'environnement de production.
 - `Flyway` pour la migration de bases de données.
 - `EhCache` pour optimiser les accès aux données.
 - `Angular` pour le développment de l'interface utilisateur (le Clent Web).
 - `Docker` pour la containerisation.
 - `Lombok` pour simplifier l'écriture des classes métiers (beans).
 - `Swagger/OpenAPI 3` pour la documentation et tests de l'API.
-- `SonarLint` intégré dans l'IDE pour analyser la qualité du code (_bonnes pratiques de développement_).
-- `MoreUnit` intégré dans l'IDE pour 'taguer' les classes du code source qui sont couvertes par des TU.
+- `JUnit 5 8` pour l'écriture des codes sources des classes unitaires et d'intégration.
+- `SonarLint` intégré dans l'IDE (_STS_) pour `analyser la qualité du code` livré, poussé dans le `repository` (_bonnes pratiques de développement_).
+- `MoreUnit` intégré dans l'IDE (_STS_) pour `taguer` les classes du code source couvertes par des TU.
 
 # Les Tests
-Les outils de tests classiques de Java Spring sont utilisés pour effectuer des tests.
+Les outils de tests classiques de **Java** et **Spring** sont utilisés pour effectuer des tests.
 
 ## Les Types de Tests
 - _Tests unitaires_
