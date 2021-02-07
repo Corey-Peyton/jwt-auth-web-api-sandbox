@@ -189,7 +189,7 @@ class UserDAOTest
     @Test
     void testFindOneWithRolesById()
     {
-        final Optional<User> optional = this.userDAO.findOneWithRolesById(3L);
+        final Optional<User> optional = this.userDAO.findOneWithRolesById(30L);
 
         assertThat(optional).isPresent();
     }
@@ -333,8 +333,6 @@ class UserDAOTest
 
         String expectedMessage = "Value must not be null!;";
         String actualMessage = exception.getMessage();
-
-        // System.err.println(">>>Le message d'erreur est : \n"+actualMessage);
 
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);

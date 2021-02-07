@@ -67,6 +67,10 @@ public final class ServerConstants
     public static final String REQUEST_METHOD = HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD;
     public static final String REQUEST_HEADER = HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS;
     public static final String OPTIONS_METHODS = "OPTIONS";
+    
+    
+    public static final String CET_DATE_FORMAT_WITHOUT_TIMEZONE_TEXT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+    public static final String APP_DATE_TIME_ISO_FORMAT="yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
 
     // REGEX ET PATTERNS
     public static final Pattern UUID_PATTERN = AppConstants.UUID_PATTERN;

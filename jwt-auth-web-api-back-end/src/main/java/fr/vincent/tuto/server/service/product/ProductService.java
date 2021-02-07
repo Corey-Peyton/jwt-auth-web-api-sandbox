@@ -51,12 +51,12 @@ public class ProductService
     /**
      * Constructeur avec injection du DAO des opérations de gestion des produits dans le SI.
      * 
-     * @param productDAO opérations de gestion des produits dans le SI.
+     * @param pProductDAO le dépôt Spring Data JPA pour l'entité {@link Product}.
      */
     @Autowired
-    public ProductService(ProductDAO productDAO)
+    public ProductService(final ProductDAO pProductDAO)
     {
-        this.productDAO = productDAO;
+        this.productDAO = pProductDAO;
     }
 
     /**
@@ -65,7 +65,7 @@ public class ProductService
      * @param pProduct les informations du produit à enregistrer.
      * @return les informations du produit enregistré.
      */
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR')")
     public Product createProduct(Product pProduct)
     {
         log.info("[createProduct] - Enregistrer les informations d'un produit en base de données.");
@@ -126,7 +126,7 @@ public class ProductService
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
     public Optional<Product> getProductByNameIgnoreCase(String pName)
     {
-        log.info("[getProductByName] - Rechercher les informations d'un produit ignorant la casse avec le nom : [{}].", pName);
+        log.info("[getProductByName] - Rechercher les informations d'un produit ignorant la casse avec le nom. Nom : [{}].", pName);
 
         return Optional.ofNullable(this.productDAO.findOneByNameIgnoreCase(pName))//
         .filter(Optional::isPresent)//
@@ -143,7 +143,7 @@ public class ProductService
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
     public Boolean existsProductByName(String pName)
     {
-        log.info("[existsProductByName] - Indiquer l'existence d'un produit à partir de son nom. ");
+        log.info("[existsProductByName] - Indiquer l'existence d'un produit à partir de son nom. Nom : [{}]", pName);
 
         return this.productDAO.existsByName(pName);
     }
@@ -223,7 +223,7 @@ public class ProductService
      * 
      * @param pProductId identifiant du produit à supprimer du SI.
      */
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR')")
     public void deleteProduct(Long pProductId)
     {
         log.info("[deleteProduct] - Supprimer les informations d'un produit du SI. Identifiant du produit à supprimer : [{}].", pProductId);
@@ -245,7 +245,7 @@ public class ProductService
      * @param pProductId identifiant du produit à mettre à jour.
      * @param pProduct   les informations du produit à mettre à jour.
      */
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR')")
     public void updateProduct(Long pProductId, Product pProduct)
     {
         log.info("[updateProduct] - Mettre à jour les informations du produit. Identifiant du produit à mettre à jour : [{}].", pProductId);

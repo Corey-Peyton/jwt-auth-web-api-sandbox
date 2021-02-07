@@ -118,8 +118,8 @@ class CategoryServiceTest
 
         assertThat(savedCategory).isNotNull();
         assertThat(savedCategory.getId()).isNotNull();
-        TestsDataUtils.AssertAllCategories(mockCategory, savedCategory);
-        verify(this.categoryDAO).save(any(Category.class));
+        TestsDataUtils.assertAllCategories(mockCategory, savedCategory);
+        verify(this.categoryDAO, times(1)).save(any(Category.class));
     }
 
     @Test
@@ -154,9 +154,9 @@ class CategoryServiceTest
         final Optional<Category> categoryFromDB = this.categoryService.getCategoryById(id);
 
         assertThat(categoryFromDB).isPresent();
-        TestsDataUtils.AssertAllCategories(category, categoryFromDB.get());
+        TestsDataUtils.assertAllCategories(category, categoryFromDB.get());
 
-        verify(this.categoryDAO).findById(any(Long.class));
+        verify(this.categoryDAO, times(1)).findById(any(Long.class));
     }
 
     @Test
@@ -201,9 +201,9 @@ class CategoryServiceTest
         final Optional<Category> categoryFromDB = this.categoryService.getCategoryByName(name);
 
         assertThat(categoryFromDB).isPresent();
-        TestsDataUtils.AssertAllCategories(category, categoryFromDB.get());
+        TestsDataUtils.assertAllCategories(category, categoryFromDB.get());
 
-        verify(this.categoryDAO).findOneByName(any(String.class));
+        verify(this.categoryDAO, times(1)).findOneByName(any(String.class));
     }
 
     @Test
@@ -249,9 +249,9 @@ class CategoryServiceTest
         final Optional<Category> categoryFromDB = this.categoryService.getCategoryByNameIgnoreCase(name);
 
         assertThat(categoryFromDB).isPresent();
-        TestsDataUtils.AssertAllCategories(category, categoryFromDB.get());
+        TestsDataUtils.assertAllCategories(category, categoryFromDB.get());
 
-        verify(this.categoryDAO).findOneByNameIgnoreCase(any(String.class));
+        verify(this.categoryDAO, times(1)).findOneByNameIgnoreCase(any(String.class));
     }
 
     @Test
@@ -299,7 +299,7 @@ class CategoryServiceTest
         assertThat(exist).isNotNull();
         assertThat(exist.booleanValue()).isTrue();
 
-        verify(this.categoryDAO).existsByName(any(String.class));
+        verify(this.categoryDAO, times(1)).existsByName(any(String.class));
     }
 
     @Test
@@ -318,7 +318,7 @@ class CategoryServiceTest
         assertThat(exist).isNotNull();
         assertThat(exist.booleanValue()).isFalse();
 
-        verify(this.categoryDAO).existsByName(any(String.class));
+        verify(this.categoryDAO, times(1)).existsByName(any(String.class));
     }
 
     @Test
@@ -395,7 +395,7 @@ class CategoryServiceTest
         assertThat(result).isNotNull();
         assertThat(result.size()).isPositive();
 
-        verify(this.categoryDAO).findAllByEnabled(any(Boolean.class));
+        verify(this.categoryDAO, times(1)).findAllByEnabled(any(Boolean.class));
     }
 
     @Test
@@ -409,7 +409,7 @@ class CategoryServiceTest
         assertThat(result).isNotNull();
         assertThat(result.size()).isNotPositive();
 
-        verify(this.categoryDAO).findAllByEnabled(any(Boolean.class));
+        verify(this.categoryDAO, times(1)).findAllByEnabled(any(Boolean.class));
     }
 
     /**
@@ -525,13 +525,13 @@ class CategoryServiceTest
         final Optional<Category> categoryFromDB = this.categoryService.getCategoryById(id);
 
         assertThat(categoryFromDB).isPresent();
-        TestsDataUtils.AssertAllCategories(category, categoryFromDB.get());
+        TestsDataUtils.assertAllCategories(category, categoryFromDB.get());
 
         this.categoryService.deleteCategory(id);
 
         //
         verify(this.categoryDAO, times(2)).findById(any(Long.class));
-        verify(this.categoryDAO).delete(any(Category.class));
+        verify(this.categoryDAO, times(1)).delete(any(Category.class));
     }
 
     @Test
@@ -588,7 +588,7 @@ class CategoryServiceTest
         assertThat(categoryToUpdated.getName()).isEqualTo("Maj du Nom");
         assertThat(categoryToUpdated.getDescription()).contains("Maj de la description");
 
-        verify(this.categoryDAO).save(any(Category.class));
+        verify(this.categoryDAO, times(1)).save(any(Category.class));
         verify(this.categoryDAO, times(2)).findById(any(Long.class));
     }
 
@@ -647,6 +647,8 @@ class CategoryServiceTest
 
         assertThat(products).isNotNull();
         assertThat(products.size()).isEqualTo(2);
+
+        verify(this.categoryDAO, times(1)).findById(any(Long.class));
     }
 
     @Test
@@ -678,6 +680,8 @@ class CategoryServiceTest
 
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
+
+        verify(this.categoryDAO, times(1)).findById(any(Long.class));
     }
 
     @Test
@@ -704,5 +708,7 @@ class CategoryServiceTest
 
         assertThat(products).isNotNull();
         assertThat(products.size()).isNotPositive();
+
+        verify(this.categoryDAO, times(1)).findById(any(Long.class));
     }
 }

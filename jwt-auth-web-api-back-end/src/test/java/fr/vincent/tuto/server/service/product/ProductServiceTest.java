@@ -113,8 +113,8 @@ class ProductServiceTest
 
         assertThat(savedProduct).isNotNull();
         assertThat(savedProduct.getId()).isNotNull();
-        TestsDataUtils.AssertAllProduct(mockProduct, savedProduct);
-        verify(this.productDAO).save(any(Product.class));
+        TestsDataUtils.assertAllProduct(mockProduct, savedProduct);
+        verify(this.productDAO, times(1)).save(any(Product.class));
     }
 
     @Test
@@ -148,9 +148,9 @@ class ProductServiceTest
         final Optional<Product> productFromDB = this.productService.getProductById(id);
 
         assertThat(productFromDB).isPresent();
-        TestsDataUtils.AssertAllProduct(product, productFromDB.get());
+        TestsDataUtils.assertAllProduct(product, productFromDB.get());
 
-        verify(this.productDAO).findById(any(Long.class));
+        verify(this.productDAO, times(1)).findById(any(Long.class));
     }
 
     @Test
@@ -194,9 +194,9 @@ class ProductServiceTest
         final Optional<Product> productFromDB = this.productService.getProductByName(name);
 
         assertThat(productFromDB).isPresent();
-        TestsDataUtils.AssertAllProduct(product, productFromDB.get());
+        TestsDataUtils.assertAllProduct(product, productFromDB.get());
 
-        verify(this.productDAO).findOneByName(any(String.class));
+        verify(this.productDAO, times(1)).findOneByName(any(String.class));
     }
 
     @Test
@@ -241,9 +241,9 @@ class ProductServiceTest
         final Optional<Product> productFromDB = this.productService.getProductByNameIgnoreCase(name.toUpperCase());
 
         assertThat(productFromDB).isPresent();
-        TestsDataUtils.AssertAllProduct(product, productFromDB.get());
+        TestsDataUtils.assertAllProduct(product, productFromDB.get());
 
-        verify(this.productDAO).findOneByNameIgnoreCase(any(String.class));
+        verify(this.productDAO, times(1)).findOneByNameIgnoreCase(any(String.class));
     }
 
     @Test
@@ -290,7 +290,7 @@ class ProductServiceTest
         assertThat(exist).isNotNull();
         assertThat(exist.booleanValue()).isTrue();
 
-        verify(this.productDAO).existsByName(any(String.class));
+        verify(this.productDAO, times(1)).existsByName(any(String.class));
     }
 
     @Test
@@ -309,7 +309,7 @@ class ProductServiceTest
         assertThat(exist).isNotNull();
         assertThat(exist.booleanValue()).isFalse();
 
-        verify(this.productDAO).existsByName(any(String.class));
+        verify(this.productDAO, times(1)).existsByName(any(String.class));
     }
 
     @Test
@@ -345,7 +345,7 @@ class ProductServiceTest
         assertThat(result.getTotalPages()).isEqualTo(1); // Le nombre total de pages
         assertThat(result.getContent().size()).isEqualTo(14); // La taille du contenu
 
-        verify(this.productDAO).findAllByIsActive(any(Boolean.class), any(Pageable.class));
+        verify(this.productDAO, times(1)).findAllByIsActive(any(Boolean.class), any(Pageable.class));
     }
 
     @Test
@@ -368,7 +368,7 @@ class ProductServiceTest
         assertThat(result.getTotalPages()).isEqualTo(1); // Le nombre total de pages
         assertThat(result.getContent().size()).isNotPositive(); // La taille du contenu
 
-        verify(this.productDAO).findAllByIsActive(any(Boolean.class), any(Pageable.class));
+        verify(this.productDAO, times(1)).findAllByIsActive(any(Boolean.class), any(Pageable.class));
     }
 
     /**
@@ -386,7 +386,7 @@ class ProductServiceTest
         assertThat(result).isNotNull();
         assertThat(result.size()).isPositive();
 
-        verify(this.productDAO).findAllByIsActive(any(Boolean.class));
+        verify(this.productDAO, times(1)).findAllByIsActive(any(Boolean.class));
     }
 
     @Test
@@ -400,7 +400,7 @@ class ProductServiceTest
         assertThat(result).isNotNull();
         assertThat(result.size()).isNotPositive();
 
-        verify(this.productDAO).findAllByIsActive(any(Boolean.class));
+        verify(this.productDAO, times(1)).findAllByIsActive(any(Boolean.class));
     }
 
     /**
@@ -530,13 +530,13 @@ class ProductServiceTest
         final Optional<Product> productFromDB = this.productService.getProductById(id);
 
         assertThat(productFromDB).isPresent();
-        TestsDataUtils.AssertAllProduct(product, productFromDB.get());
+        TestsDataUtils.assertAllProduct(product, productFromDB.get());
 
         this.productService.deleteProduct(id);
 
         // qsds
         verify(this.productDAO, times(2)).findById(any(Long.class));
-        verify(this.productDAO).delete(any(Product.class));
+        verify(this.productDAO, times(1)).delete(any(Product.class));
     }
 
     @Test
@@ -592,7 +592,7 @@ class ProductServiceTest
         assertThat(productToUpdated.getName()).isEqualTo("Maj du Nom");
         assertThat(productToUpdated.getImageUrl()).contains("Image");
 
-        verify(this.productDAO).save(any(Product.class));
+        verify(this.productDAO, times(1)).save(any(Product.class));
         verify(this.productDAO, times(2)).findById(any(Long.class));
     }
 

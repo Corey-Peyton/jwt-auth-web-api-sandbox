@@ -14,6 +14,8 @@ package fr.vincent.tuto.server.utils;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,6 +41,7 @@ import lombok.experimental.UtilityClass;
 public final class TestsDataUtils
 {
     public static final String USER_ADMIN_USERNAME = "admin";
+    public static final String USER_MODERATEUR_USERNAME = "moderateur";
     public static final String ADMIN = "admin";
     public static final String TOKEN = "token";
     public static final String ANONYMOUS = "anonymous";
@@ -154,7 +157,7 @@ public final class TestsDataUtils
         return products;
     }
 
-    public static void AssertAllProduct(final Product expected, final Product actual)
+    public static void assertAllProduct(final Product expected, final Product actual)
     {
         assertThat(actual.getId()).isEqualTo(expected.getId());
         assertThat(actual.getName()).isEqualTo(expected.getName());
@@ -165,7 +168,7 @@ public final class TestsDataUtils
         assertThat(actual.getImageUrl()).isEqualTo(expected.getImageUrl());
     }
 
-    public static void AssertAllCategories(final Category expected, final Category actual)
+    public static void assertAllCategories(final Category expected, final Category actual)
     {
         assertThat(actual.getId()).isEqualTo(expected.getId());
         assertThat(actual.getName()).isEqualTo(expected.getName());
@@ -185,8 +188,8 @@ public final class TestsDataUtils
         products.add(PRODUCT_4);
         return products;
     }
-    
-    public final Product PRODUCT_1_SAVED = Product.builder().id(8L).name("TEFAL L2008902")// 
+
+    public final Product PRODUCT_1_SAVED = Product.builder().id(8L).name("TEFAL L2008902")//
     .description("Batterie de cuisine 10 pièces Ingenio Essential - Tous feux sauf induction")//
     .quantity(5L).unitPrice(new BigDecimal("5.539")).price(new BigDecimal("55.39")).imageUrl(
     "img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg").build();
@@ -200,7 +203,7 @@ public final class TestsDataUtils
     .description("15 couverts - Largeur 60 cm - Classe A+++ - 44 dB - Blanc")//
     .quantity(1L).unitPrice(new BigDecimal("439.99")).price(new BigDecimal("439.99")).imageUrl(
     "img/lave-vaisselle-pose-libre-electrolux-esf8650row.jpg").build();
-    
+
     public static final Set<Product> ELECTROS_SAVED()
     {
         final Set<Product> products = Sets.newHashSet();
@@ -349,6 +352,53 @@ public final class TestsDataUtils
         // .version(Integer.valueOf(0))//
         .build();
         return user;
+    }
+
+    public static User createUserWithSetFull(final Set<RoleEnum> pRoleEnums, final String pUsername, final String pPwd, final String pEmail)
+    {
+        // ACTIVE USER
+        final User user = User.builder()//
+        .username(pUsername)//
+        .password(pwdEncoder().encode(pPwd))//
+        .email(pEmail)//
+        .accountExpired(Boolean.FALSE)//
+        .accountLocked(Boolean.FALSE)//
+        .credentialsExpired(Boolean.FALSE)//
+        .enabled(Boolean.TRUE)//
+        .roles(pRoleEnums)//
+        .createdTime(LocalDateTime.now(ZoneId.systemDefault()))//
+        .updatedTime(LocalDateTime.now(ZoneId.systemDefault()))//
+        .build();
+        return user;
+    }
+
+    public static void assertAllUser(final User expected, final User actual)
+    {
+        assertThat(actual.getId()).isEqualTo(expected.getId());
+        assertThat(actual.getUsername()).isEqualTo(expected.getUsername());
+        assertThat(actual.getEmail()).isEqualTo(expected.getEmail());
+        assertThat(actual.getPassword()).isEqualTo(expected.getPassword());
+        assertThat(actual.getAccountExpired()).isEqualTo(expected.getAccountExpired());
+        assertThat(actual.getAccountLocked()).isEqualTo(expected.getAccountLocked());
+        assertThat(actual.getCredentialsExpired()).isEqualTo(expected.getCredentialsExpired());
+        assertThat(actual.getEnabled()).isEqualTo(expected.getEnabled());
+        assertThat(actual.getRoles()).isEqualTo(expected.getRoles());
+        assertThat(actual.getCreatedTime()).isEqualTo(expected.getCreatedTime());
+        assertThat(actual.getUpdatedTime()).isEqualTo(expected.getUpdatedTime());
+    }
+    
+
+    public static void assertAllUserWithoutTime(final User expected, final User actual)
+    {
+        assertThat(actual.getId()).isEqualTo(expected.getId());
+        assertThat(actual.getUsername()).isEqualTo(expected.getUsername());
+        assertThat(actual.getEmail()).isEqualTo(expected.getEmail());
+        assertThat(actual.getPassword()).isEqualTo(expected.getPassword());
+        assertThat(actual.getAccountExpired()).isEqualTo(expected.getAccountExpired());
+        assertThat(actual.getAccountLocked()).isEqualTo(expected.getAccountLocked());
+        assertThat(actual.getCredentialsExpired()).isEqualTo(expected.getCredentialsExpired());
+        assertThat(actual.getEnabled()).isEqualTo(expected.getEnabled());
+        assertThat(actual.getRoles()).isEqualTo(expected.getRoles());
     }
 
     private static BCryptPasswordEncoder pwdEncoder()

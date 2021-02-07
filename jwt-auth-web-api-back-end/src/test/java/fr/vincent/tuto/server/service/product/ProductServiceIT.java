@@ -102,6 +102,8 @@ class ProductServiceIT
     void testCreateProduct()
     {
         final Product savedProduct = this.productService.createProduct(this.product);
+        
+        System.err.println("Inditifnat du produit est :"+ savedProduct.getId()); 
 
         assertThat(savedProduct).isNotNull();
         assertThat(savedProduct.getId()).isPositive();

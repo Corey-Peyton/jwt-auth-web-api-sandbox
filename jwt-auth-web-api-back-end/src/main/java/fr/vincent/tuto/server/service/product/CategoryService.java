@@ -55,14 +55,14 @@ public class CategoryService
     /**
      * Constructuer avec injection des beans d'accès à la base de données.
      * 
-     * @param categoryDAO bean des opérations de gestion des catégories de produits.
-     * @param productDAO  bean des opérations de gestion des produits.
+     * @param pCategoryDAO le dépôt Spring Data JPA pour l'entité {@link Category}.
+     * @param pProductService  le service de gestion de  l'entité {@link Product}.
      */
     @Autowired
-    public CategoryService(CategoryDAO categoryDAO, ProductService productService)
+    public CategoryService(final CategoryDAO pCategoryDAO, final ProductService pProductService)
     {
-        this.categoryDAO = categoryDAO;
-        this.productService = productService;
+        this.categoryDAO = pCategoryDAO;
+        this.productService = pProductService;
     }
 
     /**
@@ -281,7 +281,7 @@ public class CategoryService
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
     public Collection<Product> addProduct(Long pCategoryId, Long pProductId)
     {
-        log.info("[addProduct] - Ajouter un nouveau produit à une catégorie existante.");
+        log.info("[addProduct] - Ajouter un nouveau produit à une catégorie existante. Catégorie -Produit : [{}]-[{}]", pCategoryId, pProductId);
 
         //
         final Optional<Category> categorieOptional = this.getCategoryById(pCategoryId);

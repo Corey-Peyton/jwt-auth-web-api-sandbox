@@ -38,6 +38,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -63,6 +65,7 @@ import lombok.experimental.FieldDefaults;
 @Entity
 @Table(name = "T_USERS")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+// @SequenceGenerator(name = "USER_SEQ_GENERATOR", sequenceName = "USER_SEQ", initialValue = 1, allocationSize = 1)
 @Getter // génère tous les getters sur les champs.
 @Setter // génère tous les setters sur les champs.
 @NoArgsConstructor // génère le constructeur sans arguments.
@@ -81,6 +84,7 @@ public class User extends AbstractPersistable<Long> implements Serializable
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ_GENERATOR")
     @Column(name = "ID", updatable = false, nullable = false)
     private Long id; // identifiant technique auto-généré de l'objet en base.
 
@@ -124,9 +128,11 @@ public class User extends AbstractPersistable<Long> implements Serializable
     private Set<RoleEnum> roles;
 
     @Column(name = " CREATED_TIME", insertable = true, updatable = false)
+    @DateTimeFormat(iso = ISO.DATE_TIME)
     private LocalDateTime createdTime; // horodatage pour la création de l'objet en base.
 
     @Column(name = "UPDATED_TIME", insertable = false, updatable = true)
+    @DateTimeFormat(iso =ISO.DATE_TIME )
     private LocalDateTime updatedTime; // horodatage pour la modification de l'objet en base.
 
     @JsonIgnore

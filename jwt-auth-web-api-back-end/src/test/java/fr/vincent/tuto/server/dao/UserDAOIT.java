@@ -191,7 +191,7 @@ class UserDAOIT
     @Test
     void testFindOneWithRolesById()
     {
-        final Optional<User> optional = this.userDAO.findOneWithRolesById(3L);
+        final Optional<User> optional = this.userDAO.findOneWithRolesById(30L);
 
         assertThat(optional).isPresent();
     }
