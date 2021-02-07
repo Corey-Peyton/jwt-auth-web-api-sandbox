@@ -3,6 +3,7 @@
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?branch=develop)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b7e6dd16f0c9616587df/maintainability)](https://codeclimate.com/github/gitlabhq/gitlab-ci/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b7e6dd16f0c9616587df/test_coverage)](https://codeclimate.com/github/gitlabhq/gitlab-ci/test_coverage)
+![GitLab code size in bytes](https://img.shields.io/github/gitlabhq/languages/code-size/oviok-group/jwt-auth-web-api-sandbox)
 
 `My Products` est une application Web sécurisée de gestion de produits avec leur catégorie (`service Web RESTFul Sécurisé`) écrit en **Java** et embarque **Spring** avec d'autres technologies non seulement pour l'intégration des différents composants applicatifs
 mais également la sécurisation des ressources de l'application.  Il fournit principalement :
