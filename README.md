@@ -116,8 +116,8 @@ Une liste non exhaustive des technos embarquées pour le développment de cette 
 ![](https://img.shields.io/badge/Hibernate_5-✓-blue.svg)
 ![](https://img.shields.io/badge/H2-✓-blue.svg)
 ![](https://img.shields.io/badge/MariaDB-✓-blue.svg)
-![](https://img.shields.io/badge/PostgreSQL_12-✓-blue.svg)
-![](https://img.shields.io/badge/PJunit_5-✓-blue.svg)
+![](https://img.shields.io/badge/PostgreSQL_10+-✓-blue.svg)
+![](https://img.shields.io/badge/Junit_5-✓-blue.svg)
 ![](https://img.shields.io/badge/Model_Mapper-✓-blue.svg)
 ![](https://img.shields.io/badge/Flyway-✓-blue.svg)
 ![](https://img.shields.io/badge/Angular_11-✓-blue.svg)
@@ -127,9 +127,9 @@ Une liste non exhaustive des technos embarquées pour le développment de cette 
 ![](https://img.shields.io/badge/Lombok-✓-blue.svg)
 ![](https://img.shields.io/badge/SonarLint-✓-blue.svg)
 
-- C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage Java : 
+- C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage **Java** : 
 - `EA` (Entreprise Architect) pour la fourniture des éléments de modélisation et conception des spécifications globales fournies.
-- `Java 11` est utilisé pour la compilation et cible pour l'environnement d'exécution. Le code source est en partie en `Java 8` pour le code source.
+- `Java 11` est utilisé pour la compilation et cible pour l'environnement d'exécution. Le code source est en partie en `Java 8`.
 - `Spring Security`, `JWT`, pour sécuriser les échanges (production de jetons, authentification et autorisation).
 - `JPA / Hibernate` pour les concepts ORM et DAO.
 - `H2`, `MariaDB`, `PostgreSQL` configurations base de données pour les accès aux données, les TU, TI, ou cible pour l'environnement de production.
@@ -138,10 +138,10 @@ Une liste non exhaustive des technos embarquées pour le développment de cette 
 - `Angular` pour le développment de l'interface utilisateur (le Clent Web).
 - `Docker` pour la containerisation.
 - `Lombok` pour simplifier l'écriture des classes métiers (beans).
-- `Swagger/OpenAPI 3` pour la documentation et tests de l'API.
-- `JUnit 5 8` pour l'écriture des codes sources des classes unitaires et d'intégration.
-- `SonarLint` intégré dans l'IDE (_STS_) pour `analyser la qualité du code` livré, poussé dans le `repository` (_bonnes pratiques de développement_).
-- `MoreUnit` intégré dans l'IDE (_STS_) pour `taguer` les classes du code source couvertes par des TU.
+- `Swagger 3.0.0 /OpenAPI` pour la documentation et tests de l'API.
+- `JUnit 5` pour l'écriture des codes sources des classes unitaires et d'intégration.
+- `SonarLint` intégré dans l'IDE (**_STS_**) pour `analyser la qualité du code` livré, poussé dans le `repository` (_bonnes pratiques de développement_).
+- `MoreUnit` intégré dans l'IDE (**_STS_**) pour `taguer` les classes du code source couvertes par des TU.
 
 # Les Tests
 Les outils de tests classiques de **Java** et **Spring** sont utilisés pour effectuer des tests.
