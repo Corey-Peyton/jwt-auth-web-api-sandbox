@@ -1,10 +1,6 @@
 # Products Management Secure Web REST API    
 
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?branch=develop)
-[![pipeline status](https://gitlab.com/oviok-group/jwt-auth-web-api-sandbox/badges/master/pipeline.svg)]
-![Coverage status] https://img.shields.io/gitlab/coverage/oviok-group/jwt-auth-web-api-sandbox/develop?gitlab_url=https%3A%2F%2Fgitlab.gnome.org&job_name=unit-test
-
-https://img.shields.io/gitlab/coverage/oviok-group/develop/develop?gitlab_url=https%3A%2F%2Fgitlab.com%2Foviok-group%2Fjwt-auth-web-api-sandbox&job_name=unit-test
 
 `My Products` est une application Web sécurisée de gestion de produits avec leur catégorie (`service Web RESTFul Sécurisé`) écrit en **Java** et embarque **Spring** avec d'autres technologies non seulement pour l'intégration des différents composants applicatifs
 mais également la sécurisation des ressources de l'application.  Il fournit principalement :
