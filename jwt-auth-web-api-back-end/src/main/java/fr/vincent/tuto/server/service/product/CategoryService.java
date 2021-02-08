@@ -157,7 +157,7 @@ public class CategoryService
     /**
      * Obtenir une liste paginée de catégories de produits selon l'état en base de données (actif ou non).
      * 
-     * @param categoryEnable état des catégories de produits à remonter.
+     * @param pCategoryEnable état des catégories de produits à remonter.
      * @param pPageable      pagination de la liste (index de la page, nombre d'éléments dans la page à retourner).
      * @return la liste paginée des catégories de produits correspondant.
      */
@@ -173,7 +173,7 @@ public class CategoryService
     /**
      * Obtenir une liste de catégories de produits selon l'état en base de données (actif ou non).
      * 
-     * @param categoryEnable état des catégories de produits à remonter.
+     * @param pCategoryEnable état des catégories de produits à remonter.
      * @return la liste de catégories de produits correspondant aux critères de recherche.
      */
     @Transactional(readOnly = true)
@@ -301,6 +301,6 @@ public class CategoryService
         categorie.setProducts(products);
         this.categoryDAO.save(categorie);
 
-        return ServerConstants.convertSetToList(products);
+        return ServerConstants.setToList(products);
     }
 }

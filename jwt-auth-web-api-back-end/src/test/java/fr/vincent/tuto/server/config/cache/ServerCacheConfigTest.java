@@ -42,20 +42,19 @@ import fr.vincent.tuto.server.config.db.PersistanceConfig;
 @RunWith(SpringRunner.class)
 @TestPropertySource(value = { "classpath:back-end-db-test.properties", "classpath:back-end-application-test.properties" })
 @ContextConfiguration(name = "backendApplicationStarter", classes = { BackEndServerRootConfig.class, DatabasePropsService.class,
-        PersistanceConfig.class,ServerCacheConfig.class })
+        PersistanceConfig.class, ServerCacheConfig.class })
 @SpringBootTest(classes = BackendApplicationStarter.class)
 @ActiveProfiles("test")
 class ServerCacheConfigTest
 {
     @Autowired
     private ApplicationPropsService propsService;
-    
+
     @Autowired
     private CacheManager cacheManager;
-    
+
     @Autowired
     private ServerCacheConfig serverCacheConfig;
-    
 
     /**
      * @throws java.lang.Exception
@@ -80,12 +79,13 @@ class ServerCacheConfigTest
     @Test
     void testJcacheConfiguration()
     {
-        final javax.cache.configuration.Configuration<Object, Object> jcacheConfiguration = this.serverCacheConfig.jcacheConfiguration(this.propsService);
-        
+        final javax.cache.configuration.Configuration<Object, Object> jcacheConfiguration = this.serverCacheConfig.jcacheConfiguration(
+        this.propsService);
+
         assertThat(jcacheConfiguration).isNotNull();
-        assertThat(jcacheConfiguration.getKeyType()).isExactlyInstanceOf(Class.class); 
+        assertThat(jcacheConfiguration.getKeyType()).isExactlyInstanceOf(Class.class);
         assertThat(jcacheConfiguration.getValueType()).isExactlyInstanceOf(Class.class);
-        assertThat(jcacheConfiguration.isStoreByValue()).isFalse(); 
+        assertThat(jcacheConfiguration.isStoreByValue()).isFalse();
     }
 
     /**
@@ -95,8 +95,8 @@ class ServerCacheConfigTest
     @Test
     void testHibernatePropertiesCustomizer()
     {
-       final HibernatePropertiesCustomizer hibernatePropertiesCustomizer = this.serverCacheConfig.hibernatePropertiesCustomizer(this.cacheManager);
-        
+        final HibernatePropertiesCustomizer hibernatePropertiesCustomizer = this.serverCacheConfig.hibernatePropertiesCustomizer(this.cacheManager);
+
         assertThat(hibernatePropertiesCustomizer).isNotNull();
     }
 
@@ -107,8 +107,8 @@ class ServerCacheConfigTest
     @Test
     void testCacheManagerCustomizer()
     {
-       final  JCacheManagerCustomizer cacheManagerCustomizer = this.serverCacheConfig.cacheManagerCustomizer(this.propsService);
-        
+        final JCacheManagerCustomizer cacheManagerCustomizer = this.serverCacheConfig.cacheManagerCustomizer(this.propsService);
+
         assertThat(cacheManagerCustomizer).isNotNull();
     }
 

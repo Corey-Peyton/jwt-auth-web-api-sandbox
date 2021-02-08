@@ -27,6 +27,7 @@ import com.google.common.collect.Sets;
 
 import fr.vincent.tuto.server.enumeration.CategoryTypeEnum;
 import fr.vincent.tuto.server.enumeration.RoleEnum;
+import fr.vincent.tuto.server.model.dto.ProductDTO;
 import fr.vincent.tuto.server.model.po.Category;
 import fr.vincent.tuto.server.model.po.Product;
 import fr.vincent.tuto.server.model.po.User;
@@ -158,6 +159,18 @@ public final class TestsDataUtils
     }
 
     public static void assertAllProduct(final Product expected, final Product actual)
+    {
+        assertThat(actual.getId()).isEqualTo(expected.getId());
+        assertThat(actual.getName()).isEqualTo(expected.getName());
+        assertThat(actual.getDescription()).isEqualTo(expected.getDescription());
+        assertThat(actual.getUnitPrice()).isEqualTo(expected.getUnitPrice());
+        assertThat(actual.getQuantity()).isEqualTo(expected.getQuantity());
+        assertThat(actual.getPrice()).isEqualTo(expected.getPrice());
+        assertThat(actual.getImageUrl()).isEqualTo(expected.getImageUrl());
+    }
+    
+
+    public static void assertProductAndProductDTO(final Product expected, final ProductDTO actual)
     {
         assertThat(actual.getId()).isEqualTo(expected.getId());
         assertThat(actual.getName()).isEqualTo(expected.getName());

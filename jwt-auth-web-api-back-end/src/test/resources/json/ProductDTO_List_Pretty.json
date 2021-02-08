@@ -1,0 +1,37 @@
+[ {
+  "id" : 10,
+  "name" : "Nom produit de Test L2008902 du DTO",
+  "description" : "Description produit de Test du DTO",
+  "quantity" : 2,
+  "unitPrice" : 10.00,
+  "price" : 20.00,
+  "isActive" : true,
+  "imageUrl" : "img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg"
+}, {
+  "id" : 10,
+  "name" : "Nom produit de Test L2008902 du DTO",
+  "description" : "Description produit de Test du DTO",
+  "quantity" : 2,
+  "unitPrice" : 10.00,
+  "price" : 20.00,
+  "isActive" : true,
+  "imageUrl" : "img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg"
+}, {
+  "id" : 10,
+  "name" : "Nom produit de Test L2008902 du DTO",
+  "description" : "Description produit de Test du DTO",
+  "quantity" : 2,
+  "unitPrice" : 10.00,
+  "price" : 20.00,
+  "isActive" : true,
+  "imageUrl" : "img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg"
+}, {
+  "id" : 10,
+  "name" : "Nom produit de Test L2008902 du DTO",
+  "description" : "Description produit de Test du DTO",
+  "quantity" : 2,
+  "unitPrice" : 10.00,
+  "price" : 20.00,
+  "isActive" : true,
+  "imageUrl" : "img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg"
+} ]

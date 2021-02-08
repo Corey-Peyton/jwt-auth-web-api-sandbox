@@ -132,24 +132,29 @@ Une liste non exhaustive des technos embarquées pour le développment de cette 
 - `Java 11` est utilisé pour la compilation et cible pour l'environnement d'exécution. Le code source est en partie en `Java 8`.
 - `Spring Security`, `JWT`, pour sécuriser les échanges (production de jetons, authentification et autorisation).
 - `JPA / Hibernate` pour les concepts ORM et DAO.
-- `H2`, `MariaDB`, `PostgreSQL` configurations base de données pour les accès aux données, les TU, TI, ou cible pour l'environnement de production.
+- `H2`, `MariaDB`, `PostgreSQL` configurations base de données pour les accès aux données, les TU (_Tests Unitaires_), TI (_Tests d'Intégration_)., ou cible pour l'environnement de production.
 - `Flyway` pour la migration de bases de données.
 - `EhCache` pour optimiser les accès aux données.
 - `Angular` pour le développment de l'interface utilisateur (le Clent Web).
 - `Docker` pour la containerisation.
-- `Lombok` pour simplifier l'écriture des classes métiers (beans).
+- `Lombok` bibliothèque Java pour générer du code couramment utilisé et faciliter le maintien du code source propre,  simplifier l'écriture des classes métiers (beans).
 - `Swagger 3.0.0 /OpenAPI` pour la documentation et tests de l'API.
 - `JUnit 5` pour l'écriture des codes sources des classes unitaires et d'intégration.
 - `SonarLint` intégré dans l'IDE (**_STS_**) pour `analyser la qualité du code` livré, poussé dans le `repository` (_bonnes pratiques de développement_).
-- `MoreUnit` intégré dans l'IDE (**_STS_**) pour `taguer` les classes du code source couvertes par des TU.
+- `MoreUnit` intégré dans l'IDE (**_STS_**) pour `taguer` les classes du code source couvertes par des TU (_Tests Unitaires_).
 
 # Les Tests
 Les outils de tests classiques de **Java** et **Spring** sont utilisés pour effectuer des tests.
 
 ## Les Types de Tests
-- _Tests unitaires_
-- _Tests d'intégration_
-- _Tests fonctionnels_
+- **_Tests unitaires_** : pas seulement pour un effet de test immédiat du code, mais également permettre d'effectuer des tests de non-régression lors de modifications qui interviendront inévitablement durant la vie de l'application.
+- **_Tests d'intégration_** : assurer que le comportement de l'application est toujours aussi conforme, au fur et à mesure de l'assemblage des unités de code. Nous couvirons les deux types à savoir :
+	- _les tests d'intégration composants_ : vérifier si plusieurs unités de code fonctionnent corectement ensemble, dans un environnement de test assez proche du test unitaire, c'est-à-dire de manière isolée,
+sans lien avec des composants extérieurs et ne permettant pas le démarrage d'une vraie application. Ce type de test répond à la question : `Est-ce que les classes testées unitairement fonctionnent vraiment bien ensemble ?`
+	- _les tests d'intégration système_ : vérifier le bon fonctionnement de plusieurs unités de code au sein d'une configuration d'application, avec éventuellement des liens avec des composants extérieurs
+comme une base de données, des fichiers, ou des API en réseau. Ce type de test répond à la question : `Comment pouvons-nous rapidement tester que notre application en fonctionnement collaborerait avec le monde extérieur ?`
+- **_Tests fonctionnels_** :  partent de l'interface utilisateur pour obtenir un résultat selon un scénario prédéfini. Ils imitent l'utilisateur final de l'application. Un démarrage complet de l'application est donc nécessaire.
+Ce type de test répond à la question : `Comment pouvons-nous vérifier qu'un utilisateur final utilisera une application conforme et cohérente de bout en bout ?`
 
 ## Les Outils de Tests
 Les outils de tests proposés ou utilisées sont les suivants :

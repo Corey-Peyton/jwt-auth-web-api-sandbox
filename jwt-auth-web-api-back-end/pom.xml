@@ -16,6 +16,7 @@
 	<!-- ============== PROPRIETES ================= -->
 	<properties>
 		<start-class>fr.vincent.tuto.server.BackendApplicationStarter</start-class>
+		<partialize.version>release-20.10</partialize.version> <!-- release-20.10 release~20.05 -->
 	</properties>
 	<!-- =========== DEPENDANCES ========== -->
 	<dependencies>
@@ -85,6 +86,13 @@
 			<!-- <optional>true</optional> -->
 			<scope>provided	</scope>
 		</dependency>
+		<!-- Partialize : est une bibliothèque basée sur Java qui vous aide à implémenter 
+			les réponses partielles JSON sur votre projet. -->
+		<!-- <dependency> -->
+		<!-- <groupId>com.github.thibaultmeyer</groupId> -->
+		<!-- <artifactId>partialize</artifactId> -->
+		<!-- <version>${partialize.version}</version> -->
+		<!-- </dependency> -->
 		<!-- TESTS -->
 		<dependency>
 			<groupId>org.mockito</groupId>

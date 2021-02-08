@@ -45,6 +45,26 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public final class ServerConstants
 {
+    public static final String PRODUCT_NAME = "Le nom du produit ne peut pas être nul.";
+    public static final String PRODUCT_DESC = "La description du produit ne peut pas être null.";
+    public static final String PRODUCT_QTY = "La quantité du produit ne peut pas être null.";
+    public static final String PRODUCT_UNIT = "Le prix unitaire du produit ne peut pas être null.";
+    public static final String PRODUCT_PRICE = "Le prix total de la quantité commandée ne peut pas être null.";
+    public static final String PRODUCT_ACTIVE = "Veuillez indiquer si le produit est actif (true) ou non (false).";
+    public static final String PRODUCT_IMG = "Veuillez indiquer l'emplacement de l'url du produit.";
+
+    // USER Model Validation et messages
+    public static final String USERNAME_VALIDATION_MSG = "Veuillez fournir un nom d'utilisateur entre 3 et 80 caractères";
+    public static final String PWD_VALIDATION_MSG = "Veuillez fournir un mot de passe de 8 caractères ou plus avec au moins 1 chiffre et 1 lettre";
+    public static final String EMAIL_VALIDATION_MSG = "Veuillez fournir un email valide";
+
+    public static final String ACCOUNT_MSG_DEF = "Indique si le compte de l'utilisateur a expiré.";
+    public static final String ID_MSG_DEF = "Identifiant technique auto-généré de l'objet en base.";
+    public static final String LOCKED_MSG_DEF = "Indique si l'utilisateur est verrouillé ou déverrouillé.";
+    public static final String CREDENTIALS_MSG_DEF = "Indique si les informations d'identification de l'utilisateur (mot de passe)ont expiré.";
+    public static final String ENABLED_MSG_DEF = "Indique si l'utilisateur est activé ou désactivé.";
+    public static final String OPTLOCK_MSG_DEF = "Lock Optimiste, 0 par défaut.";
+
     // GESTION DU CACHE
     public static final String HIBERNATE_CACHE_MANAGER = "hibernate.javax.cache.cache_manager";
     public static final String POINT_ROLES = ".roles";
@@ -67,10 +87,9 @@ public final class ServerConstants
     public static final String REQUEST_METHOD = HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD;
     public static final String REQUEST_HEADER = HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS;
     public static final String OPTIONS_METHODS = "OPTIONS";
-    
-    
+
     public static final String CET_DATE_FORMAT_WITHOUT_TIMEZONE_TEXT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-    public static final String APP_DATE_TIME_ISO_FORMAT="yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
+    public static final String APP_DATE_TIME_ISO_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
 
     // REGEX ET PATTERNS
     public static final Pattern UUID_PATTERN = AppConstants.UUID_PATTERN;
@@ -80,18 +99,6 @@ public final class ServerConstants
     public static final Pattern EMAI_PATTERN = Pattern.compile(EMAIL_REGEX);
     public static final String LOGIN_REGEX = "^[_.@A-Za-z0-9-]*$";
     public static final Pattern LOGIN_PATTERN = Pattern.compile(LOGIN_REGEX);
-
-    // USER Model Validation et messages
-    public static final String USERNAME_VALIDATION_MSG = "Veuillez fournir un nom d'utilisateur entre 3 et 80 caractères";
-    public static final String PWD_VALIDATION_MSG = "Veuillez fournir un mot de passe de 8 caractères ou plus avec au moins 1 chiffre et 1 lettre";
-    public static final String EMAIL_VALIDATION_MSG = "Veuillez fournir un email valide";
-
-    public static final String ACCOUNT_MSG_DEF = "Indique si le compte de l'utilisateur a expiré.";
-    public static final String ID_MSG_DEF = "Identifiant technique auto-généré de l'objet en base.";
-    public static final String LOCKED_MSG_DEF = "Indique si l'utilisateur est verrouillé ou déverrouillé.";
-    public static final String CREDENTIALS_MSG_DEF = "Indique si les informations d'identification de l'utilisateur (mot de passe)ont expiré.";
-    public static final String ENABLED_MSG_DEF = "Indique si l'utilisateur est activé ou désactivé.";
-    public static final String OPTLOCK_MSG_DEF = "Lock Optimiste, 0 par défaut.";
 
     // SWAGGER
     private static final String SWAGGER_UI_URL = "/swagger-ui/index.html";
@@ -149,16 +156,16 @@ public final class ServerConstants
     }
 
     /**
-     * Gérer la casse lors de l'obtention de la liste filtrée sur les noms des produits dans l'applications.
+     * Vérifier que la sous-chaîne est bien contenue dans la chaîne.
      * 
-     * @param pProduct les informations du produit dans le SI.
-     * @param pQuery   le pattern de rchrche sur le nom du produit.
+     * @param pName  la chaîne dont le contenu est à vérifier.
+     * @param pQuery la sous-chaîne à vérifier.
      * @return true si le nom contient le pattern, false sinon.
      */
     public static boolean isQueryMatch(final String pName, final String pQuery)
     {
-        return StringUtils.isNotBlank(pName) && StringUtils.isNotBlank(pQuery) && (CONTAINS.apply(LOWER_CASE.apply(pName), LOWER_CASE.apply(pQuery)) || CONTAINS.apply(UPPER_CASE
-        .apply(pName), UPPER_CASE.apply(pQuery)));
+        return StringUtils.isNotBlank(pName) && StringUtils.isNotBlank(pQuery) && (CONTAINS.apply(LOWER_CASE.apply(pName), LOWER_CASE.apply(pQuery))
+        || CONTAINS.apply(UPPER_CASE.apply(pName), UPPER_CASE.apply(pQuery)));
     }
 
     /**
@@ -186,19 +193,35 @@ public final class ServerConstants
     }
 
     /**
-     * Convert Set to List.
+     * Convertir un Set en List.
      * 
-     * @param <T>                  element type.
-     * @param pObjectListToBeBound a set to be converted.
-     * @return a list of element otherwise empty list.
+     * @param <T>                 le type des éléments de la collection à traiter.
+     * @param pObjectSetToBeBound la collection d'éléments à traiter.
+     * @return une liste d'éléments attendus sinon une liste vide.
      */
-    public static <T> List<T> convertSetToList(final Set<T> pObjectSetToBeBound)
+    public static <T> List<T> setToList(final Set<T> pObjectSetToBeBound)
     {
         return Optional.ofNullable(pObjectSetToBeBound)//
         .orElseGet(Collections::emptySet)//
         .stream()//
         .filter(Objects::nonNull)//
         .collect(Collectors.toList());
+    }
+
+    /**
+     * Convertir en Set une List d'éléments.
+     * 
+     * @param <T>                  le type des éléments de la collection à traiter.
+     * @param pObjectListToBeBound la collection d'éléments à traiter.
+     * @return un ensemble d'éléments attendus sinon une liste vide.
+     */
+    public static <T> Set<T> listToSet(final List<T> pObjectListToBeBound)
+    {
+        return Optional.ofNullable(pObjectListToBeBound)//
+        .orElseGet(Collections::emptyList)//
+        .stream()//
+        .filter(Objects::nonNull)//
+        .collect(Collectors.toSet());
     }
 
     // Fonctions

@@ -32,6 +32,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import fr.vincent.tuto.server.constants.ServerConstants;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -54,7 +55,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false, of = "id")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE) //Hides the constructor to force useage of the Builder
 @Builder
 public class Product extends AbstractPersistable<Long> implements Serializable
 {
@@ -68,31 +69,31 @@ public class Product extends AbstractPersistable<Long> implements Serializable
     @Column(name = "ID", updatable = false, nullable = false)
     private Long id; // identifiant technique auto-généré de l'objet en base.
 
-    @NotNull
+    @NotNull(message  = ServerConstants.PRODUCT_NAME)
     @Column(name = "NAME", nullable = false)
     private String name; // le nom du produit.
 
-    @NotNull
+    @NotNull (message = ServerConstants.PRODUCT_DESC)
     @Column(name = "DESCRIPTION", nullable = false)
     private String description; // la description du produit.
 
-    @NotNull
+    @NotNull(message =ServerConstants.PRODUCT_QTY ) 
     @Column(name = "QUANTITY", nullable = false)
     private Long quantity; // la quantité en stock pour le produit.
 
-    @NotNull
+    @NotNull(message = ServerConstants.PRODUCT_UNIT)
     @Column(name = "UNIT_PRICE", nullable = false)
     private BigDecimal unitPrice; // le prix unitaire du produit.
 
-    @NotNull
+    @NotNull(message = ServerConstants.PRODUCT_PRICE) 
     @Column(name = "PRICE", nullable = false)
     private BigDecimal price; // le prix du produit.
 
-    @NotNull
+    @NotNull(message = ServerConstants.PRODUCT_ACTIVE )
     @Column(name = "IS_ACTIVE", nullable = false)
     private Boolean isActive; // indique si le produit est actif/disponible ou non
 
-    @NotNull
+    @NotNull(message = ServerConstants.PRODUCT_IMG)
     @Column(name = "IMAGE_URL", nullable = false)
     private String imageUrl;
 

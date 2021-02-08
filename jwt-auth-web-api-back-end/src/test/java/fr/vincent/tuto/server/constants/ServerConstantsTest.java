@@ -20,6 +20,9 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+
 import fr.vincent.tuto.common.exception.CustomAppException;
 import fr.vincent.tuto.server.enumeration.RoleEnum;
 import fr.vincent.tuto.server.model.po.User;
@@ -32,7 +35,7 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
  */
 class ServerConstantsTest
 {
-    
+
     private static final String USER_MSG_NOT_ACTIVATED = " est désactivé il ne peut être authentifié.";
 
     /**
@@ -45,27 +48,27 @@ class ServerConstantsTest
         final Set<RoleEnum> moderateurSet = new HashSet<>();
         moderateurSet.add(RoleEnum.valueOf(RoleEnum.ROLE_USER.getAuthority()));
         moderateurSet.add(RoleEnum.valueOf(RoleEnum.ROLE_MODERATOR.getAuthority()));
-        
-        final User moderateur =TestsDataUtils.createUserWithSet(moderateurSet, "moderateur", "moderateur_19511982#", "moderateur.test@live.fr");
-        moderateur.setEnabled(Boolean.TRUE); 
-        
+
+        final User moderateur = TestsDataUtils.createUserWithSet(moderateurSet, "moderateur", "moderateur_19511982#", "moderateur.test@live.fr");
+        moderateur.setEnabled(Boolean.TRUE);
+
         final org.springframework.security.core.userdetails.User user = ServerConstants.createSpringSecurityUser("moderateur", moderateur);
-        
+
         assertThat(user).isNotNull();
-        assertThat(user.getPassword()).contains("$2a$12$"); 
-        assertThat(user.getUsername()).contains("moderateur"); 
-        assertThat(user.isEnabled()).isTrue(); 
+        assertThat(user.getPassword()).contains("$2a$12$");
+        assertThat(user.getUsername()).contains("moderateur");
+        assertThat(user.isEnabled()).isTrue();
     }
-    
+
     @Test
     void testCreateSpringSecurityUser_Inactive()
     {
         final Set<RoleEnum> moderateurSet = new HashSet<>();
         moderateurSet.add(RoleEnum.valueOf(RoleEnum.ROLE_USER.getAuthority()));
         moderateurSet.add(RoleEnum.valueOf(RoleEnum.ROLE_MODERATOR.getAuthority()));
-        
-        final User moderateur =TestsDataUtils.createUserWithSet(moderateurSet, "moderateur", "moderateur_19511982#", "moderateur.test@live.fr");
-        moderateur.setEnabled(Boolean.FALSE); 
+
+        final User moderateur = TestsDataUtils.createUserWithSet(moderateurSet, "moderateur", "moderateur_19511982#", "moderateur.test@live.fr");
+        moderateur.setEnabled(Boolean.FALSE);
 
         final Exception exception = assertThrows(CustomAppException.class, () -> {
             ServerConstants.createSpringSecurityUser("moderateur", moderateur);
@@ -88,25 +91,25 @@ class ServerConstantsTest
         final String SOURCE = "PHILIPS L1478ZERER";
         final String QUERY = "philips";
         final boolean isMatch = ServerConstants.isQueryMatch(SOURCE, QUERY);
-        
+
         assertThat(isMatch).isTrue();
     }
-    
+
     @Test
     void testIsQueryMatch_LowerCase()
     {
         final String SOURCE = "PHILIPS L1478ZERER";
         final String QUERY = "PHILIPS";
         final boolean isMatch = ServerConstants.isQueryMatch(SOURCE, QUERY);
-        
+
         assertThat(isMatch).isTrue();
     }
-    
+
     @Test
     void testIsQueryMatch_WithNull()
     {
         final boolean isMatch = ServerConstants.isQueryMatch(null, null);
-        
+
         assertThat(isMatch).isFalse();
     }
 
@@ -120,15 +123,15 @@ class ServerConstantsTest
         final String SOURCE = "PHILIPS L1478ZERER";
         final String QUERY = "philips";
         final boolean isMatch = ServerConstants.queryIgnorecase(SOURCE, QUERY);
-        
+
         assertThat(isMatch).isTrue();
     }
-    
+
     @Test
     void testQueryIgnorecase_WithNull()
     {
         final boolean isMatch = ServerConstants.queryIgnorecase(null, null);
-        
+
         assertThat(isMatch).isFalse();
     }
 
@@ -142,41 +145,105 @@ class ServerConstantsTest
         final String SOURCE = "PHILIPS L1478ZERER";
         final String QUERY = "philips";
         final boolean isMatch = ServerConstants.strCaseInsentitive(SOURCE, QUERY);
-        
+
         assertThat(isMatch).isTrue();
     }
-    
+
     @Test
     void testStrCaseInsentitive_WithNull()
     {
         final boolean isMatch = ServerConstants.strCaseInsentitive(null, null);
-        
+
         assertThat(isMatch).isFalse();
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.constants.ServerConstants#convertSetToList(java.util.Set)}.
+     * Test method for {@link fr.vincent.tuto.server.constants.ServerConstants#setToList(java.util.Set)}.
      */
     @Test
-    void testConvertSetToList()
+    void testSetToList()
     {
-        final Set<String> moderateurSet = new HashSet<>();
+        final Set<String> moderateurSet = Sets.newHashSet();
         moderateurSet.add(RoleEnum.ROLE_ADMIN.getAuthority());
         moderateurSet.add(RoleEnum.ROLE_MODERATOR.getAuthority());
         moderateurSet.add(RoleEnum.ROLE_USER.getAuthority());
-        
-        final List<String> roles = ServerConstants.convertSetToList(moderateurSet);
-        
-        assertThat(roles).isNotEmpty(); 
-        assertThat(roles.size()).isEqualTo(3);  
+
+        final List<String> roles = ServerConstants.setToList(moderateurSet);
+
+        assertThat(roles).isNotEmpty();
+        assertThat(roles.size()).isEqualTo(3);
     }
-    
+
     @Test
-    void testConvertSetToList_()
+    void testConvertSetToList_WithEmpty()
     {
-        final List<String> roles = ServerConstants.convertSetToList(null);
-        
-        assertThat(roles).isEmpty(); 
+        final List<String> roles = ServerConstants.setToList(null);
+
+        assertThat(roles).isEmpty();
+        assertThat(roles.size()).isNotPositive();
+    }
+
+    /**
+     * Test method for {@link fr.vincent.tuto.server.constants.ServerConstants#listToSet(java.util.List)}.
+     */
+    @Test
+    void testListToSet()
+    {
+        final List<String> list = Lists.newArrayList();
+        list.add(RoleEnum.ROLE_ADMIN.getAuthority());
+        list.add(RoleEnum.ROLE_MODERATOR.getAuthority());
+        list.add(RoleEnum.ROLE_USER.getAuthority());
+        list.add(RoleEnum.ROLE_ANONYMOUS.getAuthority());
+
+        final Set<String> roles = ServerConstants.listToSet(list);
+
+        assertThat(roles).isNotEmpty();
+        assertThat(roles.size()).isEqualTo(4);
+    }
+
+    @Test
+    void testListToSet_WithDoublon()
+    {
+        final List<String> list = Lists.newArrayList();
+        list.add(RoleEnum.ROLE_ADMIN.getAuthority());
+        list.add(RoleEnum.ROLE_MODERATOR.getAuthority());
+        list.add(RoleEnum.ROLE_USER.getAuthority());
+        list.add(RoleEnum.ROLE_ANONYMOUS.getAuthority());
+        list.add(RoleEnum.ROLE_ADMIN.getAuthority());
+        list.add(RoleEnum.ROLE_MODERATOR.getAuthority());
+        list.add(RoleEnum.ROLE_USER.getAuthority());
+        list.add(RoleEnum.ROLE_ANONYMOUS.getAuthority());
+
+        final Set<String> roles = ServerConstants.listToSet(list);
+
+        assertThat(roles).isNotEmpty();
+        assertThat(roles.size()).isEqualTo(4);
+    }
+
+    @Test
+    void testListToSet_ContainsNullElement()
+    {
+        final List<String> list = Lists.newArrayList();
+        list.add(RoleEnum.ROLE_ADMIN.getAuthority());
+        list.add(RoleEnum.ROLE_MODERATOR.getAuthority());
+        list.add(RoleEnum.ROLE_USER.getAuthority());
+        list.add(RoleEnum.ROLE_ANONYMOUS.getAuthority());
+        list.add(null);
+        list.add(null);
+
+        final Set<String> roles = ServerConstants.listToSet(list);
+
+        assertThat(roles).isNotEmpty();
+        assertThat(roles.size()).isEqualTo(4);
+    }
+
+    @Test
+    void testListToSet_WithNull()
+    {
+        final Set<String> roles = ServerConstants.listToSet(null);
+
+        assertThat(roles).isEmpty();
+        assertThat(roles.size()).isNotPositive();
     }
 
 }

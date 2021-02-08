@@ -11,6 +11,7 @@
  */
 package fr.vincent.tuto.server.service.product;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -72,6 +73,12 @@ public class ProductService
 
         try
         {
+            // Traitement métier pour le calcul et affectation du prix total de la quantité commandée
+            final Long quantite = pProduct.getQuantity();
+            final BigDecimal prixUnitaire = pProduct.getUnitPrice();
+            final BigDecimal prixTotal = new BigDecimal(quantite.longValue()).multiply(prixUnitaire); 
+            pProduct.setPrice(prixTotal); 
+            
             final Product product = this.productDAO.save(pProduct);
             Assert.notNull(product, SAVE_MESSAGE);
             return product;
