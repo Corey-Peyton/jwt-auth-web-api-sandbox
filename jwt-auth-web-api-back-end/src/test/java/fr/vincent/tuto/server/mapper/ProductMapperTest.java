@@ -15,7 +15,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
+import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,6 +34,8 @@ import com.google.common.collect.Lists;
 import fr.vincent.tuto.common.service.props.DatabasePropsService;
 import fr.vincent.tuto.server.config.BackEndServerRootConfig;
 import fr.vincent.tuto.server.config.db.PersistanceConfig;
+import fr.vincent.tuto.server.constants.ServerConstants;
+import fr.vincent.tuto.server.enumeration.CategoryTypeEnum;
 import fr.vincent.tuto.server.model.dto.ProductDTO;
 import fr.vincent.tuto.server.model.po.Product;
 import fr.vincent.tuto.server.utils.TestsDataUtils;
@@ -43,7 +47,7 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
  */
 @RunWith(SpringRunner.class)
 @TestPropertySource(value = { "classpath:back-end-db-test.properties", "classpath:back-end-application-test.properties" })
-@ContextConfiguration(name = "serverExceptionHandlerTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class,
+@ContextConfiguration(name = "productMapperTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class,
         PersistanceConfig.class, ProductMapper.class })
 @SpringBootTest
 @ActiveProfiles("test")
@@ -75,7 +79,7 @@ class ProductMapperTest
 
         //
         this.dto = ProductDTO.builder()//
-         .id(10L)//
+        .id(10L)//
         .name("Nom produit de Test L2008902 du DTO")//
         .description("Description produit de Test du DTO") //
         .quantity(2L)//
@@ -112,9 +116,6 @@ class ProductMapperTest
 
         final ProductDTO dto = this.productMapper.toDestObject(this.product);
 
-        // System.err.println(">>>>>>> Le Product est : \n" + this.product.toString());
-        // System.err.println(">>>>>>> Le DTO est : \n" + dto.toString());
-
         assertThat(dto).isNotNull();
         TestsDataUtils.assertProductAndProductDTO(this.product, dto);
     }
@@ -134,8 +135,6 @@ class ProductMapperTest
         .build();
 
         final ProductDTO dto = this.productMapper.toDestObject(productInternal);
-
-        System.err.println(">>>>>>> Le DTO est : \n" + dto.toString());
 
         assertThat(dto).isNotNull();
         TestsDataUtils.assertProductAndProductDTO(productInternal, dto);
@@ -157,31 +156,31 @@ class ProductMapperTest
     void testToSourceObjectProductDTO()
     {
         final Product product = this.productMapper.toSourceObject(this.dto);
-        
+
         assertThat(product).isNotNull();
         TestsDataUtils.assertProductAndProductDTO(product, this.dto);
     }
-    
+
     @Test
     void testToSourceObjectProductDTO_WithNullField()
     {
-       final ProductDTO dtoInternal = ProductDTO.builder()//
+        final ProductDTO dtoInternal = ProductDTO.builder()//
         .id(null)//
-       .name(null)//
-       .description("Description produit de Test du DTO") //
-       .quantity(2L)//
-       .unitPrice(new BigDecimal("10.00"))//
-       .price(new BigDecimal("20.00"))//
-       .imageUrl("img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg") //
-       .isActive(Boolean.TRUE)//
-       .build();
-       
-       final Product product = this.productMapper.toSourceObject(dtoInternal);
-       
-       assertThat(product).isNotNull();
-       TestsDataUtils.assertProductAndProductDTO(product, dtoInternal);
+        .name(null)//
+        .description("Description produit de Test du DTO") //
+        .quantity(2L)//
+        .unitPrice(new BigDecimal("10.00"))//
+        .price(new BigDecimal("20.00"))//
+        .imageUrl("img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg") //
+        .isActive(Boolean.TRUE)//
+        .build();
+
+        final Product product = this.productMapper.toSourceObject(dtoInternal);
+
+        assertThat(product).isNotNull();
+        TestsDataUtils.assertProductAndProductDTO(product, dtoInternal);
     }
-    
+
     @Test
     void testToSourceObjectProductDTO_WithNull()
     {
@@ -202,19 +201,19 @@ class ProductMapperTest
         products.add(this.product);
         products.add(this.product);
         products.add(null);
-        
-        final List<ProductDTO>  dtos = (List<ProductDTO>) this.productMapper.toProductsDtos(products);
-        
+
+        final List<ProductDTO> dtos = (List<ProductDTO>) this.productMapper.toProductsDtos(products);
+
         assertThat(dtos).isNotEmpty();
         assertThat(dtos.get(0).toString()).isNotEmpty();
         assertThat(dtos.size()).isEqualTo(4);
     }
-    
+
     @Test
     void testToDtos_WithNull()
     {
-        final List<ProductDTO>  dtos = (List<ProductDTO>) this.productMapper.toProductsDtos(null);
-        
+        final List<ProductDTO> dtos = (List<ProductDTO>) this.productMapper.toProductsDtos(null);
+
         assertThat(dtos).isEmpty();
         assertThat(dtos.size()).isNotPositive();
     }
@@ -231,19 +230,74 @@ class ProductMapperTest
         dtos.add(this.dto);
         dtos.add(this.dto);
         dtos.add(null);
-        
+
         final List<Product> products = (List<Product>) this.productMapper.toProducts(dtos);
-        
+
         assertThat(products).isNotEmpty();
         assertThat(products.get(0).toString()).isNotEmpty();
         assertThat(products.size()).isEqualTo(4);
     }
-    
+
+    @Test
+    void testToProducts_WithSet()
+    {
+        //
+        final ProductDTO dto1 = ProductDTO.builder()//
+        .id(11L)//
+        .name("Nom produit de Test L2008902 du DTO 1")//
+        .description("Description produit de Test du DTO 1") //
+        .quantity(2L)//
+        .unitPrice(new BigDecimal("10.00"))//
+        .price(new BigDecimal("20.00"))//
+        .imageUrl("img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg") //
+        .isActive(Boolean.TRUE)//
+        .build();
+
+        final ProductDTO dto2 = ProductDTO.builder()//
+        .id(12L)//
+        .name("Nom produit de Test L2008902 du DTO 2")//
+        .description("Description produit de Test du DTO 2") //
+        .quantity(2L)//
+        .unitPrice(new BigDecimal("10.00"))//
+        .price(new BigDecimal("20.00"))//
+        .imageUrl("img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg") //
+        .isActive(Boolean.TRUE)//
+        .build();
+
+        final ProductDTO dto3 = ProductDTO.builder()//
+        .id(13L)//
+        .name("Nom produit de Test L2008902 du DTO 3")//
+        .description("Description produit de Test du DTO 3") //
+        .quantity(2L)//
+        .unitPrice(new BigDecimal("10.00"))//
+        .price(new BigDecimal("20.00"))//
+        .imageUrl("img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg") //
+        .isActive(Boolean.TRUE)//
+        .build();
+
+        final Set<ProductDTO> dtos = Sets.newHashSet();
+        dtos.add(this.dto);
+        dtos.add(dto1);
+        dtos.add(dto2);
+        dtos.add(dto3);
+        dtos.add(null);
+
+        final List<Product> products = (List<Product>) this.productMapper.toProducts(dtos); // List
+        final Set<Product> set = ServerConstants.listToSet(products); // Set
+
+        assertThat(products).isNotEmpty();
+        assertThat(products.size()).isEqualTo(4);
+        assertThat(set.size()).isEqualTo(4);
+    }
+
     @Test
     void testToProducts_WithNull()
     {
+        // System.err.println(">>>>>>> Le Contenu : \n" + CategoryTypeEnum.valueOf("JEUX-VIDEO"));
+        System.err.println(">>>>>>> Le Contenant : \n" + CategoryTypeEnum.valueOf("JEUX_VIDEO").name());
+
         final List<Product> products = (List<Product>) this.productMapper.toProducts(null);
-        
+
         assertThat(products).isEmpty();
         assertThat(products.size()).isNotPositive();
     }

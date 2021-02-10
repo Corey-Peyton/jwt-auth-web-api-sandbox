@@ -13,6 +13,7 @@ package fr.vincent.tuto.server.mapper;
 
 import java.util.Collection;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
@@ -32,49 +33,58 @@ import lombok.extern.slf4j.Slf4j;
 public class ProductMapper extends GenericObjectMapper<Product, ProductDTO> implements InitializingBean
 {
 
+    /**
+     * Constructeur avec paramètres pour injection du beans en dépendances.
+     * 
+     * @param pModelMapper le bean de conversion des modèles selon le type.
+     */
+    protected ProductMapper(ModelMapper pModelMapper)
+    {
+        super(pModelMapper);
+    }
+
     @Override
-    public ProductDTO toDestObject(Product pSourceObject)
+    public ProductDTO toDestObject(Product pProduct)
     {
         log.info("[toDestObject] - Obtenir l'objet de transfert des données des produits (DTO).");
 
-        if (pSourceObject == null)
+        if (pProduct == null)
         {
             return null;
         }
 
         // Spécificité lors de l'utilisation de Lombok avec le Builder
         return this.modelMapper.map(Product.class, ProductDTO.ProductDTOBuilder.class)//
-        .id(pSourceObject.getId())//
-        .name(pSourceObject.getName())//
-        .description(pSourceObject.getDescription())//
-        .quantity(pSourceObject.getQuantity())//
-        .unitPrice(pSourceObject.getUnitPrice())//
-        .price(pSourceObject.getPrice())//
-        .imageUrl(pSourceObject.getImageUrl())//
-        .isActive(pSourceObject.getIsActive())//
+        .id(pProduct.getId())//
+        .name(pProduct.getName())//
+        .description(pProduct.getDescription())//
+        .quantity(pProduct.getQuantity())//
+        .unitPrice(pProduct.getUnitPrice())//
+        .price(pProduct.getPrice())//
+        .imageUrl(pProduct.getImageUrl())//
+        .isActive(pProduct.getIsActive())//
         .build();
     }
 
-
     @Override
-    public Product toSourceObject(ProductDTO pDestObject)
+    public Product toSourceObject(ProductDTO pProductDTO)
     {
-        log.info("[toSourceObject] - Obtenir les informations du produit à partir de l'objet de transfert des données (DTO).");
-        
-        if (pDestObject == null)
+        log.info("[toSourceObject] - Obtenir les informations du produit avec son DTO.");
+
+        if (pProductDTO == null)
         {
             return null;
         }
 
         return this.modelMapper.map(ProductDTO.class, Product.ProductBuilder.class)//
-        .id(pDestObject.getId())//
-        .name(pDestObject.getName())//
-        .description(pDestObject.getDescription())//
-        .quantity(pDestObject.getQuantity())//
-        .unitPrice(pDestObject.getUnitPrice())//
-        .price(pDestObject.getPrice())//
-        .imageUrl(pDestObject.getImageUrl())//
-        .isActive(pDestObject.getIsActive())//
+        .id(pProductDTO.getId())//
+        .name(pProductDTO.getName())//
+        .description(pProductDTO.getDescription())//
+        .quantity(pProductDTO.getQuantity())//
+        .unitPrice(pProductDTO.getUnitPrice())//
+        .price(pProductDTO.getPrice())//
+        .imageUrl(pProductDTO.getImageUrl())//
+        .isActive(pProductDTO.getIsActive())//
         .build();
     }
 
@@ -83,7 +93,7 @@ public class ProductMapper extends GenericObjectMapper<Product, ProductDTO> impl
      * {@link Product}.
      * 
      * @param products la liste de produits.
-     * @return la liste des objets de treansfert des informations des produits.
+     * @return la liste des objets de transfert des informations des produits.
      */
     public Collection<ProductDTO> toProductsDtos(final Collection<Product> products)
     {
@@ -94,8 +104,8 @@ public class ProductMapper extends GenericObjectMapper<Product, ProductDTO> impl
      * Construire la liste de produits {@link Product} à partir de la liste des objets de transfert des données
      * {@link ProductDTO}.
      * 
-     * @param productDTOs
-     * @return
+     * @param productDTOs la liste des données des objets de transfert des produits.
+     * @return la liste des données des produits en basede données.
      */
     public Collection<Product> toProducts(final Collection<ProductDTO> productDTOs)
     {

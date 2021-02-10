@@ -49,7 +49,7 @@ import fr.vincent.tuto.server.model.po.User;
 import fr.vincent.tuto.server.utils.TestsDataUtils;
 
 /**
- * Classe des Tests d'Intégration des objets de type {@link UserService}.
+ * Classe des Tests d'Intégration (composants et système) des objets de type {@link UserService}.
  * 
  * @author Vincent Otchoun
  */
@@ -853,32 +853,32 @@ class UserServiceIT
     {
         final User internalUser = TestsDataUtils.createUserWithSetFull(this.roles, "test2", "test2_19511982#", "test2.test@live.fr");
         final User userToUpdated = this.userService.createUser(internalUser);
-        
+
         assertThat(userToUpdated).isNotNull();
         assertThat(userToUpdated.getId()).isNotNull();
-        
-        final Long id =userToUpdated.getId();
-        userToUpdated.setUsername("test2_update"); 
-        userToUpdated.setEmail("test2_update.test@live.fr"); 
-        userToUpdated.setPassword(new BCryptPasswordEncoder(12).encode("test2_update_19511982#")); 
-        
-        this.userService.updateUser(id, userToUpdated); 
-        
+
+        final Long id = userToUpdated.getId();
+        userToUpdated.setUsername("test2_update");
+        userToUpdated.setEmail("test2_update.test@live.fr");
+        userToUpdated.setPassword(new BCryptPasswordEncoder(12).encode("test2_update_19511982#"));
+
+        this.userService.updateUser(id, userToUpdated);
+
         assertThat(userToUpdated.getId()).isPositive();
         assertThat(userToUpdated.getEmail()).isEqualToIgnoringCase("test2_update.test@live.fr");
         assertThat(userToUpdated.getEnabled()).isTrue();
         assertThat(userToUpdated.getPassword()).contains("$2a$12$");
     }
-    
+
     @Test
     void testUpdateUser_WitNotExistId()
     {
         final User internalUser = TestsDataUtils.createUserWithSetFull(this.roles, "test2", "test2_19511982#", "test2.test@live.fr");
         final User userToUpdated = this.userService.createUser(internalUser);
-        
+
         final Long id = Long.MAX_VALUE;
         final Exception exception = assertThrows(CustomAppException.class, () -> {
-            this.userService.updateUser(id, userToUpdated); 
+            this.userService.updateUser(id, userToUpdated);
         });
 
         final String expectedMessage = SEARCH_BY_ID_MSG;
@@ -887,7 +887,7 @@ class UserServiceIT
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
     }
-    
+
     @Test
     void testUpdateUser_WithNull()
     {

@@ -45,11 +45,20 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public final class ServerConstants
 {
-    public static final String PRODUCT_NAME = "Le nom du produit ne peut pas être nul.";
-    public static final String PRODUCT_DESC = "La description du produit ne peut pas être null.";
-    public static final String PRODUCT_QTY = "La quantité du produit ne peut pas être null.";
-    public static final String PRODUCT_UNIT = "Le prix unitaire du produit ne peut pas être null.";
-    public static final String PRODUCT_PRICE = "Le prix total de la quantité commandée ne peut pas être null.";
+    // Catégorie de produits
+    public static final String CATEGORY_NAME = "Le nom de la catégorie de produits ne peut pas être nul.";
+    public static final String CATEGORY_DESC = "La description de la catégorie de produits ne peut pas être null ou vide.";
+    public static final String CATEGORY_ACTIVE = "Veuillez indiquer si la catégorie de produits est active (true) ou non (false).";
+    public static final String CATEGORY_TYPE = "Le type de produits rattachés à la catégorie ne peut pas être null ou vide.";
+    public static final String CATEGORY_PRODUCTS = "La liste des produits ratachés à la catégorie ne peut pas être null ou vide. Une catégorie doit contenir au moins un produits.";
+    public static final String CATEGORY_TYPE_REGEX = "Pour le type de catégorie, seules les valeurs : TELEPHONIE,TV,SON,INFORMATIQUE,PHOTO,JEUX_VIDEO,JOUETS,ELCETROMENAGER,MEUBLES_DECO,LITERIE sont acceptées.";
+
+    // Produits
+    public static final String PRODUCT_NAME = "Le nom du produit ne peut pas être nul ou vide.";
+    public static final String PRODUCT_DESC = "La description du produit ne peut pas être null ou vide.";
+    public static final String PRODUCT_QTY = "La quantité du produit ne peut pas être null ou vide.";
+    public static final String PRODUCT_UNIT = "Le prix unitaire du produit ne peut pas être null ou vide.";
+    public static final String PRODUCT_PRICE = "Le prix total de la quantité commandée de produits ne peut pas être null ou vide.";
     public static final String PRODUCT_ACTIVE = "Veuillez indiquer si le produit est actif (true) ou non (false).";
     public static final String PRODUCT_IMG = "Veuillez indiquer l'emplacement de l'url du produit.";
 

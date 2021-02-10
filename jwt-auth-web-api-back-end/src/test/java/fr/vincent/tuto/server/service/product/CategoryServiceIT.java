@@ -49,7 +49,7 @@ import fr.vincent.tuto.server.model.po.Product;
 import fr.vincent.tuto.server.utils.TestsDataUtils;
 
 /**
- * Classe des Tests d'Intégration des objets de type {@link CategoryService}.
+ * Classe des Tests d'Intégration (composants et système) des objets de type {@link CategoryService}.
  * 
  * @author Vincent Otchoun
  */

@@ -27,6 +27,7 @@ import com.google.common.collect.Sets;
 
 import fr.vincent.tuto.server.enumeration.CategoryTypeEnum;
 import fr.vincent.tuto.server.enumeration.RoleEnum;
+import fr.vincent.tuto.server.model.dto.CategoryDTO;
 import fr.vincent.tuto.server.model.dto.ProductDTO;
 import fr.vincent.tuto.server.model.po.Category;
 import fr.vincent.tuto.server.model.po.Product;
@@ -137,6 +138,81 @@ public final class TestsDataUtils
     .quantity(1L).unitPrice(new BigDecimal("30.99")).price(new BigDecimal("30.99")).imageUrl(
     "img/ecouteur-bluetooth-v5-0-3000mah-arbily-t22-antibru.jpg").build();
 
+    // Creation des produits avec ID: l'active est gérér dans le modèle métier pour la création
+    // ECLETROMENAGER
+    public final Product PRODUCT = Product.builder().id(1L).name("TEFAL L2008902")//
+    .description("Batterie de cuisine 10 pièces Ingenio Essential - Tous feux sauf induction")//
+    .quantity(5L).unitPrice(new BigDecimal("5.539")).price(new BigDecimal("55.39")).imageUrl(
+    "img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg").build();
+
+    final Product PRODUCT2 = Product.builder().id(2L).name("PHILIPS FC8243/09")//
+    .description("Aspirateur traîneau avec sac PowerGo - Suceur Plat Intégré - 750W - 77 dB - A - Rouge Sportif")//
+    .quantity(1L).unitPrice(new BigDecimal("5.499")).price(new BigDecimal("54.99")).imageUrl(
+    "img/philips-fc8243-09-aspirateur-traineau-avec-sac-pow.jpg").build();
+
+    final Product PRODUCT3 = Product.builder().id(3L).name("Lave-vaisselle ELECTROLUX ESF8650ROW")//
+    .description("15 couverts - Largeur 60 cm - Classe A+++ - 44 dB - Blanc")//
+    .quantity(1L).unitPrice(new BigDecimal("439.99")).price(new BigDecimal("439.99")).imageUrl(
+    "img/lave-vaisselle-pose-libre-electrolux-esf8650row.jpg").build();
+
+    // MEUBLE-DECO
+    public final Product PRODUCT4 = Product.builder().id(4L).name("BARCELONE")//
+    .description("Canapé d'angle convertible 4 places + coffre de rangement - Tissu et simili Noir et Gris")//
+    .quantity(1L).unitPrice(new BigDecimal("499.99")).price(new BigDecimal("499.99")).imageUrl(
+    "img/barcelone-canape-d-angle-convertible-4-places-co.jpg").build();
+
+    final Product PRODUCT5 = Product.builder().id(5L).name("TORPE")//
+    .description("Bureau informatique contemporain 90x74x50 cm | Taille compacte + support clavier + tiroir | Table ordinateur | Sonoma")//
+    .quantity(1L).unitPrice(new BigDecimal("259.99")).price(new BigDecimal("259.99")).imageUrl(
+    "img/torpe-bureau-informatique-contemporain-90x74x50.jpg").build();
+
+    final Product PRODUCT6 = Product.builder().id(6L).name("COREP")//
+    .description("Lampadaire en métal - E27 - 40 W - Noir et cuivre")//
+    .quantity(1L).unitPrice(new BigDecimal("29.99")).price(new BigDecimal("29.99")).imageUrl("img/corep-lampadaire-en-metal-e27-40-w-noir-et-c.jpg")
+    .build();
+
+    // SON
+    final Product PRODUCT7 = Product.builder().id(7L).name("AUNA DS-2")//
+    .description("Chaîne hifi stereo compacte avec platine vinyle , lecteur CD & radio , encodageMP3 , ports USB/SD , haut-parleur 2 voies")//
+    .quantity(1L).unitPrice(new BigDecimal("154.99")).price(new BigDecimal("154.99")).imageUrl(
+    "img/chaine-stereo-platine-vinyle-enregistrement-mp3.jpg").build();
+
+    final Product PRODUCT8 = Product.builder().id(8L).name("FunKey")//
+    .description("61 Keyboard noir Set incl. Support de Clavier. Banquette école de clavier inclus")//
+    .quantity(1L).unitPrice(new BigDecimal("111.87")).price(new BigDecimal("111.87")).imageUrl(
+    "img/funkey-61-keyboard-noir-set-incl-support-de-clav.jpg").build();
+
+    final Product PRODUCT9 = Product.builder().id(9L).name("LEGEND ")//
+    .description("Pack Guitare Type Stratocaster Black Mat")//
+    .quantity(2L).unitPrice(new BigDecimal("137.99")).price(new BigDecimal("137.99")).imageUrl(
+    "img/legend-pack-guitare-type-stratocaster-black-mat.jpg").build();
+
+    // INFORMATIQUE
+    final Product PRODUCT10 = Product.builder().id(10L).name("OMEN HP PC Gamer")//
+    .description("15,6\" FHD - AMD Ryzen 7 - RAM 16Go - Stockage 512Go SSD - GTX 1660Ti 6Go - Win 10 - AZERTY")//
+    .quantity(1L).unitPrice(new BigDecimal("1219.99")).price(new BigDecimal("1219.99")).imageUrl(
+    "img/omen-by-hp-pc-gamer-15-en0002nf-15-6-fhd-amd.jpg").build();
+
+    final Product PRODUCT11 = Product.builder().id(11L).name("CORSAIR Clavier Gamer")//
+    .description("Membrane K55 RGB - AZERTY (CH-9206015-FR)")//
+    .quantity(1L).unitPrice(new BigDecimal("74.99")).price(new BigDecimal("74.99")).imageUrl(
+    "img/corsair-clavier-gamer-membrane-k55-rgb-azerty-c.jpg").build();
+
+    final Product PRODUCT12 = Product.builder().id(12L).name("HP LaserJet Pro M130a")//
+    .description("Imprimante Laser Monochrome Multifonction")//
+    .quantity(1L).unitPrice(new BigDecimal("157.94")).price(new BigDecimal("157.94")).imageUrl(
+    "img/hp-laserjet-pro-m130a-imprimante-laser-monochrom.jpg").build();
+
+    // TELEPHONIE
+    final Product PRODUCT13 = Product.builder().id(13L).name("Samsung Galaxy")//
+    .description("S20 FE 5G Blanc")//
+    .quantity(1L).unitPrice(new BigDecimal("759.00")).price(new BigDecimal("759.00")).imageUrl("img/samsung-galaxy-s20-fe-5g-blanc.jpg").build();
+
+    final Product PRODUCT14 = Product.builder().id(14L).name("Ecouteur Bluetooth V5.0 3000mAh")//
+    .description("Arbily T22 Antibruit CVC8.0 Hi-FI Son Oreillette Bluetooth Sport Etanche avec Micro Intégré")//
+    .quantity(1L).unitPrice(new BigDecimal("30.99")).price(new BigDecimal("30.99")).imageUrl(
+    "img/ecouteur-bluetooth-v5-0-3000mah-arbily-t22-antibru.jpg").build();
+
     // Liste des produits
     public static final List<Product> PRODUCTS()
     {
@@ -158,6 +234,26 @@ public final class TestsDataUtils
         return products;
     }
 
+    public static final List<Product> PRODUCTS_WITH_ID()
+    {
+        final List<Product> products = Lists.newArrayList();
+        products.add(PRODUCT);
+        products.add(PRODUCT2);
+        products.add(PRODUCT3);
+        products.add(PRODUCT4);
+        products.add(PRODUCT5);
+        products.add(PRODUCT6);
+        products.add(PRODUCT7);
+        products.add(PRODUCT8);
+        products.add(PRODUCT9);
+        products.add(PRODUCT10);
+        products.add(PRODUCT11);
+        products.add(PRODUCT12);
+        products.add(PRODUCT13);
+        products.add(PRODUCT14);
+        return products;
+    }
+
     public static void assertAllProduct(final Product expected, final Product actual)
     {
         assertThat(actual.getId()).isEqualTo(expected.getId());
@@ -168,7 +264,6 @@ public final class TestsDataUtils
         assertThat(actual.getPrice()).isEqualTo(expected.getPrice());
         assertThat(actual.getImageUrl()).isEqualTo(expected.getImageUrl());
     }
-    
 
     public static void assertProductAndProductDTO(final Product expected, final ProductDTO actual)
     {
@@ -191,15 +286,16 @@ public final class TestsDataUtils
         assertThat(actual.getProducts()).isEqualTo(expected.getProducts());
         assertThat(actual.getProducts().size()).isEqualTo(expected.getProducts().size());
     }
-
-    // GESTION DES CATEGORIES DE PRODUITS
-    public static final Set<Product> ELECTROS()
+    
+    public static void assertCategoryAndCategoryDTO(final Category expected, final CategoryDTO actual)
     {
-        final Set<Product> products = Sets.newHashSet();
-        products.add(PRODUCT_1);
-        products.add(PRODUCT_7);
-        products.add(PRODUCT_4);
-        return products;
+        assertThat(actual.getId()).isEqualTo(expected.getId());
+        assertThat(actual.getName()).isEqualTo(expected.getName());
+        assertThat(actual.getDescription()).isEqualTo(expected.getDescription());
+        assertThat(actual.getEnabled()).isEqualTo(expected.getEnabled());
+        assertThat(actual.getType()).isEqualTo(expected.getCategoryType().name());
+        assertThat(actual.getProducts().size()).isEqualTo(expected.getProducts().size());
+        assertThat(actual.getProducts().size()).isEqualTo(expected.getProducts().size());
     }
 
     public final Product PRODUCT_1_SAVED = Product.builder().id(8L).name("TEFAL L2008902")//
@@ -226,9 +322,110 @@ public final class TestsDataUtils
         return products;
     }
 
+    ////////////////////////////////
+    ///// FABRICATION DES DTO
+    ////////////////////////////////
+    
+    public final ProductDTO PRODUCT_DTO = ProductDTO.builder().id(1L).name("TEFAL L2008902")//
+    .description("Batterie de cuisine 10 pièces Ingenio Essential - Tous feux sauf induction")//
+    .quantity(5L).unitPrice(new BigDecimal("5.539")).price(new BigDecimal("55.39")).imageUrl(
+    "img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg").build();
+
+    final ProductDTO PRODUCT_DTO2 = ProductDTO.builder().id(2L).name("PHILIPS FC8243/09")//
+    .description("Aspirateur traîneau avec sac PowerGo - Suceur Plat Intégré - 750W - 77 dB - A - Rouge Sportif")//
+    .quantity(1L).unitPrice(new BigDecimal("5.499")).price(new BigDecimal("54.99")).imageUrl(
+    "img/philips-fc8243-09-aspirateur-traineau-avec-sac-pow.jpg").build();
+
+    final ProductDTO PRODUCT_DTO3 = ProductDTO.builder().id(3L).name("Lave-vaisselle ELECTROLUX ESF8650ROW")//
+    .description("15 couverts - Largeur 60 cm - Classe A+++ - 44 dB - Blanc")//
+    .quantity(1L).unitPrice(new BigDecimal("439.99")).price(new BigDecimal("439.99")).imageUrl(
+    "img/lave-vaisselle-pose-libre-electrolux-esf8650row.jpg").build();
+
+    // MEUBLE-DECO
+    public final ProductDTO PRODUCT_DTO4 = ProductDTO.builder().id(4L).name("BARCELONE")//
+    .description("Canapé d'angle convertible 4 places + coffre de rangement - Tissu et simili Noir et Gris")//
+    .quantity(1L).unitPrice(new BigDecimal("499.99")).price(new BigDecimal("499.99")).imageUrl(
+    "img/barcelone-canape-d-angle-convertible-4-places-co.jpg").build();
+
+    final ProductDTO PRODUCT_DTO5 = ProductDTO.builder().id(5L).name("TORPE")//
+    .description("Bureau informatique contemporain 90x74x50 cm | Taille compacte + support clavier + tiroir | Table ordinateur | Sonoma")//
+    .quantity(1L).unitPrice(new BigDecimal("259.99")).price(new BigDecimal("259.99")).imageUrl(
+    "img/torpe-bureau-informatique-contemporain-90x74x50.jpg").build();
+
+    final ProductDTO PRODUCT_DTO6 = ProductDTO.builder().id(6L).name("COREP")//
+    .description("Lampadaire en métal - E27 - 40 W - Noir et cuivre")//
+    .quantity(1L).unitPrice(new BigDecimal("29.99")).price(new BigDecimal("29.99")).imageUrl("img/corep-lampadaire-en-metal-e27-40-w-noir-et-c.jpg")
+    .build();
+
+    private static final Set<ProductDTO> MEUBLES_DTO()
+    {
+        final Set<ProductDTO> products = Sets.newHashSet();
+        products.add(PRODUCT_DTO4);
+        products.add(PRODUCT_DTO5);
+        products.add(PRODUCT_DTO6);
+        return products;
+    }
+
+    public static final Set<ProductDTO> ELECTROS_DTO()
+    {
+        final Set<ProductDTO> products = Sets.newHashSet();
+        products.add(PRODUCT_DTO);
+        products.add(PRODUCT_DTO2);
+        products.add(PRODUCT_DTO3);
+        return products;
+    }
+
+    public static final CategoryDTO CATEGORY_DTO = CategoryDTO.builder().id(1L)//
+    .type(CategoryTypeEnum.ELCETROMENAGER.name())//
+    .name(CategoryTypeEnum.ELCETROMENAGER.name())//
+    .description("Catégorie des produits ELCETRO-MENAGER").products(ELECTROS_DTO()).build();
+
+    public static final CategoryDTO CATEGORY_DTO2 = CategoryDTO.builder().id(2L)//
+    .type(CategoryTypeEnum.MEUBLES_DECO.name())//
+    .name(CategoryTypeEnum.MEUBLES_DECO.name())//
+    .description("Catégorie des produits MEUBLES-DECO").products(MEUBLES_DTO()).build();
+
+    public static final List<CategoryDTO> CATEGORIES_DTO()
+    {
+        final List<CategoryDTO> categories = Lists.newArrayList();
+        categories.add(CATEGORY_DTO);
+        categories.add(CATEGORY_DTO2);
+        return categories;
+    }
+    
+    public static final List<CategoryDTO> CATEGORIES_DTO_SINGLE()
+    {
+        final List<CategoryDTO> categories = Lists.newArrayList();
+        categories.add(CATEGORY_DTO);
+        return categories;
+    }
+
+    // GESTION DES CATEGORIES DE PRODUITS
+    public static final Set<Product> ELECTROS()
+    {
+        final Set<Product> products = Sets.newHashSet();
+        products.add(PRODUCT_1);
+        products.add(PRODUCT_7);
+        products.add(PRODUCT_4);
+        return products;
+    }
+
+    public static final Set<Product> ELECTROS_WITH_ID()
+    {
+        final Set<Product> products = Sets.newHashSet();
+        products.add(PRODUCT);
+        products.add(PRODUCT2);
+        products.add(PRODUCT3);
+        return products;
+    }
+
     public static final Category CATEGORY_1 = Category.builder().categoryType(CategoryTypeEnum.ELCETROMENAGER)//
-    .name(CategoryTypeEnum.ELCETROMENAGER.getValue())//
+    .name(CategoryTypeEnum.ELCETROMENAGER.name())//
     .description("Catégorie des produits ELCETRO-MENAGER").products(ELECTROS()).build();
+
+    public static final Category CATEGORY = Category.builder().id(1L).categoryType(CategoryTypeEnum.ELCETROMENAGER)//
+    .name(CategoryTypeEnum.ELCETROMENAGER.name())//
+    .description("Catégorie des produits ELCETRO-MENAGER").products(ELECTROS_WITH_ID()).build();
 
     private static final Set<Product> MEUBLES()
     {
@@ -239,9 +436,22 @@ public final class TestsDataUtils
         return products;
     }
 
+    private static final Set<Product> MEUBLES_WITH_ID()
+    {
+        final Set<Product> products = Sets.newHashSet();
+        products.add(PRODUCT4);
+        products.add(PRODUCT5);
+        products.add(PRODUCT6);
+        return products;
+    }
+
     public static final Category CATEGORY_2 = Category.builder().categoryType(CategoryTypeEnum.MEUBLES_DECO)//
-    .name(CategoryTypeEnum.MEUBLES_DECO.getValue())//
+    .name(CategoryTypeEnum.MEUBLES_DECO.name())//
     .description("Catégorie des produits MEUBLES-DECO").products(MEUBLES()).build();
+
+    public static final Category CATEGORY2 = Category.builder().id(2L).categoryType(CategoryTypeEnum.MEUBLES_DECO)//
+    .name(CategoryTypeEnum.MEUBLES_DECO.name())//
+    .description("Catégorie des produits MEUBLES-DECO").products(MEUBLES_WITH_ID()).build();
 
     private static final Set<Product> SONS()
     {
@@ -252,9 +462,22 @@ public final class TestsDataUtils
         return products;
     }
 
+    private static final Set<Product> SONS_WITH_ID()
+    {
+        final Set<Product> products = Sets.newHashSet();
+        products.add(PRODUCT7);
+        products.add(PRODUCT8);
+        products.add(PRODUCT9);
+        return products;
+    }
+
     public static final Category CATEGORY_3 = Category.builder().categoryType(CategoryTypeEnum.SON)//
-    .name(CategoryTypeEnum.SON.getValue())//
+    .name(CategoryTypeEnum.SON.name())//
     .description("Catégorie des produits de SON").products(SONS()).build();
+
+    public static final Category CATEGORY3 = Category.builder().id(3L).categoryType(CategoryTypeEnum.SON)//
+    .name(CategoryTypeEnum.SON.name())//
+    .description("Catégorie des produits de SON").products(SONS_WITH_ID()).build();
 
     private static final Set<Product> INFORMATIQUE()
     {
@@ -265,9 +488,22 @@ public final class TestsDataUtils
         return products;
     }
 
+    private static final Set<Product> INFORMATIQUE_WITH_ID()
+    {
+        final Set<Product> products = Sets.newHashSet();
+        products.add(PRODUCT10);
+        products.add(PRODUCT11);
+        products.add(PRODUCT12);
+        return products;
+    }
+
     public static final Category CATEGORY_4 = Category.builder().categoryType(CategoryTypeEnum.INFORMATIQUE)//
-    .name(CategoryTypeEnum.INFORMATIQUE.getValue())//
+    .name(CategoryTypeEnum.INFORMATIQUE.name())//
     .description("Catégorie des produits INFORMATIQUE").products(INFORMATIQUE()).build();
+
+    public static final Category CATEGORY4 = Category.builder().id(4L).categoryType(CategoryTypeEnum.INFORMATIQUE)//
+    .name(CategoryTypeEnum.INFORMATIQUE.name())//
+    .description("Catégorie des produits INFORMATIQUE").products(INFORMATIQUE_WITH_ID()).build();
 
     private static final Set<Product> TELEPHONIE()
     {
@@ -277,9 +513,21 @@ public final class TestsDataUtils
         return products;
     }
 
+    private static final Set<Product> TELEPHONIEE_WITH_ID()
+    {
+        final Set<Product> products = Sets.newHashSet();
+        products.add(PRODUCT13);
+        products.add(PRODUCT14);
+        return products;
+    }
+
     public static final Category CATEGORY_5 = Category.builder().categoryType(CategoryTypeEnum.TELEPHONIE)//
-    .name(CategoryTypeEnum.TELEPHONIE.getValue())//
+    .name(CategoryTypeEnum.TELEPHONIE.name())//
     .description("Catégorie des produits TELEPHONIE").products(TELEPHONIE()).build();
+
+    public static final Category CATEGORY5 = Category.builder().id(5L).categoryType(CategoryTypeEnum.TELEPHONIE)//
+    .name(CategoryTypeEnum.TELEPHONIE.name())//
+    .description("Catégorie des produits TELEPHONIE").products(TELEPHONIEE_WITH_ID()).build();
 
     // Liste des produits
     public static final List<Category> CATEGORIES()
@@ -290,6 +538,17 @@ public final class TestsDataUtils
         categories.add(CATEGORY_3);
         categories.add(CATEGORY_4);
         categories.add(CATEGORY_5);
+        return categories;
+    }
+
+    public static final List<Category> CATEGORIES_WITH_ID()
+    {
+        final List<Category> categories = Lists.newArrayList();
+        categories.add(CATEGORY);
+        categories.add(CATEGORY2);
+        categories.add(CATEGORY3);
+        categories.add(CATEGORY4);
+        categories.add(CATEGORY5);
         return categories;
     }
 
@@ -399,7 +658,6 @@ public final class TestsDataUtils
         assertThat(actual.getCreatedTime()).isEqualTo(expected.getCreatedTime());
         assertThat(actual.getUpdatedTime()).isEqualTo(expected.getUpdatedTime());
     }
-    
 
     public static void assertAllUserWithoutTime(final User expected, final User actual)
     {

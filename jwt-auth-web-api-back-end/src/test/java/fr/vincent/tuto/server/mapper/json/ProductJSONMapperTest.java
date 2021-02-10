@@ -17,7 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,18 +39,23 @@ import fr.vincent.tuto.common.constants.AppConstants;
 import fr.vincent.tuto.common.exception.CustomAppException;
 import fr.vincent.tuto.common.mapper.GenericJSONMapper;
 import fr.vincent.tuto.server.config.BackEndServerRootConfig;
+import fr.vincent.tuto.server.constants.ServerConstants;
+import fr.vincent.tuto.server.mapper.ProductMapper;
 import fr.vincent.tuto.server.model.dto.ProductDTO;
+import fr.vincent.tuto.server.model.po.Product;
+import fr.vincent.tuto.server.utils.TestsDataUtils;
 
 /**
- * Classe des Tests unitaires pour la production de données au format JSON.
+ * Classe des Tests d'Intégration des composants pour la production de données au format JSON des objet de type
+ * {@link Product} et {@link ProductDTO}.
  * 
  * @author Vincent Otchoun
  */
 @RunWith(SpringRunner.class)
 // @JsonTest
 @TestPropertySource(value = { "classpath:back-end-db-test.properties", "classpath:back-end-application-test.properties" })
-@ContextConfiguration(name = "serverExceptionHandlerTest", classes = { BackEndServerRootConfig.class, GenericJSONMapper.class,
-        StringHttpMessageConverter.class })
+@ContextConfiguration(name = "productJSONMapperTest", classes = { BackEndServerRootConfig.class, GenericJSONMapper.class,
+        StringHttpMessageConverter.class, ProductMapper.class })
 @SpringBootTest
 @ActiveProfiles("test")
 class ProductJSONMapperTest
@@ -58,6 +65,12 @@ class ProductJSONMapperTest
     private static final String FILE_NAME_COMP = "_List";
     private static final String INMEMORY_FILE = "_InMemory_List";
     private static final String PRETTY_FILE = "_List_Pretty";
+    private static final String LIST_PRETTY_FILE = "_With_List_Pretty";
+    private static final String SET_PRETTY_FILE = "_With_Set_Pretty";
+
+    private static final String TRIPLE_FORMAT_STR = "%s%s%s";
+    private static final String QUATRE_FORMAT_STR = "%s%s%s%s";
+    private static final String CINQ_FORMAT_STR = "%s%s%s%s%s";
 
     private static final String PRODUCT_JSON = "{\"id\":10,\"name\":\"Nom produit de Test L2008902 du DTO\",\"description\":\"Description produit de Test du DTO\",\"quantity\":2,\"unitPrice\":10.00,\"price\":20.00,\"isActive\":true,\"imageUrl\":\"img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg\"}";
     private static final String PRODUCT_JSON_PRETTY_PRINT = "{\"id\" : 10,\r\n" + "  \"name\" : \"Nom produit de Test L2008902 du DTO\",\r\n"
@@ -68,11 +81,14 @@ class ProductJSONMapperTest
     @Autowired
     private GenericJSONMapper genericJSONMapper;
 
+    @Autowired
+    private ProductMapper productMapper;
+
     // @Autowired
     // private JacksonTester<ProductDTO> jsonTester; // pour l'utiliser, il faut : @JsonTest et StringHttpMessageConverter
     // et pas @SpringBootTest
 
-    @Value("${vot.json.file.test.location}")
+    @Value("${vot.json.file.test.location.product}")
     private String jsonFilePathLocation;
 
     private ProductDTO dto;
@@ -103,6 +119,7 @@ class ProductJSONMapperTest
     void tearDown() throws Exception
     {
         this.genericJSONMapper = null;
+        this.productMapper = null;
     }
 
     /**
@@ -114,8 +131,6 @@ class ProductJSONMapperTest
     {
         final String strJson = this.genericJSONMapper.toStringJSON(this.dto, false);
 
-        // System.err.println(">>>>>> Le flux JSON formaté de l'articles est :\n" + strJson);
-
         assertThat(strJson).isNotNull();
         assertThat(strJson.length()).isPositive();
         assertThat(strJson.toString()).contains("Nom produit de Test L2008902");
@@ -126,8 +141,6 @@ class ProductJSONMapperTest
     void testToStringJSON_PrettyPrint()
     {
         final String strJson = this.genericJSONMapper.toStringJSON(this.dto, true);
-
-        // System.err.println(">>>>>> Le flux JSON formaté de l'articles est :\n" + strJson);
 
         assertThat(strJson).isNotNull();
         assertThat(strJson.length()).isPositive();
@@ -380,10 +393,6 @@ class ProductJSONMapperTest
     @Test
     void testToJSONObjectList_WithNullList()
     {
-        final List<String> productsStrList = Lists.newArrayList();
-        productsStrList.add(null);
-        productsStrList.add(null);
-
         final List<ProductDTO> dtos = (List<ProductDTO>) this.genericJSONMapper.toJSONObjectList(null, ProductDTO.class);
 
         assertThat(dtos).isEmpty();
@@ -416,7 +425,7 @@ class ProductJSONMapperTest
         dtos.add(this.dto);
         dtos.add(this.dto);
 
-        final String filename = this.jsonFilePathLocation + ProductDTO.class.getSimpleName() + FILE_NAME_COMP + AppConstants.JSON_FILE_SUFFIXE;
+        final String filename = String.format(QUATRE_FORMAT_STR, this.jsonFilePathLocation , ProductDTO.class.getSimpleName() ,FILE_NAME_COMP , AppConstants.JSON_FILE_SUFFIXE);
         final Boolean isFileCreated = this.genericJSONMapper.writeJSONFile(filename, false, dtos, false);
 
         assertThat(isFileCreated).isTrue();
@@ -431,8 +440,7 @@ class ProductJSONMapperTest
         dtos.add(this.dto);
         dtos.add(this.dto);
 
-        final String filename = this.jsonFilePathLocation + ProductDTO.class.getSimpleName() + FILE_NAME_COMP;
-
+        final String filename = String.format(TRIPLE_FORMAT_STR, this.jsonFilePathLocation , ProductDTO.class.getSimpleName() , FILE_NAME_COMP);
         final Boolean isFileCreated = this.genericJSONMapper.writeJSONFile(filename, false, dtos, false);
 
         assertThat(isFileCreated).isTrue();
@@ -447,7 +455,7 @@ class ProductJSONMapperTest
         dtos.add(this.dto);
         dtos.add(this.dto);
 
-        final String filename = this.jsonFilePathLocation + ProductDTO.class.getSimpleName() + INMEMORY_FILE;
+        final String filename = String.format(TRIPLE_FORMAT_STR, this.jsonFilePathLocation , ProductDTO.class.getSimpleName() , INMEMORY_FILE);
         final Boolean isFileCreated = this.genericJSONMapper.writeJSONFile(filename, false, dtos, false);
 
         assertThat(isFileCreated).isTrue();
@@ -462,10 +470,110 @@ class ProductJSONMapperTest
         dtos.add(this.dto);
         dtos.add(this.dto);
 
-        final String filename = this.jsonFilePathLocation + ProductDTO.class.getSimpleName() + PRETTY_FILE + AppConstants.JSON_FILE_SUFFIXE;
+        final String filename = String.format(QUATRE_FORMAT_STR, this.jsonFilePathLocation, ProductDTO.class.getSimpleName(), PRETTY_FILE,
+        AppConstants.JSON_FILE_SUFFIXE);
         final Boolean isFileCreated = this.genericJSONMapper.writeJSONFile(filename, false, dtos, true);
 
         assertThat(isFileCreated).isTrue();
+    }
+
+    @Test
+    void testWriteJSONFile_WithPrettyPrintTrue_ListAndSet()
+    {
+        //
+        final ProductDTO dto1 = ProductDTO.builder()//
+        .id(11L)//
+        .name("Nom produit de Test L2008902 du DTO 1")//
+        .description("Description produit de Test du DTO 1") //
+        .quantity(2L)//
+        .unitPrice(new BigDecimal("10.00"))//
+        .price(new BigDecimal("20.00"))//
+        .imageUrl("img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg") //
+        .isActive(Boolean.TRUE)//
+        .build();
+
+        final ProductDTO dto2 = ProductDTO.builder()//
+        .id(12L)//
+        .name("Nom produit de Test L2008902 du DTO 2")//
+        .description("Description produit de Test du DTO 2") //
+        .quantity(2L)//
+        .unitPrice(new BigDecimal("10.00"))//
+        .price(new BigDecimal("20.00"))//
+        .imageUrl("img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg") //
+        .isActive(Boolean.TRUE)//
+        .build();
+
+        final ProductDTO dto3 = ProductDTO.builder()//
+        .id(13L)//
+        .name("Nom produit de Test L2008902 du DTO 3")//
+        .description("Description produit de Test du DTO 3") //
+        .quantity(2L)//
+        .unitPrice(new BigDecimal("10.00"))//
+        .price(new BigDecimal("20.00"))//
+        .imageUrl("img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg") //
+        .isActive(Boolean.TRUE)//
+        .build();
+
+        final Set<ProductDTO> dtos = Sets.newHashSet();
+        dtos.add(this.dto);
+        dtos.add(dto1);
+        dtos.add(dto2);
+        dtos.add(dto3);
+        dtos.add(null);
+
+        final List<Product> products = (List<Product>) this.productMapper.toProducts(dtos); // List
+        final Set<Product> set = ServerConstants.listToSet(products); // Set
+
+        // Création du fichier au format JSON avec List
+        final String filename = String.format(QUATRE_FORMAT_STR, this.jsonFilePathLocation, ProductDTO.class.getSimpleName(), LIST_PRETTY_FILE,
+        AppConstants.JSON_FILE_SUFFIXE);
+        final Boolean isFileCreated = this.genericJSONMapper.writeJSONFile(filename, false, products, true);
+
+        // Création du fichier au format JSON avec Set
+        final String filename1 = String.format(QUATRE_FORMAT_STR, this.jsonFilePathLocation, ProductDTO.class.getSimpleName(), SET_PRETTY_FILE,
+        AppConstants.JSON_FILE_SUFFIXE);
+        final Boolean isFileCreated1 = this.genericJSONMapper.writeJSONFile(filename1, false, set, true);
+
+        assertThat(isFileCreated).isTrue();
+        assertThat(isFileCreated1).isTrue();
+    }
+
+    @Test
+    void testWriteJSONFile_WithPrettyPrintTrue_NoID()
+    {
+
+        final List<Product> productsList = TestsDataUtils.PRODUCTS();
+        final Set<Product> productsSet = ServerConstants.listToSet(productsList);
+
+        // Création du fichier au format JSON avec List
+        final String filename = String.format(CINQ_FORMAT_STR, this.jsonFilePathLocation , Product.class.getSimpleName() , "_NO_ID" , LIST_PRETTY_FILE,AppConstants.JSON_FILE_SUFFIXE);
+        final Boolean isFileCreated = this.genericJSONMapper.writeJSONFile(filename, false, productsList, true);
+
+        // Création du fichier au format JSON avec Set
+        final String filename1 = String.format(CINQ_FORMAT_STR, this.jsonFilePathLocation , Product.class.getSimpleName() , "_NO_ID" , SET_PRETTY_FILE,AppConstants.JSON_FILE_SUFFIXE);
+        final Boolean isFileCreated1 = this.genericJSONMapper.writeJSONFile(filename1, false, productsSet, true);
+
+        assertThat(isFileCreated).isTrue();
+        assertThat(isFileCreated1).isTrue();
+    }
+
+    @Test
+    void testWriteJSONFile_WithPrettyPrintTrue_ID()
+    {
+
+        final List<Product> productsList = TestsDataUtils.PRODUCTS_WITH_ID();
+        final Set<Product> productsSet = ServerConstants.listToSet(productsList);
+
+        // Création du fichier au format JSON avec List
+        final String filename = String.format(CINQ_FORMAT_STR, this.jsonFilePathLocation , Product.class.getSimpleName() , "_ID" , LIST_PRETTY_FILE,AppConstants.JSON_FILE_SUFFIXE);
+        final Boolean isFileCreated = this.genericJSONMapper.writeJSONFile(filename, false, productsList, true);
+
+        // Création du fichier au format JSON avec Set
+        final String filename1 = String.format(CINQ_FORMAT_STR, this.jsonFilePathLocation , Product.class.getSimpleName() , "_ID" , SET_PRETTY_FILE,AppConstants.JSON_FILE_SUFFIXE);
+        final Boolean isFileCreated1 = this.genericJSONMapper.writeJSONFile(filename1, false, productsSet, true);
+
+        assertThat(isFileCreated).isTrue();
+        assertThat(isFileCreated1).isTrue();
     }
 
     @Test

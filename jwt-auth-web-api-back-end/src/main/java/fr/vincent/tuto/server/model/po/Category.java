@@ -38,6 +38,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import fr.vincent.tuto.server.constants.ServerConstants;
 import fr.vincent.tuto.server.enumeration.CategoryTypeEnum;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -75,15 +76,15 @@ public class Category extends AbstractPersistable<Long> implements Serializable
     @Column(name = "ID", updatable = false, nullable = false)
     private Long id; // identifiant technique auto-généré de l'objet en base.
 
-    @NotNull
+    @NotNull(message = ServerConstants.CATEGORY_NAME)
     @Column(name = "NAME", nullable = false)
     private String name; // le nom de la catégorie de produit.
     
-    @NotNull
+    @NotNull(message = ServerConstants.CATEGORY_DESC)
     @Column(name = "DESCRIPTION", nullable = false)
     private String description; // la description de la catégorie de produit.
     
-    @NotNull
+    @NotNull(message = ServerConstants.CATEGORY_ACTIVE)
     @Column(name = "ENABLED", nullable = false)
     private Boolean enabled; // indique si la catégorie est active ou non.
     
@@ -92,7 +93,7 @@ public class Category extends AbstractPersistable<Long> implements Serializable
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Product> products; // la liste des produits de la catégorie.
     
-    @NotNull
+    @NotNull(message = ServerConstants.CATEGORY_TYPE)
     @Enumerated(EnumType.STRING)
     @Column(name = "CATEGORY_TYPE", nullable = false)
     private CategoryTypeEnum categoryType;

@@ -46,8 +46,8 @@ Le tableau ci-dessous dresse l'ensemble (une liste non exhaustive) des exigences
 |Processus|Fonctionnalités|
 |---|---|
 |**Gestion des utilisateurs**|_<ul><li>Se Connecter/Déconnecter de l'application</li><li>Ajouter de nouveaux utilisateurs dans le SI avec leurs rôles</li><li>Mettre à jour les informations d'un utilisateur existant</li><li>Supprimer les informations de l'utilisateur du SI</li><li>Rechercher les informations d'un utilisateur dans le SI selon son identifiant</li><li>Obtenir la liste des utilisateurs du système</li></ul>_| 
-|**Gestion des produits**|_<ul><li>Ajouter les inforations de nouveaux produits dans le SI</li><li>Mettre à jour les informations d'un produit existant dans le SI</li><li>Supprimer les informations d'un produit du SI</li><li>Rechercher les informations d'un produit dans le SI selon son identifiant</li><li>Obtenir la liste des produits du système</li><li>Obtenir la liste de produits filtrée avec le nom de produit qui `match` avec le `pattern` fourni</li></ul>_|
-|**Gestion des catégories de produits**|_<ul><li>Ajouter de nouvelles catégories de produits dans le SI</li><li>Mettre à jour les informations d'une catégorie de produits dans le SI</li><li>Supprimer les informations d'une catégorie de produits du SI</li><li>Rechercher les informations d'une catégorie de produits dans le SI</li><li>Obtenir la liste des catégories de produits du SI</li><li>Obtenir la liste de catégories de produits filtrée avec le nom de produit qui `match` avec le `pattern` fourni</li></ul>_|
+|**Gestion des produits**|_<ul><li>Ajouter les informations de nouveaux produits dans le SI</li><li>Mettre à jour les informations d'un produit existant dans le SI</li><li>Supprimer les informations d'un produit du SI</li><li>Rechercher les informations d'un produit dans le SI selon son identifiant</li><li>Obtenir la liste des produits du système</li><li>Obtenir la liste filtrée de produits dont le nom `match` avec le `pattern` fourni</li></ul>_|
+|**Gestion des catégories de produits**|_<ul><li>Ajouter de nouvelles catégories de produits dans le SI</li><li>Mettre à jour les informations d'une catégorie de produits dans le SI</li><li>Supprimer les informations d'une catégorie de produits du SI</li><li>Rechercher les informations d'une catégorie de produits dans le SI</li><li>Obtenir la liste des catégories de produits du SI</li><li>Obtenir la liste filtrée de catégories de produits dont le nom de produit `match` avec le `pattern` fourni</li></ul>_|
 |**Gestion de la Sécurité**|_<ul><li>Gérer l'Authentification : qui permet de confirmer ou valider l'identité du client/l’utilisateur qui tente d’accéder au système d'informations</li><li>Gérer l'Autorisation (protection des ressources) : permet d’octroyer au client/l’utilisateur l’accès au système d’informations, donc aux ressources</li></ul>_|
 
 ### Les exigences non fonctionnelles 
@@ -66,14 +66,14 @@ A la lumière de tout ce qui est présenté ci-dessus, l'interface utilisateur d
 	- Supprimer les informations d'un utilisateur.
 - **Pour les catégories de produits** :
 	- _Ajouter les informations d'une nouvelle catégorie de produits_,
-	- _Ajouter les information d'un produit à une catégorie de produits_,
+	- _Ajouter les informations d'un produit à une catégorie de produits_,
 	- _Mettre à jour les informations d'une catégorie de produits_,
-	- _Réchercher les information d'une catégorie de produits (soit par son dientiant, par son nom, ...)_,
+	- _Réchercher les informations d'une catégorie de produits (soit par son identifiant, par son nom, ...)_,
 	- _Supprimmer du SI les informations d'une catégorie de produits_.	
 - **Pour les produits** :
 	- _Ajouter les informations d'un nouveau produit dans le SI_,
 	- _Mettre à jour les informations d'un produit existant dans le SI_,
-	- _Réchercher les information d'un produit (soit par son dientiant, par son nom, ...)_,
+	- _Réchercher les informations d'un produit (soit par son identifiant, par son nom, ...)_,
 	- _Supprimer du SI les inforamtions d'un produit_.
 
 ## Architecture Applicative et Technique Globale 
@@ -140,20 +140,20 @@ Une liste non exhaustive des technos embarquées pour le développment de cette 
 - `Lombok` bibliothèque Java pour générer du code couramment utilisé et faciliter le maintien du code source propre,  simplifier l'écriture des classes métiers (beans).
 - `Swagger 3.0.0 /OpenAPI` pour la documentation et tests de l'API.
 - `JUnit 5` pour l'écriture des codes sources des classes unitaires et d'intégration.
-- `SonarLint` intégré dans l'IDE (**_STS_**) pour `analyser la qualité du code` livré, poussé dans le `repository` (_bonnes pratiques de développement_).
-- `MoreUnit` intégré dans l'IDE (**_STS_**) pour `taguer` les classes du code source couvertes par des TU (_Tests Unitaires_).
+- `SonarLint` intégré dans l'IDE (_STS_) pour `analyser la qualité du code` livré, poussé dans le `repository` (_bonnes pratiques de développement_).
+- `MoreUnit` intégré dans l'IDE (_STS_) pour `taguer` les classes du code source couvertes par des TU (_Tests Unitaires_).
 
 # Les Tests
 Les outils de tests classiques de **Java** et **Spring** sont utilisés pour effectuer des tests.
 
 ## Les Types de Tests
-- **_Tests unitaires_** : pas seulement pour un effet de test immédiat du code, mais également permettre d'effectuer des tests de non-régression lors de modifications qui interviendront inévitablement durant la vie de l'application.
-- **_Tests d'intégration_** : assurer que le comportement de l'application est toujours aussi conforme, au fur et à mesure de l'assemblage des unités de code. Nous couvirons les deux types à savoir :
-	- _les tests d'intégration composants_ : vérifier si plusieurs unités de code fonctionnent corectement ensemble, dans un environnement de test assez proche du test unitaire, c'est-à-dire de manière isolée,
+- **Tests unitaires** : pas seulement pour un effet de test immédiat du code, mais également permettre d'effectuer des tests de non-régression lors de modifications qui interviendront inévitablement durant la vie de l'application.
+- **Tests d'intégration** : assurer que le comportement de l'application est toujours aussi conforme, au fur et à mesure de l'assemblage des unités de code. Nous couvirons les deux types à savoir :
+	- **_Tests d'intégration composants_** : vérifier que les unités de code fonctionnent corectement ensemble, dans un environnement de test assez proche du test unitaire, c'est-à-dire de manière isolée,
 sans lien avec des composants extérieurs et ne permettant pas le démarrage d'une vraie application. Ce type de test répond à la question : `Est-ce que les classes testées unitairement fonctionnent vraiment bien ensemble ?`
-	- _les tests d'intégration système_ : vérifier le bon fonctionnement de plusieurs unités de code au sein d'une configuration d'application, avec éventuellement des liens avec des composants extérieurs
+	- **_Tests d'intégration système_** : vérifier le bon fonctionnement de plusieurs unités de code au sein d'une configuration d'application, avec éventuellement des liens avec des composants extérieurs
 comme une base de données, des fichiers, ou des API en réseau. Ce type de test répond à la question : `Comment pouvons-nous rapidement tester que notre application en fonctionnement collaborerait avec le monde extérieur ?`
-- **_Tests fonctionnels_** :  partent de l'interface utilisateur pour obtenir un résultat selon un scénario prédéfini. Ils imitent l'utilisateur final de l'application. Un démarrage complet de l'application est donc nécessaire.
+- **Tests fonctionnels** :  partent de l'interface utilisateur pour obtenir un résultat selon un scénario prédéfini. Ils imitent l'utilisateur final de l'application. Un démarrage complet de l'application est donc nécessaire.
 Ce type de test répond à la question : `Comment pouvons-nous vérifier qu'un utilisateur final utilisera une application conforme et cohérente de bout en bout ?`
 
 ## Les Outils de Tests

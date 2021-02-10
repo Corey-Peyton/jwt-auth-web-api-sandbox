@@ -43,7 +43,7 @@ import fr.vincent.tuto.server.config.db.PersistanceConfig;
 import fr.vincent.tuto.server.model.po.Product;
 
 /**
- * Classe des Tests d'Intégration de objets de type {@link ProductService}
+ * Classe des Tests d'Intégration (composants et système) des objets de type {@link ProductService}
  * 
  * @author Vincent Otchoun
  */
@@ -102,8 +102,8 @@ class ProductServiceIT
     void testCreateProduct()
     {
         final Product savedProduct = this.productService.createProduct(this.product);
-        
-        System.err.println("Inditifnat du produit est :"+ savedProduct.getId()); 
+
+        System.err.println("Inditifnat du produit est :" + savedProduct.getId());
 
         assertThat(savedProduct).isNotNull();
         assertThat(savedProduct.getId()).isPositive();

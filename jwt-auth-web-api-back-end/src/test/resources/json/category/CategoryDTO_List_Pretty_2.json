@@ -1,0 +1,61 @@
+[ {
+  "id" : 1,
+  "name" : "ELCETROMENAGER",
+  "description" : "Catégorie des produits ELCETRO-MENAGER",
+  "type" : "ELCETROMENAGER",
+  "products" : [ {
+    "id" : 1,
+    "name" : "TEFAL L2008902",
+    "description" : "Batterie de cuisine 10 pièces Ingenio Essential - Tous feux sauf induction",
+    "quantity" : 5,
+    "unitPrice" : 5.539,
+    "price" : 55.39,
+    "imageUrl" : "img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg"
+  }, {
+    "id" : 2,
+    "name" : "PHILIPS FC8243/09",
+    "description" : "Aspirateur traîneau avec sac PowerGo - Suceur Plat Intégré - 750W - 77 dB - A - Rouge Sportif",
+    "quantity" : 1,
+    "unitPrice" : 5.499,
+    "price" : 54.99,
+    "imageUrl" : "img/philips-fc8243-09-aspirateur-traineau-avec-sac-pow.jpg"
+  }, {
+    "id" : 3,
+    "name" : "Lave-vaisselle ELECTROLUX ESF8650ROW",
+    "description" : "15 couverts - Largeur 60 cm - Classe A+++ - 44 dB - Blanc",
+    "quantity" : 1,
+    "unitPrice" : 439.99,
+    "price" : 439.99,
+    "imageUrl" : "img/lave-vaisselle-pose-libre-electrolux-esf8650row.jpg"
+  } ]
+}, {
+  "id" : 2,
+  "name" : "MEUBLES_DECO",
+  "description" : "Catégorie des produits MEUBLES-DECO",
+  "type" : "MEUBLES_DECO",
+  "products" : [ {
+    "id" : 6,
+    "name" : "COREP",
+    "description" : "Lampadaire en métal - E27 - 40 W - Noir et cuivre",
+    "quantity" : 1,
+    "unitPrice" : 29.99,
+    "price" : 29.99,
+    "imageUrl" : "img/corep-lampadaire-en-metal-e27-40-w-noir-et-c.jpg"
+  }, {
+    "id" : 5,
+    "name" : "TORPE",
+    "description" : "Bureau informatique contemporain 90x74x50 cm | Taille compacte + support clavier + tiroir | Table ordinateur | Sonoma",
+    "quantity" : 1,
+    "unitPrice" : 259.99,
+    "price" : 259.99,
+    "imageUrl" : "img/torpe-bureau-informatique-contemporain-90x74x50.jpg"
+  }, {
+    "id" : 4,
+    "name" : "BARCELONE",
+    "description" : "Canapé d'angle convertible 4 places + coffre de rangement - Tissu et simili Noir et Gris",
+    "quantity" : 1,
+    "unitPrice" : 499.99,
+    "price" : 499.99,
+    "imageUrl" : "img/barcelone-canape-d-angle-convertible-4-places-co.jpg"
+  } ]
+} ]

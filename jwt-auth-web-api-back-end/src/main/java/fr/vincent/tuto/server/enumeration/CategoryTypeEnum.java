@@ -18,36 +18,14 @@ package fr.vincent.tuto.server.enumeration;
  */
 public enum CategoryTypeEnum
 {
-    TELEPHONIE("TELEPHONIE"), //
-    TV("TV"), //
-    SON("SON"), //
-    INFORMATIQUE("INFORMATIQUE"), //
-    PHOTO("PHOTO"), //
-    JEUX_VIDEO("JEUX-VIDEO"), //
-    JOUETS("JOUETS"), //
-    ELCETROMENAGER("ELCETROMENAGER"), //
-    MEUBLES_DECO("MEUBLES-DECO"), //
-    LITERIE("LITERIE");
-
-    private String value;
-
-    /**
-     * Constructeur
-     * 
-     * @param string
-     */
-    private CategoryTypeEnum(String pValue)
-    {
-        this.value = pValue;
-    }
-
-    /**
-     * Retoruner la lvaleur attendue.
-     * 
-     * @return the value
-     */
-    public String getValue()
-    {
-        return this.value;
-    }
+    TELEPHONIE, //
+    TV, //
+    SON, //
+    INFORMATIQUE, //
+    PHOTO, //
+    JEUX_VIDEO, //
+    JOUETS, //
+    ELCETROMENAGER, //
+    MEUBLES_DECO, //
+    LITERIE;
 }
