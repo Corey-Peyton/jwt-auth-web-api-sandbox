@@ -9,7 +9,7 @@
  * Copyright © 2021 - All rights reserved.
  * ----------------------------------------------
  */
-package fr.vincent.tuto.server.mapper;
+package fr.vincent.tuto.server.service.mapper;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import fr.vincent.tuto.common.mapper.GenericObjectMapper;
 import fr.vincent.tuto.server.constants.ServerConstants;
@@ -34,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
  * 
  * @author Vincent Otchoun
  */
-@Component
+@Service
 @Slf4j
 public class CategoryMapper extends GenericObjectMapper<Category, CategoryDTO>
 {

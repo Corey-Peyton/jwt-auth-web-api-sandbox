@@ -9,7 +9,7 @@
  * Copyright © 2021 - All rights reserved.
  * ----------------------------------------------
  */
-package fr.vincent.tuto.server.mapper.json;
+package fr.vincent.tuto.server.service.mapper.json;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -34,6 +34,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -51,11 +52,11 @@ import fr.vincent.tuto.common.mapper.GenericJSONMapper;
 import fr.vincent.tuto.server.config.BackEndServerRootConfig;
 import fr.vincent.tuto.server.constants.ServerConstants;
 import fr.vincent.tuto.server.enumeration.CategoryTypeEnum;
-import fr.vincent.tuto.server.mapper.CategoryMapper;
-import fr.vincent.tuto.server.mapper.ProductMapper;
 import fr.vincent.tuto.server.model.dto.CategoryDTO;
 import fr.vincent.tuto.server.model.dto.ProductDTO;
 import fr.vincent.tuto.server.model.po.Category;
+import fr.vincent.tuto.server.service.mapper.CategoryMapper;
+import fr.vincent.tuto.server.service.mapper.ProductMapper;
 import fr.vincent.tuto.server.utils.TestsDataUtils;
 
 /**
@@ -68,7 +69,7 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
 @TestPropertySource(value = { "classpath:back-end-db-test.properties", "classpath:back-end-application-test.properties" })
 @ContextConfiguration(name = "categoryJSONMapperTest", classes = { BackEndServerRootConfig.class, GenericJSONMapper.class,
         StringHttpMessageConverter.class, ProductMapper.class, CategoryMapper.class })
-@SpringBootTest
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 class CategoryJSONMapperTest
 {

@@ -13,20 +13,20 @@ mais également la sécurisation des ressources de l'application.  Il fournit pr
 - Les données/informations sont stockées dans une base de données relationnelles.
 - Voir la section `Exigences` pour plus de détails sur les fonctionnalités embarquées.
 - Voir la section `Stack Technique` pour plus de détails sur l'ensemble des technos utilisées dans cette application.
-- **SI** : Système d'informations.	
+- **SI** : **S**ystème d'**I**nformations.	
 
 	
 # Spécifications 
-Dans cette section, quelques éléments sont fournis pour faciliter la compréhension du besoin et des réalisations techniques à venir.
-Les élements des processus de gestion : des autorisation, authentication et sécurisation des ressources (de l'application), seront mis en place à partir des spécifications
+Dans cette section, quelques éléments sont fournis pour faciliter la compréhension du besoin et les réalisations techniques à venir.
+Les élements des processus de gestion : _autorisation, authentication et sécurisation des ressources_ (de l'application), seront mis en place à partir des spécifications
 **JWT** avec **Spring Security**. 
-Les échanges se feront principalement entre le client (`front-end`) et le serveur (`back-end`). Les éléments ci-dessous sont fournis dans le cadre cette spécification :
+Les échanges se feront principalement entre le client (`front-end`) et le serveur (`back-end Java`). Les éléments ci-dessous sont fournis dans le cadre cette spécification :
 - Une brève présentation de JWT 
 - Le diagramme d'architecture applicative et technique
-- Les diagrammes de séquences du fonctionnement global pour les points suivants :
-	- Ajouter un nouvel utilisateur avec ses rôles dans le SI,
-	- Gérer la production/fourniture du jeton d'accès à la suite de la connexion des utilisateurs à l'application,	
-	- Accès aux resources protégées : fournir le jeton d'accès dans l'en-tête de la requête lors de la demande d'informations.
+- Les diagrammes de séquences du fonctionnement global des points suivants :
+	- Ajouter un nouvel utilisateur avec ses rôles dans le système d'information,
+	- Gérer la production/fourniture de jetons d'accès lorsque les utilisateurs se connectent à l'application,	
+	- Accès aux resources (_protégées_) de l'application : fournir le jeton d'accès dans l'en-tête de la requête lors de la demande d'informations.
 - Les schéma et modèle de données pour la gestion des informations **métier** de l'application.
 
 
@@ -36,19 +36,18 @@ Les échanges se feront principalement entre le client (`front-end`) et le serve
 - **J**SON **W**eb **S**ignature (JWS) ou 
 - **J**SON **W**eb **E**ncryption (JWE).
 
-**NB** :
-JWT peut être choisi comme format pour les jetons d'accès et d'actualisation utilisés dans le protocole OAuth2.
+Les **JWT** contiennent les informations nécéssaires pour aider au stockage de la session utilisateu, etc. JWT peut être choisi comme format pour les jetons d'accès et d'actualisation utilisés dans le protocole OAuth2.
 
 ## Les Exigences 
 
 ### Les exigences fonctionnelles 
-Le tableau ci-dessous dresse l'ensemble (une liste non exhaustive) des exigences fonctionnelles qui seront embarquées par le SI.
+Le tableau ci-dessous fournit une liste non exhaustive des exigences fonctionnelles qui seront embarquées par le SI.
 |Processus|Fonctionnalités|
 |---|---|
 |**Gestion des utilisateurs**|_<ul><li>Se Connecter/Déconnecter de l'application</li><li>Ajouter de nouveaux utilisateurs dans le SI avec leurs rôles</li><li>Mettre à jour les informations d'un utilisateur existant</li><li>Supprimer les informations de l'utilisateur du SI</li><li>Rechercher les informations d'un utilisateur dans le SI selon son identifiant</li><li>Obtenir la liste des utilisateurs du système</li></ul>_| 
 |**Gestion des produits**|_<ul><li>Ajouter les informations de nouveaux produits dans le SI</li><li>Mettre à jour les informations d'un produit existant dans le SI</li><li>Supprimer les informations d'un produit du SI</li><li>Rechercher les informations d'un produit dans le SI selon son identifiant</li><li>Obtenir la liste des produits du système</li><li>Obtenir la liste filtrée de produits dont le nom `match` avec le `pattern` fourni</li></ul>_|
 |**Gestion des catégories de produits**|_<ul><li>Ajouter de nouvelles catégories de produits dans le SI</li><li>Mettre à jour les informations d'une catégorie de produits dans le SI</li><li>Supprimer les informations d'une catégorie de produits du SI</li><li>Rechercher les informations d'une catégorie de produits dans le SI</li><li>Obtenir la liste des catégories de produits du SI</li><li>Obtenir la liste filtrée de catégories de produits dont le nom de produit `match` avec le `pattern` fourni</li></ul>_|
-|**Gestion de la Sécurité**|_<ul><li>Gérer l'Authentification : qui permet de confirmer ou valider l'identité du client/l’utilisateur qui tente d’accéder au système d'informations</li><li>Gérer l'Autorisation (protection des ressources) : permet d’octroyer au client/l’utilisateur l’accès au système d’informations, donc aux ressources</li></ul>_|
+|**Gestion de la Sécurité**|_<ul><li>Gérer l'Authentification : permet de confirmer ou valider l'identité du client/l’utilisateur qui tente d’accéder au système d'informations</li><li>Gérer l'Autorisation (protection des ressources) : permet d’octroyer au client/l’utilisateur l’accès au système d’informations, donc aux ressources de l'application</li></ul>_|
 
 ### Les exigences non fonctionnelles 
 Le tableau ci-dessous dresse une liste non exhaustive des exigences non fonctionnelles de l'application.
@@ -57,7 +56,7 @@ Le tableau ci-dessous dresse une liste non exhaustive des exigences non fonction
 |**Exigences non fonctionnelles**|_<ul><li>Gérer les logs</li><li>Gérer les erreurs/exceptions</li><li>Gérer les accès à la base de données</li><li>Gérer la migration des scripts de base de données (création de schémas, insertion, mise à jour de tables ou de données ...) avec **Flyway**</li></ul>_|
 
 ### Le Client (Front-end)
-A la lumière de tout ce qui est présenté ci-dessus, l'interface utilisateur doit permettre selon le rôle (les droits de l'utilisateurs) :
+A la lumière de tout ce qui est présenté ci-dessus, l'interface utilisateur doit permettre selon les rôles (les droits de l'utilisateurs) :
 - **Pour les utilisateurs** :
 	- _Se Connecter/Déconnecter de l'application_,
 	- _Ajouter/Inscrire un nouvel utilisateur dans le SI_,
@@ -127,7 +126,7 @@ Une liste non exhaustive des technos embarquées pour le développment de cette 
 ![](https://img.shields.io/badge/Lombok-✓-blue.svg)
 ![](https://img.shields.io/badge/SonarLint-✓-blue.svg)
 
-- C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage **Java** : 
+- C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage `Java` : 
 - `EA` (Entreprise Architect) pour la fourniture des éléments de modélisation et conception des spécifications globales fournies.
 - `Java 11` est utilisé pour la compilation et cible pour l'environnement d'exécution. Le code source est en partie en `Java 8`.
 - `Spring Security`, `JWT`, pour sécuriser les échanges (production de jetons, authentification et autorisation).
@@ -166,7 +165,7 @@ Les outils de tests proposés ou utilisées sont les suivants :
 - `Swagger`, `Postman` pour tester les fonctionnalités exposées par l'API.
 - Plugin `JaCoCo` maven (avec les plugin surefire et failsafe) pour produire le rapport de couverture de code.
 
-## Rapport de couverture des tests
+## Rapport de couverture de codes
 La couverture des tests est mesurée et fournie par `JaCoCo`. L'image ci-dessous fournit la couverture du code de l'application à l'exception des objets de couche de modèle (objets métiers).
 
 La copie d'écran ci-dessous fournit l'image de la couverture des tests lors des 1ères phases de développement du back-end.

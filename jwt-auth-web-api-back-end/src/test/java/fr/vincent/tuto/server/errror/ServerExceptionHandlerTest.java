@@ -22,11 +22,11 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.core.MethodParameter;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -68,7 +68,7 @@ import io.jsonwebtoken.JwtException;
 @TestPropertySource(value = { "classpath:back-end-db-test.properties", "classpath:back-end-application-test.properties" })
 @ContextConfiguration(name = "serverExceptionHandlerTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class,
         PersistanceConfig.class, ServerCacheConfig.class })
-@SpringBootTest
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 class ServerExceptionHandlerTest
 {
@@ -78,17 +78,10 @@ class ServerExceptionHandlerTest
     /**
      * @throws java.lang.Exception
      */
-    @BeforeEach
-    void setUp() throws Exception
-    {
-    }
-
-    /**
-     * @throws java.lang.Exception
-     */
     @AfterEach
     void tearDown() throws Exception
     {
+        this.exceptionHandler = null;
     }
 
     /**
@@ -500,7 +493,7 @@ class ServerExceptionHandlerTest
     }
 
     @Test
-    void testHandleMethodArgumentTypException_()
+    void testHandleMethodArgumentTypException_WithNull()
     {
         MethodArgumentTypeMismatchException mismatchException = new MethodArgumentTypeMismatchException(null, null, null, null, null);
         final ResponseEntity<GenericApiResponse<Product>> response = this.exceptionHandler.handleMethodArgumentTypException(mismatchException);

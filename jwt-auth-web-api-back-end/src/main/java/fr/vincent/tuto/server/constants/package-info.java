@@ -10,7 +10,8 @@
  * ----------------------------------------------
  */
 /**
+ * Les utilitaires de l'application.
+ * 
  * @author Vincent Otchoun
- *
  */
 package fr.vincent.tuto.server.constants;

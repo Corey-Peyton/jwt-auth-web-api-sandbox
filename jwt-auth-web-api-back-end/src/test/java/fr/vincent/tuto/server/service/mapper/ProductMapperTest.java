@@ -9,7 +9,7 @@
  * Copyright © 2021 - All rights reserved.
  * ----------------------------------------------
  */
-package fr.vincent.tuto.server.mapper;
+package fr.vincent.tuto.server.service.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
@@ -47,9 +48,9 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
  */
 @RunWith(SpringRunner.class)
 @TestPropertySource(value = { "classpath:back-end-db-test.properties", "classpath:back-end-application-test.properties" })
-@ContextConfiguration(name = "productMapperTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class,
-        PersistanceConfig.class, ProductMapper.class })
-@SpringBootTest
+@ContextConfiguration(name = "productMapperTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistanceConfig.class,
+        ProductMapper.class })
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 class ProductMapperTest
 {
@@ -65,6 +66,8 @@ class ProductMapperTest
     @BeforeEach
     void setUp() throws Exception
     {
+        this.productMapper.afterPropertiesSet();
+        
         // Instance de Product
         this.product = Product.builder()//
         .id(10L)//
@@ -101,7 +104,7 @@ class ProductMapperTest
 
     /**
      * Test method for
-     * {@link fr.vincent.tuto.server.mapper.ProductMapper#toDestObject(fr.vincent.tuto.server.model.po.Product)}.
+     * {@link fr.vincent.tuto.server.service.mapper.ProductMapper#toDestObject(fr.vincent.tuto.server.model.po.Product)}.
      */
     @Test
     void testToDestObjectProduct()
@@ -150,7 +153,7 @@ class ProductMapperTest
 
     /**
      * Test method for
-     * {@link fr.vincent.tuto.server.mapper.ProductMapper#toSourceObject(fr.vincent.tuto.server.model.dto.ProductDTO)}.
+     * {@link fr.vincent.tuto.server.service.mapper.ProductMapper#toSourceObject(fr.vincent.tuto.server.model.dto.ProductDTO)}.
      */
     @Test
     void testToSourceObjectProductDTO()
@@ -190,7 +193,7 @@ class ProductMapperTest
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.mapper.ProductMapper#toProductsDtos(java.util.Collection)}.
+     * Test method for {@link fr.vincent.tuto.server.service.mapper.ProductMapper#toProductsDtos(java.util.Collection)}.
      */
     @Test
     void testToDtos()
@@ -219,7 +222,7 @@ class ProductMapperTest
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.mapper.ProductMapper#toProducts(java.util.Collection)}.
+     * Test method for {@link fr.vincent.tuto.server.service.mapper.ProductMapper#toProducts(java.util.Collection)}.
      */
     @Test
     void testToProducts()

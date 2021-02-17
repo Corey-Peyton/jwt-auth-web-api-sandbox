@@ -9,7 +9,7 @@
  * Copyright © 2021 - All rights reserved.
  * ----------------------------------------------
  */
-package fr.vincent.tuto.server.mapper;
+package fr.vincent.tuto.server.service.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
@@ -42,7 +43,7 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
 @TestPropertySource(value = { "classpath:back-end-db-test.properties", "classpath:back-end-application-test.properties" })
 @ContextConfiguration(name = "categoryMapperTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistanceConfig.class,
         ProductMapper.class, CategoryMapper.class })
-@SpringBootTest
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 class CategoryMapperTest
 {
@@ -57,6 +58,7 @@ class CategoryMapperTest
     @BeforeEach
     void setUp() throws Exception
     {
+        this.categoryMapper.afterPropertiesSet();
         //
         this.categoryDTO = TestsDataUtils.CATEGORY_DTO;
     }
@@ -73,7 +75,7 @@ class CategoryMapperTest
 
     /**
      * Test method for
-     * {@link fr.vincent.tuto.server.mapper.CategoryMapper#toSourceObject(fr.vincent.tuto.server.model.dto.CategoryDTO)}.
+     * {@link fr.vincent.tuto.server.service.mapper.CategoryMapper#toSourceObject(fr.vincent.tuto.server.model.dto.CategoryDTO)}.
      */
     @Test
     void testToSourceObjectCategoryDTO()
@@ -95,7 +97,7 @@ class CategoryMapperTest
     
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.mapper.CategoryMapper#toCategories(java.util.Collection)}.
+     * Test method for {@link fr.vincent.tuto.server.service.mapper.CategoryMapper#toCategories(java.util.Collection)}.
      */
     @Test
     void testToCategories()
@@ -121,7 +123,7 @@ class CategoryMapperTest
     
     /**
      * Test method for
-     * {@link fr.vincent.tuto.server.mapper.CategoryMapper#toDestObject(fr.vincent.tuto.server.model.po.Category)}.
+     * {@link fr.vincent.tuto.server.service.mapper.CategoryMapper#toDestObject(fr.vincent.tuto.server.model.po.Category)}.
      */
     @Test
     void testToDestObjectCategory()
@@ -142,7 +144,7 @@ class CategoryMapperTest
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.mapper.CategoryMapper#toCategoryDtos(java.util.Collection)}.
+     * Test method for {@link fr.vincent.tuto.server.service.mapper.CategoryMapper#toCategoryDtos(java.util.Collection)}.
      */
     @Test
     void testToCategoryDtos()

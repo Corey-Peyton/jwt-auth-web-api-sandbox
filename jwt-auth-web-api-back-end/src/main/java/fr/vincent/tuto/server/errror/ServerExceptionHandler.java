@@ -169,5 +169,4 @@ public class ServerExceptionHandler<T> extends GenericGlobalExceptionHandler<T>
         .validationErrors(null);
         return RestUtils.buildResponseErrorEntity(error);
     }
-
 }

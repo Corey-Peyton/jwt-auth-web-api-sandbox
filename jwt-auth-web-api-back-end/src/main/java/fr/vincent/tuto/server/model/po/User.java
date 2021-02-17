@@ -71,7 +71,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor // génère le constructeur sans arguments.
 @EqualsAndHashCode(callSuper = false, of = "id") // génère equals et hashCode (et d'autres méthodes) sur les champs donnés.
 @FieldDefaults(level = AccessLevel.PRIVATE) // Passe tous les champs en private.
-@AllArgsConstructor(access = AccessLevel.PROTECTED) // le constructeur avec tous les arguments est nécessaire au Builder, mais pour le rendre
+@AllArgsConstructor(access = AccessLevel.PRIVATE) // le constructeur avec tous les arguments est nécessaire au Builder, mais pour le rendre
                                                     // inaccessible depuis un autre
 // package, mais toujours depuis le Builder, je le place ici en protected
 @Builder // génère une classe interne de type « Builder »
@@ -84,7 +84,6 @@ public class User extends AbstractPersistable<Long> implements Serializable
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ_GENERATOR")
     @Column(name = "ID", updatable = false, nullable = false)
     private Long id; // identifiant technique auto-généré de l'objet en base.
 
@@ -94,7 +93,7 @@ public class User extends AbstractPersistable<Long> implements Serializable
     @Column(name = "USER_NAME", nullable = false, unique = true)
     private String username; // le login utilisé pour authentifier l'utilisateur (non null et unique).
 
-    @JsonIgnore
+    // @JsonIgnore
     @NotNull(message = ServerConstants.PWD_VALIDATION_MSG)
     @Pattern(regexp = ServerConstants.PASSWORD_REGEX, message = ServerConstants.PWD_VALIDATION_MSG)
     @Size(min = 60, max = 60)
@@ -132,7 +131,7 @@ public class User extends AbstractPersistable<Long> implements Serializable
     private LocalDateTime createdTime; // horodatage pour la création de l'objet en base.
 
     @Column(name = "UPDATED_TIME", insertable = false, updatable = true)
-    @DateTimeFormat(iso =ISO.DATE_TIME )
+    @DateTimeFormat(iso = ISO.DATE_TIME)
     private LocalDateTime updatedTime; // horodatage pour la modification de l'objet en base.
 
     @JsonIgnore

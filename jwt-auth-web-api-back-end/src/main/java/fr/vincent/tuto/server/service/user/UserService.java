@@ -114,7 +114,7 @@ public class UserService
     }
 
     /**
-     * Rechecher l'existence des informations de l'utilisateur dans la base de données à partir de son login.
+     * Rechecher l'existence des détails de l'utilisateur dans la base de données à partir de son login.
      * 
      * @param pUsername le critère de recherche (le login de l'utilisateur recherché).
      * @return true si l'utilisateur existe, false sinon.
@@ -128,7 +128,7 @@ public class UserService
     }
 
     /**
-     * Rechecher l'existence des informations de l'utilisateur dans la base de données à partir de son adresse mail.
+     * Rechecher l'existence des détails de l'utilisateur dans la base de données à partir de son adresse mail.
      * 
      * @param pEmail le critère de recherche (adresse email de l'utilisateur recherché).
      * @return true si l'utilisateur existe, false sinon.
@@ -161,7 +161,7 @@ public class UserService
     }
 
     /**
-     * Rechecher les informations de l'utilisateur dans la base de données par grappes sur les rôles à partir de son
+     * Rechecher les détails de l'utilisateur dans la base de données par grappes sur les rôles à partir de son
      * login avec mise en cache du résultat.
      * 
      * @param pUsername le critère de recherche (le login de l'utilisateur recherché).
@@ -180,7 +180,7 @@ public class UserService
     }
 
     /**
-     * Rechecher les informations de l'utilisateur dans la base de données par grappes sur les rôles à partir de son
+     * Rechecher les détails de l'utilisateur dans la base de données par grappes sur les rôles à partir de son
      * adresse mail avec mise en cache du résultat.
      * 
      * @param pEmail adresse mail de l'utilisateur recherché.

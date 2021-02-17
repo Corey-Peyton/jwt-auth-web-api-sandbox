@@ -9,13 +9,13 @@
  * Copyright © 2021 - All rights reserved.
  * ----------------------------------------------
  */
-package fr.vincent.tuto.server.mapper;
+package fr.vincent.tuto.server.service.mapper;
 
 import java.util.Collection;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import fr.vincent.tuto.common.mapper.GenericObjectMapper;
 import fr.vincent.tuto.server.model.dto.ProductDTO;
@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
  * 
  * @author Vincent Otchoun
  */
-@Component
+@Service
 @Slf4j
 public class ProductMapper extends GenericObjectMapper<Product, ProductDTO> implements InitializingBean
 {

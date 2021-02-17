@@ -63,6 +63,8 @@ public final class ServerConstants
     public static final String PRODUCT_IMG = "Veuillez indiquer l'emplacement de l'url du produit.";
 
     // USER Model Validation et messages
+    public static final String USER_ROLE_TYPE_REGEX = "Pour le rôle de l'utilisateur, seules les valeurs : ROLE_USER,ROLE_ADMIN,ROLE_MODERATOR sont acceptées.";
+    public static final String USER_ROLE_MSG = "Le rôle de l'utilisateur ne peut pas être null ou vide. L'utilisateur doit disposer d'au moins un rôle.";
     public static final String USERNAME_VALIDATION_MSG = "Veuillez fournir un nom d'utilisateur entre 3 et 80 caractères";
     public static final String PWD_VALIDATION_MSG = "Veuillez fournir un mot de passe de 8 caractères ou plus avec au moins 1 chiffre et 1 lettre";
     public static final String EMAIL_VALIDATION_MSG = "Veuillez fournir un email valide";
@@ -99,6 +101,9 @@ public final class ServerConstants
 
     public static final String CET_DATE_FORMAT_WITHOUT_TIMEZONE_TEXT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
     public static final String APP_DATE_TIME_ISO_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
+    public static final String FR_LOCALE = "fr-FR";
+    public static final String US_LOCALE = "en-US";
+    public static final String CET_TIMEZONE = "Europe/Paris";
 
     // REGEX ET PATTERNS
     public static final Pattern UUID_PATTERN = AppConstants.UUID_PATTERN;

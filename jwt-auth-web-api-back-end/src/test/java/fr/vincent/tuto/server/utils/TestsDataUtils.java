@@ -29,6 +29,7 @@ import fr.vincent.tuto.server.enumeration.CategoryTypeEnum;
 import fr.vincent.tuto.server.enumeration.RoleEnum;
 import fr.vincent.tuto.server.model.dto.CategoryDTO;
 import fr.vincent.tuto.server.model.dto.ProductDTO;
+import fr.vincent.tuto.server.model.dto.UserDTO;
 import fr.vincent.tuto.server.model.po.Category;
 import fr.vincent.tuto.server.model.po.Product;
 import fr.vincent.tuto.server.model.po.User;
@@ -286,7 +287,7 @@ public final class TestsDataUtils
         assertThat(actual.getProducts()).isEqualTo(expected.getProducts());
         assertThat(actual.getProducts().size()).isEqualTo(expected.getProducts().size());
     }
-    
+
     public static void assertCategoryAndCategoryDTO(final Category expected, final CategoryDTO actual)
     {
         assertThat(actual.getId()).isEqualTo(expected.getId());
@@ -325,7 +326,7 @@ public final class TestsDataUtils
     ////////////////////////////////
     ///// FABRICATION DES DTO
     ////////////////////////////////
-    
+
     public final ProductDTO PRODUCT_DTO = ProductDTO.builder().id(1L).name("TEFAL L2008902")//
     .description("Batterie de cuisine 10 pièces Ingenio Essential - Tous feux sauf induction")//
     .quantity(5L).unitPrice(new BigDecimal("5.539")).price(new BigDecimal("55.39")).imageUrl(
@@ -392,7 +393,7 @@ public final class TestsDataUtils
         categories.add(CATEGORY_DTO2);
         return categories;
     }
-    
+
     public static final List<CategoryDTO> CATEGORIES_DTO_SINGLE()
     {
         final List<CategoryDTO> categories = Lists.newArrayList();
@@ -586,6 +587,13 @@ public final class TestsDataUtils
         return users;
     }
 
+    /**
+     * @param pRole
+     * @param pUsername
+     * @param pPwd
+     * @param pEmail
+     * @return
+     */
     public static User createUser(final String pRole, final String pUsername, final String pPwd, final String pEmail)
     {
         // ACTIVE USER
@@ -595,18 +603,18 @@ public final class TestsDataUtils
         .username(pUsername)//
         .password(pwdEncoder().encode(pPwd))//
         .email(pEmail)//
-        // .accountExpired(Boolean.FALSE)//
-        // .accountLocked(Boolean.FALSE)//
-        // .credentialsExpired(Boolean.FALSE)//
-        // .enabled(Boolean.TRUE)//
         .roles(roleEnums)//
-        // .createdTime(LocalDateTime.now(ZoneId.systemDefault()))//
-        // .updatedTime(LocalDateTime.now(ZoneId.systemDefault()))//
-        // .version(Integer.valueOf(0))//
         .build();
         return user;
     }
 
+    /**
+     * @param pRoleEnums
+     * @param pUsername
+     * @param pPwd
+     * @param pEmail
+     * @return
+     */
     public static User createUserWithSet(final Set<RoleEnum> pRoleEnums, final String pUsername, final String pPwd, final String pEmail)
     {
         // ACTIVE USER
@@ -614,18 +622,18 @@ public final class TestsDataUtils
         .username(pUsername)//
         .password(pwdEncoder().encode(pPwd))//
         .email(pEmail)//
-        // .accountExpired(Boolean.FALSE)//
-        // .accountLocked(Boolean.FALSE)//
-        // .credentialsExpired(Boolean.FALSE)//
-        // .enabled(Boolean.TRUE)//
         .roles(pRoleEnums)//
-        // .createdTime(LocalDateTime.now(ZoneId.systemDefault()))//
-        // .updatedTime(LocalDateTime.now(ZoneId.systemDefault()))//
-        // .version(Integer.valueOf(0))//
         .build();
         return user;
     }
 
+    /**
+     * @param pRoleEnums
+     * @param pUsername
+     * @param pPwd
+     * @param pEmail
+     * @return
+     */
     public static User createUserWithSetFull(final Set<RoleEnum> pRoleEnums, final String pUsername, final String pPwd, final String pEmail)
     {
         // ACTIVE USER
@@ -644,6 +652,10 @@ public final class TestsDataUtils
         return user;
     }
 
+    /**
+     * @param expected
+     * @param actual
+     */
     public static void assertAllUser(final User expected, final User actual)
     {
         assertThat(actual.getId()).isEqualTo(expected.getId());
@@ -659,6 +671,10 @@ public final class TestsDataUtils
         assertThat(actual.getUpdatedTime()).isEqualTo(expected.getUpdatedTime());
     }
 
+    /**
+     * @param expected
+     * @param actual
+     */
     public static void assertAllUserWithoutTime(final User expected, final User actual)
     {
         assertThat(actual.getId()).isEqualTo(expected.getId());
@@ -672,6 +688,132 @@ public final class TestsDataUtils
         assertThat(actual.getRoles()).isEqualTo(expected.getRoles());
     }
 
+    /**
+     * 
+     * @param pRole
+     * @param pUsername
+     * @param pPwd
+     * @param pEmail
+     * @return
+     */
+    public static UserDTO createUserDTOFull(final String pRole, final String pUsername, final String pPwd, final String pEmail)
+    {
+        final Set<String> strRoles = new HashSet<>();
+        strRoles.add(pRole);
+
+        // ACTIVE USER
+        final UserDTO dto = UserDTO.builder()//
+        .username(pUsername)//
+        // .password(pwdEncoder().encode(pPwd))//
+        .password(pPwd)//
+        .email(pEmail)//
+        .accountExpired(Boolean.FALSE)//
+        .accountLocked(Boolean.FALSE)//
+        .credentialsExpired(Boolean.FALSE)//
+        .enabled(Boolean.TRUE)//
+        .roles(strRoles)//
+        .createdTime(LocalDateTime.now(ZoneId.systemDefault()))//
+        .updatedTime(LocalDateTime.now(ZoneId.systemDefault()))//
+        .build();
+        return dto;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public static final List<UserDTO> creerJeuDeDonneesDTO()
+    {
+        final List<UserDTO> users = Lists.newArrayList();
+        // ADMIN
+        final UserDTO admin = createUserDTOFull(RoleEnum.ROLE_ADMIN.getAuthority(), "admin", "admin_19511982#", "admin.test@live.fr");
+
+        // CLIENT
+        final UserDTO client = createUserDTOFull(RoleEnum.ROLE_USER.getAuthority(), "client", "client_19511982#", "client.test@live.fr");
+        final UserDTO client1 = createUserDTOFull(RoleEnum.ROLE_USER.getAuthority(), "client1", "client31_19511982#", "client1.test@live.fr");
+        final UserDTO client2 = createUserDTOFull(RoleEnum.ROLE_USER.getAuthority(), "client2", "client2_19511982#", "client2.test@live.fr");
+        final UserDTO client3 = createUserDTOFull(RoleEnum.ROLE_USER.getAuthority(), "client3", "client3_19511982#", "client3.test@live.fr");
+
+        // MODERATEUR
+        final Set<String> moderateurSet = new HashSet<>();
+        moderateurSet.add(RoleEnum.ROLE_USER.getAuthority());
+        moderateurSet.add(RoleEnum.ROLE_MODERATOR.getAuthority());
+        final UserDTO moderateur = createUserDTOWithSetFull(moderateurSet, "moderateur", "moderateur_19511982#", "moderateur.test@live.fr");
+
+        users.add(admin);
+        users.add(client);
+        users.add(client1);
+        users.add(client2);
+        users.add(client3);
+        users.add(moderateur);
+        return users;
+    }
+
+    /**
+     * @param pRoleEnums
+     * @param pUsername
+     * @param pPwd
+     * @param pEmail
+     * @return
+     */
+    public static UserDTO createUserDTOWithSetFull(final Set<String> pRoleEnums, final String pUsername, final String pPwd, final String pEmail)
+    {
+        // ACTIVE USER
+        final UserDTO dto = UserDTO.builder()//
+        .username(pUsername)//
+        // .password(pwdEncoder().encode(pPwd))//
+        .password(pPwd)//
+        .email(pEmail)//
+        .accountExpired(Boolean.FALSE)//
+        .accountLocked(Boolean.FALSE)//
+        .credentialsExpired(Boolean.FALSE)//
+        .enabled(Boolean.TRUE)//
+        .roles(pRoleEnums)//
+        .createdTime(LocalDateTime.now(ZoneId.systemDefault()))//
+        .updatedTime(LocalDateTime.now(ZoneId.systemDefault()))//
+        .build();
+        return dto;
+    }
+
+    /**
+     * @param expected
+     * @param actual
+     */
+    public static void assertAllUserDTO(final UserDTO expected, final UserDTO actual)
+    {
+        assertThat(actual.getId()).isEqualTo(expected.getId());
+        assertThat(actual.getUsername()).isEqualTo(expected.getUsername());
+        assertThat(actual.getEmail()).isEqualTo(expected.getEmail());
+        assertThat(actual.getPassword()).isEqualTo(expected.getPassword());
+        assertThat(actual.getAccountExpired()).isEqualTo(expected.getAccountExpired());
+        assertThat(actual.getAccountLocked()).isEqualTo(expected.getAccountLocked());
+        assertThat(actual.getCredentialsExpired()).isEqualTo(expected.getCredentialsExpired());
+        assertThat(actual.getEnabled()).isEqualTo(expected.getEnabled());
+        assertThat(actual.getRoles()).isEqualTo(expected.getRoles());
+        assertThat(actual.getCreatedTime()).isEqualTo(expected.getCreatedTime());
+        assertThat(actual.getUpdatedTime()).isEqualTo(expected.getUpdatedTime());
+    }
+
+    /**
+     * @param expected
+     * @param actual
+     */
+    public static void assertAllUserDTOWithoutTime(final UserDTO expected, final UserDTO actual)
+    {
+        assertThat(actual.getId()).isEqualTo(expected.getId());
+        assertThat(actual.getUsername()).isEqualTo(expected.getUsername());
+        assertThat(actual.getEmail()).isEqualTo(expected.getEmail());
+        assertThat(actual.getPassword()).isEqualTo(expected.getPassword());
+        assertThat(actual.getAccountExpired()).isEqualTo(expected.getAccountExpired());
+        assertThat(actual.getAccountLocked()).isEqualTo(expected.getAccountLocked());
+        assertThat(actual.getCredentialsExpired()).isEqualTo(expected.getCredentialsExpired());
+        assertThat(actual.getEnabled()).isEqualTo(expected.getEnabled());
+        assertThat(actual.getRoles()).isEqualTo(expected.getRoles());
+    }
+
+    /**
+     * @return
+     */
     private static BCryptPasswordEncoder pwdEncoder()
     {
         return new BCryptPasswordEncoder(12);
