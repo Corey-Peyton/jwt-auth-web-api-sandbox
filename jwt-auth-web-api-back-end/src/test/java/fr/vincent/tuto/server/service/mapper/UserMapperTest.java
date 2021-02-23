@@ -12,7 +12,9 @@
 package fr.vincent.tuto.server.service.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.fail;
+
+import java.util.Collections;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -101,13 +103,29 @@ class UserMapperTest
     @Test
     void testTotoUsers()
     {
-        fail("Not yet implemented");
+        final List<UserDTO> dtos = TestsDataUtils.creerJeuDeDonneesDTO();
+        final List<User> users = (List<User>) this.userMapper.toUsers(dtos);
+        
+        assertThat(users).isNotEmpty();
+        assertThat(users.size()).isPositive();
     }
     
     @Test
-    void testTotoUsers_()
+    void testTotoUsers_WithEmptyList()
     {
-        fail("Not yet implemented");
+        final List<User> users = (List<User>) this.userMapper.toUsers(Collections.emptyList());
+        
+        assertThat(users).isEmpty();
+        assertThat(users.size()).isNotPositive();
+    }
+    
+    @Test
+    void testTotoUsers_WithNull()
+    {
+        final List<User> users = (List<User>) this.userMapper.toUsers(null);
+        
+        assertThat(users).isEmpty();
+        assertThat(users.size()).isNotPositive();
     }
 
     /**
@@ -117,7 +135,23 @@ class UserMapperTest
     @Test
     void testToDestObjectUser()
     {
-        fail("Not yet implemented");
+       final User user = TestsDataUtils.createUser(RoleEnum.ROLE_ADMIN.getAuthority(), "admin", "admin_19511982#", "admin.test@live.fr");
+       final UserDTO dto = this.userMapper.toDestObject(user);
+       
+       //
+       assertThat(dto).isNotNull();
+       assertThat(dto.getUsername()).isEqualTo(TestsDataUtils.ADMIN);
+       assertThat(dto.getEmail()).isEqualTo(TestsDataUtils.ADMIN_EMAIL_LOWER);
+       assertThat(dto.getRoles().size()).isEqualTo(1);
+       assertThat(dto.getPassword()).contains("$2a$12$");
+    }
+    
+    @Test
+    void testToDestObjectUser_ShouldReturnNull()
+    {
+        final UserDTO dto = this.userMapper.toDestObject(null);
+
+        assertThat(dto).isNull();
     }
 
     /**
@@ -126,7 +160,29 @@ class UserMapperTest
     @Test
     void testToUserDtos()
     {
-        fail("Not yet implemented");
+        final List<User> users = TestsDataUtils.creerJeuDeDonnees();
+        final List<UserDTO> dtos = (List<UserDTO>) this.userMapper.toUserDtos(users);
+        
+        assertThat(dtos).isNotEmpty();
+        assertThat(dtos.size()).isPositive();
+    }
+    
+    @Test
+    void testToUserDtos_WithEmptyList()
+    {
+        final List<UserDTO> dtos = (List<UserDTO>) this.userMapper.toUserDtos(Collections.emptyList());
+        
+        assertThat(dtos).isEmpty();
+        assertThat(dtos.size()).isNotPositive();
+    }
+    
+    @Test
+    void testToUserDtos_WithNull()
+    {
+        final List<UserDTO> dtos = (List<UserDTO>) this.userMapper.toUserDtos(null);
+        
+        assertThat(dtos).isEmpty();
+        assertThat(dtos.size()).isNotPositive();
     }
 
 }

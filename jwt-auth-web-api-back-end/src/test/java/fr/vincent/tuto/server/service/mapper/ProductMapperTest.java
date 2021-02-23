@@ -36,7 +36,6 @@ import fr.vincent.tuto.common.service.props.DatabasePropsService;
 import fr.vincent.tuto.server.config.BackEndServerRootConfig;
 import fr.vincent.tuto.server.config.db.PersistanceConfig;
 import fr.vincent.tuto.server.constants.ServerConstants;
-import fr.vincent.tuto.server.enumeration.CategoryTypeEnum;
 import fr.vincent.tuto.server.model.dto.ProductDTO;
 import fr.vincent.tuto.server.model.po.Product;
 import fr.vincent.tuto.server.utils.TestsDataUtils;
@@ -67,7 +66,7 @@ class ProductMapperTest
     void setUp() throws Exception
     {
         this.productMapper.afterPropertiesSet();
-        
+
         // Instance de Product
         this.product = Product.builder()//
         .id(10L)//
@@ -297,7 +296,7 @@ class ProductMapperTest
     void testToProducts_WithNull()
     {
         // System.err.println(">>>>>>> Le Contenu : \n" + CategoryTypeEnum.valueOf("JEUX-VIDEO"));
-        System.err.println(">>>>>>> Le Contenant : \n" + CategoryTypeEnum.valueOf("JEUX_VIDEO").name());
+        // System.err.println(">>>>>>> Le Contenant : \n" + CategoryTypeEnum.valueOf("JEUX_VIDEO").name());
 
         final List<Product> products = (List<Product>) this.productMapper.toProducts(null);
 

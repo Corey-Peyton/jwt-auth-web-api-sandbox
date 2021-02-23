@@ -110,6 +110,7 @@ Une liste non exhaustive des technos embarquées pour le développment de cette 
 ![](https://img.shields.io/badge/Maven_3-✓-blue.svg)
 ![](https://img.shields.io/badge/Spring_Boot_2-✓-blue.svg)
 ![](https://img.shields.io/badge/Spring_Security_5-✓-blue.svg)
+![](https://img.shields.io/badge/Spring_AOP-✓-blue.svg)
 ![](https://img.shields.io/badge/JWT-✓-blue.svg)
 ![](https://img.shields.io/badge/Jpa_2-✓-blue.svg)
 ![](https://img.shields.io/badge/Hibernate_5-✓-blue.svg)
@@ -130,6 +131,7 @@ Une liste non exhaustive des technos embarquées pour le développment de cette 
 - `EA` (Entreprise Architect) pour la fourniture des éléments de modélisation et conception des spécifications globales fournies.
 - `Java 11` est utilisé pour la compilation et cible pour l'environnement d'exécution. Le code source est en partie en `Java 8`.
 - `Spring Security`, `JWT`, pour sécuriser les échanges (production de jetons, authentification et autorisation).
+- `AOP` pour la séparation des préoccupations transversales de la journalisation de l'exécution (logging)
 - `JPA / Hibernate` pour les concepts ORM et DAO.
 - `H2`, `MariaDB`, `PostgreSQL` configurations base de données pour les accès aux données, les TU (_Tests Unitaires_), TI (_Tests d'Intégration_)., ou cible pour l'environnement de production.
 - `Flyway` pour la migration de bases de données.
