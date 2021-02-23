@@ -29,7 +29,6 @@ import fr.vincent.tuto.common.service.props.ApplicationPropsService.EhcacheProps
 import fr.vincent.tuto.server.constants.ServerConstants;
 import fr.vincent.tuto.server.model.po.Category;
 import fr.vincent.tuto.server.model.po.User;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Configuration pour optimiser les accès aux données avec `EhCache` dans l'API. Elle est inspirée de ce que propose
@@ -39,7 +38,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Configuration
 @EnableCaching
-@Slf4j
 public class ServerCacheConfig
 {
 
@@ -54,8 +52,6 @@ public class ServerCacheConfig
     @Bean
     public javax.cache.configuration.Configuration<Object, Object> jcacheConfiguration(@Autowired final ApplicationPropsService propsService)
     {
-        log.info("[jcacheConfiguration] - Configuration du cache pour personnaliser les caches crées automatiquement."); 
-        
         final EhcacheProps ehcacheProps = propsService.getEhcacheProps();
         return Eh107Configuration.fromEhcacheCacheConfiguration(CacheConfigurationBuilder.newCacheConfigurationBuilder(Object.class, Object.class,
         ResourcePoolsBuilder.heap(ehcacheProps.getMaxEntries()))//
@@ -72,16 +68,12 @@ public class ServerCacheConfig
     @Bean
     public HibernatePropertiesCustomizer hibernatePropertiesCustomizer(javax.cache.CacheManager cacheManager)
     {
-        log.info("[hibernatePropertiesCustomizer] - Customiser les propriétés Hibernate pour le gestionnaire de cache.");
-        
         return hibernateProperties -> hibernateProperties.put(ServerConstants.HIBERNATE_CACHE_MANAGER, cacheManager);
     }
 
     @Bean
     public JCacheManagerCustomizer cacheManagerCustomizer(final ApplicationPropsService propsService)
     {
-        log.info("[cacheManagerCustomizer] - Customiser le gestionnaire de cache.");
-        
         return cm -> {
             // Création du cache pour optimiser les accès aux données de la table T_USERS.
             createCache(cm, ServerConstants.USERS_BY_USERNAME_CACHE, propsService);

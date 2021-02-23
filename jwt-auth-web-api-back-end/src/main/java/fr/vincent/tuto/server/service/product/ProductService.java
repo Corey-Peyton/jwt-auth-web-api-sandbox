@@ -31,7 +31,6 @@ import fr.vincent.tuto.common.exception.CustomAppException;
 import fr.vincent.tuto.server.constants.ServerConstants;
 import fr.vincent.tuto.server.dao.ProductDAO;
 import fr.vincent.tuto.server.model.po.Product;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service des fonctionnalités de gestion des informations des produits du SI.
@@ -40,8 +39,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service(value = "productService")
 @Transactional
-@Slf4j
-public class ProductService
+public class ProductService implements IProductService
 {
     private static final String SAVE_MESSAGE = "Erreur lors de la sauvegarde en base de donnnées des informations d'un produits.";
     private static final String FIND_BY_ID_MESSAGE = "Erreur recherche des informations d'un produit par identifiant.";
@@ -67,18 +65,17 @@ public class ProductService
      * @return les informations du produit enregistré.
      */
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR')")
+    @Override
     public Product createProduct(Product pProduct)
     {
-        log.info("[createProduct] - Enregistrer les informations d'un produit en base de données.");
-
         try
         {
             // Traitement métier pour le calcul et affectation du prix total de la quantité commandée
             final Long quantite = pProduct.getQuantity();
             final BigDecimal prixUnitaire = pProduct.getUnitPrice();
-            final BigDecimal prixTotal = new BigDecimal(quantite.longValue()).multiply(prixUnitaire); 
-            pProduct.setPrice(prixTotal); 
-            
+            final BigDecimal prixTotal = new BigDecimal(quantite.longValue()).multiply(prixUnitaire);
+            pProduct.setPrice(prixTotal);
+
             final Product product = this.productDAO.save(pProduct);
             Assert.notNull(product, SAVE_MESSAGE);
             return product;
@@ -97,10 +94,9 @@ public class ProductService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
+    @Override
     public Optional<Product> getProductById(Long pProductId)
     {
-        log.info("[getProductById] - Rechercher les informations d'un produit avec l'identifiant : [{}].", pProductId);
-
         return Optional.ofNullable(this.productDAO.findById(pProductId))//
         .filter(Optional::isPresent)//
         .orElseThrow(() -> new CustomAppException(FIND_BY_ID_MESSAGE));//
@@ -114,10 +110,9 @@ public class ProductService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
+    @Override
     public Optional<Product> getProductByName(String pName)
     {
-        log.info("[getProductByName] - Rechercher les informations d'un produit avec le nom : [{}].", pName);
-
         return Optional.ofNullable(this.productDAO.findOneByName(pName))//
         .filter(Optional::isPresent)//
         .orElseThrow(() -> new CustomAppException(FIND_BY_NAME_MESSAGE));
@@ -131,10 +126,9 @@ public class ProductService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
+    @Override
     public Optional<Product> getProductByNameIgnoreCase(String pName)
     {
-        log.info("[getProductByName] - Rechercher les informations d'un produit ignorant la casse avec le nom. Nom : [{}].", pName);
-
         return Optional.ofNullable(this.productDAO.findOneByNameIgnoreCase(pName))//
         .filter(Optional::isPresent)//
         .orElseThrow(() -> new CustomAppException(FIND_BY_NAME_MESSAGE));
@@ -148,10 +142,9 @@ public class ProductService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
+    @Override
     public Boolean existsProductByName(String pName)
     {
-        log.info("[existsProductByName] - Indiquer l'existence d'un produit à partir de son nom. Nom : [{}]", pName);
-
         return this.productDAO.existsByName(pName);
     }
 
@@ -164,10 +157,9 @@ public class ProductService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
+    @Override
     public Page<Product> getProductsByIsActive(Boolean productIsActive, Pageable pPageable)
     {
-        log.info("[getProductsByIsActive] - Liste paginée des informations des produits du SI.");
-
         return this.productDAO.findAllByIsActive(productIsActive, pPageable);
     }
 
@@ -179,10 +171,9 @@ public class ProductService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
+    @Override
     public Collection<Product> getProductsByIsActive(Boolean productIsActive)
     {
-        log.info("[getProductsByIsActive] - Liste de produits selon son état.");
-
         return this.productDAO.findAllByIsActive(productIsActive);
     }
 
@@ -193,10 +184,9 @@ public class ProductService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
+    @Override
     public Collection<Product> getProducts()
     {
-        log.info("[getProducts] - Liste des produits en base de données. ");
-
         return this.productDAO.findAll();
     }
 
@@ -208,10 +198,9 @@ public class ProductService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
+    @Override
     public Collection<Product> getFilteredProducts(String pQuery)
     {
-        log.info("[getFilteredProducts] - Liste filtrée des produits avec le nom contenant le pattern : [{}].", pQuery);
-
         final List<Product> products = (List<Product>) this.getProducts();
 
         // Retourner la liste filtrée sur les nom des produits qui 'match' avec le pattern fourni
@@ -231,10 +220,9 @@ public class ProductService
      * @param pProductId identifiant du produit à supprimer du SI.
      */
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR')")
+    @Override
     public void deleteProduct(Long pProductId)
     {
-        log.info("[deleteProduct] - Supprimer les informations d'un produit du SI. Identifiant du produit à supprimer : [{}].", pProductId);
-
         try
         {
             this.getProductById(pProductId)//
@@ -253,10 +241,9 @@ public class ProductService
      * @param pProduct   les informations du produit à mettre à jour.
      */
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR')")
+    @Override
     public void updateProduct(Long pProductId, Product pProduct)
     {
-        log.info("[updateProduct] - Mettre à jour les informations du produit. Identifiant du produit à mettre à jour : [{}].", pProductId);
-
         try
         {
             this.getProductById(pProductId)//

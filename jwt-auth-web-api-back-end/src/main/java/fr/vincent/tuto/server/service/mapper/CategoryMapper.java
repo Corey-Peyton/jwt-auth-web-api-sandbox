@@ -26,7 +26,6 @@ import fr.vincent.tuto.server.model.dto.CategoryDTO;
 import fr.vincent.tuto.server.model.dto.ProductDTO;
 import fr.vincent.tuto.server.model.po.Category;
 import fr.vincent.tuto.server.model.po.Product;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service de conversion/transformation d'un objet de type {@link Category} en son objet de tranfert de ses données
@@ -35,7 +34,6 @@ import lombok.extern.slf4j.Slf4j;
  * @author Vincent Otchoun
  */
 @Service
-@Slf4j
 public class CategoryMapper extends GenericObjectMapper<Category, CategoryDTO>
 {
     private final ProductMapper productMapper;
@@ -56,8 +54,6 @@ public class CategoryMapper extends GenericObjectMapper<Category, CategoryDTO>
     @Override
     public Category toSourceObject(CategoryDTO pCategoryDTO)
     {
-        log.info("[toSourceObject] - Obtenir les données de la catégorie de produits avec son DTO.");
-
         if (pCategoryDTO == null)
         {
             return null;
@@ -94,8 +90,6 @@ public class CategoryMapper extends GenericObjectMapper<Category, CategoryDTO>
     @Override
     public CategoryDTO toDestObject(Category pCategory)
     {
-        log.info("[toDestObject] - Obtenir les données de l'objet de transfert des catégories (DTO).");
-
         if (pCategory == null)
         {
             return null;

@@ -32,7 +32,6 @@ import fr.vincent.tuto.server.constants.ServerConstants;
 import fr.vincent.tuto.server.dao.CategoryDAO;
 import fr.vincent.tuto.server.model.po.Category;
 import fr.vincent.tuto.server.model.po.Product;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service des fonctionnalités de gestion des catégories de produits dans le SI.
@@ -41,8 +40,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service(value = "categoryService")
 @Transactional
-@Slf4j
-public class CategoryService
+public class CategoryService implements ICategoryService
 {
     //
     private static final String SAVE_MESSAGE = "Erreur lors de la sauvegarde en base de donnnées des informations d'une catégorie de produits.";
@@ -55,8 +53,8 @@ public class CategoryService
     /**
      * Constructuer avec injection des beans d'accès à la base de données.
      * 
-     * @param pCategoryDAO le dépôt Spring Data JPA pour l'entité {@link Category}.
-     * @param pProductService  le service de gestion de  l'entité {@link Product}.
+     * @param pCategoryDAO    le dépôt Spring Data JPA pour l'entité {@link Category}.
+     * @param pProductService le service de gestion de l'entité {@link Product}.
      */
     @Autowired
     public CategoryService(final CategoryDAO pCategoryDAO, final ProductService pProductService)
@@ -72,10 +70,9 @@ public class CategoryService
      * @return la catégorie de produit enregistrée.
      */
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
+    @Override
     public Category createCategory(Category pCategory)
     {
-        log.info("[createCategory] - Enregistrer une catégorie de produits en base de données.");
-
         try
         {
             final Category category = this.categoryDAO.save(pCategory);
@@ -96,10 +93,9 @@ public class CategoryService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
+    @Override
     public Optional<Category> getCategoryById(Long pCategoryId)
     {
-        log.info("[getCategoryById] - Obtenir une catégorie de produits. Identifiant : [{}].", pCategoryId);
-
         return Optional.ofNullable(this.categoryDAO.findById(pCategoryId))//
         .filter(Optional::isPresent)//
         .orElseThrow(() -> new CustomAppException(FIND_BY_ID_MESSAGE));//
@@ -113,10 +109,9 @@ public class CategoryService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
+    @Override
     public Optional<Category> getCategoryByName(String pName)
     {
-        log.info("[getCategoryByName] - Obtenir une catégorie de produits. Nom : [{}].", pName);
-
         return Optional.ofNullable(this.categoryDAO.findOneByName(pName))//
         .filter(Optional::isPresent)//
         .orElseThrow(() -> new CustomAppException(FIND_BY_NAME_MESSAGE));
@@ -130,10 +125,9 @@ public class CategoryService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
+    @Override
     public Optional<Category> getCategoryByNameIgnoreCase(String pName)
     {
-        log.info("[getCategoryByNameIgnoreCase] - Obtenir une catégorie de produits ignorant la casse. Nom : [{}].", pName);
-
         return Optional.ofNullable(this.categoryDAO.findOneByNameIgnoreCase(pName))//
         .filter(Optional::isPresent)//
         .orElseThrow(() -> new CustomAppException(FIND_BY_NAME_MESSAGE));
@@ -147,26 +141,24 @@ public class CategoryService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
+    @Override
     public Boolean existsCategoryByName(String pName)
     {
-        log.info("[existsCategoryByName] - Indiquer l'existence d'une catégorie de produits. Nom : [{}].", pName);
-
-        return  this.categoryDAO.existsByName(pName);
+        return this.categoryDAO.existsByName(pName);
     }
 
     /**
      * Obtenir une liste paginée de catégories de produits selon l'état en base de données (actif ou non).
      * 
      * @param pCategoryEnable état des catégories de produits à remonter.
-     * @param pPageable      pagination de la liste (index de la page, nombre d'éléments dans la page à retourner).
+     * @param pPageable       pagination de la liste (index de la page, nombre d'éléments dans la page à retourner).
      * @return la liste paginée des catégories de produits correspondant.
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
+    @Override
     public Page<Category> getCategoriesByEnabled(Boolean pCategoryEnable, Pageable pPageable)
     {
-        log.info("[getCategoriesByEnabled] - Liste paginée de catégorie de produits.");
-
         return this.categoryDAO.findAllByEnabled(pCategoryEnable, pPageable);
     }
 
@@ -178,10 +170,9 @@ public class CategoryService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
+    @Override
     public Collection<Category> getCategoriesByEnabled(Boolean pCategoryEnable)
     {
-        log.info("[getCategoriesByEnabled] - Liste  de catégorie de produits.");
-
         return this.categoryDAO.findAllByEnabled(pCategoryEnable);
     }
 
@@ -192,10 +183,9 @@ public class CategoryService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
+    @Override
     public Collection<Category> getCategories()
     {
-        log.info("[getCategories] - Liste des catégories de produits en base de données.");
-
         return this.categoryDAO.findAll();
     }
 
@@ -207,10 +197,9 @@ public class CategoryService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
+    @Override
     public Collection<Category> getFilteredCategoriesByProductName(String pQuery)
     {
-        log.info("[getFilteredCategoriesByProductName] - Liste filtrée des catégories avec le nom de produits. Filtre : [{}].", pQuery);
-
         final List<Category> categories = (List<Category>) this.getCategories();
 
         // Filtrée la liste des catégories de produits en pure Java.
@@ -232,10 +221,9 @@ public class CategoryService
      * @param pCategory   la catégorie de produits à mettre à jour.
      */
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
+    @Override
     public void updateCategory(Long pCategoryId, Category pCategory)
     {
-        log.info("[updateCategory] - Mettre à jour une catégorie de produits. Identifiant : [{}].", pCategory);
-
         try
         {
             this.getCategoryById(pCategoryId).ifPresent(categorie -> {
@@ -256,10 +244,9 @@ public class CategoryService
      * @param pCategoryId identifiant de la catégorie de produits à supprimer.
      */
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
+    @Override
     public void deleteCategory(Long pCategoryId)
     {
-        log.info("[deleteCategory] - Supprimer une catégorie de produits du système d'informations. Identifiant  : [{}].", pCategoryId);
-
         try
         {
             this.getCategoryById(pCategoryId)//
@@ -279,10 +266,9 @@ public class CategoryService
      * @return la liste de produits mise à jour.
      */
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
+    @Override
     public Collection<Product> addProduct(Long pCategoryId, Long pProductId)
     {
-        log.info("[addProduct] - Ajouter un nouveau produit à une catégorie existante. Catégorie -Produit : [{}]-[{}]", pCategoryId, pProductId);
-
         //
         final Optional<Category> categorieOptional = this.getCategoryById(pCategoryId);
         final Optional<Product> productOptional = this.productService.getProductById(pProductId);

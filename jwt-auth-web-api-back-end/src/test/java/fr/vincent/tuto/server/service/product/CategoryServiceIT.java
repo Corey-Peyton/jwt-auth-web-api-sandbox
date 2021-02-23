@@ -25,7 +25,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -58,7 +57,7 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
 @TestPropertySource(value = { "classpath:back-end-db-test.properties", "classpath:back-end-application-test.properties" })
 @ContextConfiguration(name = "categoryServiceIT", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistanceConfig.class,
         ProductService.class, CategoryService.class })
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest
 @ActiveProfiles("test")
 @Sql(scripts = { "classpath:db/h2/schema-test-h2.sql", "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 @Transactional
@@ -71,7 +70,7 @@ class CategoryServiceIT
     private static final String SEARCH_PRODUCT_BY_ID_MSG = "Erreur recherche des informations d'un produit par identifiant";
 
     @Autowired
-    private CategoryService categoryService;
+    private ICategoryService categoryService;
     private Category category;
 
     /**
@@ -591,19 +590,19 @@ class CategoryServiceIT
     {
         final Long categoryId = 7L;
         final Long productId = 23L;
-        
+
         final List<Product> products = (List<Product>) this.categoryService.addProduct(categoryId, productId);
-        
+
         assertThat(products).isNotEmpty();
-        assertThat(products.size()).isEqualTo(4); 
+        assertThat(products.size()).isEqualTo(4);
     }
-    
+
     @Test
     void testAddProduct_WithNotExistCategoryId()
     {
         final Long categoryId = Long.MAX_VALUE;
         final Long productId = 7L;
-        
+
         final Exception exception = assertThrows(CustomAppException.class, () -> {
             this.categoryService.addProduct(categoryId, productId);
         });
@@ -614,13 +613,13 @@ class CategoryServiceIT
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
     }
-    
+
     @Test
     void testAddProduct_WithNotExistProductId()
     {
         final Long categoryId = 7L;
         final Long productId = Long.MAX_VALUE;
-        
+
         final Exception exception = assertThrows(CustomAppException.class, () -> {
             this.categoryService.addProduct(categoryId, productId);
         });
@@ -631,13 +630,13 @@ class CategoryServiceIT
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
     }
-    
+
     @Test
     void testAddProduct_WithNullCategoryId()
     {
         final Long productId = 7L;
         final Exception exception = assertThrows(InvalidDataAccessApiUsageException.class, () -> {
-            this.categoryService.addProduct(null,productId);
+            this.categoryService.addProduct(null, productId);
         });
 
         final String expectedMessage = INVALID_DATA_ACCES_MSG;
@@ -646,13 +645,13 @@ class CategoryServiceIT
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
     }
-    
+
     @Test
     void testAddProduct_WithNullProductId()
     {
         final Long categoryId = 7L;
         final Exception exception = assertThrows(InvalidDataAccessApiUsageException.class, () -> {
-            this.categoryService.addProduct(categoryId,null);
+            this.categoryService.addProduct(categoryId, null);
         });
 
         final String expectedMessage = INVALID_DATA_ACCES_MSG;
@@ -661,12 +660,12 @@ class CategoryServiceIT
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
     }
-    
+
     @Test
     void testAddProduct_WithNull()
     {
         final Exception exception = assertThrows(InvalidDataAccessApiUsageException.class, () -> {
-            this.categoryService.addProduct(null,null);
+            this.categoryService.addProduct(null, null);
         });
 
         final String expectedMessage = INVALID_DATA_ACCES_MSG;

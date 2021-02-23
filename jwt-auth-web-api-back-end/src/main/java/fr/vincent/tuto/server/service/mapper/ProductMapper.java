@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import fr.vincent.tuto.common.mapper.GenericObjectMapper;
 import fr.vincent.tuto.server.model.dto.ProductDTO;
 import fr.vincent.tuto.server.model.po.Product;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service de conversion/transformation d'un objet de type {@link Product} en son objet de tranfert de ses données
@@ -29,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
  * @author Vincent Otchoun
  */
 @Service
-@Slf4j
 public class ProductMapper extends GenericObjectMapper<Product, ProductDTO> implements InitializingBean
 {
 
@@ -46,8 +44,6 @@ public class ProductMapper extends GenericObjectMapper<Product, ProductDTO> impl
     @Override
     public ProductDTO toDestObject(Product pProduct)
     {
-        log.info("[toDestObject] - Obtenir l'objet de transfert des données des produits (DTO).");
-
         if (pProduct == null)
         {
             return null;
@@ -69,8 +65,6 @@ public class ProductMapper extends GenericObjectMapper<Product, ProductDTO> impl
     @Override
     public Product toSourceObject(ProductDTO pProductDTO)
     {
-        log.info("[toSourceObject] - Obtenir les informations du produit avec son DTO.");
-
         if (pProductDTO == null)
         {
             return null;

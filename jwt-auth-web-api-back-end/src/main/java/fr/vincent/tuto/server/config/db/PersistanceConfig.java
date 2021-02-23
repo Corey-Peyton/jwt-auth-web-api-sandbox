@@ -68,7 +68,6 @@ import fr.vincent.tuto.common.service.props.DatabasePropsService;
 @EnableTransactionManagement
 public class PersistanceConfig
 {
-
     private static final String DATASOURCE_ERR_MSG = "[dataSource] - Erreur lors de la création du bean DataSource du pool Hikari";
 
     @Autowired

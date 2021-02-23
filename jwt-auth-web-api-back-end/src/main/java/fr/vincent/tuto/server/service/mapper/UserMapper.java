@@ -27,7 +27,6 @@ import fr.vincent.tuto.common.mapper.GenericObjectMapper;
 import fr.vincent.tuto.server.enumeration.RoleEnum;
 import fr.vincent.tuto.server.model.dto.UserDTO;
 import fr.vincent.tuto.server.model.po.User;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service de conversion/transformation d'un objet de type {@link User} en son objet de tranfert de ses données
@@ -36,7 +35,6 @@ import lombok.extern.slf4j.Slf4j;
  * @author Vincent Otchoun
  */
 @Service
-@Slf4j
 public class UserMapper extends GenericObjectMapper<User, UserDTO>
 {
     //
@@ -57,8 +55,6 @@ public class UserMapper extends GenericObjectMapper<User, UserDTO>
     @Override
     public User toSourceObject(UserDTO pUserDTO)
     {
-        log.info("[toSourceObject] - Obtenir les données de l'utilisateur avec son DTO.");
-
         if (pUserDTO == null)
         {
             return null;
@@ -107,8 +103,6 @@ public class UserMapper extends GenericObjectMapper<User, UserDTO>
     @Override
     public UserDTO toDestObject(User pUser)
     {
-        log.info("[toDestObject] - Obtenir les données de l'objet de transfert des utilisateur (DTO).");
-
         if (pUser == null)
         {
             return null;

@@ -71,7 +71,7 @@ class UserServiceIT
     private static final String INVALID_DATA_ACCES_MSG = "Value must not be null!";
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
     private User user;
     private Set<RoleEnum> roles;

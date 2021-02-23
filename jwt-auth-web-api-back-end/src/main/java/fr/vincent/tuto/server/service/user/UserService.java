@@ -25,7 +25,6 @@ import org.springframework.util.Assert;
 import fr.vincent.tuto.common.exception.CustomAppException;
 import fr.vincent.tuto.server.dao.UserDAO;
 import fr.vincent.tuto.server.model.po.User;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service des fonctionnalités de gestion des utilisateurs du SI.
@@ -34,8 +33,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service(value = "userService")
 @Transactional
-@Slf4j
-public class UserService
+public class UserService implements IUserService
 {
     // Les constantes
     private static final String SAVE_MSG = "Erreur lors de la sauvegarde en base de donnnées des informations d'un nouvel utilisateur.";
@@ -63,10 +61,9 @@ public class UserService
      * @return les information de l'utilisateur créé.
      */
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @Override
     public User createUser(final User pUser)
     {
-        log.info("[createUser] - Engeristrer les informations d'un nouvel utilisateur dans le SI.");
-
         // Tentative d'enregistrement des informations d'un nouvel utilisateur.
         try
         {
@@ -87,10 +84,9 @@ public class UserService
      * @return informations de l'utilisateur recherché si existe, sinon vide.
      */
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
+    @Override
     public Optional<User> getByUsername(String pUsername)
     {
-        log.info("[getByUsername] - Obtenir les informations d'un utilisateur par son login. Login [{}]", pUsername);
-
         return Optional.ofNullable(this.userDAO.findOneByUsername(pUsername))//
         .filter(Optional::isPresent)//
         .orElseThrow(() -> new CustomAppException(FIND_BY_USERNAME_MSG));
@@ -104,10 +100,9 @@ public class UserService
      * @return informations de l'utilisateur recherché si existe, sinon vide.
      */
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
+    @Override
     public Optional<User> getByEmailIgnoreCase(String pEmail)
     {
-        log.info("[getByEmailIgnoreCase] - Obtenir les informations d'un utilisateur par son email ignorant la casse. Email [{}]", pEmail);
-
         return Optional.ofNullable(this.userDAO.findOneByEmailIgnoreCase(pEmail))//
         .filter(Optional::isPresent)//
         .orElseThrow(() -> new CustomAppException(FIND_BY_EMAIL_MSG));
@@ -120,10 +115,9 @@ public class UserService
      * @return true si l'utilisateur existe, false sinon.
      */
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
+    @Override
     public Boolean getExistsByUsername(String pUsername)
     {
-        log.info("[getExistsByUsername] - Indiquer l'existence d'un utilisateur par son login. Login : [{}]", pUsername);
-
         return this.userDAO.existsByUsername(pUsername);
     }
 
@@ -135,10 +129,9 @@ public class UserService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
+    @Override
     public Boolean getExistsByEmail(String pEmail)
     {
-        log.info("[getExistsByEmail] - Indiquer l'existence d'un utilisateur par son email. Email : [{}]", pEmail);
-
         return this.userDAO.existsByEmail(pEmail);
     }
 
@@ -151,10 +144,9 @@ public class UserService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
+    @Override
     public Optional<User> getWithRolesById(Long pId)
     {
-        log.info("[getWithRolesById] - Obtenir les informations d'un utilisateur avec ses rôles. Identifiant : [{}]", pId);
-
         return Optional.ofNullable(this.userDAO.findOneWithRolesById(pId))//
         .filter(Optional::isPresent)//
         .orElseThrow(() -> new CustomAppException(FIND_BY_ID_MSG));
@@ -169,11 +161,9 @@ public class UserService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
+    @Override
     public Optional<User> getWithRolesByUsernameIgnoreCase(String pUsername)
     {
-        log.info("[getWithRolesByUsernameIgnoreCase] - Obtenir les informations d'un utilisateur avec ses rôles ingorant la casse. Login : [{}]",
-        pUsername);
-
         return Optional.ofNullable(this.userDAO.findOneWithRolesByUsernameIgnoreCase(pUsername))//
         .filter(Optional::isPresent)//
         .orElseThrow(() -> new CustomAppException(FIND_BY_USERNAME_MSG));
@@ -188,11 +178,9 @@ public class UserService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
+    @Override
     public Optional<User> getWithRolesByEmailIgnoreCase(String pEmail)
     {
-        log.info("[getWithRolesByEmailIgnoreCase] - Obtenir les informations d'un utilisateur avec ses rôles ingorant la casse. Email : [{}]",
-        pEmail);
-
         return Optional.ofNullable(this.userDAO.findOneWithRolesByEmailIgnoreCase(pEmail))//
         .filter(Optional::isPresent)//
         .orElseThrow(() -> new CustomAppException(FIND_BY_EMAIL_MSG));
@@ -208,10 +196,9 @@ public class UserService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
+    @Override
     public Page<User> getAllByUsername(String pUsername, Pageable pPageable)
     {
-        log.info("[getAllByUsername] - Liste paginée des informations des utilisateurs du SI ayant le login fourni. Login : [{}]", pUsername);
-
         return this.userDAO.findAllByUsername(pUsername, pPageable);
     }
 
@@ -225,10 +212,9 @@ public class UserService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
+    @Override
     public Page<User> getAllByUsernameContains(String pUsername, Pageable pPageable)
     {
-        log.info("[getAllByUsernameContains] - Liste paginée des utilisateurs dont le login contient le pattern fourni. Query :[{}]", pUsername);
-
         return this.userDAO.findByUsernameContains(pUsername, pPageable);
     }
 
@@ -237,10 +223,10 @@ public class UserService
      * 
      * @return la liste de tous les utilisateurs enregistrés dans le système d'informations.
      */
+    @Transactional(readOnly = true)
+    @Override
     public Collection<User> getUsers()
     {
-        log.info("[getUsers] - Obtenir la liste de tous les utilisateurs enregistrés dans le SI.");
-
         return this.userDAO.findAll();
     }
 
@@ -251,18 +237,16 @@ public class UserService
      */
     @Transactional(readOnly = true)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
+    @Override
     public Collection<User> getAllByEnabled(Boolean pEnabled)
     {
-        log.info("[getAllByEnabled] - Obtenir la liste des utilisateurs selon leur état dans le SI.");
-
         return this.userDAO.findAllByEnabled(pEnabled);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @Override
     public void deleteUser(final Long pUserId)
     {
-        log.info("[deleteUser] - Supprimer les informations d'un utilisateur du SI. Identifiant [{}]", pUserId);
-
         // Tentative de suppression des informations d'un utilisateur du SI.
         try
         {
@@ -276,10 +260,9 @@ public class UserService
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @Override
     public void updateUser(final Long pUserId, final User pUser)
     {
-        log.info("[updateUser] - Mise à jour des informations d'untilisateur existant. Identifiant : [{}].", pUserId);
-
         // Tentative des mise à jour des informations d'un utilisateur existant dans le SI.
         try
         {

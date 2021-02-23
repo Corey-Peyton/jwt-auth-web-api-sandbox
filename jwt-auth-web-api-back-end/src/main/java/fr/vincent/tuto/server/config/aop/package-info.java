@@ -3,8 +3,8 @@
  * Projet ou Module : jwt-auth-web-api-back-end
  * Nom de la classe : package-info.java
  * Date de création : 23 févr. 2021
- * Heure de création : 01:24:41
- * Package : fr.vincent.tuto.server.aop
+ * Heure de création : 03:04:31
+ * Package : fr.vincent.tuto.server.config.aop
  * Auteur : Vincent Otchoun
  * Copyright © 2021 - All rights reserved.
  * ----------------------------------------------
@@ -14,4 +14,4 @@
  * 
  * @author Vincent Otchoun
  */
-package fr.vincent.tuto.server.aop;
+package fr.vincent.tuto.server.config.aop;

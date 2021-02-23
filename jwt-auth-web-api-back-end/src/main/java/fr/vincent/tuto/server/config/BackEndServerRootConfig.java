@@ -15,6 +15,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
@@ -38,6 +39,7 @@ import fr.vincent.tuto.common.service.props.DatabasePropsService;
 @ConfigurationProperties(prefix = "vot", ignoreUnknownFields = true, ignoreInvalidFields = false)
 @EntityScan("fr.vincent.tuto.server.model.po")
 @EnableJpaRepositories(basePackages = "fr.vincent.tuto.server.dao", entityManagerFactoryRef = "entityManagerFactory", transactionManagerRef = "transactionManager")
+@EnableAspectJAutoProxy (proxyTargetClass = true)  // Activer le support  @AspectJ
 public class BackEndServerRootConfig
 {
     //

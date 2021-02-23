@@ -10,7 +10,7 @@ mais également la sécurisation des ressources de l'application.  Il fournit pr
 - un **Front-End Angular** (`Client Web`) fournissant les interfaces utilisateur pour interagir avec le Back-End.
 
 **NB** :
-- Les données/informations sont stockées dans une base de données relationnelles.
+- _Les données/informations sont stockées dans une base de données relationnelles_.
 - Voir la section `Exigences` pour plus de détails sur les fonctionnalités embarquées.
 - Voir la section `Stack Technique` pour plus de détails sur l'ensemble des technos utilisées dans cette application.
 - **SI** : **S**ystème d'**I**nformations.	
@@ -131,7 +131,7 @@ Une liste non exhaustive des technos embarquées pour le développment de cette 
 - `EA` (Entreprise Architect) pour la fourniture des éléments de modélisation et conception des spécifications globales fournies.
 - `Java 11` est utilisé pour la compilation et cible pour l'environnement d'exécution. Le code source est en partie en `Java 8`.
 - `Spring Security`, `JWT`, pour sécuriser les échanges (production de jetons, authentification et autorisation).
-- `AOP` pour la séparation des préoccupations transversales de la journalisation de l'exécution (logging)
+- `AOP` pour la séparation des préoccupations transversales dans l'application. Ici, il s'agit de la journalisation dans le couches applicatives : `le logging`
 - `JPA / Hibernate` pour les concepts ORM et DAO.
 - `H2`, `MariaDB`, `PostgreSQL` configurations base de données pour les accès aux données, les TU (_Tests Unitaires_), TI (_Tests d'Intégration_)., ou cible pour l'environnement de production.
 - `Flyway` pour la migration de bases de données.
