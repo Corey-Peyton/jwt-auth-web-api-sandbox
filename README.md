@@ -24,7 +24,7 @@ Dans cette section, quelques éléments sont fournis pour faciliter la compréhe
 Les élements des processus de gestion : `autorisation, authentication et sécurisation des ressources` (de l'application), seront mis en place à partir des spécifications
 **JWT** avec **Spring Security**. 
 Les échanges se feront principalement entre le client (`front-end`) et le serveur (`back-end Java`). Les éléments ci-dessous sont fournis dans le cadre cette spécification :
-- Une brève présentation de JWT 
+- Une brève présentation de `JWT` 
 - Le diagramme d'architecture applicative et technique
 - Les diagrammes de séquences du fonctionnement global des points suivants :
 	- Ajouter un nouvel utilisateur avec ses rôles dans le système d'information,
@@ -87,14 +87,14 @@ L'architecture applicative et technique comporte les éléments suivants :
 
 ![DAAT](./docs/images/architecture-applicative-technique-globale.png "Diagrammme Architecture Applicatif et Technique")
 
-## Fonctionnement global : USe Case
+## Fonctionnement global - Les USe Case
 Le fonctionnement global de l'application est fourni par des vues macroscopiques aux travers de `diagrammes de séquences` des cas d'utilisation (`use case`) présenté dans le tableau ci-dessous :
 
 |Use Case|Description succincte |
 |---|---|
-|`Ajouter un nouvel utilisateur`|_permet de persister/sauvegarder les information d'un nouvel utilisateur dans le système d'informations_|
+|`Ajouter un nouvel utilisateur`|_permet de persister/sauvegarder les informations d'un nouvel utilisateur dans le système d'informations_|
 |`S'Authentifier` (_Se Connecter à l'application_)|_permet au client (utilisateur) de fournir les informations pour_ `authentification par le système d'informations`|
-|`Accéder aux ressources de l'application`|_Il est composé principalement de deuxx phases : <ul><li>La demande et obtention des jetons d'accès (phase d'authentification : voir use case du dessus)</li><li>L'accès proprement dit aux ressources de l'application (produits, outils, services,... ) avec le jeton d'accès obtenu de la phase d'authentification</li></ul>_|
+|`Accéder aux ressources de l'application`|_Il est composé principalement de deux phases : <ul><li>La demande et obtention des jetons d'accès (phase d'authentification : voir use case du dessus)</li><li>L'accès proprement dit aux ressources de l'application (produits, outils, services,... ) avec le jeton d'accès obtenu de la phase d'authentification</li></ul>_|
 
 ### Ajouter un nouvel utilisateur dans le SI
 L'ajout ou la persistance des informations d'un nouvel utilisateur dans le système d'informations est présenté par le diagramme de séquences ci-dessous :
@@ -147,13 +147,13 @@ Une liste non exhaustive des technos utilsées pour le développment de cette ap
 - `Spring Security`, `JWT`, pour sécuriser les échanges (production de jetons, authentification et autorisation).
 - `AOP` pour la séparation des préoccupations transversales dans l'application. Ici, il s'agit de la journalisation dans le couches applicatives : `le logging`
 - `JPA / Hibernate` pour les concepts ORM et DAO.
-- `H2`, `MariaDB`, `PostgreSQL` configurations base de données pour les accès aux données, les TU (_Tests Unitaires_), TI (_Tests d'Intégration_)., ou cible pour l'environnement de production.
+- `H2`, `MariaDB`, `PostgreSQL` configurations pour les accès aux données en base et pour la réalisation de TI (`_Tests d'Intégration_` : système)
 - `Flyway` pour la migration de bases de données.
 - `EhCache` pour optimiser les accès aux données.
 - `Angular` pour le développment de l'interface utilisateur (le Clent Web).
 - `Docker` pour la containerisation.
-- `Lombok` bibliothèque Java pour générer du code couramment utilisé et faciliter le maintien du code source propre,  simplifier l'écriture des classes métiers (beans).
-- `Keytool` et `OpenSSL` pour la génération du magasin des `clés privées/publiques RSA`, export de la clé publique et du certificat dans des fichiers. 
+- `Lombok` pour générer du code couramment utilisé et faciliter le maintien du code source propre, simplifier l'écriture des classes.
+- `Keytool/OpenSSL` pour la génération du magasin des `clés privées/publiques RSA`, export de la clé publique et du certificat dans des fichiers pour exploitation autraversde l'API Java dédiée. 
 - `Swagger 3.0.0 /OpenAPI` pour la documentation et tests de l'API.
 - `JUnit 5` pour l'écriture des codes sources des classes unitaires et d'intégration.
 - `SonarLint` intégré dans l'IDE (_STS_) pour `analyser la qualité du code` livré, poussé dans le `repository` (_bonnes pratiques de développement_).
@@ -162,12 +162,12 @@ Une liste non exhaustive des technos utilsées pour le développment de cette ap
 de codes et fournit des rapports détaillés de l'analyse de la couverture.
 
 # Configurations
-Les configurations de l'application permettent de faciliter aussi bien l'exécution que l'exploitation de celle-ci.
+Les configurations de l'application permettent de faciliter aussi bien le démarrage et exécution que l'exploitation de celle-ci.
 
 ## Génération du `jeton JWT`
-Afin de rehausser le niveau de sécurité dans l'application, au lieu d'utiliser le **secret HMAC** partagé pour signer le `jeton JWT`, celui-ci sera signer avec des `clés privées/publiques RSA`.
+Afin de rehausser le niveau de sécurité dans l'application, au lieu d'utiliser le **secret HMAC partagé** pour signer le `jeton JWT`, celui-ci sera signer avec des **clés privées/publiques RSA**.
 Ceci offre l'avantage que le jeton JWT soit généré et signé par une autorité centrale (généralement un serveur d'autorisation). Ainsi, l'application (les services) 
-peut valider le `jeton JWT à l'aide de la clé publique exposée à partir du serveur d'autorisation`.
+peut (peuvent) valider le `jeton JWT à l'aide de la clé publique exposée à partir du serveur d'autorisation`.
 La mise en place de cette peut donc être effectuer de deux façons différentes :
 - **en ligne de commande** : puis exploiter l'API Java pour obtenir les éléméents attendus. 
 	- **_commandes Keytool et OpenSSL_** : 

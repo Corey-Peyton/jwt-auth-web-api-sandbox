@@ -1,22 +1,22 @@
-# Backe-End Secure Web REST API 
+# Secure Web REST API (Back-End)
 
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?branch=develop)
 
-# Détails Génération du `jeton JWT` avec `Keytool et OpenSSL`
+## Détails Génération du `jeton JWT` avec `Keytool et OpenSSL`
 TODO
 
 
-# Détails Génération du `jeton JWT` avec `OpenSS`L
-## Générer une clé privée RSA, de taille 4096, et exportez-la dans un fichier
+## Détails Génération du `jeton JWT` avec `OpenSS`L
+### Générer une clé privée RSA, de taille 4096, et exportez-la dans un fichier
 ```bash
 $ openssl genrsa -out key.pem 4096
 ```
 
-## Extraire la clé publique de la paire de clés
+### Extraire la clé publique de la paire de clés
 ```bash
 $ openssl rsa -in key.pem -outform PEM -pubout -out public.pem
 ```
-## Exploitation de l'API Java pour obtenir les éléméents attendus
+### Exploitation de l'API Java pour obtenir les éléméents attendus
 ```java 
 // Exploitation de la clé publique générée pour obtenir PublicKey
 public static PublicKey getPublicKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
