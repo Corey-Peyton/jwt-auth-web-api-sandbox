@@ -27,8 +27,6 @@ public static PublicKey getPublicKey() throws NoSuchAlgorithmException, InvalidK
     rsaPublicKey = rsaPublicKey.replace("-----END PUBLIC KEY-----", "");
     final X509EncodedKeySpec keySpec = new X509EncodedKeySpec(Base64.getDecoder().decode(rsaPublicKey));
     final KeyFactory kf = KeyFactory.getInstance("RSA");
-    //final PublicKey publicKey = kf.generatePublic(keySpec);
-    //return publicKey;
     return kf.generatePublic(keySpec);;
 }
 
@@ -43,8 +41,6 @@ public static PrivateKey getPrivateKey() throws NoSuchAlgorithmException, Invali
 
     final PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(rsaPrivateKey));
     final KeyFactory kf = KeyFactory.getInstance("RSA");
-    //PrivateKey privKey = kf.generatePrivate(keySpec);
-    //return privKey;
     return kf.generatePrivate(keySpec);
 }
 ```
