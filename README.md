@@ -100,6 +100,51 @@ Le fonctionnement global de l'application est fourni par des vues macroscopiques
 L'ajout ou la persistance des informations d'un nouvel utilisateur dans le système d'informations est présenté par le diagramme de séquences ci-dessous :
 ![DS](./docs/images/fonct-global-enregistrer.png "Diagramme de séquences Ajout nouvel utilisateur")
 
+
+```plantuml
+@startuml
+' Déclaration des participants
+actor User #red as U
+participant Client (Front-End Angular) as A
+participant Back-End (Serveur) as S
+database BDD as B
+
+' Déclaration des enchainements de séquences de traitements
+autonumber
+U -[#black]> A : Demande Ajout (enregistrer nouvel utilisateur)
+A -[#black]> A : Charger page de saisie  (enregistrement)
+A -[#black]> U : Page de saisie (informations user)
+U -[#black]> A : Saisie des informations  (username, paswword, email, roles)
+A -[#black]> A : Valider les informations du formulaire (check saisie)
+autonumber stop
+A -[#red]> U : Erreur saisie (saisie non valide)
+
+autonumber 6
+A -[#black]> S : Call API : POST /api/auth/register : (username, email, password, roles)
+S -[#black]> S : Récupérer informations requêtes (informations utilisateur)
+S -[#black]> B : Vérifier existance utilisateur (username,  email)
+B -[#black]> B : Recherche dans la table (T_USERS)
+autonumber stop
+
+B -[#red]> S : SQL/LoginAlreadyUsedException/EmailAlreadyUsedException
+S -[#red]> A : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
+A -[#red]> U : Remonter le message d'erreurs associé avec le code statut HTTP
+
+
+
+@enduml
+``` 
+
+```plantuml
+@startuml
+Alice -> Bob: Authentication Request
+Bob --> Alice: Authentication Response
+
+Alice -> Bob: Another authentication Request
+Alice <-- Bob: another authentication Response
+@enduml
+```
+
 ### S'Authentifier
 Le fonctionnement global de la phase d'authentification du client (valider/confirmer les informations d'identification) par le système d'informations est présenté par le diagramme de séquences ci-dessous fourni.
 ![DS](./docs/images/fonct-global-se-connecter.png "Diagramme de séquences Connexion Utilisateur")
@@ -140,9 +185,10 @@ Une liste non exhaustive des technos utilsées pour le développment de cette ap
 ![](https://img.shields.io/badge/Lombok-✓-blue.svg)
 ![](https://img.shields.io/badge/SonarLint-✓-blue.svg)
 ![](https://img.shields.io/badge/JaCoCo-✓-blue.svg)
+![](https://img.shields.io/badge/PlantUML-✓-blue.svg)
 
 - C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage `Java` : 
-- `EA` (Entreprise Architect) pour la fourniture des éléments de modélisation et conception des spécifications globales fournies.
+- `PlantUML` avec intégration de `StarUML` pour la production au format markdown des éléments de modélisation et conception des spécifications techniques fournies.
 - `Java 11` est utilisé pour la compilation et cible pour l'environnement d'exécution. Le code source est en partie en `Java 8`.
 - `Spring Security`, `JWT`, pour sécuriser les échanges (production de jetons, authentification et autorisation).
 - `AOP` pour la séparation des préoccupations transversales dans l'application. Ici, il s'agit de la journalisation dans le couches applicatives : `le logging`
@@ -160,6 +206,7 @@ Une liste non exhaustive des technos utilsées pour le développment de cette ap
 - `MoreUnit` intégré dans l'IDE (_STS_) pour `taguer` les classes du code source couvertes par des TU (_Tests Unitaires_).
 - `JaCoCo` librairie java d'analyse de couverture de codes. Produire/fournir les rapports de couverture du code source (lignes, branches,..) par les tests réalisés. Offrir une visualisation graphique de la couverture
 de codes et fournit des rapports détaillés de l'analyse de la couverture.
+
 
 # Configurations
 Les configurations de l'application permettent de faciliter aussi bien le démarrage et exécution que l'exploitation de celle-ci.
@@ -179,14 +226,8 @@ La mise en place de cette peut donc être effectuer de deux façons différentes
 		- Extraction la clé publique de la paire de clés, qui peut être utilisée dans un certificat
 - **avec l'outil graphique** : `KeyStore Explorer`
 
-Les détails sur la mise en place et expoloitation de ces éléments sont fournis dans le fichier :
+Les détails sur la mise en place et exploitation de ces éléments sont fournis dans le fichier :
 [README](/jwt-auth-web-api-back-end/README.md).
-
-```plantuml
-Bob -> Alice : hello
-Alice -> Bob : hi
-```
-
 
 ## Base de données 
 TODO
