@@ -107,7 +107,7 @@ L'ajout ou la persistance des informations d'un nouvel utilisateur dans le syst�
 actor User #Pink
 participant "Client (Front-End Angular)" as A
 participant "Back-End (Serveur)" as S
-database BDD #Gray-25%
+database BDD #Gray
 
 ' Déclaration des enchainements de séquences de traitements
 autonumber
