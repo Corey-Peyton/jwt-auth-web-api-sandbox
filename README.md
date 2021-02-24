@@ -7,24 +7,24 @@
 avec d'autres technologies non seulement pour faciliter l'intégration des différents composants applicatifs (traduire en lignes de codes l'expression des besoins) 
 mais également sécuriser les échanges avec le SI (sécuriser les ressources de l'application).
 Il comporte principalement deux modules :
-- un **Back-End Java** , basée sur une architecture `REST` et embarquant :
+- un **Back-End Java** , basée sur une architecture **`REST`** et embarquant :
 	- _les exigences fonctionnelles ou métier_, 
 	- _les exigences non fonctionnelles_. 
 - un **Front-End Angular** (`Client Web`) fournissant les interfaces utilisateur pour faciliter la consommation des fonctionnalités exposées par le Back-End.
 
 **NB** :
 - _Les données/informations sont stockées dans une base de données relationnelles_.
-- Voir la section `Exigences` pour plus de détails sur les fonctionnalités embarquées.
-- Voir la section `Stack Technique` pour plus de détails sur l'ensemble des technos utilisées dans cette application.
+- Voir la section **`Exigences`** pour plus de détails sur les fonctionnalités embarquées.
+- Voir la section **`Stack Technique`** pour plus de détails sur l'ensemble des technos utilisées dans cette application.
 - **SI** : **S**ystème d'**I**nformations.	
 
 	
 # Spécifications 
 Dans cette section, quelques éléments sont fournis pour faciliter la compréhension du besoin et les réalisations techniques à venir.
-Les élements des processus de gestion : `autorisation, authentication et sécurisation des ressources` (de l'application), seront mis en place à partir des spécifications
+Les élements des processus de gestion : **`autorisation, authentication et sécurisation des ressources`** (de l'application), seront mis en place à partir des spécifications
 **JWT** avec **Spring Security**. 
 Les échanges se feront principalement entre le client (`front-end`) et le serveur (`back-end Java`). Les éléments ci-dessous sont fournis dans le cadre cette spécification :
-- Une brève présentation de `JWT` 
+- Une brève présentation de **`JWT`** 
 - Le diagramme d'architecture applicative et technique
 - Les diagrammes de séquences du fonctionnement global des points suivants :
 	- Ajouter un nouvel utilisateur avec ses rôles dans le système d'information,
@@ -34,7 +34,7 @@ Les échanges se feront principalement entre le client (`front-end`) et le serve
 
 
 ## Brève Présentation JWT  
-`JWT` (**J**SON **W**eb **T**oken), est une spécification pour la représentation des revendications (_claims_) à transférer entre deux parties. Les revendications sont codées en tant qu'objet `JSON` utilisé comme charge
+**`JWT`** (**J**SON **W**eb **T**oken), est une spécification pour la représentation des revendications (_claims_) à transférer entre deux parties. Les revendications sont codées en tant qu'objet `JSON` utilisé comme charge
  utile d'une structure chiffrée, permettant aux revendications d'être signées ou chiffrées numériquement. La structure peut être :
 - **J**SON **W**eb **S**ignature (`JWS`) ou 
 - **J**SON **W**eb **E**ncryption (`JWE`).
@@ -60,19 +60,19 @@ Le tableau ci-dessous dresse une liste non exhaustive des exigences non fonction
 
 ### Le Client (Front-end)
 A la lumière de tout ce qui est présenté ci-dessus, l'interface utilisateur doit permettre selon ses rôles dans l'application (les droits de l'utilisateurs) :
-- **Gestion des utilisateurs** :
+- **`Gestion des utilisateurs`** :
 	- _Se Connecter/Déconnecter de l'application_,
 	- _Ajouter/Inscrire un nouvel utilisateur dans le SI_,
 	- _Visualiser les informations des utilisateurs_, 
 	- _Modifier les informations d'un utilisateur_,
 	- Supprimer les informations d'un utilisateur.
-- **Gestion des catégories de produits** :
+- **`Gestion des catégories de produits`** :
 	- _Ajouter les informations d'une nouvelle catégorie de produits_,
 	- _Ajouter les informations d'un produit à une catégorie de produits_,
 	- _Mettre à jour les informations d'une catégorie de produits_,
 	- _Réchercher les informations d'une catégorie de produits (soit par son identifiant, par son nom, ...)_,
 	- _Supprimmer du SI les informations d'une catégorie de produits_.	
-- **Gestion des produits** :
+- **`Gestion des produits`** :
 	- _Ajouter les informations d'un nouveau produit dans le SI_,
 	- _Mettre à jour les informations d'un produit existant dans le SI_,
 	- _Réchercher les informations d'un produit (soit par son identifiant, par son nom, ...)_,
@@ -81,9 +81,9 @@ A la lumière de tout ce qui est présenté ci-dessus, l'interface utilisateur d
 ## Architecture Applicative et Technique Globale 
 Le diagramme ci-dessous fournit une vision globale des flux d'échanges entre l'application et les acteurs du système et(ou) briques/composants applicatifs.
 L'architecture applicative et technique comporte les éléments suivants :
-- le `Back-End` qui embarque les différents composants permettant d'implémenter toute la logique métier de l'application
-- le `Front-End` : interface utlisateur avec les différents composants permettant d'effectuer/faciliter les échanges avec le back-end Java.
-- le `SGBDR` : pour le stockage et la persistance des informations métiers de l'application.
+- le **`Back-End`** qui embarque les différents composants permettant d'implémenter toute la logique métier de l'application
+- le **`Front-End`** : interface utlisateur avec les différents composants permettant d'effectuer/faciliter les échanges avec le back-end Java.
+- le **`SGBDR`** : pour le stockage et la persistance des informations métiers de l'application.
 
 ![DAAT](./docs/images/architecture-applicative-technique-globale.png "Diagrammme Architecture Applicatif et Technique")
 
@@ -109,7 +109,8 @@ database BDD #Gray
 
 ' Déclaration des enchainements des séquences des traitements
 autonumber
-User -[#black]> Client++  : Requête Ajout (demande enregistrement nouvel utilisateur)
+User -[#black]> Client : Requête Ajout (demande enregistrement nouvel utilisateur)
+activate User
 Client -[#black]> Client : Charger la page de saisie  (saisir les données utilisateur)
 Client -[#black]> User : Page de saisie (informations user)
 deactivate Client
@@ -142,6 +143,7 @@ Serveur --[#red]> Client : Construire/Remonter le message d'erreurs associé ave
 deactivate Serveur
 Client --[#red]> User : Remonter le message d'erreurs associé avec le code statut HTTP
 deactivate Client
+deactivate User
 
 ' Traitement alternatif lorsque l'utilisateur existe déjà en base de données
 alt [Si utilisateur existe déjà]
@@ -152,7 +154,9 @@ Serveur -[#black]> Client : Générer message existance (user informations)
 activate Serveur
 activate Client
 Client -[#black]> User : Modifier la saisie (informations user)
+activate User
 deactivate Client
+deactivate User
 autonumber stop
 end
 
@@ -164,9 +168,11 @@ autonumber stop
 BDD --[#red]> Serveur : SQL/DAOException
 Serveur --[#red]> Client : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
 deactivate Serveur
-activate Client 
+activate Client
 Client --[#red]> User : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
+activate User
 deactivate Client
+deactivate User
 
 autonumber
 BDD -[#black]> Serveur : Enregistrement OK (pas d'erreurs)
@@ -176,16 +182,109 @@ note left of Serveur : d'autres informations peuvent être ajoutées lors de la 
 
 activate Client 
 Client -[#black]> User : Enregistrement avec succès (message)
+activate User
 deactivate Serveur
 deactivate Client
+deactivate User
 deactivate BDD
 @enduml
 ``` 
 
 ### S'Authentifier
-Le fonctionnement global de la phase d'authentification du client (valider/confirmer les informations d'identification) par le système d'informations est présenté par le diagramme de séquences ci-dessous fourni.
-![DS](./docs/images/fonct-global-se-connecter.png "Diagramme de séquences Connexion Utilisateur")
+Le fonctionnement global de la phase d'authentification du client (valider/confirmer les informations d'identification) par le système d'informations est présenté par le diagramme de séquences ci-dessous (`PlantUML` au format .md) :
 
+```plantuml
+@startuml
+' Déclaration des participants (acteurs)
+actor User #Pink
+participant Client #Yellow
+participant Serveur #SkyBlue
+database BDD #Gray
+
+' Déclaration des enchainements des séquences des traitements
+autonumber
+User -[#black]> User : Démarrer l'application
+activate User
+User -[#black]> Client : Se Connecter  (demander la page connexion)
+Client -[#black]> Client : Charger page de connexion(formulaire)
+activate Client
+Client -[#black]> User : Page connexion (saisie des informations d'identification)
+deactivate Client
+User -[#black]> Client : Sasir les informations d'authentification (username,password)
+activate Client
+
+' Validation des informations saisies et appel service
+Client -[#black]> Client : Valider les informations du formulaire (check saisie)
+Client -[#black]> Serveur : Call API : POST /api/auth/authenticate : (username, password)
+activate Serveur
+Serveur -[#black]> Serveur : Authentifier l'utilisateur qui tente de se connecter  (username, password)
+Serveur -[#black]> BDD : Call BDD  findUserBy (username, email, roles, ..)
+activate BDD
+
+' Ajout de commentaires
+note right of Serveur 
+Le critère de recherche peut être l'un des éléments ci-dessous :  
+username (login)
+mail
+username & roles
+end note 
+
+BDD -[#black]> BDD : Rechercher credentails dans la table (T_USERS)
+autonumber stop
+BDD --[#red]> Serveur : SQL/LoginAlreadyUsedException/EmailAlreadyUsedException
+deactivate BDD
+Serveur --[#red]> Client : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
+deactivate Serveur
+Client --[#red]> User : Remonter le message d'erreurs associé avec le code statut HTTP
+deactivate Client
+deactivate User
+
+' Traitement de la réponse en cas d'opération effectuée avec succès en base de données
+autonumber 10
+BDD -[#black]> Serveur : Réponse recherche OK (Pas d'Exception)
+activate BDD
+deactivate BDD
+Serveur -[#black]> Serveur : Générer et Stocker le token JWT (créer avec paire de clés de type RSA)
+activate Serveur
+
+' Ajout de commentaires
+note left of Serveur 
+Construire l'authentification
+Renseigner le contexte de sécurité de l'authentification
+end note
+Serveur -[#black]> Client : Retourner la réponse Authentification ( accesToken, tokenType, user info, authorities)
+
+' Ajout de commentaires
+note left of Client
+{
+"access_token":"e6631caa-bcf9-433c-8e54-3511fa55816d",
+"token_type":"bearer",
+"username":"user1",
+"email": "user1@user.com",
+"password": "user1123456789",
+"roles":["user"]
+}
+end note
+
+activate Client
+deactivate Serveur
+Client -[#black]> Client : Stocker le jeton JWT (interne)
+Client -[#black]> User : Retourner la réponse Authentification ( accesToken, tokenType, user info, authorities)
+activate User
+deactivate Client
+deactivate User
+@enduml
+```
+
+
+
+### Accéder aux ressources de l'application
+Ce cas d'utlisation comporte principalement les deux phases suivantes :
+- La demande et obtention des jetons d'accès (phase d'authentification : voir use case du dessus)
+- L'accès proprement dit aux ressources de l'application (produits, outils, services,... ) avec le jeton d'accès obtenu de la phase d'authentification.
+
+Son fonctionnement global est fourni par le diagramme de séquences ci-dessous : 
+![DS](./docs/images/fonct-global-acces_resources-protegees.png "Diagramme de séquences du fonctionnement global Accès aux ressources")
 
 
 ```plantuml
@@ -197,14 +296,6 @@ Alice -> Bob: Another authentication Request
 Alice <-- Bob: another authentication Response
 @enduml
 ```
-
-### Accéder aux ressources de l'application
-Ce cas d'utlisation comporte principalement les deux phases suivantes :
-- La demande et obtention des jetons d'accès (phase d'authentification : voir use case du dessus)
-- L'accès proprement dit aux ressources de l'application (produits, outils, services,... ) avec le jeton d'accès obtenu de la phase d'authentification.
-
-Son fonctionnement global est fourni par le diagramme de séquences ci-dessous : 
-![DS](./docs/images/fonct-global-acces_resources-protegees.png "Diagramme de séquences du fonctionnement global Accès aux ressources")
 
 ## Modèles et Schémas de données
 Les modèles fournis sont relatifs au *_*métier_**. Le diagramme de classes ci-dessous présente les relations entre les entités de gestion de la partie métier de l'application.
