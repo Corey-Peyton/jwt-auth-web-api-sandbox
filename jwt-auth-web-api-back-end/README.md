@@ -20,29 +20,31 @@ $ openssl rsa -in key.pem -outform PEM -pubout -out public.pem
 ```java 
 // Exploitation de la clé publique générée pour obtenir PublicKey
 public static PublicKey getPublicKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
-     String rsaPublicKey = "-----BEGIN PUBLIC KEY-----" +
+    final String rsaPublicKey = "-----BEGIN PUBLIC KEY-----" +
          "MIIBIjANBgkq......B/V73QUxKI4/rQIDAQAB" +
          "-----END PUBLIC KEY-----";
     rsaPublicKey = rsaPublicKey.replace("-----BEGIN PUBLIC KEY-----", "");
     rsaPublicKey = rsaPublicKey.replace("-----END PUBLIC KEY-----", "");
-    X509EncodedKeySpec keySpec = new X509EncodedKeySpec(Base64.getDecoder().decode(rsaPublicKey));
-    KeyFactory kf = KeyFactory.getInstance("RSA");
-    PublicKey publicKey = kf.generatePublic(keySpec);
-    return publicKey;
+    final X509EncodedKeySpec keySpec = new X509EncodedKeySpec(Base64.getDecoder().decode(rsaPublicKey));
+    final KeyFactory kf = KeyFactory.getInstance("RSA");
+    //final PublicKey publicKey = kf.generatePublic(keySpec);
+    //return publicKey;
+    return kf.generatePublic(keySpec);;
 }
 
 // Exploitation de la clé privée générée pour obtenir PrivateKey
 public static PrivateKey getPrivateKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
-    String rsaPrivateKey = "-----BEGIN PRIVATE KEY-----" +
+    final String rsaPrivateKey = "-----BEGIN PRIVATE KEY-----" +
             "MIIEvwIBADANBgkq...... h8TPOvfHATdiwIm7Qu76gHhpzQ==" +
             "-----END PRIVATE KEY-----";
 
     rsaPrivateKey = rsaPrivateKey.replace("-----BEGIN PRIVATE KEY-----", "");
     rsaPrivateKey = rsaPrivateKey.replace("-----END PRIVATE KEY-----", "");
 
-    PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(rsaPrivateKey));
-    KeyFactory kf = KeyFactory.getInstance("RSA");
-    PrivateKey privKey = kf.generatePrivate(keySpec);
-    return privKey;
+    final PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(rsaPrivateKey));
+    final KeyFactory kf = KeyFactory.getInstance("RSA");
+    //PrivateKey privKey = kf.generatePrivate(keySpec);
+    //return privKey;
+    return kf.generatePrivate(keySpec);
 }
 ```
