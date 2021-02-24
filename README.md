@@ -97,24 +97,24 @@ Le fonctionnement global de l'application est fourni par des vues macroscopiques
 |`Accéder aux ressources de l'application`|_Il est composé principalement de deux phases : <ul><li>La demande et obtention des jetons d'accès (phase d'authentification : voir use case du dessus)</li><li>L'accès proprement dit aux ressources de l'application (produits, outils, services,... ) avec le jeton d'accès obtenu de la phase d'authentification</li></ul>_|
 
 ### Ajouter un nouvel utilisateur dans le SI
-L'ajout ou la persistance des informations d'un nouvel utilisateur dans le système d'informations est présenté par le diagramme de séquences ci-dessous :
-![DS](./docs/images/fonct-global-enregistrer.png "Diagramme de séquences Ajout nouvel utilisateur")
-
+L'ajout ou la persistance des informations d'un nouvel utilisateur dans le système d'informations est présenté par le diagramme de séquences ci-dessous (`PlantUML` au format .md) :
 
 ```plantuml
 @startuml
-' Déclaration des participants
+' Déclaration des participants (acteurs)
 actor User #Pink
-participant Client  #Yellow
+participant Client #Yellow
 participant Serveur #SkyBlue
 database BDD #Gray
 
-' Déclaration des enchainements de séquences de traitements
+' Déclaration des enchainements des séquences des traitements
 autonumber
-User -[#black]> Client  : Demande Ajout (enregistrer nouvel utilisateur)
+User -[#black]> Client++  : Requête Ajout (demande enregistrement nouvel utilisateur)
 Client -[#black]> Client : Charger page de saisie  (enregistrement)
 Client -[#black]> User : Page de saisie (informations user)
+deactivate Client
 User -[#black]> Client : Saisie des informations  (username, paswword, email, roles)
+activate Client
 Client -[#black]> Client : Valider les informations du formulaire (check saisie)
 autonumber stop
 ' Client  -[#red]> User  : Erreur saisie (saisie non valide)
@@ -123,23 +123,68 @@ autonumber stop
 ' Outgoing version courte bidirectionnelle
 '?<-[#red]> Client : ""Erreur saisie (saisie non valide)""
 ' Outgoing version courte unidirectionnelle
-?<[#red]- Client  : ""Erreur saisie (saisie non valide)""
+?<[#red]-- Client  : ""Erreur saisie (saisie non valide)""
 ' Outgoing version longue
 '[<[#red]- Client : ""[Erreur saisie (saisie non valide)""
 
 autonumber 6
 Client -[#black]> Serveur : Call API : POST /api/auth/register : (username, email, password, roles)
+activate Serveur
 Serveur -[#black]> Serveur : Récupérer informations requêtes (informations utilisateur)
 Serveur -[#black]> BDD : Vérifier existance utilisateur (username,  email)
+activate BDD 
 BDD -[#black]> BDD : Recherche dans la table (T_USERS)
 autonumber stop
 
+BDD --[#red]> Serveur : SQL/LoginAlreadyUsedException/EmailAlreadyUsedException
+deactivate BDD
+Serveur --[#red]> Client : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
+deactivate Serveur
+Client --[#red]> User : Remonter le message d'erreurs associé avec le code statut HTTP
+deactivate Client
 
-BDD -[#red]> Serveur : SQL/LoginAlreadyUsedException/EmailAlreadyUsedException
-Serveur -[#red]> Client : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
-Client -[#red]> User : Remonter le message d'erreurs associé avec le code statut HTTP
+' Traitement alternatif lorsque l'utilisateur existe déjà en base de données
+alt [Si utilisateur existe déjà]
+autonumber 10
+BDD -[#black]> Serveur : Retourner informations utilisateur (utilisateur existe déjà )
+activate BDD
+Serveur -[#black]> Client : Générer message existance (user informations)
+activate Serveur
+activate Client
+Client -[#black]> User : Modifier la saisie (informations user)
+deactivate Client
+autonumber stop
+end
+
+' Traitements pour la persistance des informations de l'utilisateur dans la base de données et gestion des exceptions
+autonumber 10
+Serveur -[#black]> BDD : Persistance données (nouvel utilisateur)
+BDD -[#black]> BDD : Enregistrer dans la table (T_USERS)
+autonumber stop
+BDD --[#red]> Serveur : SQL/DAOException
+Serveur --[#red]> Client : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
+deactivate Serveur
+activate Client 
+Client --[#red]> User : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
+deactivate Client
+
+autonumber
+BDD -[#black]> Serveur : Enregistrement OK (pas d'erreurs)
+activate Serveur
+Serveur -[#black]> Client : Enregistrement avec succès (message)
+activate Client 
+Client -[#black]> User : Enregistrement avec succès (message)
+deactivate Serveur
+deactivate Client
+deactivate BDD
 @enduml
 ``` 
+
+### S'Authentifier
+Le fonctionnement global de la phase d'authentification du client (valider/confirmer les informations d'identification) par le système d'informations est présenté par le diagramme de séquences ci-dessous fourni.
+![DS](./docs/images/fonct-global-se-connecter.png "Diagramme de séquences Connexion Utilisateur")
+
+
 
 ```plantuml
 @startuml
@@ -150,10 +195,6 @@ Alice -> Bob: Another authentication Request
 Alice <-- Bob: another authentication Response
 @enduml
 ```
-
-### S'Authentifier
-Le fonctionnement global de la phase d'authentification du client (valider/confirmer les informations d'identification) par le système d'informations est présenté par le diagramme de séquences ci-dessous fourni.
-![DS](./docs/images/fonct-global-se-connecter.png "Diagramme de séquences Connexion Utilisateur")
 
 ### Accéder aux ressources de l'application
 Ce cas d'utlisation comporte principalement les deux phases suivantes :
