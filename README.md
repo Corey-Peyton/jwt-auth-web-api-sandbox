@@ -1,13 +1,16 @@
-# Products Management Secure Web REST API    
+# Secure Web REST API (Products Management)    
 
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?branch=develop)
 
-`My Products` est une application Web sécurisée de gestion de produits avec leur catégorie (`service Web RESTFul Sécurisé`) écrit en **Java** et embarque **Spring** avec d'autres technologies non seulement pour l'intégration des différents composants applicatifs
-mais également la sécurisation des ressources de l'application.  Il fournit principalement :
-- un **Back-End Java** , embarquant :
+# A Propos
+`My Products` est une application Web sécurisée de gestion de produits avec leur catégorie (`service Web RESTFul Sécurisé`) écrit en **Java** et embarque **Spring** 
+avec d'autres technologies non seulement pour faciliter l'intégration des différents composants applicatifs (traduire en lignes de codes l'expression des besoins) 
+mais également sécuriser les échanges avec le SI (sécuriser les ressources de l'application).
+Il comporte principalement deux modules :
+- un **Back-End Java** , basée sur une architecture `REST` et embarquant :
 	- _les exigences fonctionnelles ou métier_, 
 	- _les exigences non fonctionnelles_. 
-- un **Front-End Angular** (`Client Web`) fournissant les interfaces utilisateur pour interagir avec le Back-End.
+- un **Front-End Angular** (`Client Web`) fournissant les interfaces utilisateur pour faciliter la consommation des fonctionnalités exposées par le Back-End.
 
 **NB** :
 - _Les données/informations sont stockées dans une base de données relationnelles_.
@@ -18,7 +21,7 @@ mais également la sécurisation des ressources de l'application.  Il fournit pr
 	
 # Spécifications 
 Dans cette section, quelques éléments sont fournis pour faciliter la compréhension du besoin et les réalisations techniques à venir.
-Les élements des processus de gestion : _autorisation, authentication et sécurisation des ressources_ (de l'application), seront mis en place à partir des spécifications
+Les élements des processus de gestion : `autorisation, authentication et sécurisation des ressources` (de l'application), seront mis en place à partir des spécifications
 **JWT** avec **Spring Security**. 
 Les échanges se feront principalement entre le client (`front-end`) et le serveur (`back-end Java`). Les éléments ci-dessous sont fournis dans le cadre cette spécification :
 - Une brève présentation de JWT 
@@ -26,17 +29,17 @@ Les échanges se feront principalement entre le client (`front-end`) et le serve
 - Les diagrammes de séquences du fonctionnement global des points suivants :
 	- Ajouter un nouvel utilisateur avec ses rôles dans le système d'information,
 	- Gérer la production/fourniture de jetons d'accès lorsque les utilisateurs se connectent à l'application,	
-	- Accès aux resources (_protégées_) de l'application : fournir le jeton d'accès dans l'en-tête de la requête lors de la demande d'informations.
+	- Accès aux resources (_protégées_) de l'application : _fournir le jeton d'accès dans l'en-tête de la requête lors de la demande d'informations_.
 - Les schéma et modèle de données pour la gestion des informations **métier** de l'application.
 
 
 ## Brève Présentation JWT  
-**JWT** (**J**SON **W**eb **T**oken), est une spécification pour la représentation des revendications (claims) à transférer entre deux parties. Les revendications sont codées en tant qu'objet JSON utilisé comme charge
+`JWT` (**J**SON **W**eb **T**oken), est une spécification pour la représentation des revendications (_claims_) à transférer entre deux parties. Les revendications sont codées en tant qu'objet `JSON` utilisé comme charge
  utile d'une structure chiffrée, permettant aux revendications d'être signées ou chiffrées numériquement. La structure peut être :
-- **J**SON **W**eb **S**ignature (JWS) ou 
-- **J**SON **W**eb **E**ncryption (JWE).
+- **J**SON **W**eb **S**ignature (`JWS`) ou 
+- **J**SON **W**eb **E**ncryption (`JWE`).
 
-Les **JWT** contiennent les informations nécéssaires pour aider au stockage de la session utilisateu, etc. JWT peut être choisi comme format pour les jetons d'accès et d'actualisation utilisés dans le protocole OAuth2.
+Les `JWT` contiennent les informations nécéssaires pour aider au stockage de la `session utilisateur`, etc. `JWT` peut être aussi choisi comme format pour les jetons d'accès et d'actualisation utilisés dans le protocole `OAuth2`.
 
 ## Les Exigences 
 
@@ -56,20 +59,20 @@ Le tableau ci-dessous dresse une liste non exhaustive des exigences non fonction
 |**Exigences non fonctionnelles**|_<ul><li>Gérer les logs</li><li>Gérer les erreurs/exceptions</li><li>Gérer les accès à la base de données</li><li>Gérer la migration des scripts de base de données (création de schémas, insertion, mise à jour de tables ou de données ...) avec **Flyway**</li></ul>_|
 
 ### Le Client (Front-end)
-A la lumière de tout ce qui est présenté ci-dessus, l'interface utilisateur doit permettre selon les rôles (les droits de l'utilisateurs) :
-- **Pour les utilisateurs** :
+A la lumière de tout ce qui est présenté ci-dessus, l'interface utilisateur doit permettre selon ses rôles dans l'application (les droits de l'utilisateurs) :
+- **Gestion des utilisateurs** :
 	- _Se Connecter/Déconnecter de l'application_,
 	- _Ajouter/Inscrire un nouvel utilisateur dans le SI_,
 	- _Visualiser les informations des utilisateurs_, 
 	- _Modifier les informations d'un utilisateur_,
 	- Supprimer les informations d'un utilisateur.
-- **Pour les catégories de produits** :
+- **Gestion des catégories de produits** :
 	- _Ajouter les informations d'une nouvelle catégorie de produits_,
 	- _Ajouter les informations d'un produit à une catégorie de produits_,
 	- _Mettre à jour les informations d'une catégorie de produits_,
 	- _Réchercher les informations d'une catégorie de produits (soit par son identifiant, par son nom, ...)_,
 	- _Supprimmer du SI les informations d'une catégorie de produits_.	
-- **Pour les produits** :
+- **Gestion des produits** :
 	- _Ajouter les informations d'un nouveau produit dans le SI_,
 	- _Mettre à jour les informations d'un produit existant dans le SI_,
 	- _Réchercher les informations d'un produit (soit par son identifiant, par son nom, ...)_,
@@ -77,26 +80,36 @@ A la lumière de tout ce qui est présenté ci-dessus, l'interface utilisateur d
 
 ## Architecture Applicative et Technique Globale 
 Le diagramme ci-dessous fournit une vision globale des flux d'échanges entre l'application et les acteurs du système et(ou) briques/composants applicatifs.
-Elle comporte les éléments suivants :
-- le **Back-End** qui embarque les différents composants permettant d'implémenter toute la logique métier de l'application
-- le **Front-End** : interface utlisateur avec les différents composants permettant d'effectuer/faciliter les échanges avec le back-end Java.
-- le **SGBD** : pour le stockage et la persistance des informations métiers de l'application.
+L'architecture applicative et technique comporte les éléments suivants :
+- le `Back-End` qui embarque les différents composants permettant d'implémenter toute la logique métier de l'application
+- le `Front-End` : interface utlisateur avec les différents composants permettant d'effectuer/faciliter les échanges avec le back-end Java.
+- le `SGBDR` : pour le stockage et la persistance des informations métiers de l'application.
 
 ![DAAT](./docs/images/architecture-applicative-technique-globale.png "Diagrammme Architecture Applicatif et Technique")
 
-## Use Case `Ajouter un nouvel utilisateur dans le SI`
-Le principe de fonctionnement de l'ajout dans le SI des informations d'un nouvel utilisateur, est présenté par le diagramme de séquences ci-dessous :
+## Fonctionnement global : USe Case
+Le fonctionnement global de l'application est fourni par des vues macroscopiques aux travers de `diagrammes de séquences` des cas d'utilisation (`use case`) présenté dans le tableau ci-dessous :
+
+|Use Case|Description succincte |
+|---|---|
+|`Ajouter un nouvel utilisateur`|_permet de persister/sauvegarder les information d'un nouvel utilisateur dans le système d'informations_|
+|`S'Authentifier` (_Se Connecter à l'application_)|_permet au client (utilisateur) de fournir les informations pour_ `authentification par le système d'informations`|
+|`Accéder aux ressources de l'application`|_Il est composé principalement de deuxx phases : <ul><li>La demande et obtention des jetons d'accès (phase d'authentification : voir use case du dessus)</li><li>L'accès proprement dit aux ressources de l'application (produits, outils, services,... ) avec le jeton d'accès obtenu de la phase d'authentification</li></ul>_|
+
+### Ajouter un nouvel utilisateur dans le SI
+L'ajout ou la persistance des informations d'un nouvel utilisateur dans le système d'informations est présenté par le diagramme de séquences ci-dessous :
 ![DS](./docs/images/fonct-global-enregistrer.png "Diagramme de séquences Ajout nouvel utilisateur")
 
-## Use Case `Se Connecter à l'application`
-Le principe de fonctionnement de la connexion au SI d'un utilisateur avec ses informations, est présenté par le diagramme de séquences ci-dessous :
+### S'Authentifier
+Le fonctionnement global de la phase d'authentification du client (valider/confirmer les informations d'identification) par le système d'informations est présenté par le diagramme de séquences ci-dessous fourni.
 ![DS](./docs/images/fonct-global-se-connecter.png "Diagramme de séquences Connexion Utilisateur")
 
-## Use Case `Accès aux ressources de l'application`
-Une vue macroscopique du fonctionnement global de l'application pour l'accès à ses ressources est fournie par le diagramme de séquences ci-dessous. Il est composé de deux principales phases:
-- La demande et obtention des jetons d'accès après s'être authentifié
-- L'accès proprement dit aux ressources de l'application avec le jeton d'accès.
+### Accéder aux ressources de l'application
+Ce cas d'utlisation comporte principalement les deux phases suivantes :
+- La demande et obtention des jetons d'accès (phase d'authentification : voir use case du dessus)
+- L'accès proprement dit aux ressources de l'application (produits, outils, services,... ) avec le jeton d'accès obtenu de la phase d'authentification.
 
+Son fonctionnement global est fourni par le diagramme de séquences ci-dessous : 
 ![DS](./docs/images/fonct-global-acces_resources-protegees.png "Diagramme de séquences du fonctionnement global Accès aux ressources")
 
 ## Modèles et Schémas de données
@@ -104,7 +117,7 @@ Les modèles fournis sont relatifs au *_*métier_**. Le diagramme de classes ci-
 ![DC](./docs/images/modele-donnees-metier_vfinale.png "Diagramme de Classes des objets de gestion de l'identification des utilisateurs")
 
 # Stack Technique
-Une liste non exhaustive des technos embarquées pour le développment de cette application :
+Une liste non exhaustive des technos utilsées pour le développment de cette application :
 
 ![](https://img.shields.io/badge/Java_11-✓-blue.svg)
 ![](https://img.shields.io/badge/Maven_3-✓-blue.svg)
@@ -122,10 +135,11 @@ Une liste non exhaustive des technos embarquées pour le développment de cette 
 ![](https://img.shields.io/badge/Flyway-✓-blue.svg)
 ![](https://img.shields.io/badge/Angular_11-✓-blue.svg)
 ![](https://img.shields.io/badge/Docker-✓-blue.svg)
-![](https://img.shields.io/badge/Swagger_3-✓-blue.svg)
+![](https://img.shields.io/badge/Swagger_3.0_/OpenAPI-✓-blue.svg)
 ![](https://img.shields.io/badge/EhCache-✓-blue.svg)
 ![](https://img.shields.io/badge/Lombok-✓-blue.svg)
 ![](https://img.shields.io/badge/SonarLint-✓-blue.svg)
+![](https://img.shields.io/badge/JaCoCo-✓-blue.svg)
 
 - C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage `Java` : 
 - `EA` (Entreprise Architect) pour la fourniture des éléments de modélisation et conception des spécifications globales fournies.
@@ -139,10 +153,61 @@ Une liste non exhaustive des technos embarquées pour le développment de cette 
 - `Angular` pour le développment de l'interface utilisateur (le Clent Web).
 - `Docker` pour la containerisation.
 - `Lombok` bibliothèque Java pour générer du code couramment utilisé et faciliter le maintien du code source propre,  simplifier l'écriture des classes métiers (beans).
+- `Keytool` et `OpenSSL` pour la génération du magasin des `clés privées/publiques RSA`, export de la clé publique et du certificat dans des fichiers. 
 - `Swagger 3.0.0 /OpenAPI` pour la documentation et tests de l'API.
 - `JUnit 5` pour l'écriture des codes sources des classes unitaires et d'intégration.
 - `SonarLint` intégré dans l'IDE (_STS_) pour `analyser la qualité du code` livré, poussé dans le `repository` (_bonnes pratiques de développement_).
 - `MoreUnit` intégré dans l'IDE (_STS_) pour `taguer` les classes du code source couvertes par des TU (_Tests Unitaires_).
+- `JaCoCo` librairie java d'analyse de couverture de codes. Produire/fournir les rapports de couverture du code source (lignes, branches,..) par les tests réalisés. Offrir une visualisation graphique de la couverture
+de codes et fournit des rapports détaillés de l'analyse de la couverture.
+
+# Configurations
+Les configurations de l'application permettent de faciliter aussi bien l'exécution que l'exploitation de celle-ci.
+
+## Génération du `jeton JWT`
+Afin de rehausser le niveau de sécurité dans l'application, au lieu d'utiliser le **secret HMAC** partagé pour signer le `jeton JWT`, celui-ci sera signer avec des `clés privées/publiques RSA`.
+Ceci offre l'avantage que le jeton JWT soit généré et signé par une autorité centrale (généralement un serveur d'autorisation). Ainsi, l'application (les services) 
+peut valider le `jeton JWT à l'aide de la clé publique exposée à partir du serveur d'autorisation`.
+La mise en place de cette peut donc être effectuer de deux façons différentes :
+- **en ligne de commande** : puis exploiter l'API Java pour obtenir les éléméents attendus. 
+	- **_commandes Keytool et OpenSSL_** : 
+		- Génération du magasin `clés privées/publiques RSA`
+		- Export de la clé publique et du certificat dans un fichier
+		- Export au format PKCS12
+	- **_commandes de OpenSSL_** : puis exploiter l'API Java pour obtenir les éléméents attendus.
+		- Génération la `clé privée RSA` 
+		- Extraction la clé publique de la paire de clés, qui peut être utilisée dans un certificat
+- **avec l'outil graphique** : `KeyStore Explorer`
+
+Les détails sur la mise en place et expoloitation de ces éléments sont fournis dans le fichier :
+[README](/jwt-auth-web-api-back-end/README.md).
+
+```plantuml
+Bob -> Alice : hello
+Alice -> Bob : hi
+```
+
+
+## Base de données 
+TODO
+
+## Configuration applicatives 
+TODO
+
+# Points de terminaison REST
+L'application fournit des points de terminaison HTTP et des outils pour exposer les fonctionnalités proposées.
+TODO
+
+# Compilation, Packaging, Exécution et Documentation
+## Compilation et Packaging
+TODO
+
+## Exécution
+TODO
+
+## Documentation Swagger des REST API
+TODO
+
 
 # Les Tests
 Les outils de tests classiques de **Java** et **Spring** sont utilisés pour effectuer des tests.
@@ -158,6 +223,20 @@ comme une base de données, des fichiers, ou des API en réseau. Ce type de test
 Ce type de test répond à la question : `Comment pouvons-nous vérifier qu'un utilisateur final utilisera une application conforme et cohérente de bout en bout ?`
 
 ## Les Outils de Tests
+La partie `test` de l’écosystème `Spring` (Framework de base de l’application) plus précisément sa composante : `spring-boot-starter-test`, avec ses apports : `spring-test, spring-boot-test, spring-boot-test-autoconfigure`, 
+fournit des outils permettant la réalisation des types de tests cités ci-dessus.
+Le tableau ci-dessous dresse une liste des outils disponibles pour la réalisation des Tests :
+
+|Outil|Description|
+|---|---|
+|`Mockito/BDDMockito`|_pour les mocks /Style d'écriture des tests de développement (Behavior Driven Development)  piloté par le comportement, il utilise : //given //when //then_|
+|`JUnit 5`|_pour l'écriture des classes des Tests Unitaires et d'intégration_|
+|`Assert-J`|_pour les assertions_|
+|`Postman`|_pour tester les fonctionnalités exposées par les API_|
+|`JaCoCo`|_Plugin maven (avec les plugin surefire et failsafe) pour produire/fournir les rapports de couverture de codes_|
+|`Swagger`|_Pour générer la documentation et Tester les REST API_|
+
+
 Les outils de tests proposés ou utilisées sont les suivants :
 - Outils de Tests de Spring Framework (spring-boot-starter-test) qui intègre:
 	- `spring-test`, `spring-boot-test`, `spring-boot-test-autoconfigure`.

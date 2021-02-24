@@ -45,6 +45,11 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public final class ServerConstants
 {
+    
+    public static final String SERVER_INTERNAL_ERROR = "Erreur interne du serveur.";
+    public static final String SERVER_UNAVAILABLE_MSG = "Service non disponible suite à une erreur interne du serveur.";
+    public static final String ACCESS_DENIED = "Accès non autorisés.";
+    
     // Catégorie de produits
     public static final String CATEGORY_NAME = "Le nom de la catégorie de produits ne peut pas être nul.";
     public static final String CATEGORY_DESC = "La description de la catégorie de produits ne peut pas être null ou vide.";

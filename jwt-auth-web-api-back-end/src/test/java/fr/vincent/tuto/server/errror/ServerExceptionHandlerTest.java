@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.core.MethodParameter;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -36,6 +35,7 @@ import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.mock.http.MockHttpInputMessage;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
@@ -55,6 +55,7 @@ import fr.vincent.tuto.common.service.props.DatabasePropsService;
 import fr.vincent.tuto.server.config.BackEndServerRootConfig;
 import fr.vincent.tuto.server.config.cache.ServerCacheConfig;
 import fr.vincent.tuto.server.config.db.PersistanceConfig;
+import fr.vincent.tuto.server.constants.ServerConstants;
 import fr.vincent.tuto.server.model.po.Product;
 import fr.vincent.tuto.server.model.po.User;
 import io.jsonwebtoken.JwtException;
@@ -68,7 +69,7 @@ import io.jsonwebtoken.JwtException;
 @TestPropertySource(value = { "classpath:back-end-db-test.properties", "classpath:back-end-application-test.properties" })
 @ContextConfiguration(name = "serverExceptionHandlerTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class,
         PersistanceConfig.class, ServerCacheConfig.class })
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest
 @ActiveProfiles("test")
 class ServerExceptionHandlerTest
 {
@@ -149,16 +150,17 @@ class ServerExceptionHandlerTest
         final ResponseEntity<GenericApiResponse<Product>> response = this.exceptionHandler.handleHttpCustomAppException(customAppException);
 
         assertThat(response).isNotNull();
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SERVICE_UNAVAILABLE);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getData()).isNull();
         assertThat(response.getBody().getErrors()).isNotNull();
         assertThat(response.getBody().getErrors()).isExactlyInstanceOf(ApiResponseError.class);
-        assertThat(response.getBody().getErrors().getStatus()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
-        assertThat(response.getBody().getErrors().getDetails()).isEqualTo(AppConstants.SERVER_INTERNAL_ERROR);
+        assertThat(response.getBody().getErrors().getStatus()).isEqualTo(HttpStatus.SERVICE_UNAVAILABLE);
+        assertThat(response.getBody().getErrors().getDetails()).isEqualTo(ServerConstants.SERVER_UNAVAILABLE_MSG);
         assertThat(response.getBody().getErrors().getDebugMessage()).isEqualTo(customAppException.getMessage());
         assertThat(response.getBody().getErrors().getValidationErrors()).isEmpty();
     }
+
 
     @Test
     void testHandleHttpCustomAppException_WithNull()
@@ -167,19 +169,67 @@ class ServerExceptionHandlerTest
         final ResponseEntity<GenericApiResponse<Product>> response = this.exceptionHandler.handleHttpCustomAppException(customAppException);
 
         assertThat(response).isNotNull();
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SERVICE_UNAVAILABLE);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getData()).isNull();
         assertThat(response.getBody().getErrors()).isNotNull();
         assertThat(response.getBody().getErrors()).isExactlyInstanceOf(ApiResponseError.class);
-        assertThat(response.getBody().getErrors().getStatus()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
-        assertThat(response.getBody().getErrors().getDetails()).isEqualTo(AppConstants.SERVER_INTERNAL_ERROR);
+        assertThat(response.getBody().getErrors().getStatus()).isEqualTo(HttpStatus.SERVICE_UNAVAILABLE);
+        assertThat(response.getBody().getErrors().getDetails()).isEqualTo(ServerConstants.SERVER_UNAVAILABLE_MSG);
         assertThat(response.getBody().getErrors().getDebugMessage()).isEqualTo(customAppException.getMessage());
         assertThat(response.getBody().getErrors().getValidationErrors()).isEmpty();
     }
 
     @Test
     void testHandleHttpCustomAppException_ShouldTrowNPE()
+    {
+        final Exception exception = assertThrows(NullPointerException.class, () -> {
+            this.exceptionHandler.handleHttpCustomAppException(null);
+        });
+
+        String actualMessage = exception.getMessage();
+        assertThat(actualMessage).isNull();
+    }
+    
+
+    @Test
+    void testHandleHttpCustomAppException_AuthenticationException()
+    {
+        final AuthenticationException authenticationException = new AuthenticationExceptionCustom("AuthenticationException customisée");
+        final ResponseEntity<GenericApiResponse<Product>> response = this.exceptionHandler.handleHttpCustomAppException(authenticationException);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().getData()).isNull();
+        assertThat(response.getBody().getErrors()).isNotNull();
+        assertThat(response.getBody().getErrors()).isExactlyInstanceOf(ApiResponseError.class);
+        assertThat(response.getBody().getErrors().getStatus()).isEqualTo(HttpStatus.UNAUTHORIZED);
+        assertThat(response.getBody().getErrors().getDetails()).isEqualTo(ServerConstants.ACCESS_DENIED);
+        assertThat(response.getBody().getErrors().getDebugMessage()).isEqualTo(authenticationException.getMessage());
+        assertThat(response.getBody().getErrors().getValidationErrors()).isEmpty();
+    }
+    
+    @Test
+    void testHandleHttpCustomAppException_WithNull_AuthenticationException()
+    {
+        final AuthenticationException customAppException = new AuthenticationExceptionCustom(null, null); 
+        final ResponseEntity<GenericApiResponse<Product>> response = this.exceptionHandler.handleHttpCustomAppException(customAppException);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().getData()).isNull();
+        assertThat(response.getBody().getErrors()).isNotNull();
+        assertThat(response.getBody().getErrors()).isExactlyInstanceOf(ApiResponseError.class);
+        assertThat(response.getBody().getErrors().getStatus()).isEqualTo(HttpStatus.UNAUTHORIZED);
+        assertThat(response.getBody().getErrors().getDetails()).isEqualTo(ServerConstants.ACCESS_DENIED);
+        assertThat(response.getBody().getErrors().getDebugMessage()).isEqualTo(customAppException.getMessage());
+        assertThat(response.getBody().getErrors().getValidationErrors()).isEmpty();
+    }
+    
+    @Test
+    void testHandleHttpCustomAppException_ShouldTrowNPE_AuthenticationException()
     {
         final Exception exception = assertThrows(NullPointerException.class, () -> {
             this.exceptionHandler.handleHttpCustomAppException(null);
@@ -594,5 +644,31 @@ class ServerExceptionHandlerTest
 
         String actualMessage = exception.getMessage();
         assertThat(actualMessage).isNull();
+    }
+
+    class AuthenticationExceptionCustom extends AuthenticationException
+    {
+        /**
+         * 
+         */
+        private static final long serialVersionUID = -8733741822686331697L;
+
+        /**
+         * @param msg
+         * @param t
+         */
+        public AuthenticationExceptionCustom(String msg, Throwable t)
+        {
+            super(msg, t);
+        }
+
+        /**
+         * @param msg
+         */
+        public AuthenticationExceptionCustom(String msg)
+        {
+            super(msg);
+        }
+
     }
 }
