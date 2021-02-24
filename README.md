@@ -105,16 +105,16 @@ L'ajout ou la persistance des informations d'un nouvel utilisateur dans le syst�
 @startuml
 ' Déclaration des participants
 actor User #Pink
-participant "Client (Front-End Angular)" as A
+participant "Client (Front-End Angular)" #Yellow
 participant "Back-End (Serveur)" as S
 database BDD #Gray
 
 ' Déclaration des enchainements de séquences de traitements
 autonumber
-User -[#black]> A : Demande Ajout (enregistrer nouvel utilisateur)
-A -[#black]> A : Charger page de saisie  (enregistrement)
-A -[#black]> User : Page de saisie (informations user)
-User -[#black]> A : Saisie des informations  (username, paswword, email, roles)
+User -[#black]> Client (Front-End Angular) : Demande Ajout (enregistrer nouvel utilisateur)
+Client (Front-End Angular) -[#black]> Client (Front-End Angular) : Charger page de saisie  (enregistrement)
+Client (Front-End Angular) -[#black]> User : Page de saisie (informations user)
+User -[#black]> Client (Front-End Angular) : Saisie des informations  (username, paswword, email, roles)
 A -[#black]> A : Valider les informations du formulaire (check saisie)
 autonumber stop
 ' A -[#red]> User  : Erreur saisie (saisie non valide)
