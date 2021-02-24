@@ -137,11 +137,11 @@ activate BDD
 BDD -[#black]> BDD : Recherche dans la table (T_USERS)
 autonumber stop
 
-BDD --[#red]> Serveur : SQL/LoginAlreadyUsedException/EmailAlreadyUsedException
+BDD -[#red]> Serveur : SQL/LoginAlreadyUsedException/EmailAlreadyUsedException
 deactivate BDD
-Serveur --[#red]> Client : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
+Serveur -[#red]> Client : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
 deactivate Serveur
-Client --[#red]> User : Remonter le message d'erreurs associé avec le code statut HTTP
+Client -[#red]> User : Remonter le message d'erreurs associé avec le code statut HTTP
 deactivate Client
 deactivate User
 
@@ -165,11 +165,11 @@ autonumber 10
 Serveur -[#black]> BDD : Persistance données (nouvel utilisateur)
 BDD -[#black]> BDD : Enregistrer dans la table (T_USERS)
 autonumber stop
-BDD --[#red]> Serveur : SQL/DAOException
-Serveur --[#red]> Client : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
+BDD -[#red]> Serveur : SQL/DAOException
+Serveur -[#red]> Client : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
 deactivate Serveur
 activate Client
-Client --[#red]> User : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
+Client -[#red]> User : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
 activate User
 deactivate Client
 deactivate User
@@ -231,11 +231,11 @@ end note
 
 BDD -[#black]> BDD : Rechercher credentails dans la table (T_USERS)
 autonumber stop
-BDD --[#red]> Serveur : SQL/LoginAlreadyUsedException/EmailAlreadyUsedException
+BDD -[#red]> Serveur : SQL/LoginAlreadyUsedException/EmailAlreadyUsedException
 deactivate BDD
-Serveur --[#red]> Client : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
+Serveur -[#red]> Client : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
 deactivate Serveur
-Client --[#red]> User : Remonter le message d'erreurs associé avec le code statut HTTP
+Client -[#red]> User : Remonter le message d'erreurs associé avec le code statut HTTP
 deactivate Client
 deactivate User
 
@@ -276,26 +276,20 @@ deactivate User
 @enduml
 ```
 
-
-
 ### Accéder aux ressources de l'application
 Ce cas d'utlisation comporte principalement les deux phases suivantes :
 - La demande et obtention des jetons d'accès (phase d'authentification : voir use case du dessus)
 - L'accès proprement dit aux ressources de l'application (produits, outils, services,... ) avec le jeton d'accès obtenu de la phase d'authentification.
 
-Son fonctionnement global est fourni par le diagramme de séquences ci-dessous : 
+Son fonctionnement global est fourni par le diagramme de séquences ci-dessous (`PlantUML` au format .md) :
 ![DS](./docs/images/fonct-global-acces_resources-protegees.png "Diagramme de séquences du fonctionnement global Accès aux ressources")
 
 
 ```plantuml
 @startuml
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
-
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
 @enduml
 ```
+
 
 ## Modèles et Schémas de données
 Les modèles fournis sont relatifs au *_*métier_**. Le diagramme de classes ci-dessous présente les relations entre les entités de gestion de la partie métier de l'application.
