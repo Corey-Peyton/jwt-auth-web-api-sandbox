@@ -110,7 +110,7 @@ database BDD #Gray
 ' Déclaration des enchainements des séquences des traitements
 autonumber
 User -[#black]> Client++  : Requête Ajout (demande enregistrement nouvel utilisateur)
-Client -[#black]> Client : Charger page de saisie  (enregistrement)
+Client -[#black]> Client : Charger la page de saisie  (saisir les données utilisateur)
 Client -[#black]> User : Page de saisie (informations user)
 deactivate Client
 User -[#black]> Client : Saisie des informations  (username, paswword, email, roles)
@@ -172,6 +172,8 @@ autonumber
 BDD -[#black]> Serveur : Enregistrement OK (pas d'erreurs)
 activate Serveur
 Serveur -[#black]> Client : Enregistrement avec succès (message)
+note left of Serveur : d'autres informations peuvent être ajoutées lors de la réalisation
+
 activate Client 
 Client -[#black]> User : Enregistrement avec succès (message)
 deactivate Serveur
