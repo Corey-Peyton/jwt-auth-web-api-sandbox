@@ -105,39 +105,39 @@ L'ajout ou la persistance des informations d'un nouvel utilisateur dans le syst�
 @startuml
 ' Déclaration des participants
 actor User #Pink
-participant ""Client (Front-End Angular)" #Yellow
-participant "Back-End (Serveur)" #Sky Blue
+participant Client  #Yellow
+participant Serveur #SkyBlue
 database BDD #Gray
 
 ' Déclaration des enchainements de séquences de traitements
 autonumber
-User -[#black]> "Client (Front-End Angular)" : Demande Ajout (enregistrer nouvel utilisateur)
-"Client (Front-End Angular)" -[#black]> Client (Front-End Angular) : Charger page de saisie  (enregistrement)
-"Client (Front-End Angular)" -[#black]> User : Page de saisie (informations user)
-User -[#black]> "Client (Front-End Angular)" : Saisie des informations  (username, paswword, email, roles)
-A -[#black]> A : Valider les informations du formulaire (check saisie)
+User -[#black]> Client  : Demande Ajout (enregistrer nouvel utilisateur)
+Client -[#black]> Client : Charger page de saisie  (enregistrement)
+Client -[#black]> User : Page de saisie (informations user)
+User -[#black]> Client : Saisie des informations  (username, paswword, email, roles)
+Client -[#black]> Client : Valider les informations du formulaire (check saisie)
 autonumber stop
-' A -[#red]> User  : Erreur saisie (saisie non valide)
+' Client  -[#red]> User  : Erreur saisie (saisie non valide)
 
 ' Outgoing 
 ' Outgoing version courte bidirectionnelle
-'?<-[#red]> A : ""Erreur saisie (saisie non valide)""
+'?<-[#red]> Client : ""Erreur saisie (saisie non valide)""
 ' Outgoing version courte unidirectionnelle
-?<[#red]- A : ""Erreur saisie (saisie non valide)""
+?<[#red]- Client  : ""Erreur saisie (saisie non valide)""
 ' Outgoing version longue
-'[<[#red]- A : ""[Erreur saisie (saisie non valide)""
+'[<[#red]- Client : ""[Erreur saisie (saisie non valide)""
 
 autonumber 6
-A -[#black]> S : Call API : POST /api/auth/register : (username, email, password, roles)
-S -[#black]> S : Récupérer informations requêtes (informations utilisateur)
-S -[#black]> BDD : Vérifier existance utilisateur (username,  email)
+Client -[#black]> Serveur : Call API : POST /api/auth/register : (username, email, password, roles)
+Serveur -[#black]> Serveur : Récupérer informations requêtes (informations utilisateur)
+Serveur -[#black]> BDD : Vérifier existance utilisateur (username,  email)
 BDD -[#black]> BDD : Recherche dans la table (T_USERS)
 autonumber stop
 
 
-BDD -[#red]> S : SQL/LoginAlreadyUsedException/EmailAlreadyUsedException
-S -[#red]> A : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
-A -[#red]> User : Remonter le message d'erreurs associé avec le code statut HTTP
+BDD -[#red]> Serveur : SQL/LoginAlreadyUsedException/EmailAlreadyUsedException
+Serveur -[#red]> Client : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
+Client -[#red]> User : Remonter le message d'erreurs associé avec le code statut HTTP
 @enduml
 ``` 
 
