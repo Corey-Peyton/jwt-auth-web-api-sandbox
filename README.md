@@ -117,7 +117,7 @@ A -[#black]> User : Page de saisie (informations user)
 User -[#black]> A : Saisie des informations  (username, paswword, email, roles)
 A -[#black]> A : Valider les informations du formulaire (check saisie)
 autonumber stop
-A -[#red]> U : Erreur saisie (saisie non valide)
+A -[#red]> User  : Erreur saisie (saisie non valide)
 
 autonumber 6
 A -[#black]> S : Call API : POST /api/auth/register : (username, email, password, roles)
@@ -129,9 +129,6 @@ autonumber stop
 B -[#red]> S : SQL/LoginAlreadyUsedException/EmailAlreadyUsedException
 S -[#red]> A : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
 A -[#red]> User : Remonter le message d'erreurs associé avec le code statut HTTP
-
-
-
 @enduml
 ``` 
 
