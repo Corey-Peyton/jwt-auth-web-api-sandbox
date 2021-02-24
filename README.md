@@ -104,17 +104,17 @@ L'ajout ou la persistance des informations d'un nouvel utilisateur dans le syst�
 ```plantuml
 @startuml
 ' Déclaration des participants
-actor "User" [#red] as U
+actor User [#red] 
 participant "Client (Front-End Angular)" as A
 participant "Back-End (Serveur)" as S
 database BDD as B
 
 ' Déclaration des enchainements de séquences de traitements
 autonumber
-U -[#black]> A : Demande Ajout (enregistrer nouvel utilisateur)
+User -[#black]> A : Demande Ajout (enregistrer nouvel utilisateur)
 A -[#black]> A : Charger page de saisie  (enregistrement)
-A -[#black]> U : Page de saisie (informations user)
-U -[#black]> A : Saisie des informations  (username, paswword, email, roles)
+A -[#black]> User : Page de saisie (informations user)
+User -[#black]> A : Saisie des informations  (username, paswword, email, roles)
 A -[#black]> A : Valider les informations du formulaire (check saisie)
 autonumber stop
 A -[#red]> U : Erreur saisie (saisie non valide)
@@ -128,7 +128,7 @@ autonumber stop
 
 B -[#red]> S : SQL/LoginAlreadyUsedException/EmailAlreadyUsedException
 S -[#red]> A : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
-A -[#red]> U : Remonter le message d'erreurs associé avec le code statut HTTP
+A -[#red]> User : Remonter le message d'erreurs associé avec le code statut HTTP
 
 
 
