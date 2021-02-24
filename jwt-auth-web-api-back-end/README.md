@@ -7,16 +7,16 @@ TODO
 
 
 ## Détails Génération du `jeton JWT` avec `OpenSS`L
-- **_Générer une clé privée RSA, export dans un fichier_**
+- _Générer une clé privée RSA, export dans un fichier_
 ```bash
 $ openssl genrsa -out key.pem 4096
 ```
 
-- **_Extraire la clé publique de la paire de clés_**
+- _Extraire la clé publique de la paire de clés_
 ```bash
 $ openssl rsa -in key.pem -outform PEM -pubout -out public.pem
 ```
-- **_Exploitation de l'API Java pour obtenir les éléméents attendus à partir des clés générées_**
+- _Exploitation de l'API Java pour obtenir les éléméents attendus à partir des clés générées_
 ```java 
 // Exploitation de la clé publique générée pour obtenir PublicKey
 public static PublicKey getPublicKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
