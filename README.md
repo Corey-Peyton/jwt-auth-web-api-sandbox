@@ -104,7 +104,7 @@ L'ajout ou la persistance des informations d'un nouvel utilisateur dans le systÃ
 ```plantuml
 @startuml
 ' DÃ©claration des participants
-actor User [#red] 
+actor User #red 
 participant "Client (Front-End Angular)" as A
 participant "Back-End (Serveur)" as S
 database BDD as B
