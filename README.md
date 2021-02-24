@@ -104,7 +104,7 @@ L'ajout ou la persistance des informations d'un nouvel utilisateur dans le syst�
 ```plantuml
 @startuml
 ' Déclaration des participants
-actor User #red 
+actor User #Pink
 participant "Client (Front-End Angular)" as A
 participant "Back-End (Serveur)" as S
 database BDD as B
@@ -117,7 +117,15 @@ A -[#black]> User : Page de saisie (informations user)
 User -[#black]> A : Saisie des informations  (username, paswword, email, roles)
 A -[#black]> A : Valider les informations du formulaire (check saisie)
 autonumber stop
-A -[#red]> User  : Erreur saisie (saisie non valide)
+' A -[#red]> User  : Erreur saisie (saisie non valide)
+
+' Outgoing 
+' Outgoing version courte bidirectionnelle
+'?<-[#red]> A : ""Erreur saisie (saisie non valide)""
+' Outgoing version courte unidirectionnelle
+?<[#red]- A : ""Erreur saisie (saisie non valide)""
+' Outgoing version longue
+'[<[#red]- A : ""[Erreur saisie (saisie non valide)""
 
 autonumber 6
 A -[#black]> S : Call API : POST /api/auth/register : (username, email, password, roles)
@@ -125,6 +133,7 @@ S -[#black]> S : Récupérer informations requêtes (informations utilisateur)
 S -[#black]> B : Vérifier existance utilisateur (username,  email)
 B -[#black]> B : Recherche dans la table (T_USERS)
 autonumber stop
+
 
 B -[#red]> S : SQL/LoginAlreadyUsedException/EmailAlreadyUsedException
 S -[#red]> A : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
