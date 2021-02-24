@@ -107,7 +107,7 @@ L'ajout ou la persistance des informations d'un nouvel utilisateur dans le syst�
 actor User #Pink
 participant "Client (Front-End Angular)" as A
 participant "Back-End (Serveur)" as S
-database BDD as B
+database BDD #Gray-25%
 
 ' Déclaration des enchainements de séquences de traitements
 autonumber
@@ -130,12 +130,12 @@ autonumber stop
 autonumber 6
 A -[#black]> S : Call API : POST /api/auth/register : (username, email, password, roles)
 S -[#black]> S : Récupérer informations requêtes (informations utilisateur)
-S -[#black]> B : Vérifier existance utilisateur (username,  email)
-B -[#black]> B : Recherche dans la table (T_USERS)
+S -[#black]> BDD : Vérifier existance utilisateur (username,  email)
+BDD -[#black]> BDD : Recherche dans la table (T_USERS)
 autonumber stop
 
 
-B -[#red]> S : SQL/LoginAlreadyUsedException/EmailAlreadyUsedException
+BDD -[#red]> S : SQL/LoginAlreadyUsedException/EmailAlreadyUsedException
 S -[#red]> A : Construire/Remonter le message d'erreurs associé avec le code statut HTTP
 A -[#red]> User : Remonter le message d'erreurs associé avec le code statut HTTP
 @enduml
