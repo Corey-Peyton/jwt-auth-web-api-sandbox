@@ -424,12 +424,14 @@ Il est founi avec `PlantUML` au format .md.
 ```plantuml
 @startuml
 ' Déclaration des types 
-interface Persistable<ID>
-interface GrantedAuthority extends Serializable
-abstract class AbstractPersistable<PK extends Serializable>
+interface Persistable<ID> #Aqua
+'interface GrantedAuthority extends Serializable
+interface GrantedAuthority #Aqua 
+abstract class AbstractPersistable<PK extends Serializable> #Gold
 
 ' Déclaration de l'Enum : RoleEnum 
-enum RoleEnum {
+enum RoleEnum  #Pink
+{
 ROLE_USER
 ROLE_ADMIN
 ROLE_MODERATOR
@@ -438,7 +440,7 @@ ROLE_ANONYMOUS
 }
 
 ' Déclaration de l'Enum : CategoryTypeEnum
-enum CategoryTypeEnum
+enum CategoryTypeEnum  #Pink
 {
 TELEPHONIE
 TV
@@ -453,7 +455,8 @@ LITERIE
 }
 
 ' Déclaration de la classe : User 
-class User {
+ class User #lightgreen
+{
 - id : Long
 - username : String
 - password : String
@@ -470,7 +473,7 @@ class User {
 
 ' Déclaration de la classe : Category 
 'class Category extends AbstractPersistable 
-class Category
+class Category #fdad5c
 {
 - id : Long
 - name : String
@@ -483,7 +486,7 @@ class Category
 
 ' Déclaration de la classe : Product 
 ' class Product extends AbstractPersistable 
-class Product
+class Product #skyblue
 {
 - id : Long
 - name : String
@@ -502,6 +505,7 @@ class Product
 GrantedAuthority <|-.. RoleEnum
 
 ' Realtions d'héritages
+Serializable <|-- GrantedAuthority
 AbstractPersistable <|-- User
 AbstractPersistable <|-- Category
 AbstractPersistable <|-- Product
