@@ -419,8 +419,7 @@ deactivate User
 
 ## Modèles et Schémas de données
 Les modèles fournis sont relatifs au **_métier_**. Le diagramme de classes ci-dessous présente les relations entre les entités de gestion de la partie métier de l'application.
-(`PlantUML` au format .md) :
-![DC](./docs/images/modele-donnees-metier_vfinale.png "Diagramme de Classes des objets de gestion de l'identification des utilisateurs")
+Il est founi avec `PlantUML` au format .md.
 
 ```plantuml
 @startuml
