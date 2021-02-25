@@ -87,6 +87,10 @@ L'architecture applicative et technique comporte les éléments suivants :
 
 ![DAAT](./docs/images/architecture-applicative-technique-globale.png "Diagrammme Architecture Applicatif et Technique")
 
+```plantuml
+
+```
+
 ## Fonctionnement global - Les USe Case
 Le fonctionnement global de l'application est fourni par des vues macroscopiques aux travers de `diagrammes de séquences` des cas d'utilisation (`use case`) présenté dans le tableau ci-dessous :
 
@@ -414,8 +418,107 @@ deactivate User
 ```
 
 ## Modèles et Schémas de données
-Les modèles fournis sont relatifs au *_*métier_**. Le diagramme de classes ci-dessous présente les relations entre les entités de gestion de la partie métier de l'application.
+Les modèles fournis sont relatifs au **_métier_**. Le diagramme de classes ci-dessous présente les relations entre les entités de gestion de la partie métier de l'application.
+(`PlantUML` au format .md) :
 ![DC](./docs/images/modele-donnees-metier_vfinale.png "Diagramme de Classes des objets de gestion de l'identification des utilisateurs")
+
+```plantuml
+@startuml
+' Déclaration des types 
+interface Persistable<ID>
+interface GrantedAuthority extends Serializable
+abstract class AbstractPersistable<PK extends Serializable>
+
+' Déclaration de l'Enum : RoleEnum 
+enum RoleEnum {
+ROLE_USER
+ROLE_ADMIN
+ROLE_MODERATOR
+ROLE_ANONYMOUS
++ getAuthority() : String
+}
+
+' Déclaration de l'Enum : CategoryTypeEnum
+enum CategoryTypeEnum
+{
+TELEPHONIE
+TV
+SON
+INFORMATIQUE
+PHOTO
+JEUX_VIDEO
+JOUETS
+ELCETROMENAGER
+MEUBLES_DECO
+LITERIE
+}
+
+' Déclaration de la classe : User 
+class User {
+- id : Long
+- username : String
+- password : String
+- email : String 
+- accountExpired : Boolean
+- accountLocked : Boolean
+- credentialsExpired : Boolean
+- enabled : Boolean
+- roles : Set<RoleEnum>
+- createdTime : LocalDateTime
+- updatedTime : LocalDateTime
+- version : Integer
+}
+
+' Déclaration de la classe : Category 
+'class Category extends AbstractPersistable 
+class Category
+{
+- id : Long
+- name : String
+- description : String 
+- enabled : Boolean
+- products : Set<Product>
+- categoryType : CategoryTypeEnum
+- version : Integer
+}
+
+' Déclaration de la classe : Product 
+' class Product extends AbstractPersistable 
+class Product
+{
+- id : Long
+- name : String
+- description : String
+- quantity : Long
+- unitPrice : BigDecimal
+- price : BigDecimal
+- isActive : Boolean
+- imageUrl : String
+- version : Integer
+}
+
+' Défintion des relations entre les objets
+
+' Realtions entre GrantedAuthority et RoleEnum 
+GrantedAuthority <|-.. RoleEnum
+
+' Realtions d'héritages
+AbstractPersistable <|-- User
+AbstractPersistable <|-- Category
+AbstractPersistable <|-- Product
+
+' Realtions d'implémentation
+Persistable  <|-.. AbstractPersistable
+Serializable<|-.. User
+Serializable<|-.. Category
+Serializable<|-.. Product 
+
+' Realtions entre les objets metier
+RoleEnum "- roles" <--* "1" User
+Category -->  "- categoryType" CategoryTypeEnum
+Category "- category" o-- "- products" Product
+@enduml
+```
 
 # Stack Technique
 Une liste non exhaustive des technos utilsées pour le développment de cette application :
