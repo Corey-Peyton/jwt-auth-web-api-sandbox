@@ -28,9 +28,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import fr.vincent.tuto.common.exception.CustomAppException;
-import fr.vincent.tuto.server.constants.ServerConstants;
 import fr.vincent.tuto.server.dao.ProductDAO;
 import fr.vincent.tuto.server.model.po.Product;
+import fr.vincent.tuto.server.util.ServerUtil;
 
 /**
  * Service des fonctionnalités de gestion des informations des produits du SI.
@@ -71,12 +71,12 @@ public class ProductService implements IProductService
         try
         {
             // Traitement métier pour le calcul et affectation du prix total de la quantité commandée
-            final Long quantite = pProduct.getQuantity();
-            final BigDecimal prixUnitaire = pProduct.getUnitPrice();
-            final BigDecimal prixTotal = new BigDecimal(quantite.longValue()).multiply(prixUnitaire);
+            final var quantite = pProduct.getQuantity();
+            final var prixUnitaire = pProduct.getUnitPrice();
+            final var prixTotal = new BigDecimal(quantite.longValue()).multiply(prixUnitaire);
             pProduct.setPrice(prixTotal);
 
-            final Product product = this.productDAO.save(pProduct);
+            final var product = this.productDAO.save(pProduct);
             Assert.notNull(product, SAVE_MESSAGE);
             return product;
         }
@@ -201,12 +201,12 @@ public class ProductService implements IProductService
     @Override
     public Collection<Product> getFilteredProducts(String pQuery)
     {
-        final List<Product> products = (List<Product>) this.getProducts();
+        final var products = (List<Product>) this.getProducts();
 
         // Retourner la liste filtrée sur les nom des produits qui 'match' avec le pattern fourni
         return Optional.ofNullable(products.stream()//
         .filter(Objects::nonNull)//
-        .filter(product -> ServerConstants.strCaseInsentitive(product.getName(), pQuery))//
+        .filter(product -> ServerUtil.strCaseInsentitive(product.getName(), pQuery))//
         .distinct()//
         .collect(Collectors.toList())//
         )//

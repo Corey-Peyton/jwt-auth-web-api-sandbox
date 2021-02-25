@@ -9,7 +9,7 @@
  * Copyright © 2021 - All rights reserved.
  * ----------------------------------------------
  */
-package fr.vincent.tuto.server.constants;
+package fr.vincent.tuto.server.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -26,21 +26,22 @@ import com.google.common.collect.Sets;
 import fr.vincent.tuto.common.exception.CustomAppException;
 import fr.vincent.tuto.server.enumeration.RoleEnum;
 import fr.vincent.tuto.server.model.po.User;
+import fr.vincent.tuto.server.util.ServerUtil;
 import fr.vincent.tuto.server.utils.TestsDataUtils;
 
 /**
- * Classe des Tests Unitaires des fonctions fournies par l'utilitaire {@link ServerConstants}
+ * Classe des Tests Unitaires des fonctions fournies par l'utilitaire {@link ServerUtil}
  * 
  * @author Vincent Otchoun
  */
-class ServerConstantsTest
+class ServerUtilTest
 {
 
     private static final String USER_MSG_NOT_ACTIVATED = " est désactivé il ne peut être authentifié.";
 
     /**
      * Test method for
-     * {@link fr.vincent.tuto.server.constants.ServerConstants#createSpringSecurityUser(java.lang.String, fr.vincent.tuto.server.model.po.User)}.
+     * {@link fr.vincent.tuto.server.util.ServerUtil#createSpringSecurityUser(java.lang.String, fr.vincent.tuto.server.model.po.User)}.
      */
     @Test
     void testCreateSpringSecurityUser()
@@ -52,7 +53,7 @@ class ServerConstantsTest
         final User moderateur = TestsDataUtils.createUserWithSet(moderateurSet, "moderateur", "moderateur_19511982#", "moderateur.test@live.fr");
         moderateur.setEnabled(Boolean.TRUE);
 
-        final org.springframework.security.core.userdetails.User user = ServerConstants.createSpringSecurityUser("moderateur", moderateur);
+        final var user = ServerUtil.createSpringSecurityUser("moderateur", moderateur);
 
         assertThat(user).isNotNull();
         assertThat(user.getPassword()).contains("$2a$12$");
@@ -67,15 +68,15 @@ class ServerConstantsTest
         moderateurSet.add(RoleEnum.valueOf(RoleEnum.ROLE_USER.getAuthority()));
         moderateurSet.add(RoleEnum.valueOf(RoleEnum.ROLE_MODERATOR.getAuthority()));
 
-        final User moderateur = TestsDataUtils.createUserWithSet(moderateurSet, "moderateur", "moderateur_19511982#", "moderateur.test@live.fr");
+        final var moderateur = TestsDataUtils.createUserWithSet(moderateurSet, "moderateur", "moderateur_19511982#", "moderateur.test@live.fr");
         moderateur.setEnabled(Boolean.FALSE);
 
-        final Exception exception = assertThrows(CustomAppException.class, () -> {
-            ServerConstants.createSpringSecurityUser("moderateur", moderateur);
+        final var exception = assertThrows(CustomAppException.class, () -> {
+            ServerUtil.createSpringSecurityUser("moderateur", moderateur);
         });
 
-        final String expectedMessage = USER_MSG_NOT_ACTIVATED;
-        final String actualMessage = exception.getMessage();
+        final var expectedMessage = USER_MSG_NOT_ACTIVATED;
+        final var actualMessage = exception.getMessage();
 
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
@@ -83,14 +84,14 @@ class ServerConstantsTest
 
     /**
      * Test method for
-     * {@link fr.vincent.tuto.server.constants.ServerConstants#isQueryMatch(java.lang.String, java.lang.String)}.
+     * {@link fr.vincent.tuto.server.util.ServerUtil#isQueryMatch(java.lang.String, java.lang.String)}.
      */
     @Test
     void testIsQueryMatch()
     {
-        final String SOURCE = "PHILIPS L1478ZERER";
-        final String QUERY = "philips";
-        final boolean isMatch = ServerConstants.isQueryMatch(SOURCE, QUERY);
+        final var SOURCE = "PHILIPS L1478ZERER";
+        final var QUERY = "philips";
+        final boolean isMatch = ServerUtil.isQueryMatch(SOURCE, QUERY);
 
         assertThat(isMatch).isTrue();
     }
@@ -98,9 +99,9 @@ class ServerConstantsTest
     @Test
     void testIsQueryMatch_LowerCase()
     {
-        final String SOURCE = "PHILIPS L1478ZERER";
-        final String QUERY = "PHILIPS";
-        final boolean isMatch = ServerConstants.isQueryMatch(SOURCE, QUERY);
+        final var SOURCE = "PHILIPS L1478ZERER";
+        final var QUERY = "PHILIPS";
+        final boolean isMatch = ServerUtil.isQueryMatch(SOURCE, QUERY);
 
         assertThat(isMatch).isTrue();
     }
@@ -108,21 +109,21 @@ class ServerConstantsTest
     @Test
     void testIsQueryMatch_WithNull()
     {
-        final boolean isMatch = ServerConstants.isQueryMatch(null, null);
+        final boolean isMatch = ServerUtil.isQueryMatch(null, null);
 
         assertThat(isMatch).isFalse();
     }
 
     /**
      * Test method for
-     * {@link fr.vincent.tuto.server.constants.ServerConstants#queryIgnorecase(java.lang.String, java.lang.String)}.
+     * {@link fr.vincent.tuto.server.util.ServerUtil#queryIgnorecase(java.lang.String, java.lang.String)}.
      */
     @Test
     void testQueryIgnorecase()
     {
-        final String SOURCE = "PHILIPS L1478ZERER";
-        final String QUERY = "philips";
-        final boolean isMatch = ServerConstants.queryIgnorecase(SOURCE, QUERY);
+        final var SOURCE = "PHILIPS L1478ZERER";
+        final var QUERY = "philips";
+        final boolean isMatch = ServerUtil.queryIgnorecase(SOURCE, QUERY);
 
         assertThat(isMatch).isTrue();
     }
@@ -130,21 +131,21 @@ class ServerConstantsTest
     @Test
     void testQueryIgnorecase_WithNull()
     {
-        final boolean isMatch = ServerConstants.queryIgnorecase(null, null);
+        final var isMatch = ServerUtil.queryIgnorecase(null, null);
 
         assertThat(isMatch).isFalse();
     }
 
     /**
      * Test method for
-     * {@link fr.vincent.tuto.server.constants.ServerConstants#strCaseInsentitive(java.lang.String, java.lang.String)}.
+     * {@link fr.vincent.tuto.server.util.ServerUtil#strCaseInsentitive(java.lang.String, java.lang.String)}.
      */
     @Test
     void testStrCaseInsentitive()
     {
-        final String SOURCE = "PHILIPS L1478ZERER";
-        final String QUERY = "philips";
-        final boolean isMatch = ServerConstants.strCaseInsentitive(SOURCE, QUERY);
+        final var SOURCE = "PHILIPS L1478ZERER";
+        final var QUERY = "philips";
+        final var isMatch = ServerUtil.strCaseInsentitive(SOURCE, QUERY);
 
         assertThat(isMatch).isTrue();
     }
@@ -152,13 +153,13 @@ class ServerConstantsTest
     @Test
     void testStrCaseInsentitive_WithNull()
     {
-        final boolean isMatch = ServerConstants.strCaseInsentitive(null, null);
+        final var isMatch = ServerUtil.strCaseInsentitive(null, null);
 
         assertThat(isMatch).isFalse();
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.constants.ServerConstants#setToList(java.util.Set)}.
+     * Test method for {@link fr.vincent.tuto.server.util.ServerUtil#setToList(java.util.Set)}.
      */
     @Test
     void testSetToList()
@@ -168,7 +169,7 @@ class ServerConstantsTest
         moderateurSet.add(RoleEnum.ROLE_MODERATOR.getAuthority());
         moderateurSet.add(RoleEnum.ROLE_USER.getAuthority());
 
-        final List<String> roles = ServerConstants.setToList(moderateurSet);
+        final var roles = ServerUtil.setToList(moderateurSet);
 
         assertThat(roles).isNotEmpty();
         assertThat(roles.size()).isEqualTo(3);
@@ -177,14 +178,14 @@ class ServerConstantsTest
     @Test
     void testConvertSetToList_WithEmpty()
     {
-        final List<String> roles = ServerConstants.setToList(null);
+        final var roles = ServerUtil.setToList(null);
 
         assertThat(roles).isEmpty();
         assertThat(roles.size()).isNotPositive();
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.constants.ServerConstants#listToSet(java.util.List)}.
+     * Test method for {@link fr.vincent.tuto.server.util.ServerUtil#listToSet(java.util.List)}.
      */
     @Test
     void testListToSet()
@@ -195,7 +196,7 @@ class ServerConstantsTest
         list.add(RoleEnum.ROLE_USER.getAuthority());
         list.add(RoleEnum.ROLE_ANONYMOUS.getAuthority());
 
-        final Set<String> roles = ServerConstants.listToSet(list);
+        final var roles = ServerUtil.listToSet(list);
 
         assertThat(roles).isNotEmpty();
         assertThat(roles.size()).isEqualTo(4);
@@ -214,7 +215,7 @@ class ServerConstantsTest
         list.add(RoleEnum.ROLE_USER.getAuthority());
         list.add(RoleEnum.ROLE_ANONYMOUS.getAuthority());
 
-        final Set<String> roles = ServerConstants.listToSet(list);
+        final var roles = ServerUtil.listToSet(list);
 
         assertThat(roles).isNotEmpty();
         assertThat(roles.size()).isEqualTo(4);
@@ -231,7 +232,7 @@ class ServerConstantsTest
         list.add(null);
         list.add(null);
 
-        final Set<String> roles = ServerConstants.listToSet(list);
+        final var roles = ServerUtil.listToSet(list);
 
         assertThat(roles).isNotEmpty();
         assertThat(roles.size()).isEqualTo(4);
@@ -240,7 +241,7 @@ class ServerConstantsTest
     @Test
     void testListToSet_WithNull()
     {
-        final Set<String> roles = ServerConstants.listToSet(null);
+        final var roles = ServerUtil.listToSet(null);
 
         assertThat(roles).isEmpty();
         assertThat(roles.size()).isNotPositive();

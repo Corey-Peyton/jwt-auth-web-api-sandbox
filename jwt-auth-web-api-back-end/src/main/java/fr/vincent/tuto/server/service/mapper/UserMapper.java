@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -61,11 +60,11 @@ public class UserMapper extends GenericObjectMapper<User, UserDTO>
         }
 
         // Chiffer le mot de passe avant la persistance
-        final String userPassword = pUserDTO.getPassword();
-        final String encryptedPassword = this.passwordEncoder.encode(userPassword);
+        final var userPassword = pUserDTO.getPassword();
+        final var encryptedPassword = this.passwordEncoder.encode(userPassword);
 
         // Récupérer les roles de l'utilisateur à partir de la chaîne de caractères pour les convertir en enumération.
-        final Set<RoleEnum> roles = Optional.ofNullable(pUserDTO.getRoles())//
+        final var roles = Optional.ofNullable(pUserDTO.getRoles())//
         .orElseGet(Collections::emptySet)//
         .stream()//
         .filter(Objects::nonNull)//
@@ -109,7 +108,7 @@ public class UserMapper extends GenericObjectMapper<User, UserDTO>
         }
 
         // Récupérer les rôles de l'utilisateur sous forme de chaîne de caractères
-        final Set<String> roles = Optional.ofNullable(pUser.getRoles())//
+        final var roles = Optional.ofNullable(pUser.getRoles())//
         .orElseGet(Collections::emptySet)//
         .stream()//
         .filter(Objects::nonNull)//

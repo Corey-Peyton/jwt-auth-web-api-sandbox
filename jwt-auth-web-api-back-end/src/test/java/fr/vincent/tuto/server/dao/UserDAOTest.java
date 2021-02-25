@@ -15,7 +15,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
@@ -26,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
@@ -37,8 +35,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import fr.vincent.tuto.common.service.props.DatabasePropsService;
 import fr.vincent.tuto.server.config.BackEndServerRootConfig;
 import fr.vincent.tuto.server.config.db.PersistanceConfig;
-import fr.vincent.tuto.server.constants.ServerConstants;
 import fr.vincent.tuto.server.model.po.User;
+import fr.vincent.tuto.server.util.ServerUtil;
 import fr.vincent.tuto.server.utils.TestsDataUtils;
 
 /**
@@ -62,7 +60,7 @@ class UserDAOTest
     @BeforeEach
     void setUp() throws Exception
     {
-        //this.initData();
+        // this.initData();
     }
 
     /**
@@ -80,7 +78,7 @@ class UserDAOTest
     @Test
     void testFindOneByUsername()
     {
-        final Optional<User> optional = this.userDAO.findOneByUsername(TestsDataUtils.ADMIN);
+        final var optional = this.userDAO.findOneByUsername(TestsDataUtils.ADMIN);
 
         assertThat(optional).isPresent();
         assertThat(optional.get()).isNotNull();
@@ -89,7 +87,7 @@ class UserDAOTest
     @Test
     void testFindOneByUsername_WithEmpty()
     {
-        final Optional<User> optional = this.userDAO.findOneByUsername(StringUtils.EMPTY);
+        final var optional = this.userDAO.findOneByUsername(StringUtils.EMPTY);
 
         assertThat(optional).isNotPresent();
     }
@@ -97,7 +95,7 @@ class UserDAOTest
     @Test
     void testFindOneByUsername_WithNull()
     {
-        final Optional<User> optional = this.userDAO.findOneByUsername(null);
+        final var optional = this.userDAO.findOneByUsername(null);
 
         assertThat(optional).isNotPresent();
     }
@@ -108,7 +106,7 @@ class UserDAOTest
     @Test
     void testFindOneByEmailIgnoreCase()
     {
-        final Optional<User> optional = this.userDAO.findOneByEmailIgnoreCase(TestsDataUtils.ADMIN_EMAIL);
+        final var optional = this.userDAO.findOneByEmailIgnoreCase(TestsDataUtils.ADMIN_EMAIL);
 
         assertThat(optional).isPresent();
     }
@@ -116,7 +114,7 @@ class UserDAOTest
     @Test
     void testFindOneByEmailIgnoreCase_WithEmpty()
     {
-        final Optional<User> optional = this.userDAO.findOneByEmailIgnoreCase(StringUtils.EMPTY);
+        final var optional = this.userDAO.findOneByEmailIgnoreCase(StringUtils.EMPTY);
 
         assertThat(optional).isEmpty();
     }
@@ -124,7 +122,7 @@ class UserDAOTest
     @Test
     void testFindOneByEmailIgnoreCase_WithNull()
     {
-        final Optional<User> optional = this.userDAO.findOneByEmailIgnoreCase(null);
+        final var optional = this.userDAO.findOneByEmailIgnoreCase(null);
 
         assertThat(optional).isNotPresent();
     }
@@ -135,7 +133,7 @@ class UserDAOTest
     @Test
     void testExistsByUsername()
     {
-        final Boolean isExist = this.userDAO.existsByUsername(TestsDataUtils.MODERATEUR);
+        final var isExist = this.userDAO.existsByUsername(TestsDataUtils.MODERATEUR);
 
         assertThat(isExist).isTrue();
     }
@@ -143,7 +141,7 @@ class UserDAOTest
     @Test
     void testExistsByUsername_WithEmpty()
     {
-        final Boolean isExist = this.userDAO.existsByUsername(StringUtils.EMPTY);
+        final var isExist = this.userDAO.existsByUsername(StringUtils.EMPTY);
 
         assertThat(isExist).isFalse();
     }
@@ -151,7 +149,7 @@ class UserDAOTest
     @Test
     void testExistsByUsername_WithNull()
     {
-        final Boolean isExist = this.userDAO.existsByUsername(null);
+        final var isExist = this.userDAO.existsByUsername(null);
 
         assertThat(isExist).isFalse();
     }
@@ -162,7 +160,7 @@ class UserDAOTest
     @Test
     void testExistsByEmail()
     {
-        final Boolean isExist = this.userDAO.existsByEmail(TestsDataUtils.ADMIN_EMAIL_LOWER);
+        final var isExist = this.userDAO.existsByEmail(TestsDataUtils.ADMIN_EMAIL_LOWER);
 
         assertThat(isExist).isTrue();
     }
@@ -170,7 +168,7 @@ class UserDAOTest
     @Test
     void testExistsByEmail_WithEmpty()
     {
-        final Boolean isExist = this.userDAO.existsByEmail(StringUtils.EMPTY);
+        final var isExist = this.userDAO.existsByEmail(StringUtils.EMPTY);
 
         assertThat(isExist).isFalse();
     }
@@ -178,7 +176,7 @@ class UserDAOTest
     @Test
     void testExistsByEmail_WithNull()
     {
-        final Boolean isExist = this.userDAO.existsByEmail(null);
+        final var isExist = this.userDAO.existsByEmail(null);
 
         assertThat(isExist).isFalse();
     }
@@ -189,7 +187,7 @@ class UserDAOTest
     @Test
     void testFindOneWithRolesById()
     {
-        final Optional<User> optional = this.userDAO.findOneWithRolesById(30L);
+        final var optional = this.userDAO.findOneWithRolesById(30L);
 
         assertThat(optional).isPresent();
     }
@@ -197,7 +195,7 @@ class UserDAOTest
     @Test
     void testFindOneWithRolesById_ShouldBeEmpty()
     {
-        final Optional<User> optional = this.userDAO.findOneWithRolesById(null);
+        final var optional = this.userDAO.findOneWithRolesById(null);
 
         assertThat(optional).isEmpty();
     }
@@ -208,7 +206,7 @@ class UserDAOTest
     @Test
     void testFindOneWithRolesByUsernameIgnoreCase()
     {
-        final Optional<User> optional = this.userDAO.findOneWithRolesByUsernameIgnoreCase(TestsDataUtils.MODERATEUR);
+        final var optional = this.userDAO.findOneWithRolesByUsernameIgnoreCase(TestsDataUtils.MODERATEUR);
 
         assertThat(optional).isPresent();
     }
@@ -216,7 +214,7 @@ class UserDAOTest
     @Test
     void testFindOneWithRolesByUsernameIgnoreCase_WithUpperCase()
     {
-        final Optional<User> optional = this.userDAO.findOneWithRolesByUsernameIgnoreCase(TestsDataUtils.MODERATEUR_UPPER);
+        final var optional = this.userDAO.findOneWithRolesByUsernameIgnoreCase(TestsDataUtils.MODERATEUR_UPPER);
 
         assertThat(optional).isPresent();
     }
@@ -224,7 +222,7 @@ class UserDAOTest
     @Test
     void testFindOneWithRolesByUsernameIgnoreCase_WithEmpty()
     {
-        final Optional<User> optional = this.userDAO.findOneWithRolesByUsernameIgnoreCase(StringUtils.EMPTY);
+        final var optional = this.userDAO.findOneWithRolesByUsernameIgnoreCase(StringUtils.EMPTY);
 
         assertThat(optional).isEmpty();
     }
@@ -232,7 +230,7 @@ class UserDAOTest
     @Test
     void testFindOneWithRolesByUsernameIgnoreCase_ShouldBeEmpty()
     {
-        final Optional<User> optional = this.userDAO.findOneWithRolesByUsernameIgnoreCase(null);
+        final var optional = this.userDAO.findOneWithRolesByUsernameIgnoreCase(null);
 
         assertThat(optional).isEmpty();
     }
@@ -243,7 +241,7 @@ class UserDAOTest
     @Test
     void testFindOneWithRolesByEmailIgnoreCase()
     {
-        final Optional<User> optional = this.userDAO.findOneWithRolesByEmailIgnoreCase(TestsDataUtils.ADMIN_EMAIL);
+        final var optional = this.userDAO.findOneWithRolesByEmailIgnoreCase(TestsDataUtils.ADMIN_EMAIL);
 
         assertThat(optional).isPresent();
     }
@@ -251,7 +249,7 @@ class UserDAOTest
     @Test
     void testFindOneWithRolesByEmailIgnoreCase_WithEmpty()
     {
-        final Optional<User> optional = this.userDAO.findOneWithRolesByEmailIgnoreCase(StringUtils.EMPTY);
+        final var optional = this.userDAO.findOneWithRolesByEmailIgnoreCase(StringUtils.EMPTY);
 
         assertThat(optional).isEmpty();
     }
@@ -259,7 +257,7 @@ class UserDAOTest
     @Test
     void testFindOneWithRolesByEmailIgnoreCase_ShouldBeEmpty()
     {
-        final Optional<User> optional = this.userDAO.findOneWithRolesByEmailIgnoreCase(null);
+        final var optional = this.userDAO.findOneWithRolesByEmailIgnoreCase(null);
 
         assertThat(optional).isEmpty();
     }
@@ -275,7 +273,7 @@ class UserDAOTest
         int pageSize = 5; // number of items in a page to be returned, must be greater than 0.
         Pageable paging = PageRequest.of(pageNumber, pageSize);
 
-        final Page<User> users = this.userDAO.findAllByUsername(TestsDataUtils.MODERATEUR, paging);
+        final var users = this.userDAO.findAllByUsername(TestsDataUtils.MODERATEUR, paging);
 
         assertThat(users).isNotNull();
         assertThat(users.getContent()).isNotEmpty();
@@ -289,7 +287,7 @@ class UserDAOTest
         int pageSize = 5; // number of items in a page to be returned, must be greater than 0.
         Pageable paging = PageRequest.of(pageNumber, pageSize);
 
-        final Page<User> users = this.userDAO.findAllByUsername(StringUtils.EMPTY, paging);
+        final var users = this.userDAO.findAllByUsername(StringUtils.EMPTY, paging);
 
         assertThat(users).isNotNull();
         assertThat(users.getContent()).isEmpty();
@@ -299,7 +297,7 @@ class UserDAOTest
     @Test
     void testFindAllByUsernameStringPageable_ShouldBeEmpty()
     {
-        final Page<User> users = this.userDAO.findAllByUsername(null, null);
+        final var users = this.userDAO.findAllByUsername(null, null);
 
         assertThat(users).isNotNull();
         assertThat(users.getContent()).isEmpty();
@@ -316,7 +314,7 @@ class UserDAOTest
         int pageSize = 5; // number of items in a page to be returned, must be greater than 0.
         Pageable paging = PageRequest.of(pageNumber, pageSize);
 
-        final Page<User> user = this.userDAO.findByUsernameContains(TestsDataUtils.USER_ADMIN_USERNAME, paging);
+        final var user = this.userDAO.findByUsernameContains(TestsDataUtils.USER_ADMIN_USERNAME, paging);
 
         assertThat(user).isNotNull();
         assertThat(user.getContent()).isNotEmpty();
@@ -327,12 +325,12 @@ class UserDAOTest
     void testFindByUsernameContains_ShouldThrowException()
     {
 
-        final Exception exception = assertThrows(InvalidDataAccessApiUsageException.class, () -> {
+        final var exception = assertThrows(InvalidDataAccessApiUsageException.class, () -> {
             this.userDAO.findByUsernameContains(null, null);
         });
 
-        String expectedMessage = "Value must not be null!;";
-        String actualMessage = exception.getMessage();
+        var expectedMessage = "Value must not be null!;";
+        var actualMessage = exception.getMessage();
 
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
@@ -344,7 +342,7 @@ class UserDAOTest
     @Test
     void testFindAllByUsernameString()
     {
-        final List<User> users = (List<User>) this.userDAO.findAllByUsername(TestsDataUtils.ADMIN);
+        final var users = (List<User>) this.userDAO.findAllByUsername(TestsDataUtils.ADMIN);
 
         assertThat(users).isNotEmpty();
         assertThat(users.size()).isEqualTo(1);
@@ -353,7 +351,7 @@ class UserDAOTest
     @Test
     void testFindAllByUsernameString_ShouldThrowException()
     {
-        final List<User> users = (List<User>) this.userDAO.findAllByUsername(null);
+        final var users = (List<User>) this.userDAO.findAllByUsername(null);
 
         assertThat(users).isEmpty();
         assertThat(users.size()).isNotPositive();
@@ -365,19 +363,19 @@ class UserDAOTest
     @Test
     void testFindAllByEnabled()
     {
-        final List<User> users = (List<User>) this.userDAO.findAllByEnabled(Boolean.TRUE);
+        final var users = (List<User>) this.userDAO.findAllByEnabled(Boolean.TRUE);
 
         assertThat(users).isNotEmpty();
         assertThat(users.size()).isEqualTo(6);
-        assertThat(ServerConstants.EMAI_PATTERN.matcher(users.get(0).getEmail()).matches()).isTrue();
-        assertThat(ServerConstants.LOGIN_PATTERN.matcher(users.get(0).getUsername()).matches()).isTrue();
-        assertThat(ServerConstants.PASSWORD_PATTERN.matcher(users.get(0).getPassword()).matches()).isTrue();
+        assertThat(ServerUtil.EMAI_PATTERN.matcher(users.get(0).getEmail()).matches()).isTrue();
+        assertThat(ServerUtil.LOGIN_PATTERN.matcher(users.get(0).getUsername()).matches()).isTrue();
+        assertThat(ServerUtil.PASSWORD_PATTERN.matcher(users.get(0).getPassword()).matches()).isTrue();
     }
 
     @Test
     void testFindAllByEnabled_WithFalse()
     {
-        final List<User> users = (List<User>) this.userDAO.findAllByEnabled(Boolean.FALSE);
+        final var users = (List<User>) this.userDAO.findAllByEnabled(Boolean.FALSE);
 
         assertThat(users).isEmpty();
     }

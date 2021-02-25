@@ -25,10 +25,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import fr.vincent.tuto.common.service.props.ApplicationPropsService;
-import fr.vincent.tuto.common.service.props.ApplicationPropsService.EhcacheProps;
-import fr.vincent.tuto.server.constants.ServerConstants;
 import fr.vincent.tuto.server.model.po.Category;
 import fr.vincent.tuto.server.model.po.User;
+import fr.vincent.tuto.server.util.ServerUtil;
 
 /**
  * Configuration pour optimiser les accès aux données avec `EhCache` dans l'API. Elle est inspirée de ce que propose
@@ -52,7 +51,7 @@ public class ServerCacheConfig
     @Bean
     public javax.cache.configuration.Configuration<Object, Object> jcacheConfiguration(@Autowired final ApplicationPropsService propsService)
     {
-        final EhcacheProps ehcacheProps = propsService.getEhcacheProps();
+        final var ehcacheProps = propsService.getEhcacheProps();
         return Eh107Configuration.fromEhcacheCacheConfiguration(CacheConfigurationBuilder.newCacheConfigurationBuilder(Object.class, Object.class,
         ResourcePoolsBuilder.heap(ehcacheProps.getMaxEntries()))//
         .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.ofSeconds(ehcacheProps.getTimeToLiveSeconds())))//
@@ -68,7 +67,7 @@ public class ServerCacheConfig
     @Bean
     public HibernatePropertiesCustomizer hibernatePropertiesCustomizer(javax.cache.CacheManager cacheManager)
     {
-        return hibernateProperties -> hibernateProperties.put(ServerConstants.HIBERNATE_CACHE_MANAGER, cacheManager);
+        return hibernateProperties -> hibernateProperties.put(ServerUtil.HIBERNATE_CACHE_MANAGER, cacheManager);
     }
 
     @Bean
@@ -76,14 +75,14 @@ public class ServerCacheConfig
     {
         return cm -> {
             // Création du cache pour optimiser les accès aux données de la table T_USERS.
-            createCache(cm, ServerConstants.USERS_BY_USERNAME_CACHE, propsService);
-            createCache(cm, ServerConstants.USERS_BY_EMAIL_CACHE, propsService);
+            createCache(cm, ServerUtil.USERS_BY_USERNAME_CACHE, propsService);
+            createCache(cm, ServerUtil.USERS_BY_EMAIL_CACHE, propsService);
             createCache(cm, User.class.getName(), propsService);
-            createCache(cm, User.class.getName() + ServerConstants.POINT_ROLES, propsService);
+            createCache(cm, User.class.getName() + ServerUtil.POINT_ROLES, propsService);
 
             // Création du cache pour optimiser les accès aux données de la table T_CATEGORIES.
             createCache(cm, Category.class.getName(), propsService);
-            createCache(cm, Category.class.getName() + ServerConstants.POINT_PRODUCTS, propsService);
+            createCache(cm, Category.class.getName() + ServerUtil.POINT_PRODUCTS, propsService);
         };
     }
 
@@ -95,7 +94,7 @@ public class ServerCacheConfig
      */
     private void createCache(final javax.cache.CacheManager cm, final String cacheName, final ApplicationPropsService propsService)
     {
-        javax.cache.Cache<Object, Object> cache = cm.getCache(cacheName);
+        final var cache = cm.getCache(cacheName);
         if (cache != null)
         {
             cm.destroyCache(cacheName);

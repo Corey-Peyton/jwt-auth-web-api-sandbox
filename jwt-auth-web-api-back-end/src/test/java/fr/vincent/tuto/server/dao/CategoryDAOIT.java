@@ -14,7 +14,6 @@ package fr.vincent.tuto.server.dao;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
@@ -24,7 +23,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
@@ -79,7 +77,7 @@ class CategoryDAOIT
     @Test
     void testFindOneByName()
     {
-        final Optional<Category> optional = this.categoryDAO.findOneByName(TestsDataUtils.CATEGORY_NAME_TO_SEARCH);
+        final var optional = this.categoryDAO.findOneByName(TestsDataUtils.CATEGORY_NAME_TO_SEARCH);
 
         assertThat(optional).isPresent();
         assertThat(optional.get()).isNotNull();
@@ -88,7 +86,7 @@ class CategoryDAOIT
     @Test
     void testFindOneByName_WithNull()
     {
-        final Optional<Category> optional = this.categoryDAO.findOneByName(null);
+        final var optional = this.categoryDAO.findOneByName(null);
 
         assertThat(optional).isNotPresent();
     }
@@ -96,7 +94,7 @@ class CategoryDAOIT
     @Test
     void testFindOneByName_WithEmpty()
     {
-        final Optional<Category> optional = this.categoryDAO.findOneByName(StringUtils.EMPTY);
+        final var optional = this.categoryDAO.findOneByName(StringUtils.EMPTY);
 
         assertThat(optional).isNotPresent();
     }
@@ -107,7 +105,7 @@ class CategoryDAOIT
     @Test
     void testFindOneByNameIgnoreCase()
     {
-        final Optional<Category> optional = this.categoryDAO.findOneByNameIgnoreCase(TestsDataUtils.CATEGORY_NAME_TO_SEARCH_LOWER_CASE);
+        final var optional = this.categoryDAO.findOneByNameIgnoreCase(TestsDataUtils.CATEGORY_NAME_TO_SEARCH_LOWER_CASE);
 
         assertThat(optional).isPresent();
         assertThat(optional.get()).isNotNull();
@@ -116,7 +114,7 @@ class CategoryDAOIT
     @Test
     void testFindOneByNameIgnoreCase_WithNull()
     {
-        final Optional<Category> optional = this.categoryDAO.findOneByNameIgnoreCase(null);
+        final var optional = this.categoryDAO.findOneByNameIgnoreCase(null);
 
         assertThat(optional).isNotPresent();
     }
@@ -124,7 +122,7 @@ class CategoryDAOIT
     @Test
     void testFindOneByNameIgnoreCase_WithEmpty()
     {
-        final Optional<Category> optional = this.categoryDAO.findOneByNameIgnoreCase(StringUtils.EMPTY);
+        final var optional = this.categoryDAO.findOneByNameIgnoreCase(StringUtils.EMPTY);
 
         assertThat(optional).isNotPresent();
     }
@@ -135,7 +133,7 @@ class CategoryDAOIT
     @Test
     void testExistsByName()
     {
-        final Boolean exist = this.categoryDAO.existsByName(TestsDataUtils.CATEGORY_NAME_TO_SEARCH);
+        final var exist = this.categoryDAO.existsByName(TestsDataUtils.CATEGORY_NAME_TO_SEARCH);
 
         assertThat(exist).isTrue();
     }
@@ -143,7 +141,7 @@ class CategoryDAOIT
     @Test
     void testExistsByName_WithLowerCaseName()
     {
-        final Boolean exist = this.categoryDAO.existsByName(TestsDataUtils.CATEGORY_NAME_TO_SEARCH_LOWER_CASE);
+        final var exist = this.categoryDAO.existsByName(TestsDataUtils.CATEGORY_NAME_TO_SEARCH_LOWER_CASE);
 
         assertThat(exist).isFalse();
     }
@@ -151,7 +149,7 @@ class CategoryDAOIT
     @Test
     void testExistsByName_WithNull()
     {
-        final Boolean exist = this.categoryDAO.existsByName(null);
+        final var exist = this.categoryDAO.existsByName(null);
 
         assertThat(exist).isFalse();
     }
@@ -159,7 +157,7 @@ class CategoryDAOIT
     @Test
     void testExistsByName_WithEmpty()
     {
-        final Boolean exist = this.categoryDAO.existsByName(StringUtils.EMPTY);
+        final var exist = this.categoryDAO.existsByName(StringUtils.EMPTY);
 
         assertThat(exist).isFalse();
     }
@@ -175,7 +173,7 @@ class CategoryDAOIT
         int pageSize = 5; // number of items in a page to be returned, must be greater than 0.
         Pageable paging = PageRequest.of(pageNumber, pageSize);
         
-        Page<Category> categories = this.categoryDAO.findAllByEnabled(Boolean.TRUE, paging);
+        final var categories = this.categoryDAO.findAllByEnabled(Boolean.TRUE, paging);
         
 
         assertThat(categories).isNotNull();
@@ -190,7 +188,7 @@ class CategoryDAOIT
         int pageSize = 5; // number of items in a page to be returned, must be greater than 0.
         Pageable paging = PageRequest.of(pageNumber, pageSize);
         
-        Page<Category> categories = this.categoryDAO.findAllByEnabled(Boolean.FALSE, paging);
+        var categories = this.categoryDAO.findAllByEnabled(Boolean.FALSE, paging);
         
 
         assertThat(categories).isNotNull();
@@ -201,7 +199,7 @@ class CategoryDAOIT
     @Test
     void testFindAllByEnabledBooleanPageable_WithNull()
     {
-        Page<Category> categories = this.categoryDAO.findAllByEnabled(null, null);
+        var categories = this.categoryDAO.findAllByEnabled(null, null);
         
 
         assertThat(categories).isNotNull();
@@ -214,7 +212,7 @@ class CategoryDAOIT
     @Test
     void testFindAllByEnabledBoolean()
     {
-        final List<Category> categories = (List<Category>) this.categoryDAO.findAllByEnabled(Boolean.TRUE);
+        final var categories = (List<Category>) this.categoryDAO.findAllByEnabled(Boolean.TRUE);
         
         assertThat(categories.isEmpty()).isFalse();
         assertThat(categories.size()).isPositive();
@@ -223,7 +221,7 @@ class CategoryDAOIT
     @Test
     void testFindAllByEnabledBoolean_WithFalse()
     {
-        final List<Category> categories = (List<Category>) this.categoryDAO.findAllByEnabled(Boolean.FALSE);
+        final var categories = (List<Category>) this.categoryDAO.findAllByEnabled(Boolean.FALSE);
         
         assertThat(categories.isEmpty()).isTrue();
         assertThat(categories.size()).isNotPositive();
@@ -236,7 +234,7 @@ class CategoryDAOIT
     @Test
     void testFindAllByEnabledIsTrue()
     {
-        final List<Category> categories = (List<Category>) this.categoryDAO.findAllByEnabledIsTrue();
+        final var categories = (List<Category>) this.categoryDAO.findAllByEnabledIsTrue();
         
         assertThat(categories.isEmpty()).isFalse();
         assertThat(categories.size()).isPositive();

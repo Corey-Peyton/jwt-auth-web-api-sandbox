@@ -21,8 +21,8 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import fr.vincent.tuto.server.constants.ServerConstants;
 import fr.vincent.tuto.server.model.po.User;
+import fr.vincent.tuto.server.util.ServerUtil;
 
 /**
  * Dépôt Spring Data JPA pour l'entité {@link User}.
@@ -72,7 +72,7 @@ public interface UserDAO extends JpaRepository<User, Long>
      * @param pId le critère de recherche (identifiant technique de l'utilisateur recherché).
      * @return informations de l'utilisateur recherché si existe, sinon vide.
      */
-    @EntityGraph(attributePaths = ServerConstants.ATTRIBUTE_PATHS)
+    @EntityGraph(attributePaths = ServerUtil.ATTRIBUTE_PATHS)
     Optional<User> findOneWithRolesById(final Long pId);
 
     /**
@@ -82,8 +82,8 @@ public interface UserDAO extends JpaRepository<User, Long>
      * @param pUsername le critère de recherche (le login de l'utilisateur recherché).
      * @return informations de l'utilisateur recherché si existe, sinon vide.
      */
-    @EntityGraph(attributePaths = ServerConstants.ATTRIBUTE_PATHS)
-    @Cacheable(cacheNames = ServerConstants.USERS_BY_USERNAME_CACHE)
+    @EntityGraph(attributePaths = ServerUtil.ATTRIBUTE_PATHS)
+    @Cacheable(cacheNames = ServerUtil.USERS_BY_USERNAME_CACHE)
     Optional<User> findOneWithRolesByUsernameIgnoreCase(final String pUsername);
 
     /**
@@ -93,8 +93,8 @@ public interface UserDAO extends JpaRepository<User, Long>
      * @param pEmail adresse mail de l'utilisateur recherché.
      * @return informations de l'utilisateur recherché si existe, sinon vide.
      */
-    @EntityGraph(attributePaths = ServerConstants.ATTRIBUTE_PATHS)
-    @Cacheable(cacheNames = ServerConstants.USERS_BY_EMAIL_CACHE)
+    @EntityGraph(attributePaths = ServerUtil.ATTRIBUTE_PATHS)
+    @Cacheable(cacheNames = ServerUtil.USERS_BY_EMAIL_CACHE)
     Optional<User> findOneWithRolesByEmailIgnoreCase(final String pEmail);
 
     /**

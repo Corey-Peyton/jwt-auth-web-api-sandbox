@@ -19,22 +19,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator;
-import org.springframework.orm.jpa.JpaDialect;
 import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.JpaVendorAdapter;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.support.SharedEntityManagerBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.PlatformTransactionManager;
 
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -90,7 +84,7 @@ class PersistanceConfigTest
     @Test
     void testDataSourceProperties()
     {
-        DataSourceProperties dataSourceProperties = this.persistanceConfig.dataSourceProperties();
+        final var dataSourceProperties = this.persistanceConfig.dataSourceProperties();
 
         assertThat(dataSourceProperties).isNotNull();
     }
@@ -101,7 +95,7 @@ class PersistanceConfigTest
     @Test
     void testDataSource()
     {
-        final HikariDataSource dataSource = this.persistanceConfig.dataSource();
+        final var dataSource = this.persistanceConfig.dataSource();
 
         assertThat(dataSource).isNotNull();
         assertThat(dataSource.getClass()).isSameAs(HikariDataSource.class);
@@ -113,15 +107,15 @@ class PersistanceConfigTest
     @Test
     void testDataSource_ShouldThrowException()
     {
-        PersistanceConfig config = new PersistanceConfig();
+        final var config = new PersistanceConfig();
         config.setDatabasePropsService(null);
 
-        final Exception exception = assertThrows(NullPointerException.class, () -> {
+        final var exception = assertThrows(NullPointerException.class, () -> {
             config.dataSource();
         });
 
-        String expectedMessage = "null";
-        String actualMessage = exception.getMessage();
+        var expectedMessage = "null";
+        var actualMessage = exception.getMessage();
 
         // System.err.println(">>>Le message d'erreur est :"+exception.getMessage());
 
@@ -134,7 +128,7 @@ class PersistanceConfigTest
     @Test
     void testEntityManagerFactory()
     {
-        final LocalContainerEntityManagerFactoryBean bean = this.persistanceConfig.entityManagerFactory();
+        final var bean = this.persistanceConfig.entityManagerFactory();
 
         assertThat(bean).isNotNull();
         assertThat(bean.getDataSource()).isNotNull();
@@ -150,7 +144,7 @@ class PersistanceConfigTest
     @Test
     void testSharedEntityManager()
     {
-        final SharedEntityManagerBean sharedEntity = this.persistanceConfig.sharedEntityManager();
+        final var sharedEntity = this.persistanceConfig.sharedEntityManager();
 
         assertThat(sharedEntity).isNotNull();
         assertThat(sharedEntity.getEntityManagerFactory()).isNotNull();
@@ -164,7 +158,7 @@ class PersistanceConfigTest
     @Test
     void testTransactionManager()
     {
-        final PlatformTransactionManager transactionManager = this.persistanceConfig.transactionManager();
+        final var transactionManager = this.persistanceConfig.transactionManager();
 
         assertThat(transactionManager).isExactlyInstanceOf(JpaTransactionManager.class);
     }
@@ -175,7 +169,7 @@ class PersistanceConfigTest
     @Test
     void testHibernatJpaVendorAdapter()
     {
-        final JpaVendorAdapter vendorAdapter = this.persistanceConfig.hibernatJpaVendorAdapter();
+        final var vendorAdapter = this.persistanceConfig.hibernatJpaVendorAdapter();
 
         assertThat(vendorAdapter).isExactlyInstanceOf(HibernateJpaVendorAdapter.class);
         assertThat(vendorAdapter.getJpaDialect()).isNotNull();
@@ -188,7 +182,7 @@ class PersistanceConfigTest
     @Test
     void testHibernatJpaDialect()
     {
-        final JpaDialect dialect = this.persistanceConfig.hibernatJpaDialect();
+        final var dialect = this.persistanceConfig.hibernatJpaDialect();
 
         assertThat(dialect).isExactlyInstanceOf(HibernateJpaDialect.class);
     }
@@ -199,7 +193,7 @@ class PersistanceConfigTest
     @Test
     void testExceptionTranslationPostProcessor()
     {
-        final PersistenceExceptionTranslationPostProcessor processor = this.persistanceConfig.exceptionTranslationPostProcessor();
+        final var processor = this.persistanceConfig.exceptionTranslationPostProcessor();
 
         assertThat(processor).isExactlyInstanceOf(PersistenceExceptionTranslationPostProcessor.class);
     }
@@ -210,7 +204,7 @@ class PersistanceConfigTest
     @Test
     void testSqlExceptionTranslator()
     {
-        final SQLErrorCodeSQLExceptionTranslator codeSQLExceptionTranslator = this.persistanceConfig.sqlExceptionTranslator();
+        final var codeSQLExceptionTranslator = this.persistanceConfig.sqlExceptionTranslator();
 
         assertThat(codeSQLExceptionTranslator).isExactlyInstanceOf(SQLErrorCodeSQLExceptionTranslator.class);
     }

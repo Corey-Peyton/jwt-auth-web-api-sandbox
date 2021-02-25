@@ -13,19 +13,18 @@ package fr.vincent.tuto.server.service.mapper;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.vincent.tuto.common.mapper.GenericObjectMapper;
-import fr.vincent.tuto.server.constants.ServerConstants;
 import fr.vincent.tuto.server.enumeration.CategoryTypeEnum;
 import fr.vincent.tuto.server.model.dto.CategoryDTO;
 import fr.vincent.tuto.server.model.dto.ProductDTO;
 import fr.vincent.tuto.server.model.po.Category;
 import fr.vincent.tuto.server.model.po.Product;
+import fr.vincent.tuto.server.util.ServerUtil;
 
 /**
  * Service de conversion/transformation d'un objet de type {@link Category} en son objet de tranfert de ses données
@@ -60,9 +59,9 @@ public class CategoryMapper extends GenericObjectMapper<Category, CategoryDTO>
         }
 
         // Traitement des produits rattachés à la catégorie à persister en base de données.
-        final Set<ProductDTO> productDTOs = pCategoryDTO.getProducts();
-        final List<Product> productsList = (List<Product>) this.productMapper.toProducts(productDTOs);
-        final Set<Product> productsSet = ServerConstants.listToSet(productsList);
+        final var productDTOs = pCategoryDTO.getProducts();
+        final var productsList = (List<Product>) this.productMapper.toProducts(productDTOs);
+        final var productsSet = ServerUtil.listToSet(productsList);
 
         // On retourne l'instance
         return this.modelMapper.map(CategoryDTO.class, Category.CategoryBuilder.class)//
@@ -96,9 +95,9 @@ public class CategoryMapper extends GenericObjectMapper<Category, CategoryDTO>
         }
 
         // Traitement des produits rattachés à la catégorie en provenance de la base de données.
-        final Set<Product> productsSet = pCategory.getProducts();
-        final List<ProductDTO> listDtos = (List<ProductDTO>) this.productMapper.toProductsDtos(productsSet);
-        final Set<ProductDTO> productDTOs = ServerConstants.listToSet(listDtos);
+        final var productsSet = pCategory.getProducts();
+        final var listDtos = (List<ProductDTO>) this.productMapper.toProductsDtos(productsSet);
+        final var productDTOs = ServerUtil.listToSet(listDtos);
 
         // On retourne l'instance
         return this.modelMapper.map(Category.class, CategoryDTO.CategoryDTOBuilder.class)//

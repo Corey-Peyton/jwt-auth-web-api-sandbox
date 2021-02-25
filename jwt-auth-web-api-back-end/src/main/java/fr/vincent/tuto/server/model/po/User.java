@@ -44,8 +44,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import fr.vincent.tuto.server.constants.ServerConstants;
 import fr.vincent.tuto.server.enumeration.RoleEnum;
+import fr.vincent.tuto.server.util.ServerUtil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -87,21 +87,21 @@ public class User extends AbstractPersistable<Long> implements Serializable
     @Column(name = "ID", updatable = false, nullable = false)
     private Long id; // identifiant technique auto-généré de l'objet en base.
 
-    @NotNull(message = ServerConstants.USERNAME_VALIDATION_MSG)
-    @Size(min = 3, max = 80, message = ServerConstants.USERNAME_VALIDATION_MSG)
-    @Pattern(regexp = ServerConstants.LOGIN_REGEX)
+    @NotNull(message = ServerUtil.USERNAME_VALIDATION_MSG)
+    @Size(min = 3, max = 80, message = ServerUtil.USERNAME_VALIDATION_MSG)
+    @Pattern(regexp = ServerUtil.LOGIN_REGEX)
     @Column(name = "USER_NAME", nullable = false, unique = true)
     private String username; // le login utilisé pour authentifier l'utilisateur (non null et unique).
 
     // @JsonIgnore
-    @NotNull(message = ServerConstants.PWD_VALIDATION_MSG)
-    @Pattern(regexp = ServerConstants.PASSWORD_REGEX, message = ServerConstants.PWD_VALIDATION_MSG)
+    @NotNull(message = ServerUtil.PWD_VALIDATION_MSG)
+    @Pattern(regexp = ServerUtil.PASSWORD_REGEX, message = ServerUtil.PWD_VALIDATION_MSG)
     @Size(min = 60, max = 60)
     @Column(name = "USER_PASSWORD", length = 60, nullable = false)
     private String password; // le mot de passe utilisé pour authentifier l'utilisateur(non null).
 
-    @Email(message = ServerConstants.EMAIL_VALIDATION_MSG)
-    @Size(min = 8, max = 254, message = ServerConstants.EMAIL_VALIDATION_MSG)
+    @Email(message = ServerUtil.EMAIL_VALIDATION_MSG)
+    @Size(min = 8, max = 254, message = ServerUtil.EMAIL_VALIDATION_MSG)
     @Column(name = "EMAIL", unique = true, length = 254, nullable = false)
     private String email; // adresse mail de l'utilisateur.
 

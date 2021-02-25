@@ -1,7 +1,7 @@
 /*
  * ----------------------------------------------
  * Projet ou Module : jwt-auth-web-api-back-end
- * Nom de la classe : ServerConstants.java
+ * Nom de la classe : ServerUtil.java
  * Date de création : 25 janv. 2021
  * Heure de création : 09:50:24
  * Package : fr.vincent.tuto.server.constants
@@ -9,7 +9,7 @@
  * Copyright © 2021 - All rights reserved.
  * ----------------------------------------------
  */
-package fr.vincent.tuto.server.constants;
+package fr.vincent.tuto.server.util;
 
 import java.util.Collections;
 import java.util.List;
@@ -43,7 +43,7 @@ import lombok.experimental.UtilityClass;
  * @author Vincent Otchoun
  */
 @UtilityClass
-public final class ServerConstants
+public final class ServerUtil
 {
     
     public static final String SERVER_INTERNAL_ERROR = "Erreur interne du serveur.";

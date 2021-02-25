@@ -40,10 +40,10 @@ import fr.vincent.tuto.common.constants.AppConstants;
 import fr.vincent.tuto.common.exception.CustomAppException;
 import fr.vincent.tuto.common.mapper.GenericJSONMapper;
 import fr.vincent.tuto.server.config.BackEndServerRootConfig;
-import fr.vincent.tuto.server.constants.ServerConstants;
 import fr.vincent.tuto.server.model.dto.ProductDTO;
 import fr.vincent.tuto.server.model.po.Product;
 import fr.vincent.tuto.server.service.mapper.ProductMapper;
+import fr.vincent.tuto.server.util.ServerUtil;
 import fr.vincent.tuto.server.utils.TestsDataUtils;
 
 /**
@@ -523,7 +523,7 @@ class ProductJSONMapperTest
         dtos.add(null);
 
         final List<Product> products = (List<Product>) this.productMapper.toProducts(dtos); // List
-        final Set<Product> set = ServerConstants.listToSet(products); // Set
+        final Set<Product> set = ServerUtil.listToSet(products); // Set
 
         // Création du fichier au format JSON avec List
         final String filename = String.format(QUATRE_FORMAT_STR, this.jsonFilePathLocation, ProductDTO.class.getSimpleName(), LIST_PRETTY_FILE,
@@ -544,7 +544,7 @@ class ProductJSONMapperTest
     {
 
         final List<Product> productsList = TestsDataUtils.PRODUCTS();
-        final Set<Product> productsSet = ServerConstants.listToSet(productsList);
+        final Set<Product> productsSet = ServerUtil.listToSet(productsList);
 
         // Création du fichier au format JSON avec List
         final String filename = String.format(CINQ_FORMAT_STR, this.jsonFilePathLocation , Product.class.getSimpleName() , "_NO_ID" , LIST_PRETTY_FILE,AppConstants.JSON_FILE_SUFFIXE);
@@ -563,7 +563,7 @@ class ProductJSONMapperTest
     {
 
         final List<Product> productsList = TestsDataUtils.PRODUCTS_WITH_ID();
-        final Set<Product> productsSet = ServerConstants.listToSet(productsList);
+        final Set<Product> productsSet = ServerUtil.listToSet(productsList);
 
         // Création du fichier au format JSON avec List
         final String filename = String.format(CINQ_FORMAT_STR, this.jsonFilePathLocation , Product.class.getSimpleName() , "_ID" , LIST_PRETTY_FILE,AppConstants.JSON_FILE_SUFFIXE);

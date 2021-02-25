@@ -26,8 +26,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import fr.vincent.tuto.server.constants.ServerConstants;
 import fr.vincent.tuto.server.model.po.Category;
+import fr.vincent.tuto.server.util.ServerUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
@@ -64,34 +64,34 @@ public class CategoryDTO implements Serializable
     @ApiModelProperty(name = "id", dataType = "java.lang.Long", value = "Identifiant technique auto-généré.", position = 0)
     private Long id; // identifiant technique auto-généré de l'objet en base.
 
-    @NotNull(message = ServerConstants.CATEGORY_NAME)
-    @NotEmpty(message = ServerConstants.CATEGORY_NAME)
-    @NotBlank(message = ServerConstants.CATEGORY_NAME)
+    @NotNull(message = ServerUtil.CATEGORY_NAME)
+    @NotEmpty(message = ServerUtil.CATEGORY_NAME)
+    @NotBlank(message = ServerUtil.CATEGORY_NAME)
     @ApiModelProperty(name = "name", dataType = "java.lang.String", value = "Le nom dde la catégorie de prosuits..", required = true, position = 1)
     private String name; // le nom de la catégorie de produit.
 
-    @NotNull(message = ServerConstants.CATEGORY_DESC)
-    @NotEmpty(message = ServerConstants.CATEGORY_DESC)
-    @NotBlank(message = ServerConstants.CATEGORY_DESC)
+    @NotNull(message = ServerUtil.CATEGORY_DESC)
+    @NotEmpty(message = ServerUtil.CATEGORY_DESC)
+    @NotBlank(message = ServerUtil.CATEGORY_DESC)
     @ApiModelProperty(name = "description", dataType = "java.lang.String", value = "La description de la catégorie de produits.", required = true, position = 2)
     private String description; // la description de la catégorie de produit.
 
-    @NotNull(message = ServerConstants.CATEGORY_ACTIVE)
-    @NotEmpty(message = ServerConstants.CATEGORY_ACTIVE)
-    @NotBlank(message = ServerConstants.CATEGORY_ACTIVE)
+    @NotNull(message = ServerUtil.CATEGORY_ACTIVE)
+    @NotEmpty(message = ServerUtil.CATEGORY_ACTIVE)
+    @NotBlank(message = ServerUtil.CATEGORY_ACTIVE)
     @ApiModelProperty(name = "enabled", dataType = "java.lang.Boolean", value = "Indique si la catégorie de produits est disponible ou non.", required = true, position = 3)
     private Boolean enabled; // indique si la catégorie est active ou non.
 
-    @NotNull(message = ServerConstants.CATEGORY_PRODUCTS)
-    @NotBlank(message = ServerConstants.CATEGORY_PRODUCTS)
-    @NotEmpty(message = ServerConstants.CATEGORY_PRODUCTS)
+    @NotNull(message = ServerUtil.CATEGORY_PRODUCTS)
+    @NotBlank(message = ServerUtil.CATEGORY_PRODUCTS)
+    @NotEmpty(message = ServerUtil.CATEGORY_PRODUCTS)
     @ApiModelProperty(name = "products", dataType = "java.util.Set<ProductDTO>", value = "La liste des produits rattachés à la catégorie.", required = true, position = 4)
     private Set<ProductDTO> products; // la liste des produits de la catégorie.
 
-    @NotNull(message = ServerConstants.CATEGORY_TYPE)
-    @NotEmpty(message = ServerConstants.CATEGORY_TYPE)
-    @NotBlank(message = ServerConstants.CATEGORY_TYPE)
-    @Pattern(regexp = "^(TELEPHONIE|TV|SON|INFORMATIQUE|PHOTO|JEUX_VIDEO|JOUETS|ELCETROMENAGER|MEUBLES_DECO|LITERIE)$", message = ServerConstants.CATEGORY_TYPE_REGEX)
+    @NotNull(message = ServerUtil.CATEGORY_TYPE)
+    @NotEmpty(message = ServerUtil.CATEGORY_TYPE)
+    @NotBlank(message = ServerUtil.CATEGORY_TYPE)
+    @Pattern(regexp = "^(TELEPHONIE|TV|SON|INFORMATIQUE|PHOTO|JEUX_VIDEO|JOUETS|ELCETROMENAGER|MEUBLES_DECO|LITERIE)$", message = ServerUtil.CATEGORY_TYPE_REGEX)
     @ApiModelProperty(name = "products", dataType = "java.lang.String", value = "Le type de produits rattachés à la catégorie.", required = true, position = 5)
     private String type;
 

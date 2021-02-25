@@ -55,9 +55,9 @@ import fr.vincent.tuto.common.service.props.DatabasePropsService;
 import fr.vincent.tuto.server.config.BackEndServerRootConfig;
 import fr.vincent.tuto.server.config.cache.ServerCacheConfig;
 import fr.vincent.tuto.server.config.db.PersistanceConfig;
-import fr.vincent.tuto.server.constants.ServerConstants;
 import fr.vincent.tuto.server.model.po.Product;
 import fr.vincent.tuto.server.model.po.User;
+import fr.vincent.tuto.server.util.ServerUtil;
 import io.jsonwebtoken.JwtException;
 
 /**
@@ -156,7 +156,7 @@ class ServerExceptionHandlerTest
         assertThat(response.getBody().getErrors()).isNotNull();
         assertThat(response.getBody().getErrors()).isExactlyInstanceOf(ApiResponseError.class);
         assertThat(response.getBody().getErrors().getStatus()).isEqualTo(HttpStatus.SERVICE_UNAVAILABLE);
-        assertThat(response.getBody().getErrors().getDetails()).isEqualTo(ServerConstants.SERVER_UNAVAILABLE_MSG);
+        assertThat(response.getBody().getErrors().getDetails()).isEqualTo(ServerUtil.SERVER_UNAVAILABLE_MSG);
         assertThat(response.getBody().getErrors().getDebugMessage()).isEqualTo(customAppException.getMessage());
         assertThat(response.getBody().getErrors().getValidationErrors()).isEmpty();
     }
@@ -175,7 +175,7 @@ class ServerExceptionHandlerTest
         assertThat(response.getBody().getErrors()).isNotNull();
         assertThat(response.getBody().getErrors()).isExactlyInstanceOf(ApiResponseError.class);
         assertThat(response.getBody().getErrors().getStatus()).isEqualTo(HttpStatus.SERVICE_UNAVAILABLE);
-        assertThat(response.getBody().getErrors().getDetails()).isEqualTo(ServerConstants.SERVER_UNAVAILABLE_MSG);
+        assertThat(response.getBody().getErrors().getDetails()).isEqualTo(ServerUtil.SERVER_UNAVAILABLE_MSG);
         assertThat(response.getBody().getErrors().getDebugMessage()).isEqualTo(customAppException.getMessage());
         assertThat(response.getBody().getErrors().getValidationErrors()).isEmpty();
     }
@@ -195,7 +195,7 @@ class ServerExceptionHandlerTest
     @Test
     void testHandleHttpCustomAppException_AuthenticationException()
     {
-        final AuthenticationException authenticationException = new AuthenticationExceptionCustom("AuthenticationException customisée");
+        final var authenticationException = new AuthenticationExceptionCustom("AuthenticationException customisée");
         final ResponseEntity<GenericApiResponse<Product>> response = this.exceptionHandler.handleHttpCustomAppException(authenticationException);
 
         assertThat(response).isNotNull();
@@ -205,7 +205,7 @@ class ServerExceptionHandlerTest
         assertThat(response.getBody().getErrors()).isNotNull();
         assertThat(response.getBody().getErrors()).isExactlyInstanceOf(ApiResponseError.class);
         assertThat(response.getBody().getErrors().getStatus()).isEqualTo(HttpStatus.UNAUTHORIZED);
-        assertThat(response.getBody().getErrors().getDetails()).isEqualTo(ServerConstants.ACCESS_DENIED);
+        assertThat(response.getBody().getErrors().getDetails()).isEqualTo(ServerUtil.ACCESS_DENIED);
         assertThat(response.getBody().getErrors().getDebugMessage()).isEqualTo(authenticationException.getMessage());
         assertThat(response.getBody().getErrors().getValidationErrors()).isEmpty();
     }
@@ -213,7 +213,7 @@ class ServerExceptionHandlerTest
     @Test
     void testHandleHttpCustomAppException_WithNull_AuthenticationException()
     {
-        final AuthenticationException customAppException = new AuthenticationExceptionCustom(null, null); 
+        final var customAppException = new AuthenticationExceptionCustom(null, null); 
         final ResponseEntity<GenericApiResponse<Product>> response = this.exceptionHandler.handleHttpCustomAppException(customAppException);
 
         assertThat(response).isNotNull();
@@ -223,7 +223,7 @@ class ServerExceptionHandlerTest
         assertThat(response.getBody().getErrors()).isNotNull();
         assertThat(response.getBody().getErrors()).isExactlyInstanceOf(ApiResponseError.class);
         assertThat(response.getBody().getErrors().getStatus()).isEqualTo(HttpStatus.UNAUTHORIZED);
-        assertThat(response.getBody().getErrors().getDetails()).isEqualTo(ServerConstants.ACCESS_DENIED);
+        assertThat(response.getBody().getErrors().getDetails()).isEqualTo(ServerUtil.ACCESS_DENIED);
         assertThat(response.getBody().getErrors().getDebugMessage()).isEqualTo(customAppException.getMessage());
         assertThat(response.getBody().getErrors().getValidationErrors()).isEmpty();
     }

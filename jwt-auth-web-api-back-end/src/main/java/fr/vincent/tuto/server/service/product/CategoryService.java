@@ -16,7 +16,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +27,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import fr.vincent.tuto.common.exception.CustomAppException;
-import fr.vincent.tuto.server.constants.ServerConstants;
 import fr.vincent.tuto.server.dao.CategoryDAO;
 import fr.vincent.tuto.server.model.po.Category;
 import fr.vincent.tuto.server.model.po.Product;
+import fr.vincent.tuto.server.util.ServerUtil;
 
 /**
  * Service des fonctionnalités de gestion des catégories de produits dans le SI.
@@ -75,7 +74,7 @@ public class CategoryService implements ICategoryService
     {
         try
         {
-            final Category category = this.categoryDAO.save(pCategory);
+            final var category = this.categoryDAO.save(pCategory);
             Assert.notNull(category, SAVE_MESSAGE);
             return category;
         }
@@ -200,14 +199,14 @@ public class CategoryService implements ICategoryService
     @Override
     public Collection<Category> getFilteredCategoriesByProductName(String pQuery)
     {
-        final List<Category> categories = (List<Category>) this.getCategories();
+        final var categories = (List<Category>) this.getCategories();
 
         // Filtrée la liste des catégories de produits en pure Java.
         return Optional.ofNullable(categories.stream()//
         .filter(categorie -> categorie.getProducts().stream()//
         .map(Product::getName)//
         .filter(Objects::nonNull)//
-        .anyMatch(name -> ServerConstants.strCaseInsentitive(name, pQuery))//
+        .anyMatch(name -> ServerUtil.strCaseInsentitive(name, pQuery))//
         )//
         .distinct()//
         .collect(Collectors.toList())//
@@ -270,8 +269,8 @@ public class CategoryService implements ICategoryService
     public Collection<Product> addProduct(Long pCategoryId, Long pProductId)
     {
         //
-        final Optional<Category> categorieOptional = this.getCategoryById(pCategoryId);
-        final Optional<Product> productOptional = this.productService.getProductById(pProductId);
+        final var categorieOptional = this.getCategoryById(pCategoryId);
+        final var productOptional = this.productService.getProductById(pProductId);
 
         // Si recherche infructueuse
         if (categorieOptional.isEmpty() || productOptional.isEmpty())
@@ -279,14 +278,14 @@ public class CategoryService implements ICategoryService
             return Collections.emptyList();
         }
 
-        final Category categorie = categorieOptional.get();
-        final Product product = productOptional.get();
+        final var categorie = categorieOptional.get();
+        final var product = productOptional.get();
 
-        final Set<Product> products = categorie.getProducts();
+        final var products = categorie.getProducts();
         products.add(product);
         categorie.setProducts(products);
         this.categoryDAO.save(categorie);
 
-        return ServerConstants.setToList(products);
+        return ServerUtil.setToList(products);
     }
 }

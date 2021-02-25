@@ -25,8 +25,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import fr.vincent.tuto.server.constants.ServerConstants;
 import fr.vincent.tuto.server.model.po.Product;
+import fr.vincent.tuto.server.util.ServerUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
@@ -64,45 +64,45 @@ public class ProductDTO implements Serializable
     @ApiModelProperty(name = "id", dataType = "java.lang.Long", value = "Identifiant technique auto-généré.", position = 0)
     private Long id; // identifiant technique auto-généré de l'objet en base.
 
-    @NotNull(message = ServerConstants.PRODUCT_NAME)
-    @NotEmpty(message = ServerConstants.PRODUCT_NAME)
-    @NotBlank(message = ServerConstants.PRODUCT_NAME)
+    @NotNull(message = ServerUtil.PRODUCT_NAME)
+    @NotEmpty(message = ServerUtil.PRODUCT_NAME)
+    @NotBlank(message = ServerUtil.PRODUCT_NAME)
     @ApiModelProperty(name = "name", dataType = "java.lang.String", value = "Le nom du produit.", required = true, position = 1)
     private String name; // le nom du produit.
 
-    @NotNull(message = ServerConstants.PRODUCT_DESC)
-    @NotEmpty(message = ServerConstants.PRODUCT_DESC)
-    @NotBlank(message = ServerConstants.PRODUCT_DESC)
+    @NotNull(message = ServerUtil.PRODUCT_DESC)
+    @NotEmpty(message = ServerUtil.PRODUCT_DESC)
+    @NotBlank(message = ServerUtil.PRODUCT_DESC)
     @ApiModelProperty(name = "description", dataType = "java.lang.String", value = "La description du produit.", required = true, position = 2)
     private String description; // la description du produit.
 
-    @NotNull(message = ServerConstants.PRODUCT_QTY)
-    @NotEmpty(message = ServerConstants.PRODUCT_QTY)
-    @NotBlank(message = ServerConstants.PRODUCT_QTY)
+    @NotNull(message = ServerUtil.PRODUCT_QTY)
+    @NotEmpty(message = ServerUtil.PRODUCT_QTY)
+    @NotBlank(message = ServerUtil.PRODUCT_QTY)
     @ApiModelProperty(name = "quantity", dataType = "java.lang.Long", value = "La quantité du produit.", required = true, position = 3)
     private Long quantity; // la quantité en stock pour le produit.
 
-    @NotNull(message = ServerConstants.PRODUCT_UNIT)
-    @NotEmpty(message = ServerConstants.PRODUCT_UNIT)
-    @NotBlank(message = ServerConstants.PRODUCT_UNIT)
+    @NotNull(message = ServerUtil.PRODUCT_UNIT)
+    @NotEmpty(message = ServerUtil.PRODUCT_UNIT)
+    @NotBlank(message = ServerUtil.PRODUCT_UNIT)
     @ApiModelProperty(name = "unitPrice", dataType = "java.math.BigDecimal", value = "Le prix unitaire du produit.", required = true, position = 4)
     private BigDecimal unitPrice; // le prix unitaire du produit.
 
-    @NotNull(message = ServerConstants.PRODUCT_PRICE)
-    @NotEmpty(message = ServerConstants.PRODUCT_PRICE)
-    @NotBlank(message = ServerConstants.PRODUCT_PRICE)
+    @NotNull(message = ServerUtil.PRODUCT_PRICE)
+    @NotEmpty(message = ServerUtil.PRODUCT_PRICE)
+    @NotBlank(message = ServerUtil.PRODUCT_PRICE)
     @ApiModelProperty(name = "price", dataType = "java.math.BigDecimal", value = "Le prix total de la quantité commandée du produit.", required = true, position = 5)
     private BigDecimal price; // le prix du produit.
 
-    @NotNull(message = ServerConstants.PRODUCT_ACTIVE)
-    @NotEmpty(message = ServerConstants.PRODUCT_ACTIVE)
-    @NotBlank(message = ServerConstants.PRODUCT_ACTIVE)
+    @NotNull(message = ServerUtil.PRODUCT_ACTIVE)
+    @NotEmpty(message = ServerUtil.PRODUCT_ACTIVE)
+    @NotBlank(message = ServerUtil.PRODUCT_ACTIVE)
     @ApiModelProperty(name = "isActive", dataType = "java.lang.Boolean", value = "Indique si le produit est disponible ou non.", required = true, position = 6)
     private Boolean isActive; // indique si le produit est actif/disponible ou non
 
-    @NotNull(message = ServerConstants.PRODUCT_IMG)
-    @NotEmpty(message = ServerConstants.PRODUCT_IMG)
-    @NotBlank(message = ServerConstants.PRODUCT_IMG)
+    @NotNull(message = ServerUtil.PRODUCT_IMG)
+    @NotEmpty(message = ServerUtil.PRODUCT_IMG)
+    @NotBlank(message = ServerUtil.PRODUCT_IMG)
     @ApiModelProperty(name = "imageUrl", dataType = "java.lang.String", value = "Le lien de l'image du produit.", required = true, position = 7)
     private String imageUrl;
 

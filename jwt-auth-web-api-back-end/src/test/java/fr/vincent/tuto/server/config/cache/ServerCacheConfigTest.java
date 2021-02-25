@@ -20,8 +20,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -79,8 +77,7 @@ class ServerCacheConfigTest
     @Test
     void testJcacheConfiguration()
     {
-        final javax.cache.configuration.Configuration<Object, Object> jcacheConfiguration = this.serverCacheConfig.jcacheConfiguration(
-        this.propsService);
+        final var jcacheConfiguration = this.serverCacheConfig.jcacheConfiguration(this.propsService);
 
         assertThat(jcacheConfiguration).isNotNull();
         assertThat(jcacheConfiguration.getKeyType()).isExactlyInstanceOf(Class.class);
@@ -95,7 +92,7 @@ class ServerCacheConfigTest
     @Test
     void testHibernatePropertiesCustomizer()
     {
-        final HibernatePropertiesCustomizer hibernatePropertiesCustomizer = this.serverCacheConfig.hibernatePropertiesCustomizer(this.cacheManager);
+        final var hibernatePropertiesCustomizer = this.serverCacheConfig.hibernatePropertiesCustomizer(this.cacheManager);
 
         assertThat(hibernatePropertiesCustomizer).isNotNull();
     }
@@ -107,7 +104,7 @@ class ServerCacheConfigTest
     @Test
     void testCacheManagerCustomizer()
     {
-        final JCacheManagerCustomizer cacheManagerCustomizer = this.serverCacheConfig.cacheManagerCustomizer(this.propsService);
+        final var cacheManagerCustomizer = this.serverCacheConfig.cacheManagerCustomizer(this.propsService);
 
         assertThat(cacheManagerCustomizer).isNotNull();
     }

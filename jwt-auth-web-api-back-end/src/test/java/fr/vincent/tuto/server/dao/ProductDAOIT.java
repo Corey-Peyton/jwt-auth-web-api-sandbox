@@ -14,7 +14,6 @@ package fr.vincent.tuto.server.dao;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
@@ -24,7 +23,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
@@ -79,7 +77,7 @@ class ProductDAOIT
     @Test
     void testFindOneByName()
     {
-        final Optional<Product> optional = this.productDAO.findOneByName(TestsDataUtils.PRODUCT_NAME_TO_SEARCH);
+        final var optional = this.productDAO.findOneByName(TestsDataUtils.PRODUCT_NAME_TO_SEARCH);
 
         assertThat(optional).isPresent();
         assertThat(optional.get()).isNotNull();
@@ -88,7 +86,7 @@ class ProductDAOIT
     @Test
     void testFindOneByName_WithNull()
     {
-        final Optional<Product> optional = this.productDAO.findOneByName(null);
+        final var optional = this.productDAO.findOneByName(null);
 
         assertThat(optional).isNotPresent();
     }
@@ -96,7 +94,7 @@ class ProductDAOIT
     @Test
     void testFindOneByName_WithEmpty()
     {
-        final Optional<Product> optional = this.productDAO.findOneByName(null);
+        final var optional = this.productDAO.findOneByName(null);
 
         assertThat(optional).isNotPresent();
     }
@@ -107,7 +105,7 @@ class ProductDAOIT
     @Test
     void testFindOneByNameIgnoreCase()
     {
-        final Optional<Product> optional = this.productDAO.findOneByNameIgnoreCase(TestsDataUtils.PRODUCT_NAME_TO_SEARCH_LOWER_CASE);
+        final var optional = this.productDAO.findOneByNameIgnoreCase(TestsDataUtils.PRODUCT_NAME_TO_SEARCH_LOWER_CASE);
 
         assertThat(optional).isPresent();
         assertThat(optional.get()).isNotNull();
@@ -116,7 +114,7 @@ class ProductDAOIT
     @Test
     void testFindOneByNameIgnoreCasee_WithNull()
     {
-        final Optional<Product> optional = this.productDAO.findOneByNameIgnoreCase(null);
+        final var optional = this.productDAO.findOneByNameIgnoreCase(null);
 
         assertThat(optional).isNotPresent();
     }
@@ -124,44 +122,44 @@ class ProductDAOIT
     @Test
     void testFindOneByNameIgnoreCase_WithEmpty()
     {
-        final Optional<Product> optional = this.productDAO.findOneByNameIgnoreCase(StringUtils.EMPTY);
+        final var optional = this.productDAO.findOneByNameIgnoreCase(StringUtils.EMPTY);
 
         assertThat(optional).isNotPresent();
     }
-    
+
     /**
      * Test method for {@link fr.vincent.tuto.server.dao.ProductDAO#existsByName(java.lang.String)}.
      */
     @Test
     void testExistsByName()
     {
-        final Boolean exist = this.productDAO.existsByName(TestsDataUtils.PRODUCT_NAME_TO_SEARCH);
+        final var exist = this.productDAO.existsByName(TestsDataUtils.PRODUCT_NAME_TO_SEARCH);
 
-        assertThat(exist).isTrue(); 
+        assertThat(exist).isTrue();
     }
-    
+
     @Test
     void testExistsByName_WithLowerCaseName()
     {
-        final Boolean exist = this.productDAO.existsByName(TestsDataUtils.PRODUCT_NAME_TO_SEARCH_LOWER_CASE);
+        final var exist = this.productDAO.existsByName(TestsDataUtils.PRODUCT_NAME_TO_SEARCH_LOWER_CASE);
 
-        assertThat(exist).isFalse(); 
+        assertThat(exist).isFalse();
     }
-    
+
     @Test
     void testExistsByName_WithEmpty()
     {
-        final Boolean exist = this.productDAO.existsByName(StringUtils.EMPTY);
+        final var exist = this.productDAO.existsByName(StringUtils.EMPTY);
 
-        assertThat(exist).isFalse(); 
+        assertThat(exist).isFalse();
     }
-    
+
     @Test
     void testExistsByName_WithNull()
     {
-        final Boolean exist = this.productDAO.existsByName(null);
+        final var exist = this.productDAO.existsByName(null);
 
-        assertThat(exist).isFalse(); 
+        assertThat(exist).isFalse();
     }
 
     /**
@@ -175,7 +173,7 @@ class ProductDAOIT
         int pageSize = 5; // number of items in a page to be returned, must be greater than 0.
         Pageable paging = PageRequest.of(pageNumber, pageSize);
 
-        Page<Product> products = this.productDAO.findAllByIsActive(Boolean.TRUE, paging);
+        final var products = this.productDAO.findAllByIsActive(Boolean.TRUE, paging);
 
         assertThat(products).isNotNull();
         assertThat(products.getContent()).isNotEmpty();
@@ -189,7 +187,7 @@ class ProductDAOIT
         int pageSize = 5; // number of items in a page to be returned, must be greater than 0.
         Pageable paging = PageRequest.of(pageNumber, pageSize);
 
-        Page<Product> products = this.productDAO.findAllByIsActive(Boolean.FALSE, paging);
+        final var products = this.productDAO.findAllByIsActive(Boolean.FALSE, paging);
 
         assertThat(products).isNotNull();
         assertThat(products.getContent()).isEmpty();
@@ -199,7 +197,7 @@ class ProductDAOIT
     @Test
     void testFindAllByIsActiveBooleanPageable_WithNull()
     {
-        Page<Product> products = this.productDAO.findAllByIsActive(null, null);
+        final var products = this.productDAO.findAllByIsActive(null, null);
 
         assertThat(products).isNotNull();
         assertThat(products.getContent()).isEmpty();
@@ -211,17 +209,17 @@ class ProductDAOIT
     @Test
     void testFindAllByIsActiveBoolean()
     {
-        final List<Product> products = (List<Product>) this.productDAO.findAllByIsActive(Boolean.TRUE);
-        
+        final var products = (List<Product>) this.productDAO.findAllByIsActive(Boolean.TRUE);
+
         assertThat(products.isEmpty()).isFalse();
         assertThat(products.size()).isPositive();
     }
-    
+
     @Test
     void testFindAllByIsActiveBoolean_WithFalse()
     {
-        final List<Product> products = (List<Product>) this.productDAO.findAllByIsActive(Boolean.FALSE);
-        
+        final var products = (List<Product>) this.productDAO.findAllByIsActive(Boolean.FALSE);
+
         assertThat(products.isEmpty()).isTrue();
         assertThat(products.size()).isNotPositive();
     }
@@ -232,8 +230,8 @@ class ProductDAOIT
     @Test
     void testFindAllByIsActiveIsTrue()
     {
-        final List<Product> products = (List<Product>) this.productDAO.findAllByIsActiveIsTrue();
-        
+        final var products = (List<Product>) this.productDAO.findAllByIsActiveIsTrue();
+
         assertThat(products.isEmpty()).isFalse();
         assertThat(products.size()).isPositive();
     }

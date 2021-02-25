@@ -50,13 +50,13 @@ import fr.vincent.tuto.common.constants.AppConstants;
 import fr.vincent.tuto.common.exception.CustomAppException;
 import fr.vincent.tuto.common.mapper.GenericJSONMapper;
 import fr.vincent.tuto.server.config.BackEndServerRootConfig;
-import fr.vincent.tuto.server.constants.ServerConstants;
 import fr.vincent.tuto.server.enumeration.CategoryTypeEnum;
 import fr.vincent.tuto.server.model.dto.CategoryDTO;
 import fr.vincent.tuto.server.model.dto.ProductDTO;
 import fr.vincent.tuto.server.model.po.Category;
 import fr.vincent.tuto.server.service.mapper.CategoryMapper;
 import fr.vincent.tuto.server.service.mapper.ProductMapper;
+import fr.vincent.tuto.server.util.ServerUtil;
 import fr.vincent.tuto.server.utils.TestsDataUtils;
 
 /**
@@ -534,7 +534,7 @@ class CategoryJSONMapperTest
     void testWriteJSONFile_WithPrettyPrintTrue_ListAndSet()
     {
         final List<Category> categories = (List<Category>) this.categoryMapper.toCategories(TestsDataUtils.CATEGORIES_DTO());
-        final Set<Category> categoriesSet = ServerConstants.listToSet(categories); 
+        final Set<Category> categoriesSet = ServerUtil.listToSet(categories); 
         
         // Création du fichier au format JSON avec List
         final String filename = String.format(QUATRE_FORMAT_STR, this.jsonFilePathLocation, ProductDTO.class.getSimpleName(), LIST_PRETTY_FILE,

@@ -2,11 +2,16 @@
 
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?branch=develop)
 
-## Détails Génération du `jeton JWT` avec `Keytool et OpenSSL`
+
+## Sécurité applicative
 TODO
 
 
-## Détails Génération du `jeton JWT` avec `OpenSS`L
+### Génération du `jeton JWT` avec `Keytool et OpenSSL` combinés
+TODO
+
+
+### Génération du `jeton JWT` avec `OpenSSL` uniquement
 - _Générer une clé privée RSA, export dans un fichier_
 ```bash
 $ openssl genrsa -out key.pem 4096

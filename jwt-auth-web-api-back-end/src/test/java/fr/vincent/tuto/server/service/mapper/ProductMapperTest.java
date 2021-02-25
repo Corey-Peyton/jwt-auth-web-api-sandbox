@@ -35,9 +35,9 @@ import com.google.common.collect.Lists;
 import fr.vincent.tuto.common.service.props.DatabasePropsService;
 import fr.vincent.tuto.server.config.BackEndServerRootConfig;
 import fr.vincent.tuto.server.config.db.PersistanceConfig;
-import fr.vincent.tuto.server.constants.ServerConstants;
 import fr.vincent.tuto.server.model.dto.ProductDTO;
 import fr.vincent.tuto.server.model.po.Product;
+import fr.vincent.tuto.server.util.ServerUtil;
 import fr.vincent.tuto.server.utils.TestsDataUtils;
 
 /**
@@ -285,7 +285,7 @@ class ProductMapperTest
         dtos.add(null);
 
         final List<Product> products = (List<Product>) this.productMapper.toProducts(dtos); // List
-        final Set<Product> set = ServerConstants.listToSet(products); // Set
+        final Set<Product> set = ServerUtil.listToSet(products); // Set
 
         assertThat(products).isNotEmpty();
         assertThat(products.size()).isEqualTo(4);

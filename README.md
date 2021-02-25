@@ -4,13 +4,15 @@
 
 # A Propos
 **`My Products`** est une application Web sécurisée de gestion de produits avec leur catégorie (**`service Web RESTFul Sécurisé`**) écrit en **Java** et embarque **Spring** 
-avec d'autres technologies non seulement pour faciliter l'intégration des différents composants applicatifs (traduire en lignes de codes l'expression des besoins) 
-mais également sécuriser les échanges avec le SI (sécuriser les ressources de l'application).
+avec d'autres technologies :
+- non seulement pour faciliter l'intégration des différents composants applicatifs (traduire en lignes de codes l'expression des besoins : `gérer les produits`, `gérer les catégories de produits`, ...), 
+- mais également assurer la gesion de la `sécurité applicative` (sécuriser le SI donc les ressources et les échanges).
+
 Il comporte principalement deux modules :
 - un **Back-End Java** , basée sur une architecture **`REST`** et embarquant :
 	- _les exigences fonctionnelles ou métier_, 
 	- _les exigences non fonctionnelles_. 
-- un **Front-End Angular** (`Client Web`) fournissant les interfaces utilisateur pour faciliter la consommation des fonctionnalités exposées par le Back-End.
+- un **Front-End Angular** (`Client Web`) fournissant les interfaces utilisateur pour faciliter la consommation des fonctionnalités exposées par le Back-End Jzvz (le serveur).
 
 **NB** :
 - _Les données/informations sont stockées dans une base de données relationnelles_.
@@ -27,9 +29,9 @@ Les échanges se feront principalement entre le client (`front-end`) et le serve
 - Une brève présentation de **`JWT`** 
 - Le diagramme d'architecture applicative et technique
 - Les diagrammes de séquences du fonctionnement global des points suivants :
-	- Ajouter un nouvel utilisateur avec ses rôles dans le système d'information,
-	- Gérer la production/fourniture de jetons d'accès lorsque les utilisateurs se connectent à l'application,	
-	- Accès aux resources (_protégées_) de l'application : _fournir le jeton d'accès dans l'en-tête de la requête lors de la demande d'informations_.
+	- _Ajouter un nouvel utilisateur avec ses rôles dans le système d'information_,
+	- _Gérer la production/fourniture de jetons d'accès lorsque les utilisateurs se connectent à l'application_,	
+	- _Accès aux resources (protégées) de l'application : fournir le jeton d'accès dans l'en-tête de la requête lors de la demande d'informations_.
 - Les schéma et modèle de données pour la gestion des informations **métier** de l'application.
 
 
@@ -39,7 +41,7 @@ Les échanges se feront principalement entre le client (`front-end`) et le serve
 - **J**SON **W**eb **S**ignature (`JWS`) ou 
 - **J**SON **W**eb **E**ncryption (`JWE`).
 
-Les `JWT` contiennent les informations nécéssaires pour aider au stockage de la `session utilisateur`, etc. `JWT` peut être aussi choisi comme format pour les jetons d'accès et d'actualisation utilisés dans le protocole `OAuth2`.
+Les **`JWT`** contiennent les informations nécéssaires pour aider au stockage de la **`session utilisateur`**, etc. **`JWT`** peut être aussi choisi comme format pour les jetons d'accès et d'actualisation utilisés dans le protocole `OAuth2`.
 
 ## Les Exigences 
 
@@ -550,45 +552,54 @@ Une liste non exhaustive des technos utilsées pour le développment de cette ap
 ![](https://img.shields.io/badge/PlantUML-✓-blue.svg)
 
 - C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage `Java` : 
-- `PlantUML` avec intégration de `StarUML` pour la production au format markdown des éléments de modélisation et conception des spécifications techniques fournies.
-- `Java 11` est utilisé pour la compilation et cible pour l'environnement d'exécution. Le code source est en partie en `Java 8`.
-- `Spring Security`, `JWT`, pour sécuriser les échanges (production de jetons, authentification et autorisation).
-- `AOP` pour la séparation des préoccupations transversales dans l'application. Ici, il s'agit de la journalisation dans le couches applicatives : `le logging`
-- `JPA / Hibernate` pour les concepts ORM et DAO.
-- `H2`, `MariaDB`, `PostgreSQL` configurations pour les accès aux données en base et pour la réalisation de TI (`_Tests d'Intégration_` : système)
-- `Flyway` pour la migration de bases de données.
-- `EhCache` pour optimiser les accès aux données.
-- `Angular` pour le développment de l'interface utilisateur (le Clent Web).
-- `Docker` pour la conteneurisation des services/ de l'application
-- `Lombok` pour générer du code couramment utilisé et faciliter le maintien du code source propre, simplifier l'écriture des classes.
-- `Keytool/OpenSSL` pour la génération du magasin des `clés privées/publiques RSA`, export de la clé publique et du certificat dans des fichiers pour exploitation autraversde l'API Java dédiée. 
-- `Swagger 3.0.0 /OpenAPI` pour la documentation et tests de l'API.
-- `JUnit 5` pour l'écriture des codes sources des classes unitaires et d'intégration.
-- `SonarLint` intégré dans l'IDE (_STS_) pour `analyser la qualité du code` livré, poussé dans le `repository` (_bonnes pratiques de développement_).
-- `MoreUnit` intégré dans l'IDE (_STS_) pour `taguer` les classes du code source couvertes par des TU (_Tests Unitaires_).
-- `JaCoCo` librairie java d'analyse de couverture de codes. Produire/fournir les rapports de couverture du code source (lignes, branches,..) par les tests réalisés. Offrir une visualisation graphique de la couverture
+- **`PlantUML`** avec intégration de `StarUML` pour la production au format markdown des éléments de modélisation et conception des spécifications techniques fournies.
+- **`Java 11`** est utilisé pour la compilation et cible pour l'environnement d'exécution.
+- **`Spring Security`**, `JWT`, pour sécuriser les échanges (production de jetons, authentification et autorisation).
+- **`AOP`** pour la séparation des préoccupations transversales dans l'application. Ici, il s'agit de la journalisation dans le couches applicatives : `le logging`
+- **`JPA / Hibernate`** pour les concepts ORM et DAO.
+- **`H2`**, **`MariaDB`**, **`PostgreSQL`** configurations pour les accès aux données en base et pour la réalisation de TI (`_Tests d'Intégration_` : système)
+- **`Flyway`** pour la migration de bases de données.
+- **`EhCache`** pour optimiser les accès aux données.
+- **`Angular`** pour le développment de l'interface utilisateur (le Clent Web).
+- **`Docker`** pour la conteneurisation des services/ de l'application
+- **`Lombok`** pour générer du code couramment utilisé et faciliter le maintien du code source propre, simplifier l'écriture des classes.
+- **`Keytool/OpenSSL`** pour la génération du magasin des `clés privées/publiques RSA`, export de la clé publique et du certificat dans des fichiers pour exploitation autraversde l'API Java dédiée. 
+- **`Swagger 3.0.0 /OpenAPI`** pour la documentation et tests de l'API.
+- **`JUnit 5`** pour l'écriture des codes sources des classes unitaires et d'intégration.
+- **`SonarLint`** intégré dans l'IDE (_STS_) pour `analyser la qualité du code` livré, poussé dans le `repository` (_bonnes pratiques de développement_).
+- **`MoreUnit`** intégré dans l'IDE (_STS_) pour `taguer` les classes du code source couvertes par des TU (_Tests Unitaires_).
+- **`JaCoCo`** librairie java d'analyse de couverture de codes. Produire/fournir les rapports de couverture du code source (lignes, branches,..) par les tests réalisés. Offrir une visualisation graphique de la couverture
 de codes et fournit des rapports détaillés de l'analyse de la couverture.
 
 
 # Configurations
 Les configurations de l'application permettent de faciliter aussi bien le démarrage et exécution que l'exploitation de celle-ci.
 
-## Génération du `jeton JWT`
-Afin de rehausser le niveau de sécurité dans l'application, au lieu d'utiliser le **secret HMAC partagé** pour signer le `jeton JWT`, celui-ci sera signer avec des **clés privées/publiques RSA**.
-Ceci offre l'avantage que le jeton JWT soit généré et signé par une autorité centrale (généralement un serveur d'autorisation). Ainsi, l'application (les services) 
-peut (peuvent) valider le `jeton JWT à l'aide de la clé publique exposée à partir du serveur d'autorisation`.
-La mise en place de cette peut donc être effectuer de deux façons différentes :
-- **en ligne de commande** : puis exploiter l'API Java pour obtenir les éléméents attendus. 
-	- **_commandes Keytool et OpenSSL_** : 
-		- Génération du magasin `clés privées/publiques RSA`
-		- Export de la clé publique et du certificat dans un fichier
-		- Export au format PKCS12
-	- **_commandes de OpenSSL_** : puis exploiter l'API Java pour obtenir les éléméents attendus.
+## Configurations de la Sécurité dans l'application 
+Afin de rehausser le niveau de sécurité dans l'application, la sécurité sera aobrdée suivants les points ci-dessous :
+- la sécurité applicative : sécurisé les accès aux ressources de l'application 
+- la sécurité au niveau transport : sécurisé les échanges avec l'application
+
+### Sécurité applicative par **`jeton JWT`**
+Elle consiste à sécuriser les ressources de l'application (donc les accès à celles-ci). Ceci suppose donc de mettre en place dans l'application le mécanisme permettant de produire les jetons d'accès.
+Au lieu d'utiliser le **secret HMAC partagé** pour signer les `jetons JWT`, ceux-ci seront signeés avec des **clés privées/publiques RSA**.
+Ceci, offre l'avantage que le jeton JWT soit généré et signé par une autorité centrale (généralement un serveur d'autorisation). 
+Ainsi, l'application (les services) peut (peuvent) valider les `jetons JWT` à l'aide de la **_clé publique exposée à partir du serveur d'autorisation_**.
+La mise en place de des éléments pour la sécurité applicative peut donc être effectués selon les points suivants :
+- **en ligne de commande** : puis exploiter l'API Java pour recupérer les éléméents attendus. 
+	- **`commandes Keytool et OpenSSL`** : 
+		- Génération du magasin `clés privées/publiques RSA` avec `Ketyool`
+		- Export de la clé publique et du certificat dans un fichier  avec `Ketyool` et `OpenSSL` combinés
+		- Export au format PKCS12  avec `Ketyool`
+	- **`commandes de OpenSSL`** : puis exploiter l'API Java pour obtenir les éléméents attendus.
 		- Génération la `clé privée RSA` 
 		- Extraction la clé publique de la paire de clés, qui peut être utilisée dans un certificat
 - **avec l'outil graphique** : `KeyStore Explorer`
 
-Les détails sur la mise en place et exploitation de ces éléments sont fournis dans le fichier :
+### Sécurité au niveau transport : Activer le support `TLS`
+TODO
+
+Les détails sur la mise en place et exploitation des éléments des configurations de sécurité sont fournis dans le fichier :
 [README](/jwt-auth-web-api-back-end/README.md).
 
 ## Base de données 

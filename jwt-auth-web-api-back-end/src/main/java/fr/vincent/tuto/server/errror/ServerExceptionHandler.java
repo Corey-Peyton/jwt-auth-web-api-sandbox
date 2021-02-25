@@ -33,7 +33,7 @@ import fr.vincent.tuto.common.exception.GenericGlobalExceptionHandler;
 import fr.vincent.tuto.common.model.error.ApiResponseError;
 import fr.vincent.tuto.common.model.payload.GenericApiResponse;
 import fr.vincent.tuto.common.utils.rest.RestUtils;
-import fr.vincent.tuto.server.constants.ServerConstants;
+import fr.vincent.tuto.server.util.ServerUtil;
 
 /**
  * Composant de gestion des erreurs au niveau de l'application.
@@ -47,7 +47,7 @@ public class ServerExceptionHandler<T> extends GenericGlobalExceptionHandler<T>
     @Override
     public ResponseEntity<GenericApiResponse<T>> handleHttpClientErrorException(HttpClientErrorException ex)
     {
-        final ApiResponseError error = new ApiResponseError()//
+        final var error = new ApiResponseError()//
         .status(ex.getStatusCode())//
         .timestamp(LocalDateTime.now(ZoneId.systemDefault()))//
         .details(AppConstants.HTTP_CLIENT_ERROR)//
@@ -66,15 +66,15 @@ public class ServerExceptionHandler<T> extends GenericGlobalExceptionHandler<T>
         if (AuthenticationException.class.isAssignableFrom(ex.getClass()))
         {
             status = HttpStatus.UNAUTHORIZED;
-            detailsMessage = ServerConstants.ACCESS_DENIED;
+            detailsMessage = ServerUtil.ACCESS_DENIED;
         }
         else if (CustomAppException.class.isAssignableFrom(ex.getClass()))
         {
             status = HttpStatus.SERVICE_UNAVAILABLE;
-            detailsMessage = ServerConstants.SERVER_UNAVAILABLE_MSG;
+            detailsMessage = ServerUtil.SERVER_UNAVAILABLE_MSG;
         }
 
-        final ApiResponseError error = new ApiResponseError()//
+        final var error = new ApiResponseError()//
         .status(status)//
         .timestamp(LocalDateTime.now(ZoneId.systemDefault()))//
         .details(detailsMessage)//
@@ -86,7 +86,7 @@ public class ServerExceptionHandler<T> extends GenericGlobalExceptionHandler<T>
     @Override
     public ResponseEntity<GenericApiResponse<T>> handleNotReadableException(Exception ex)
     {
-        final ApiResponseError error = new ApiResponseError()//
+        final var error = new ApiResponseError()//
         .status(HttpStatus.UNPROCESSABLE_ENTITY)//
         .timestamp(LocalDateTime.now(ZoneId.systemDefault()))//
         .details(AppConstants.FORMAT_ERROR)//
@@ -98,7 +98,7 @@ public class ServerExceptionHandler<T> extends GenericGlobalExceptionHandler<T>
     @Override
     public ResponseEntity<GenericApiResponse<T>> handleNoHandlerFoundException(NoHandlerFoundException ex)
     {
-        final ApiResponseError error = new ApiResponseError()//
+        final var error = new ApiResponseError()//
         .status(HttpStatus.BAD_REQUEST)//
         .timestamp(LocalDateTime.now(ZoneId.systemDefault()))//
         .details(String.format(AppConstants.URL_ERROR, ex.getHttpMethod(), ex.getRequestURL()))//
@@ -110,7 +110,7 @@ public class ServerExceptionHandler<T> extends GenericGlobalExceptionHandler<T>
     @Override
     public ResponseEntity<GenericApiResponse<T>> handleConstraintViolationException(ConstraintViolationException ex)
     {
-        final ApiResponseError error = new ApiResponseError()//
+        final var error = new ApiResponseError()//
         .status(HttpStatus.BAD_REQUEST)//
         .timestamp(LocalDateTime.now(ZoneId.systemDefault()))//
         .details(AppConstants.CONTRAINST_VALDATION_ERROR)//
@@ -123,7 +123,7 @@ public class ServerExceptionHandler<T> extends GenericGlobalExceptionHandler<T>
     @Override
     public ResponseEntity<GenericApiResponse<T>> handleNotFoundException(Exception ex)
     {
-        final ApiResponseError error = new ApiResponseError()//
+        final var error = new ApiResponseError()//
         .status(HttpStatus.NOT_FOUND)//
         .timestamp(LocalDateTime.now(ZoneId.systemDefault()))//
         .details(AppConstants.NOT_FOUND_ERROR)//
@@ -135,7 +135,7 @@ public class ServerExceptionHandler<T> extends GenericGlobalExceptionHandler<T>
     @Override
     public ResponseEntity<GenericApiResponse<T>> handleDataIntegrityException(DataIntegrityViolationException ex)
     {
-        final ApiResponseError error = new ApiResponseError()//
+        final var error = new ApiResponseError()//
         .status(HttpStatus.CONFLICT)//
         .timestamp(LocalDateTime.now(ZoneId.systemDefault()))//
         .details(AppConstants.INTEGRITY_ERROR)//
@@ -148,7 +148,7 @@ public class ServerExceptionHandler<T> extends GenericGlobalExceptionHandler<T>
     public ResponseEntity<GenericApiResponse<T>> handleMethodArgumentTypException(MethodArgumentTypeMismatchException ex)
     {
         final String details = String.format(AppConstants.METHOD_ERROR, ex.getName(), ex.getValue(), ex.getRequiredType() + StringUtils.EMPTY);
-        final ApiResponseError error = new ApiResponseError()//
+        final var error = new ApiResponseError()//
         .status(HttpStatus.BAD_REQUEST)//
         .timestamp(LocalDateTime.now(ZoneId.systemDefault()))//
         .details(details)//
@@ -160,7 +160,7 @@ public class ServerExceptionHandler<T> extends GenericGlobalExceptionHandler<T>
     @Override
     public ResponseEntity<GenericApiResponse<T>> handleAccessDeniedException(Exception ex)
     {
-        final ApiResponseError error = new ApiResponseError()//
+        final var error = new ApiResponseError()//
         .status(HttpStatus.UNAUTHORIZED)//
         .timestamp(LocalDateTime.now(ZoneId.systemDefault()))//
         .details(AppConstants.ACCESS_DENIED)//

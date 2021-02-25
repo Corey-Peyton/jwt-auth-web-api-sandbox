@@ -111,8 +111,8 @@ public class LoggingAspectConfig
     @AfterThrowing(pointcut = POINTCUT_VALUES, throwing = "e")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable e)
     {
-        final String type = joinPoint.getSignature().getDeclaringTypeName();
-        final String nomMethode = joinPoint.getSignature().getName();
+        final var type = joinPoint.getSignature().getDeclaringTypeName();
+        final var nomMethode = joinPoint.getSignature().getName();
 
         log.error(AFTER_MSG, type, nomMethode, e.getCause() != null ? e.getCause() : "NULL", e.getMessage(), e);
     }
@@ -127,9 +127,9 @@ public class LoggingAspectConfig
     @Around(AROUND_VALUES)
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable
     {
-        final String typeClasse = joinPoint.getSignature().getDeclaringTypeName();
-        final String nomMethode = joinPoint.getSignature().getName();
-        final Object[] argsMethode = joinPoint.getArgs();
+        final var typeClasse = joinPoint.getSignature().getDeclaringTypeName();
+        final var nomMethode = joinPoint.getSignature().getName();
+        final var argsMethode = joinPoint.getArgs();
 
         log.info(ENTER_MSG, typeClasse, nomMethode, Arrays.toString(argsMethode));
 
@@ -138,7 +138,7 @@ public class LoggingAspectConfig
         try
         {
             clock.start(joinPoint.toString());
-            final Object result = joinPoint.proceed();
+            final var result = joinPoint.proceed();
 
             log.info(EXIT_MSG, typeClasse, nomMethode, result);
             return result;
@@ -154,5 +154,4 @@ public class LoggingAspectConfig
             log.info(PROCESSING_TIME_MSG, clock.prettyPrint());
         }
     }
-
 }

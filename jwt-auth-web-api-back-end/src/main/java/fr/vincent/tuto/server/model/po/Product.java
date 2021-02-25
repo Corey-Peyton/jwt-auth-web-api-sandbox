@@ -32,7 +32,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import fr.vincent.tuto.server.constants.ServerConstants;
+import fr.vincent.tuto.server.util.ServerUtil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -69,31 +69,31 @@ public class Product extends AbstractPersistable<Long> implements Serializable
     @Column(name = "ID", updatable = false, nullable = false)
     private Long id; // identifiant technique auto-généré de l'objet en base.
 
-    @NotNull(message  = ServerConstants.PRODUCT_NAME)
+    @NotNull(message  = ServerUtil.PRODUCT_NAME)
     @Column(name = "NAME", nullable = false)
     private String name; // le nom du produit.
 
-    @NotNull (message = ServerConstants.PRODUCT_DESC)
+    @NotNull (message = ServerUtil.PRODUCT_DESC)
     @Column(name = "DESCRIPTION", nullable = false)
     private String description; // la description du produit.
 
-    @NotNull(message =ServerConstants.PRODUCT_QTY ) 
+    @NotNull(message =ServerUtil.PRODUCT_QTY ) 
     @Column(name = "QUANTITY", nullable = false)
     private Long quantity; // la quantité en stock pour le produit.
 
-    @NotNull(message = ServerConstants.PRODUCT_UNIT)
+    @NotNull(message = ServerUtil.PRODUCT_UNIT)
     @Column(name = "UNIT_PRICE", nullable = false)
     private BigDecimal unitPrice; // le prix unitaire du produit.
 
-    @NotNull(message = ServerConstants.PRODUCT_PRICE) 
+    @NotNull(message = ServerUtil.PRODUCT_PRICE) 
     @Column(name = "PRICE", nullable = false)
     private BigDecimal price; // le prix du produit.
 
-    @NotNull(message = ServerConstants.PRODUCT_ACTIVE )
+    @NotNull(message = ServerUtil.PRODUCT_ACTIVE )
     @Column(name = "IS_ACTIVE", nullable = false)
     private Boolean isActive; // indique si le produit est actif/disponible ou non
 
-    @NotNull(message = ServerConstants.PRODUCT_IMG)
+    @NotNull(message = ServerUtil.PRODUCT_IMG)
     @Column(name = "IMAGE_URL", nullable = false)
     private String imageUrl;
 

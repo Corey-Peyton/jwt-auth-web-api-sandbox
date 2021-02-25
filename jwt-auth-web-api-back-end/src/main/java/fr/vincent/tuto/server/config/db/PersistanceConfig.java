@@ -82,7 +82,7 @@ public class PersistanceConfig
         try
         {
             // les propréités de la datasourece à construire
-            final DataSourceProperties sourceProperties = new DataSourceProperties();
+            final var sourceProperties = new DataSourceProperties();
 
             //
             sourceProperties.setUrl(this.databasePropsService.getDataSourceProps().getJdbcUrl().trim());
@@ -191,7 +191,7 @@ public class PersistanceConfig
         final String unitName = this.databasePropsService.getDataSourceProps().getPersistenceUnitName().trim();
 
         //
-        LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
+        final var emf = new LocalContainerEntityManagerFactoryBean();
         emf.setDataSource(this.dataSource());
         emf.setPersistenceUnitName(unitName);
         emf.setPackagesToScan(packageScan);
@@ -215,7 +215,7 @@ public class PersistanceConfig
     @Bean(name = "sharedEntityManager")
     public SharedEntityManagerBean sharedEntityManager() throws CustomAppException
     {
-        final SharedEntityManagerBean sharedEntityManagerBean = new SharedEntityManagerBean();
+        final var sharedEntityManagerBean = new SharedEntityManagerBean();
         sharedEntityManagerBean.setEntityManagerFactory(this.entityManagerFactory().getObject());
         sharedEntityManagerBean.afterPropertiesSet();
         return new SharedEntityManagerBean();
@@ -231,7 +231,7 @@ public class PersistanceConfig
     public PlatformTransactionManager transactionManager()
     {
         //
-        final JpaTransactionManager txManager = new JpaTransactionManager();
+        final var txManager = new JpaTransactionManager();
 
         txManager.setDataSource(this.dataSource());
         txManager.setEntityManagerFactory(entityManagerFactory().getObject());
@@ -252,7 +252,7 @@ public class PersistanceConfig
     {
         //
         final String databasePlatform = this.databasePropsService.getJpaHibernateProps().getDatabaseName().trim();
-        final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        final var vendorAdapter = new HibernateJpaVendorAdapter();
 
         vendorAdapter.setDatabasePlatform(databasePlatform);
         vendorAdapter.setGenerateDdl(this.databasePropsService.getJpaHibernateProps().getGenerateDdl());
@@ -320,7 +320,7 @@ public class PersistanceConfig
     private Properties additionalProperties()
     {
         // Create object and put retrieve properties
-        Properties properties = new Properties();
+        final var properties = new Properties();
 
         //
         properties.put(AvailableSettings.HBM2DDL_AUTO, this.databasePropsService.getJpaHibernateProps().getDdlAuto().trim());
