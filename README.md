@@ -92,9 +92,9 @@ Le fonctionnement global de l'application est fourni par des vues macroscopiques
 
 |Use Case|Description succincte |
 |---|---|
-|`Ajouter un nouvel utilisateur`|_permet de persister/sauvegarder les informations d'un nouvel utilisateur dans le système d'informations_|
-|`S'Authentifier` (_Se Connecter à l'application_)|_permet au client (utilisateur) de fournir les informations pour_ `authentification par le système d'informations`|
-|`Accéder aux ressources de l'application`|_Il est composé principalement de deux phases : <ul><li>La demande et obtention des jetons d'accès (phase d'authentification : voir use case du dessus)</li><li>L'accès proprement dit aux ressources de l'application (produits, outils, services,... ) avec le jeton d'accès obtenu de la phase d'authentification</li></ul>_|
+|**`Ajouter un nouvel utilisateur`**|_permet de persister/sauvegarder les informations d'un nouvel utilisateur dans le système d'informations_|
+|**`S'Authentifier`** (_Se Connecter à l'application_)|_permet au client (utilisateur) de fournir les informations pour_ `authentification par le système d'informations`|
+|**`Accéder aux ressources`** : `Cas affichier la liste de produits existant dans le SI`|_Il est composé principalement de deux phases : <ul><li>La demande et obtention des jetons d'accès (phase d'authentification : voir use case du dessus)</li><li>L'accès proprement dit aux ressources de l'application (produits, outils, services,... ) avec le jeton d'accès obtenu de la phase d'authentification</li></ul>_|
 
 ### Ajouter un nouvel utilisateur dans le SI
 L'ajout ou la persistance des informations d'un nouvel utilisateur dans le système d'informations est présenté par le diagramme de séquences ci-dessous (`PlantUML` au format .md) :
@@ -276,24 +276,142 @@ deactivate User
 @enduml
 ```
 
-### Accéder aux ressources de l'application
+### Accéder aux ressources de l'application - Cas : Afficher la liste des produits existant dans le SI
 Ce cas d'utlisation comporte principalement les deux phases suivantes :
 - La demande et obtention des jetons d'accès (phase d'authentification : voir use case du dessus)
 - L'accès proprement dit aux ressources de l'application (produits, outils, services,... ) avec le jeton d'accès obtenu de la phase d'authentification.
 
 Son fonctionnement global est fourni par le diagramme de séquences ci-dessous (`PlantUML` au format .md) :
-![DS](./docs/images/fonct-global-acces_resources-protegees.png "Diagramme de séquences du fonctionnement global Accès aux ressources")
-
 
 ```plantuml
 @startuml
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+' Déclaration des participants (acteurs)
+actor User #Pink
+participant Client #Yellow
+participant Serveur #SkyBlue
+database BDD #Gray
+
+' Déclaration des enchainements des séquences des traitements du cas : Afficher la liste de produits esistant dans le SI
+autonumber
+User -[#black]> Client : Demander liste de produits 
+activate User
+activate Client
+Client -[#black]> Serveur : Call API : GET /api/product/all : (sans en-têtes d'autorisation)
+activate Serveur 
+autonumber stop
+Serveur -[#red]> Client : 401 Unauthorized (erreur authentification)
+deactivate Serveur
+Client -[#red]> User : Remonter le message d'erreurs associé avec le code statut HTTP
+autonumber 3
+Client -[#black]> Client : Rediriger ves la page d'authentification (connexion)
+Client -[#black]> User : Page d'authentification (saisie)
+deactivate Client
+
+' Saisie des informations d'authentification et traitements
+User -[#black]> Client : Sasir les informations d'authentification (username,password)
+activate Client
+deactivate User
+Client -[#black]> Client : Valider la saisie (informations authentification)
+Client -[#black]> Serveur : Call API : POST /api/auth/authenticate : (username, password)
+activate Serveur
+Serveur -[#black]> BDD : Valider les informations d'identification (utilisateur)
+activate BDD
+BDD -[#black]> BDD : Rechercher credentails dans la table (T_USERS)
+autonumber stop
+BDD -[#red]> Serveur : SQL/DAOException
+deactivate BDD
+Serveur -[#red]> Client : Construire/Remonter le message d'erreurs avec le code statut HTTP
+deactivate Serveur
+Client -[#red]> User : Remonter le message d'erreurs associé avec le code statut HTTP
+activate User
+deactivate Client
+deactivate User
+
+' Traitement de la réponse en cas d'opération effectuée avec succès en base de données
+autonumber 10
+BDD -[#black]> Serveur : Retourner les informations d'identification ( No Exception)
+activate BDD
+deactivate BDD
+activate Serveur
+Serveur -[#black]> Serveur : Générer et Stocker le token JWT (paire de clés RSA)
+Serveur -[#black]> Client : Retourner la réponse Authentification ( accesToken, tokenType, ..)
+
+' Ajout de commentaires
+note left of Client
+{
+"access_token":"e6631caa-bcf9-433c-8e54-3511fa55816d",
+"token_type":"bearer",
+"username":"user1",
+"email": "user1@user.com",
+"password": "user1123456789",
+"roles":["user"]
+}
+end note
+
+activate Client
+Client -[#black]> Client : Stocker les informations du jeton (JWT)
+Client -[#black]> Serveur : Call API : GET /api/product/all : (Headers {Authorization : "bearer xx-yy-zz-rr-tt"})
+Serveur -[#black]> Serveur : Vérifier/Valider la signature JWT (jeton)
+deactivate Client
+Serveur -[#black]> BDD : Obtenir les informations d'identification (utilisateur)
+deactivate Serveur
+activate BDD 
+BDD -[#black]> BDD : Rechercher credentails dans la table (T_USERS)
+autonumber stop
+BDD -[#red]> Serveur : SQL/LoginException/EmailException
+deactivate BDD
+activate Serveur
+Serveur -[#red]> Client : Construire/Remonter le message d'erreurs avec le code statut HTTP
+deactivate Serveur
+activate Client 
+Client -[#red]> User : Remonter le message d'erreurs associé avec le code statut HTTP
+activate User
+deactivate User
+deactivate Client
+autonumber 18
+BDD -[#black]> Serveur : 19 - Retourner les informations (utilisateur OK)
+activate BDD
+deactivate BDD
+activate Serveur
+deactivate User
+Serveur -[#black]> Serveur : Préparer la requête recherche liste des produits 
+Serveur -[#black]> BDD : Call BDD  GetAlll(données des porduits existant en base de données)
+activate BDD
+BDD -[#black]> BDD : Rechercher credentails dans la table (T_PRODUCTS)
+autonumber stop
+BDD -[#red]> Serveur : SQL/DAOException
+deactivate BDD
+Serveur -[#red]> Client : Construire/Remonter le message d'erreurs avec le code statut HTTP
+deactivate Serveur
+activate Client
+Client -[#red]> User : Remonter le message d'erreurs associé avec le code statut HTTP
+activate User
+deactivate User
+deactivate Client
+
+' Traitement du retour OK de la base de données
+autonumber 22
+BDD -[#black]> Serveur : Réponse recherche OK (Pas d'Exception)
+activate BDD
+deactivate BDD
+activate Serveur
+Serveur -[#black]> Serveur : Préparer la réponse à retourner (basée sur les autorités)
+
+' Ajout de commentaires
+note right of Serveur 
+Authentifier
+Autoriser en utilisant les autorités de l'utilisateur
+end note
+
+Serveur -[#black]> Client : Retourner les informations des produits (liste des produits:[])
+deactivate Serveur 
+activate Client
+Client -[#black]> User : Afficher la liste des produits (code statut HTTP)
+activate User
+deactivate Client
+deactivate User
 @enduml
 ```
-
 
 ## Modèles et Schémas de données
 Les modèles fournis sont relatifs au *_*métier_**. Le diagramme de classes ci-dessous présente les relations entre les entités de gestion de la partie métier de l'application.
@@ -335,7 +453,7 @@ Une liste non exhaustive des technos utilsées pour le développment de cette ap
 - `Flyway` pour la migration de bases de données.
 - `EhCache` pour optimiser les accès aux données.
 - `Angular` pour le développment de l'interface utilisateur (le Clent Web).
-- `Docker` pour la containerisation.
+- `Docker` pour la conteneurisation des services/ de l'application
 - `Lombok` pour générer du code couramment utilisé et faciliter le maintien du code source propre, simplifier l'écriture des classes.
 - `Keytool/OpenSSL` pour la génération du magasin des `clés privées/publiques RSA`, export de la clé publique et du certificat dans des fichiers pour exploitation autraversde l'API Java dédiée. 
 - `Swagger 3.0.0 /OpenAPI` pour la documentation et tests de l'API.
@@ -414,7 +532,6 @@ Le tableau ci-dessous dresse une liste des outils disponibles pour la réalisati
 |`Postman`|_pour tester les fonctionnalités exposées par les API_|
 |`JaCoCo`|_Plugin maven (avec les plugin surefire et failsafe) pour produire/fournir les rapports de couverture de codes_|
 |`Swagger`|_Pour générer la documentation et Tester les REST API_|
-
 
 Les outils de tests proposés ou utilisées sont les suivants :
 - Outils de Tests de Spring Framework (spring-boot-starter-test) qui intègre:
