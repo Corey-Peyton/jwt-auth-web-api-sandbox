@@ -6,14 +6,14 @@
 ## Sécurité applicative
 Le point qui est abordé ici est l'utilisation des outils `Keytool` et `OpenSSL` pour produire les éléments nécessaires à exploiter pour **signer/valider** 
 les `jetons JWT` avec des **clés privées/publiques RSA**. La démarche à suivre est l'une des options présentées ci-dessous :
-- **`Keytool`** et **`OpenSSL`** : utilisation combinée des commandes de `Keytool` et `OpenSSL`, puis exploiter l'API Java dédiée.
-	- Génération du magasin clés privées/publiques RSA avec Keytool
-	- Export de la clé publique et du certificat dans un fichier  avec `Keytool` et `OpenSSL` combinés
-	- Export du certificat dans un fichier
-	- Export au format PKCS12  avec Keytool
+- **`Keytool`** et **`OpenSSL`** : utilisation combinée des commandes de _Keytool_ et _OpenSSL_, puis exploiter l'API Java dédiée.
+	- Générer le magasin des clés privées/publiques RSA avec Keytool
+	- Exporter la clé publique et le certificat X509 dans un fichier  avec _Keytool_ et _OpenSSL_ combinés
+	- Exporter le certificat X509 dans un fichier avec _Keytool_ 
+	- Exporter au format PKCS12  avec _Keytool_ 
 - **`OpenSSL`** : puis exploiter l'API Java pour obtenir les éléments attendus.
-	- Génération la clé privée RSA 
-	- Extraction la clé publique de la paire de clés, qui peut être utilisée dans un certificat
+	- Générer la clé privée RSA 
+	- Extraire la clé publique de la paire de clés, qui peut être utilisée dans un certificat
 
 **NB** : 
 - L'option choisie ici est `la première`, la seconde étant fournie à titre de documentation.
@@ -29,18 +29,18 @@ $ keytool -genkeypair -alias my-app-recette -keyalg RSA -keysize 4096 -keystore 
 $ keytool -genkeypair -dname "CN=server.tuto.vincent.fr,OU=IT,O=OVIOK Group,L=ANTIBES,S=ALPES MARITIMES,C=FR" -alias my-app-recette -keyalg RSA -keysize 4096 -keypass <valeur_alias> -validity 3650 -storetype JKS -keystore my-app-recette-keystore.jks -storepass <valeur_alias> -file my-app-recette-keystore.jks
 ```
 
-- _Exporter la clé publique et le certificat dans un fichier_
+- _Exporter la clé publique et le certificat X509 dans un fichier_
 ```bash
 # L'export de la clé publique et du certificat dans un fichier à partir du JKS est effectué par la commande suivante
 $ keytool -list -rfc --keystore my-app-recette-keystore.jks | openssl x509 -inform pem -pubkey -out my-app-recette.txt
 Enter keystore password:  <valeur_keypass>
 ```
 
-- _Exporter le certificat dans un fichier_
+- _Exporter le certificat X509 dans un fichier_
 
 Pour ce faire, on peut soit :
-	- exploiter le fichier contenant la clé publique et le certificat généré ci-dessus
-	- faire un export à partir du magasin des clés (Keystore) généré ci-dessus
+- exploiter le fichier contenant la clé publique et le certificat généré ci-dessus
+- faire un export à partir du magasin des clés (Keystore) généré ci-dessus
 ```bash
 # Exploitation du fichier : il faut copier le bloc 'CERTIFICATE' dans un fichier et l'enregistrer sous le nom : my-app-recette.crt 
 
@@ -51,8 +51,8 @@ $ keytool -exportcert -alias my-app-recette -file  my-app-recette.crt -keystore 
 - _Exporter au format PKCS12_
 
 Il est recommandé d'utiliser le format PKCS12 qui est un format standard de l'industrie. Ainis, pour obtenir les informations au format PKCS12, on peut :
-	- Créer le magasin .p12 par import des informations du JKS
-	- Générer directement le magasin .p12
+- Créer le magasin .p12 par import des informations du JKS
+- Générer directement le magasin .p12
 ```bash
 # 1°) - Import des informations du JKS
 # Avec le mot de passe de la source --> Confirmer avec le mot de passe de la clé privée : <valeur_keypass>
