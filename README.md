@@ -1,34 +1,38 @@
 # Secure Web REST API (Products Management)    
 
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?branch=develop)
+![Code Coverage](https://img.shields.io/github/languages/code-size/samson06/labs-tests-technique)
+
+![Build Status](https://travis-ci.org/oviok-group/jwt-auth-web-api-sandbox.svg?branch=develop)](https://travis-ci.org/oviok-group/jwt-auth-web-api-sandbox) 
+
 
 # A Propos
 **`My Products`** est une application Web sécurisée de gestion de produits avec leur catégorie (**`service Web RESTFul Sécurisé`**) écrit en **Java** et embarque **Spring** 
-avec d'autres technologies :
-- non seulement pour faciliter l'intégration des différents composants applicatifs (traduire en lignes de codes l'expression des besoins : `gérer les produits`, `gérer les catégories de produits`, ...), 
+avec d'autres technologies pour :
+- non seulement faciliter l'intégration des différents composants applicatifs (traduire en lignes de codes l'expression des besoins : `gérer les produits`, `gérer les catégories de produits`, ...), 
 - mais également assurer la gesion de la `sécurité applicative` (sécuriser le SI donc les ressources et les échanges).
 
 Il comporte principalement deux modules :
 - un **Back-End Java** , basée sur une architecture **`REST`** et embarquant :
 	- _les exigences fonctionnelles ou métier_, 
 	- _les exigences non fonctionnelles_. 
-- un **Front-End Angular** (`Client Web`) fournissant les interfaces utilisateur pour faciliter la consommation des fonctionnalités exposées par le Back-End Jzvz (le serveur).
+- un **Front-End Angular** (`Client Web`) fournissant les interfaces utilisateur pour consommer les fonctionnalités exposées par le Back-End Java (le serveur).
 
 **NB** :
 - _Les données/informations sont stockées dans une base de données relationnelles_.
 - Voir la section **`Exigences`** pour plus de détails sur les fonctionnalités embarquées.
-- Voir la section **`Stack Technique`** pour plus de détails sur l'ensemble des technos utilisées dans cette application.
+- Voir la section **`Stack Technique`** pour plus de détails sur l'ensemble des technos utilisées pour le développment de l'application.
 - **SI** : **S**ystème d'**I**nformations.	
 
 	
 # Spécifications 
 Dans cette section, quelques éléments sont fournis pour faciliter la compréhension du besoin et les réalisations techniques à venir.
-Les élements des processus de gestion : **`autorisation, authentication et sécurisation des ressources`** (de l'application), seront mis en place à partir des spécifications
-**JWT** avec **Spring Security**. 
+Les élements des processus de gestion : **`autorisation, authentication et sécurité applicative`**, seront mis en place à partir des spécifications
+**JWT** et **Spring Security**. 
 Les échanges se feront principalement entre le client (`front-end`) et le serveur (`back-end Java`). Les éléments ci-dessous sont fournis dans le cadre cette spécification :
 - Une brève présentation de **`JWT`** 
 - Le diagramme d'architecture applicative et technique
-- Les diagrammes de séquences du fonctionnement global des points suivants :
+- Les diagrammes de séquences du fonctionnement global de quelques cas d'utilisation :
 	- _Ajouter un nouvel utilisateur avec ses rôles dans le système d'information_,
 	- _Gérer la production/fourniture de jetons d'accès lorsque les utilisateurs se connectent à l'application_,	
 	- _Accès aux resources (protégées) de l'application : fournir le jeton d'accès dans l'en-tête de la requête lors de la demande d'informations_.
@@ -41,7 +45,8 @@ Les échanges se feront principalement entre le client (`front-end`) et le serve
 - **J**SON **W**eb **S**ignature (`JWS`) ou 
 - **J**SON **W**eb **E**ncryption (`JWE`).
 
-Les **`JWT`** contiennent les informations nécéssaires pour aider au stockage de la **`session utilisateur`**, etc. **`JWT`** peut être aussi choisi comme format pour les jetons d'accès et d'actualisation utilisés dans le protocole `OAuth2`.
+Les **`JWT`** contiennent les informations nécéssaires pour aider au stockage de la **`session utilisateur`**, etc. **`JWT`** peut être aussi choisi comme format pour les jetons d'accès et d'actualisation
+utilisés dans le protocole **`OAuth2`**.
 
 ## Les Exigences 
 
@@ -52,16 +57,17 @@ Le tableau ci-dessous fournit une liste non exhaustive des exigences fonctionnel
 |**Gestion des utilisateurs**|_<ul><li>Se Connecter/Déconnecter de l'application</li><li>Ajouter de nouveaux utilisateurs dans le SI avec leurs rôles</li><li>Mettre à jour les informations d'un utilisateur existant</li><li>Supprimer les informations de l'utilisateur du SI</li><li>Rechercher les informations d'un utilisateur dans le SI selon son identifiant</li><li>Obtenir la liste des utilisateurs du système</li></ul>_| 
 |**Gestion des produits**|_<ul><li>Ajouter les informations de nouveaux produits dans le SI</li><li>Mettre à jour les informations d'un produit existant dans le SI</li><li>Supprimer les informations d'un produit du SI</li><li>Rechercher les informations d'un produit dans le SI selon son identifiant</li><li>Obtenir la liste des produits du système</li><li>Obtenir la liste filtrée de produits dont le nom `match` avec le `pattern` fourni</li></ul>_|
 |**Gestion des catégories de produits**|_<ul><li>Ajouter de nouvelles catégories de produits dans le SI</li><li>Mettre à jour les informations d'une catégorie de produits dans le SI</li><li>Supprimer les informations d'une catégorie de produits du SI</li><li>Rechercher les informations d'une catégorie de produits dans le SI</li><li>Obtenir la liste des catégories de produits du SI</li><li>Obtenir la liste filtrée de catégories de produits dont le nom de produit `match` avec le `pattern` fourni</li></ul>_|
-|**Gestion de la Sécurité**|_<ul><li>Gérer l'Authentification : permet de confirmer ou valider l'identité du client/l’utilisateur qui tente d’accéder au système d'informations</li><li>Gérer l'Autorisation (protection des ressources) : permet d’octroyer au client/l’utilisateur l’accès au système d’informations, donc aux ressources de l'application</li></ul>_|
+|**Gestion de la Sécurité dans l'application**|_<ul><li>`Authentification` : permet de confirmer ou valider l'identité du client/l’utilisateur qui tente d’accéder au système d'informations</li><li>`Autorisation` (protection des ressources) : permet d’octroyer au client/l’utilisateur l’accès au système d’informations, donc aux ressources de l'application</li></ul>_|
 
 ### Les exigences non fonctionnelles 
+Les exigences non fonctionnelles sont plutôt d'ordre technique, mais elles participent à l'implémentation des besoins exprimés et au bon focntionnement de l'application. 
 Le tableau ci-dessous dresse une liste non exhaustive des exigences non fonctionnelles de l'application.
 |Type Exigence|Fonctionnalités|
 |---|---|
-|**Exigences non fonctionnelles**|_<ul><li>Gérer les logs</li><li>Gérer les erreurs/exceptions</li><li>Gérer les accès à la base de données</li><li>Gérer la migration des scripts de base de données (création de schémas, insertion, mise à jour de tables ou de données ...) avec **Flyway**</li></ul>_|
+|**Exigences non fonctionnelles**|_<ul><li>Gérer les logs</li><li>Gérer les erreurs/exceptions</li><li>Gérer les accès à la base de données</li><li>Gérer la migration des scripts de base de données (création de schémas, insertion, mise à jour de tables ou de données ...) avec **`Flyway`**</li></ul>_|
 
 ### Le Client (Front-end)
-A la lumière de tout ce qui est présenté ci-dessus, l'interface utilisateur doit permettre selon ses rôles dans l'application (les droits de l'utilisateurs) :
+L'interface utilisateur permet selon ses rôles définis dans l'application (les droits de l'utilisateurs) :
 - **`Gestion des utilisateurs`** :
 	- _Se Connecter/Déconnecter de l'application_,
 	- _Ajouter/Inscrire un nouvel utilisateur dans le SI_,
@@ -80,30 +86,98 @@ A la lumière de tout ce qui est présenté ci-dessus, l'interface utilisateur d
 	- _Réchercher les informations d'un produit (soit par son identifiant, par son nom, ...)_,
 	- _Supprimer du SI les inforamtions d'un produit_.
 
-## Architecture Applicative et Technique Globale 
+## Architecture Technique et Applicative Globale 
 Le diagramme ci-dessous fournit une vision globale des flux d'échanges entre l'application et les acteurs du système et(ou) briques/composants applicatifs.
-L'architecture applicative et technique comporte les éléments suivants :
-- le **`Back-End`** qui embarque les différents composants permettant d'implémenter toute la logique métier de l'application
+L'architecture technique et applicative comporte les éléments suivants :
+- le **`Back-End`** environnement d'exécution qui embarque les différents composants permettant d'implémenter toute la logique métier de l'application
 - le **`Front-End`** : interface utlisateur avec les différents composants permettant d'effectuer/faciliter les échanges avec le back-end Java.
-- le **`SGBDR`** : pour le stockage et la persistance des informations métiers de l'application.
+- le **`Base de Données`** : environnement d'exécution qui spécifie les configurations de SGBDR fournies pour la persistance, le stockage des informations métiers de l'application.
 
-![DAAT](./docs/images/architecture-applicative-technique-globale.png "Diagrammme Architecture Applicatif et Technique")
+Il est fourni par le diagramme ci-dessous (`PlantUML` au format markdown) :
 
 ```plantuml
+@startuml
+' Défintion des acteurs
+actor User #red
 
+' Défintion du serveur Front-End dans l'architecture (le noeud)
+package "Client (Front-End Angular)" as Client  {
+[Routeur]  .> [Components/Templates] : uses
+[Components/Templates] <.> [Services] : exchange
+[Services] <.> [HTTP Client] : exchange
+}
+
+' Défintion des couleurs des composants du serveur
+[Routeur] #Pink
+[Components/Templates] #fdad5c
+[Services] #skyblue
+[HTTP Client] #lightgreen
+
+' Défintion du serveur Back-End dans l'architecture (le noeud)
+node "Server (Back-End)" as Server  <<Execution Environnement>> {
+[REST API Controller] ..> [Web Security Config] : uses
+[Web Security Config] ..> [REST API Controller] : secure
+[Web Security Config] ..> [Services Provider] : secure
+[REST API Controller] ..> [Services Provider] : uses
+[REST API Controller] ..> [Model/DTO] : uses
+[Services Provider] ..> [Model/DTO] : uses
+[DAO (Spring Data Jpa)] ..> [Model/DTO] : uses
+[DAO (Spring Data Jpa)] ..> [ServerUtil] : uses
+[Services Provider] ..> [ServerUtil] : uses
+[REST API Controller] ..> [ServerUtil] : uses
+[Services Provider] .> [DAO (Spring Data Jpa)] : uses
+}
+
+' Défintion des couleurs des composants du serveur
+[REST API Controller] #Yellow
+[Web Security Config] #fdad5c
+[Services Provider] #Pink
+[DAO (Spring Data Jpa)] #skyblue
+[Model/DTO] #lightgreen
+[ServerUtil] #teal
+
+' Défintion de la base de données dans l'architecture
+node "Base de Données" as BDD <<Execution Environnement>> {
+database "H2" #Yellow
+database "MariaDB" #Green
+database "PostgreSQL" #Gray
+}
+
+' Ajout de commentaires
+note left of Client
+- Récupérer les informations du formulaire
+- Valider les informations/les saisies
+- Soumettre à nouveau le formulaire pour correction de saisies effectuées
+- Construire la requête avec les informations du jeton JWT
+end note
+
+' Ajout de commentaires
+note right of Server 
+- Traiter la requête selon la demande 
+- Générer le jeton JWT/ Construire la réponse à la demande
+- Retourner le jeton JWT et informations d'authentification
+end note
+
+' Définition des interactions entres les composants de l'architecture
+User --> Client : Effectuer une demande (S'inscrire,Se Connecter,..)
+Client--> User : Afficher les détails (données, erreurs)
+Client  --> [REST API Controller] :  Call API
+[REST API Controller] --> Client   :  Retour Call API
+[DAO (Spring Data Jpa)] <--> BDD : Rechercher - Sauvegarder - Mettre à jour données en base
+@enduml
 ```
 
 ## Fonctionnement global - Les USe Case
-Le fonctionnement global de l'application est fourni par des vues macroscopiques aux travers de `diagrammes de séquences` des cas d'utilisation (`use case`) présenté dans le tableau ci-dessous :
+Le fonctionnement global de l'application est fourni aux travers de `diagrammes de séquences` des cas d'utilisation (`use case`) présenté dans le tableau ci-dessous :
 
 |Use Case|Description succincte |
 |---|---|
 |**`Ajouter un nouvel utilisateur`**|_permet de persister/sauvegarder les informations d'un nouvel utilisateur dans le système d'informations_|
 |**`S'Authentifier`** (_Se Connecter à l'application_)|_permet au client (utilisateur) de fournir les informations pour_ `authentification par le système d'informations`|
-|**`Accéder aux ressources`** : `Cas affichier la liste de produits existant dans le SI`|_Il est composé principalement de deux phases : <ul><li>La demande et obtention des jetons d'accès (phase d'authentification : voir use case du dessus)</li><li>L'accès proprement dit aux ressources de l'application (produits, outils, services,... ) avec le jeton d'accès obtenu de la phase d'authentification</li></ul>_|
+|**`Accéder aux ressources`** : _Cas affichier la liste de produits existant dans le SI_|_Il est composé principalement de deux phases : <ul><li>La demande et obtention des jetons d'accès (phase d'authentification : voir use case du dessus)</li><li>L'accès proprement dit aux ressources de l'application (produits, outils, services,... ) avec le jeton d'accès obtenu de la phase d'authentification</li></ul>_|
 
 ### Ajouter un nouvel utilisateur dans le SI
-L'ajout ou la persistance des informations d'un nouvel utilisateur dans le système d'informations est présenté par le diagramme de séquences ci-dessous (`PlantUML` au format .md) :
+L'ajout ou la persistance des informations d'un nouvel utilisateur dans le système d'informations est présenté par le diagramme de séquences ci-dessous (`PlantUML` au format markdown) :
 
 ```plantuml
 @startuml
@@ -124,15 +198,7 @@ User -[#black]> Client : Saisie des informations  (username, paswword, email, ro
 activate Client
 Client -[#black]> Client : Valider les informations du formulaire (check saisie)
 autonumber stop
-' Client  -[#red]> User  : Erreur saisie (saisie non valide)
-
-' Outgoing 
-' Outgoing version courte bidirectionnelle
-'?<-[#red]> Client : ""Erreur saisie (saisie non valide)""
-' Outgoing version courte unidirectionnelle
 ?<[#red]-- Client  : ""Erreur saisie (saisie non valide)""
-' Outgoing version longue
-'[<[#red]- Client : ""[Erreur saisie (saisie non valide)""
 
 autonumber 6
 Client -[#black]> Serveur : Call API : POST /api/auth/register : (username, email, password, roles)
@@ -197,7 +263,7 @@ deactivate BDD
 ``` 
 
 ### S'Authentifier
-Le fonctionnement global de la phase d'authentification du client (valider/confirmer les informations d'identification) par le système d'informations est présenté par le diagramme de séquences ci-dessous (`PlantUML` au format .md) :
+Le fonctionnement global de la phase d'authentification du client (valider/confirmer les informations d'identification) par le système d'informations est présenté par le diagramme de séquences ci-dessous (`PlantUML` au format markdown) :
 
 ```plantuml
 @startuml
@@ -287,7 +353,7 @@ Ce cas d'utlisation comporte principalement les deux phases suivantes :
 - La demande et obtention des jetons d'accès (phase d'authentification : voir use case du dessus)
 - L'accès proprement dit aux ressources de l'application (produits, outils, services,... ) avec le jeton d'accès obtenu de la phase d'authentification.
 
-Son fonctionnement global est fourni par le diagramme de séquences ci-dessous (`PlantUML` au format .md) :
+Son fonctionnement global est fourni par le diagramme de séquences ci-dessous (`PlantUML` au format markdown) :
 
 ```plantuml
 @startuml
@@ -526,7 +592,7 @@ Category "- category" o-- "- products" Product
 ```
 
 # Stack Technique
-Une liste non exhaustive des technos utilsées pour le développment de cette application :
+Une liste non exhaustive des technos utilsées pour le développement de cette application :
 
 ![](https://img.shields.io/badge/Java_11-✓-blue.svg)
 ![](https://img.shields.io/badge/Maven_3-✓-blue.svg)
@@ -536,8 +602,6 @@ Une liste non exhaustive des technos utilsées pour le développment de cette ap
 ![](https://img.shields.io/badge/JWT-✓-blue.svg)
 ![](https://img.shields.io/badge/Jpa_2-✓-blue.svg)
 ![](https://img.shields.io/badge/Hibernate_5-✓-blue.svg)
-![](https://img.shields.io/badge/H2-✓-blue.svg)
-![](https://img.shields.io/badge/MariaDB-✓-blue.svg)
 ![](https://img.shields.io/badge/PostgreSQL_10+-✓-blue.svg)
 ![](https://img.shields.io/badge/Junit_5-✓-blue.svg)
 ![](https://img.shields.io/badge/Model_Mapper-✓-blue.svg)
@@ -547,14 +611,12 @@ Une liste non exhaustive des technos utilsées pour le développment de cette ap
 ![](https://img.shields.io/badge/Swagger_3.0_/OpenAPI-✓-blue.svg)
 ![](https://img.shields.io/badge/EhCache-✓-blue.svg)
 ![](https://img.shields.io/badge/Lombok-✓-blue.svg)
-![](https://img.shields.io/badge/SonarLint-✓-blue.svg)
-![](https://img.shields.io/badge/JaCoCo-✓-blue.svg)
 ![](https://img.shields.io/badge/PlantUML-✓-blue.svg)
 
-- C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage `Java` : 
+C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage `Java` : 
 - **`PlantUML`** avec intégration de `StarUML` pour la production au format markdown des éléments de modélisation et conception des spécifications techniques fournies.
 - **`Java 11`** est utilisé pour la compilation et cible pour l'environnement d'exécution.
-- **`Spring Security`**, `JWT`, pour sécuriser les échanges (production de jetons, authentification et autorisation).
+- **`Spring Security`**, **`JWT`**, pour sécuriser les échanges (production de jetons, authentification et autorisation).
 - **`AOP`** pour la séparation des préoccupations transversales dans l'application. Ici, il s'agit de la journalisation dans le couches applicatives : `le logging`
 - **`JPA / Hibernate`** pour les concepts ORM et DAO.
 - **`H2`**, **`MariaDB`**, **`PostgreSQL`** configurations pour les accès aux données en base et pour la réalisation de TI (`_Tests d'Intégration_` : système)
@@ -573,25 +635,25 @@ de codes et fournit des rapports détaillés de l'analyse de la couverture.
 
 
 # Configurations
-Les configurations de l'application permettent de faciliter aussi bien le démarrage et exécution que l'exploitation de celle-ci.
+Les configurations de l'application permettent de faciliter aussi bien le démarrage, l'exécution que l'exploitation de celle-ci.
 
 ## Configurations de la Sécurité dans l'application 
-Afin de rehausser le niveau de sécurité dans l'application, la sécurité sera aobrdée suivants les points ci-dessous :
-- la sécurité applicative : sécurisé les accès aux ressources de l'application 
-- la sécurité au niveau transport : sécurisé les échanges avec l'application
+Afin de rehausser le niveau de sécurité dans l'application, celle-ci sera abordée selon les points ci-dessous :
+- **`la sécurité applicative`** : sécurisé les accès aux ressources de l'application 
+- **`la sécurité au niveau transport`** : sécurisé les échanges avec l'application
 
 ### Sécurité applicative par **`jeton JWT`**
-Elle consiste à sécuriser les ressources de l'application (donc les accès à celles-ci). Ceci suppose donc de mettre en place dans l'application le mécanisme permettant de produire les jetons d'accès.
-Au lieu d'utiliser le **secret HMAC partagé** pour signer les `jetons JWT`, ceux-ci seront signeés avec des **clés privées/publiques RSA**.
+Elle consiste à _sécuriser les ressources_ de l'application (donc les accès à celles-ci). Ceci suppose donc de mettre en place dans l'application le mécanisme permettant de produire les `jetons d'accès`.
+Ainsi, au lieu d'utiliser le **secret HMAC partagé** pour signer les `jetons JWT`, ceux-ci seront signeés avec des **clés privées/publiques RSA**.
 Ceci, offre l'avantage que le jeton JWT soit généré et signé par une autorité centrale (généralement un serveur d'autorisation). 
 Ainsi, l'application (les services) peut (peuvent) valider les `jetons JWT` à l'aide de la **_clé publique exposée à partir du serveur d'autorisation_**.
 La mise en place de des éléments pour la sécurité applicative peut donc être effectués selon les points suivants :
 - **en ligne de commande** : puis exploiter l'API Java pour recupérer les éléméents attendus. 
-	- **`commandes Keytool et OpenSSL`** : 
+	- **`Keytool et OpenSSL`** : 
 		- Génération du magasin `clés privées/publiques RSA` avec `Ketyool`
 		- Export de la clé publique et du certificat dans un fichier  avec `Ketyool` et `OpenSSL` combinés
 		- Export au format PKCS12  avec `Ketyool`
-	- **`commandes de OpenSSL`** : puis exploiter l'API Java pour obtenir les éléméents attendus.
+	- **`OpenSSL`** : puis exploiter l'API Java pour obtenir les éléméents attendus.
 		- Génération la `clé privée RSA` 
 		- Extraction la clé publique de la paire de clés, qui peut être utilisée dans un certificat
 - **avec l'outil graphique** : `KeyStore Explorer`
@@ -643,21 +705,13 @@ Le tableau ci-dessous dresse une liste des outils disponibles pour la réalisati
 
 |Outil|Description|
 |---|---|
-|`Mockito/BDDMockito`|_pour les mocks /Style d'écriture des tests de développement (Behavior Driven Development)  piloté par le comportement, il utilise : //given //when //then_|
-|`JUnit 5`|_pour l'écriture des classes des Tests Unitaires et d'intégration_|
-|`Assert-J`|_pour les assertions_|
-|`Postman`|_pour tester les fonctionnalités exposées par les API_|
-|`JaCoCo`|_Plugin maven (avec les plugin surefire et failsafe) pour produire/fournir les rapports de couverture de codes_|
-|`Swagger`|_Pour générer la documentation et Tester les REST API_|
+|**`Mockito/BDDMockito`**|_pour les mocks /Style d'écriture des tests de développement (Behavior Driven Development)  piloté par le comportement, il utilise : //given //when //then_|
+|**`JUnit 5`**|_pour l'écriture des classes des Tests Unitaires et d'intégration_|
+|**`Assert-J`**|_pour les assertions_|
+|**`Postman`**|_pour tester les fonctionnalités exposées par les API_|
+|**`JaCoCo`**|_Plugin maven (avec les plugin surefire et failsafe) pour produire/fournir les rapports de couverture de codes_|
+|**`Swagger`**|_Pour générer la documentation et Tester les REST API_|
 
-Les outils de tests proposés ou utilisées sont les suivants :
-- Outils de Tests de Spring Framework (spring-boot-starter-test) qui intègre:
-	- `spring-test`, `spring-boot-test`, `spring-boot-test-autoconfigure`.
-	- `JUnit 5` pour l'écriture des classes des Tests Unitaires et d'intégration.
-	- `Mockito` pour les mocks.
-	- Assertions avec `Assert-J`,…
-- `Swagger`, `Postman` pour tester les fonctionnalités exposées par l'API.
-- Plugin `JaCoCo` maven (avec les plugin surefire et failsafe) pour produire le rapport de couverture de code.
 
 ## Rapport de couverture de codes
 La couverture des tests est mesurée et fournie par `JaCoCo`. L'image ci-dessous fournit la couverture du code de l'application à l'exception des objets de couche de modèle (objets métiers).
