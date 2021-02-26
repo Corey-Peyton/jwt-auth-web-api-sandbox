@@ -86,9 +86,9 @@ L'interface utilisateur permet selon ses rôles définis dans l'application (les
 ## Architecture Technique et Applicative Globale 
 Le diagramme ci-dessous fournit une vision globale des flux d'échanges entre l'application et les acteurs du système et(ou) briques/composants applicatifs.
 L'architecture technique et applicative comporte les éléments suivants :
-- le **`Back-End`** environnement d'exécution qui embarque les différents composants permettant d'implémenter toute la logique métier de l'application
-- le **`Front-End`** : interface utlisateur avec les différents composants permettant d'effectuer/faciliter les échanges avec le back-end Java.
-- le **`Base de Données`** : environnement d'exécution qui spécifie les configurations de SGBDR fournies pour la persistance, le stockage des informations métiers de l'application.
+- le `noeud` **`Back-End`** environnement d'exécution qui embarque les différents composants permettant d'implémenter toute la logique métier de l'application
+- le `package` **`Front-End`** : interface utlisateur avec les différents composants permettant de consommer les services exposés par le `back-end Java`.
+- le `noeud` **`Base de Données`** : environnement d'exécution qui spécifie les configurations de SGBDR fournies (acceptables) pour la persistance, le stockage des informations métiers de l'application.
 
 Il est fourni par le diagramme ci-dessous (`PlantUML` au format markdown) :
 
@@ -163,9 +163,17 @@ Client  --> [REST API Controller] :  Call API
 [DAO (Spring Data Jpa)] <--> BDD : Rechercher - Sauvegarder - Mettre à jour données en base
 @enduml
 ```
+Du schéma d'architecture ci-dessus, on remarque que le `Client` (le Fornt-End) à la différence des autres composantes (qui sont des `noeuds`) de l'architecture est un `package`. 
+Ce choix a été opéré dans le cadre de cette réalisation par soucis de simplification pour les raisons suivantes :
+- pouvoir intégrer les éléments du `Client Angular` dans le `Back-End Java` pour une exécution dans un seul environnement fullstack (Client + Serveur). Ceci
+consite donc à intégrer les ressources distribuées du `Client Angular` lors du packaging du `Back-End Java`.
+- éviter une exécution séparée des deux composantes (éviter d'avoir à adresser des ports d'écoutes différents pour l'exécution)
+
+**NB** : La configuration modulaire du projet permet néanmoins une exécution séparée. Il suffira tout juste d'inhiber la configuration actuelle permettant d'intégrer les ressources distribuées 
+du `Client Angular` lors du packaging du `Back-End Java`.
 
 ## Fonctionnement global - Les USe Case
-Le fonctionnement global de l'application est fourni aux travers de `diagrammes de séquences` des cas d'utilisation (`use case`) présenté dans le tableau ci-dessous :
+Le fonctionnement global de l'application est fourni aux travers de `diagrammes de séquences` des cas d'utilisation (`use case`) présentés dans le tableau ci-dessous :
 
 |Use Case|Description succincte |
 |---|---|
@@ -639,24 +647,21 @@ Afin de rehausser le niveau de sécurité dans l'application, celle-ci sera abor
 - **`la sécurité applicative`** : sécurisé les accès aux ressources de l'application 
 - **`la sécurité au niveau transport`** : sécurisé les échanges avec l'application
 
-### Sécurité applicative par **`jeton JWT`**
-Elle consiste à _sécuriser les ressources_ de l'application (donc les accès à celles-ci). Ceci suppose donc de mettre en place dans l'application le mécanisme permettant de produire les `jetons d'accès`.
-Ainsi, au lieu d'utiliser le **secret HMAC partagé** pour signer les `jetons JWT`, ceux-ci seront signeés avec des **clés privées/publiques RSA**.
-Ceci, offre l'avantage que le jeton JWT soit généré et signé par une autorité centrale (généralement un serveur d'autorisation). 
-Ainsi, l'application (les services) peut (peuvent) valider les `jetons JWT` à l'aide de la **_clé publique exposée à partir du serveur d'autorisation_**.
-La mise en place de des éléments pour la sécurité applicative peut donc être effectués selon les points suivants :
-- **en ligne de commande** : puis exploiter l'API Java pour recupérer les éléméents attendus. 
-	- **`Keytool et OpenSSL`** : 
-		- Génération du magasin `clés privées/publiques RSA` avec `Ketyool`
-		- Export de la clé publique et du certificat dans un fichier  avec `Ketyool` et `OpenSSL` combinés
-		- Export au format PKCS12  avec `Ketyool`
-	- **`OpenSSL`** : puis exploiter l'API Java pour obtenir les éléméents attendus.
-		- Génération la `clé privée RSA` 
-		- Extraction la clé publique de la paire de clés, qui peut être utilisée dans un certificat
-- **avec l'outil graphique** : `KeyStore Explorer`
+### Sécurité applicative
+Elle consiste à _sécuriser les ressources_ de l'application (donc les accès à celles-ci). Elle est mise en place dans l'application par les spécifications `JWT` et `Spring Security` consistant à produire/fournir les `jetons d'accès JWT`.
+Le choix opéré pour cette application (`rehausser le niveau de sécurité`) est de **signer/valider** les `jetons JWT` avec des **clés privées/publiques RSA**,au lieu d'utiliser le **secret HMAC partagé**.
+Ceci, offre l'avantage que le jeton JWT soit généré et signé par une autorité centrale (généralement un serveur d'autorisation).Ainsi, l'application (les services) 
+peut (peuvent) valider les `jetons JWT` à l'aide de la **_clé publique exposée à partir du serveur d'autorisation_**.
+Les éléments permettant de fournir les `clés privées/publiques RSA` pour signer/valider les jetons JWT d'accès aux ressources, peuvent être mise en place de deux façons différentes :
+- en **`ligne de commande`** : en utilisant les outils `Keytool et OpenSSL` pour générer clés et fichiers, puis utiliser l'API Java dédiée pour recupérer les éléméents attendus. 
+- ou avec **`KeyStore Explorer`** : utiliser les fonctionnalités offertes par l'outil graphique pour explorer le magasin des clés (Keystore par exemple), produire les clés et fichiers, puis utiliser l'API Java dédiée pour recupérer les éléméents attendus.  
 
 ### Sécurité au niveau transport : Activer le support `TLS`
-TODO
+La sécurité au niveau du transport `applique des contrôles de sécurité lors de l’établissement d’une connexion` entre les consommateurs de services (les clients), et le serveur. 
+Il assure donc la confidentialité des données échangées over `HTTP` -> donc utilisation de `HTTPS` pour le transport des données. Le protocole `HTTPS`utilise `TLS` pour sécuriser la communication. Ainsi donc :
+- Le `niveau de transport entrant` **sécurise** la _communication entre les clients et le serveur_.
+- Le `niveau de transport sortant` sécurise de façon implicite les trois techniques d'envoi de demandes sortantes à savoir : `actions de routage, actions de publication et actions d'appel`. 
+
 
 Les détails sur la mise en place et exploitation des éléments des configurations de sécurité sont fournis dans le fichier :
 [README](/jwt-auth-web-api-back-end/README.md).
