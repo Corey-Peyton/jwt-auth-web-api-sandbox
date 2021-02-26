@@ -1,7 +1,7 @@
 # Secure Web REST API (Products Management)    
 
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?branch=develop)
-![Code Coverage](https://img.shields.io/gitlab/languages/code-size/oviok-group/jwt-auth-web-api-sandbox/jwt-auth-web-api-back-end) 
+![Code Coverage](https://img.shields.io/gitlab/coverage/oviok-group/jwt-auth-web-api-sandbox/jwt-auth-web-api-back-end) 
 
 ![Build Status](https://travis-ci.org/oviok-group/jwt-auth-web-api-sandbox.svg?branch=develop)](https://travis-ci.org/oviok-group/jwt-auth-web-api-sandbox) 
 
