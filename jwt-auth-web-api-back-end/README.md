@@ -1,7 +1,7 @@
 # Secure Web REST API (Back-End)
 
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?branch=develop)
-
+![Gitlab code coverage](https://img.shields.io/gitlab/coverage/oviok-group/jwt-auth-web-api-sandbox/jwt-auth-web-api-back-end) 
 
 ## Sécurité applicative
 Le point qui est abordé ici est l'utilisation des outils `Keytool` et `OpenSSL` pour produire les éléments nécessaires à exploiter pour **signer/valider** 
