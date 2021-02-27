@@ -18,7 +18,6 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,15 +50,6 @@ class CategoryDAOTest
 {
     @Autowired
     private CategoryDAO categoryDAO;
-
-    /**
-     * @throws java.lang.Exception
-     */
-    @BeforeEach
-    void setUp() throws Exception
-    {
-        //this.initData();
-    }
 
     /**
      * @throws java.lang.Exception
@@ -171,35 +161,32 @@ class CategoryDAOTest
         int pageNumber = 0; // zero-based page index, must NOT be negative.
         int pageSize = 5; // number of items in a page to be returned, must be greater than 0.
         Pageable paging = PageRequest.of(pageNumber, pageSize);
-        
+
         final var categories = this.categoryDAO.findAllByEnabled(Boolean.TRUE, paging);
-        
 
         assertThat(categories).isNotNull();
         assertThat(categories.getContent()).isNotEmpty();
-        assertThat(categories.getContent().size()).isPositive(); 
+        assertThat(categories.getContent().size()).isPositive();
     }
-    
+
     @Test
     void testFindAllByEnabledBooleanPageable_WithFalse()
     {
         int pageNumber = 0; // zero-based page index, must NOT be negative.
         int pageSize = 5; // number of items in a page to be returned, must be greater than 0.
         Pageable paging = PageRequest.of(pageNumber, pageSize);
-        
+
         final var categories = this.categoryDAO.findAllByEnabled(Boolean.FALSE, paging);
-        
 
         assertThat(categories).isNotNull();
         assertThat(categories.getContent()).isEmpty();
-        assertThat(categories.getContent().size()).isNotPositive(); 
+        assertThat(categories.getContent().size()).isNotPositive();
     }
-    
+
     @Test
     void testFindAllByEnabledBooleanPageable_WithNull()
     {
         final var categories = this.categoryDAO.findAllByEnabled(null, null);
-        
 
         assertThat(categories).isNotNull();
         assertThat(categories.getContent()).isEmpty();
@@ -212,20 +199,19 @@ class CategoryDAOTest
     void testFindAllByEnabledBoolean()
     {
         final var categories = (List<Category>) this.categoryDAO.findAllByEnabled(Boolean.TRUE);
-        
+
         assertThat(categories.isEmpty()).isFalse();
         assertThat(categories.size()).isPositive();
     }
-    
+
     @Test
     void testFindAllByEnabledBoolean_WithFalse()
     {
         final var categories = (List<Category>) this.categoryDAO.findAllByEnabled(Boolean.FALSE);
-        
+
         assertThat(categories.isEmpty()).isTrue();
         assertThat(categories.size()).isNotPositive();
     }
-
 
     /**
      * Test method for {@link fr.vincent.tuto.server.dao.CategoryDAO#findAllByEnabledIsTrue()}.
@@ -234,7 +220,7 @@ class CategoryDAOTest
     void testFindAllByEnabledIsTrue()
     {
         final var categories = (List<Category>) this.categoryDAO.findAllByEnabledIsTrue();
-        
+
         assertThat(categories.isEmpty()).isFalse();
         assertThat(categories.size()).isPositive();
     }

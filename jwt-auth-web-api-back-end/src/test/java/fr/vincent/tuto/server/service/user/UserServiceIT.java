@@ -22,7 +22,12 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -59,7 +64,12 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
         UserService.class })
 @SpringBootTest
 @ActiveProfiles("test")
-@Sql(scripts = { "classpath:db/h2/schema-test-h2.sql", "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+@TestInstance(Lifecycle.PER_CLASS)
+@TestMethodOrder(OrderAnnotation.class)
+// @SqlGroup({ @Sql(scripts = { "classpath:db/h2/create-test-h2.sql",
+// "classpath:db/h2/data-test-h2.sql" }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
+@Sql(scripts = { "classpath:db/h2/drop-test-h2.sql", "classpath:db/h2/create-test-h2.sql",
+        "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 class UserServiceIT
 {
     // Les constantes
@@ -118,6 +128,7 @@ class UserServiceIT
         assertThat(users.size()).isEqualTo(7); // Le fichier data-test-h2.sql d'insertion dans T_USERS contient déjà 6 enregistrements.
     }
 
+    @Order(1)
     @Test
     void testCreateUser_WithNotNullFiled_IsUsernameNull()
     {

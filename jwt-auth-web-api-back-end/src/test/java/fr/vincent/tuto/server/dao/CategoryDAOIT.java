@@ -17,7 +17,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,19 +47,11 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
 @ContextConfiguration(name = "categoryDAOTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistanceConfig.class })
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-@Sql(scripts = { "classpath:db/h2/schema-test-h2.sql", "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = {"classpath:db/h2/drop-test-h2.sql", "classpath:db/h2/create-test-h2.sql", "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 class CategoryDAOIT
 {
     @Autowired
     private CategoryDAO categoryDAO;
-
-    /**
-     * @throws java.lang.Exception
-     */
-    @BeforeEach
-    void setUp() throws Exception
-    {
-    }
 
     /**
      * @throws java.lang.Exception

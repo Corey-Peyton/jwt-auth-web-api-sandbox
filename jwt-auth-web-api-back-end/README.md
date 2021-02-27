@@ -10,7 +10,7 @@ les `jetons JWT` avec des **clés privées/publiques RSA**. La démarche à suiv
 	- Générer le magasin des clés privées/publiques RSA avec Keytool
 	- Exporter la clé publique et le certificat X509 dans un fichier  avec _Keytool_ et _OpenSSL_ combinés
 	- Exporter le certificat X509 dans un fichier avec _Keytool_ 
-	- Exporter au format PKCS12  avec _Keytool_ 
+	- Exporter au format PKCS12  avec _Keytool_ (_Convertir un keystore JKS en PKCS12_)
 - **`OpenSSL`** : puis exploiter l'API Java pour obtenir les éléments attendus.
 	- Générer la clé privée RSA 
 	- Extraire la clé publique de la paire de clés, qui peut être utilisée dans un certificat
@@ -22,18 +22,33 @@ les `jetons JWT` avec des **clés privées/publiques RSA**. La démarche à suiv
 ### Générer le certificat auto-signé avec Keytool et OpenSSL
 - _Générer le magasin des clés privées/publiques RSA au format JKS_
 ```bash
-# Utilisation de la commande light : nécessite la saisie de données supplémentaires
+# Utilisation de la commande light : nécessite la saisie de données supplémentaires (fournies par le paramètre -dname dnas la commande full ci-dessous présentée)
 $ keytool -genkeypair -alias my-app-recette -keyalg RSA -keysize 4096 -keystore my-app-recette-keystore.jks -validity 3650
 
 # Utilisation de la commande full
 $ keytool -genkeypair -dname "CN=server.tuto.vincent.fr,OU=IT,O=OVIOK Group,L=ANTIBES,S=ALPES MARITIMES,C=FR" -alias my-app-recette -keyalg RSA -keysize 4096 -keypass <valeur_alias> -validity 3650 -storetype JKS -keystore my-app-recette-keystore.jks -storepass <valeur_alias> -file my-app-recette-keystore.jks
+
+# Vérifier le contenu du keystore
+$ keytool -list -v -keystore my-app-recette-keystore.jks -storetype JKS -storepass <valeur_storepass> 
 ```
+Le tableau ci-dessous fourni quelques détails sur certains paramètres de la commande
+|Paramètre|Description succincte |
+|---|---|
+|`genkeypair`|_génère une paire de clés_|
+|`alias`|_le nom d'alias de l'élément que nous générons_|
+|`keyalg`|_l'algorithme cryptographique pour générer la paire de clés_|
+|`keysize`|_la taille de la clé. Nous avons 4096 qui est un meilleur choix pour la production_|
+|`storetype`|_le type de keystore_|
+|`keystore`|_le nom du keystore_|
+|`validity`|_nombre de jours de validité_|
+|`storepass`|le mot de passe pour le keystore_|
+
 
 - _Exporter la clé publique et le certificat X509 dans un fichier_
 ```bash
 # L'export de la clé publique et du certificat dans un fichier à partir du JKS est effectué par la commande suivante
 $ keytool -list -rfc --keystore my-app-recette-keystore.jks | openssl x509 -inform pem -pubkey -out my-app-recette.txt
-Enter keystore password:  <valeur_keypass>
+Enter keystore password:  <valeur_storepass>
 ```
 
 - _Exporter le certificat X509 dans un fichier_
@@ -63,6 +78,9 @@ $ keytool -v -importkeystore -srckeystore my-app-recette-keystore.jks -srcstoret
 
 # 2°) - Générer directement le magasin .p12
 $ keytool -genkeypair -alias my-app-recette -keyalg RSA -keysize 4096 -storetype PKCS12 -keystore my-app-recette.p12 -validity 3650
+
+# Vérifier le contenu du magasin .p12
+$ keytool -list -v -keystore  my-app-recette.p12 -storetype PKCS12 -storepass <valeur_storepass> 
 ```
 
 ### Générer les clés et fichiers avec OpenSSL
@@ -75,6 +93,7 @@ $ openssl genrsa -out key.pem 4096
 ```bash
 $ openssl rsa -in key.pem -outform PEM -pubout -out public.pem
 ```
+
 - _Exploitation de l'API Java pour obtenir les éléméents attendus à partir des clés générées_
 ```java 
 // Exploitation de la clé publique générée pour obtenir PublicKey
@@ -103,3 +122,6 @@ public static PrivateKey getPrivateKey() throws NoSuchAlgorithmException, Invali
     return kf.generatePrivate(keySpec);
 }
 ```
+
+## Sécurité n iveau transport
+TODO

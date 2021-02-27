@@ -22,10 +22,10 @@ DROP TABLE IF EXISTS USER_ROLES CASCADE;
 DROP SEQUENCE IF EXISTS HIBERNATE_SEQUENCE;
 
 
-/*  ----------------------------------------
+/* ----------------------------------------
 	-- Scripts de Création des Tables
 	---------------------------------------
-*/
+*/ 
 -- Création de la séquence pour incrément automatique des identifiants des tables
 CREATE SEQUENCE HIBERNATE_SEQUENCE START WITH 1 INCREMENT BY 1;
 
@@ -77,7 +77,8 @@ ALTER TABLE T_CATEGORIES_T_PRODUCTS
 		FOREIGN KEY (CATEGORY_ID) 
 		REFERENCES T_CATEGORIES (ID);
 
-/*  ----------------------------------------
+
+/*----------------------------------------
 	-- Scripts de Création des Credentials
 	---------------------------------------
 */

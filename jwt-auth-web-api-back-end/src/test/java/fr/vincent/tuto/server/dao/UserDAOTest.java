@@ -18,7 +18,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,15 +52,6 @@ class UserDAOTest
 {
     @Autowired
     private UserDAO userDAO;
-
-    /**
-     * @throws java.lang.Exception
-     */
-    @BeforeEach
-    void setUp() throws Exception
-    {
-        // this.initData();
-    }
 
     /**
      * @throws java.lang.Exception

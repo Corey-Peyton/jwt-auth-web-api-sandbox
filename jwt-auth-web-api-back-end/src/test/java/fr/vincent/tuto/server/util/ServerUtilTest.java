@@ -26,7 +26,6 @@ import com.google.common.collect.Sets;
 import fr.vincent.tuto.common.exception.CustomAppException;
 import fr.vincent.tuto.server.enumeration.RoleEnum;
 import fr.vincent.tuto.server.model.po.User;
-import fr.vincent.tuto.server.util.ServerUtil;
 import fr.vincent.tuto.server.utils.TestsDataUtils;
 
 /**

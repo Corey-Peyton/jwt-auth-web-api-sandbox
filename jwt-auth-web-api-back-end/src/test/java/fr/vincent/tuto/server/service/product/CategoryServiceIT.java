@@ -59,7 +59,7 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
         ProductService.class, CategoryService.class })
 @SpringBootTest
 @ActiveProfiles("test")
-@Sql(scripts = { "classpath:db/h2/schema-test-h2.sql", "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = {"classpath:db/h2/drop-test-h2.sql", "classpath:db/h2/create-test-h2.sql", "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 @Transactional
 class CategoryServiceIT
 {

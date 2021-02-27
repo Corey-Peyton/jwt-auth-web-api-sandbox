@@ -86,9 +86,9 @@ L'interface utilisateur permet selon ses rôles définis dans l'application (les
 ## Architecture Technique et Applicative Globale 
 Le diagramme ci-dessous fournit une vision globale des flux d'échanges entre l'application et les acteurs du système et(ou) briques/composants applicatifs.
 L'architecture technique et applicative comporte les éléments suivants :
-- le `noeud` **`Back-End`** environnement d'exécution qui embarque les différents composants permettant d'implémenter toute la logique métier de l'application
-- le `package` **`Front-End`** : interface utlisateur avec les différents composants permettant de consommer les services exposés par le `back-end Java`.
-- le `noeud` **`Base de Données`** : environnement d'exécution qui spécifie les configurations de SGBDR fournies (acceptables) pour la persistance, le stockage des informations métiers de l'application.
+- le `noeud` **Back-End** environnement d'exécution qui embarque les différents composants permettant d'implémenter toute la logique métier de l'application
+- le `package` **Front-End** : interface utlisateur avec les différents composants permettant de consommer les services exposés par le `back-end Java`.
+- le `noeud` **Base de Données** : environnement d'exécution qui spécifie les configurations de SGBDR fournies (acceptables) pour la persistance, le stockage des informations métiers de l'application.
 
 Il est fourni par le diagramme ci-dessous (`PlantUML` au format markdown) :
 
@@ -163,10 +163,10 @@ Client  --> [REST API Controller] :  Call API
 [DAO (Spring Data Jpa)] <--> BDD : Rechercher - Sauvegarder - Mettre à jour données en base
 @enduml
 ```
-Du schéma d'architecture ci-dessus, on remarque que le `Client` (le Fornt-End) à la différence des autres composantes (qui sont des `noeuds`) de l'architecture est un `package`. 
+Du schéma d'architecture ci-dessus, on remarque que le `Client` (le front-end) à la différence des autres composantes (qui sont des `noeuds`) de l'architecture est un `package`. 
 Ce choix a été opéré dans le cadre de cette réalisation par soucis de simplification pour les raisons suivantes :
 - pouvoir intégrer les éléments du `Client Angular` dans le `Back-End Java` pour une exécution dans un seul environnement fullstack (Client + Serveur). Ceci
-consite donc à intégrer les ressources distribuées du `Client Angular` lors du packaging du `Back-End Java`.
+consite donc à intégrer les ressources distribuées du `Client Angular` lors du packaging du `back-end Java`.
 - éviter une exécution séparée des deux composantes (éviter d'avoir à adresser des ports d'écoutes différents pour l'exécution)
 
 **NB** : La configuration modulaire du projet permet néanmoins une exécution séparée. Il suffira tout juste d'inhiber la configuration actuelle permettant d'intégrer les ressources distribuées 
@@ -624,7 +624,7 @@ C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage `Java` :
 - **`Spring Security`**, **`JWT`**, pour sécuriser les échanges (production de jetons, authentification et autorisation).
 - **`AOP`** pour la séparation des préoccupations transversales dans l'application. Ici, il s'agit de la journalisation dans le couches applicatives : `le logging`
 - **`JPA / Hibernate`** pour les concepts ORM et DAO.
-- **`H2`**, **`MariaDB`**, **`PostgreSQL`** configurations pour les accès aux données en base et pour la réalisation de TI (`_Tests d'Intégration_` : système)
+- **`H2`**, **`MariaDB`**, **`PostgreSQL`** configurations pour les accès aux données en base et pour la réalisation de TI (_`Tests d'Intégration`_ : système)
 - **`Flyway`** pour la migration de bases de données.
 - **`EhCache`** pour optimiser les accès aux données.
 - **`Angular`** pour le développment de l'interface utilisateur (le Clent Web).
@@ -637,7 +637,6 @@ C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage `Java` :
 - **`MoreUnit`** intégré dans l'IDE (_STS_) pour `taguer` les classes du code source couvertes par des TU (_Tests Unitaires_).
 - **`JaCoCo`** librairie java d'analyse de couverture de codes. Produire/fournir les rapports de couverture du code source (lignes, branches,..) par les tests réalisés. Offrir une visualisation graphique de la couverture
 de codes et fournit des rapports détaillés de l'analyse de la couverture.
-
 
 # Configurations
 Les configurations de l'application permettent de faciliter aussi bien le démarrage, l'exécution que l'exploitation de celle-ci.
