@@ -28,7 +28,6 @@ import fr.vincent.tuto.server.config.BackEndServerRootConfig;
 @Import(value = { BackEndServerRootConfig.class })
 public class BackendApplicationStarter
 {
-
     /**
      * @param args
      */

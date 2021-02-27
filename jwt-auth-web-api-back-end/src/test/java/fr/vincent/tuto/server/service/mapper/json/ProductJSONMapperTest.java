@@ -54,7 +54,7 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
  */
 @RunWith(SpringRunner.class)
 // @JsonTest
-@TestPropertySource(value = { "classpath:back-end-db-test.properties", "classpath:back-end-application-test.properties" })
+@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties" })
 @ContextConfiguration(name = "productJSONMapperTest", classes = { BackEndServerRootConfig.class, GenericJSONMapper.class,
         StringHttpMessageConverter.class, ProductMapper.class })
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)

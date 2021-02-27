@@ -3,14 +3,14 @@
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?branch=develop)
 ![Gitlab code coverage](https://img.shields.io/gitlab/coverage/oviok-group/jwt-auth-web-api-sandbox/jwt-auth-web-api-back-end) 
 
-## Sécurité applicative
-Le point qui est abordé ici est l'utilisation des outils `Keytool` et `OpenSSL` pour produire les éléments nécessaires à exploiter pour **signer/valider** 
+## Sécuriser les ressources applicatives 
+Le point qui est abordé est l'utilisation des outils `Keytool` et `OpenSSL` pour produire les éléments nécessaires à exploiter pour **signer/valider** 
 les `jetons JWT` avec des **clés privées/publiques RSA**. La démarche à suivre est l'une des options présentées ci-dessous :
 - **`Keytool`** et **`OpenSSL`** : utilisation combinée des commandes de _Keytool_ et _OpenSSL_, puis exploiter l'API Java dédiée.
 	- Générer le magasin des clés privées/publiques RSA avec Keytool
 	- Exporter la clé publique et le certificat X509 dans un fichier  avec _Keytool_ et _OpenSSL_ combinés
 	- Exporter le certificat X509 dans un fichier avec _Keytool_ 
-	- Exporter au format PKCS12  avec _Keytool_ (_Convertir un keystore JKS en PKCS12_)
+	- Exporter au format PKCS12  avec _Keytool_ (_Convertir le keystore JKS en PKCS12_)
 - **`OpenSSL`** : puis exploiter l'API Java pour obtenir les éléments attendus.
 	- Générer la clé privée RSA 
 	- Extraire la clé publique de la paire de clés, qui peut être utilisée dans un certificat
@@ -32,7 +32,7 @@ $ keytool -genkeypair -dname "CN=server.tuto.vincent.fr,OU=IT,O=OVIOK Group,L=AN
 $ keytool -list -v -keystore my-app-recette-keystore.jks -storetype JKS -storepass <valeur_storepass> 
 ```
 Le tableau ci-dessous fourni quelques détails sur certains paramètres de la commande
-|Paramètre|Description succincte |
+|Paramètre|Description succincte du paramètre|
 |---|---|
 |`genkeypair`|_génère une paire de clés_|
 |`alias`|_le nom d'alias de l'élément que nous générons_|
@@ -41,7 +41,7 @@ Le tableau ci-dessous fourni quelques détails sur certains paramètres de la co
 |`storetype`|_le type de keystore_|
 |`keystore`|_le nom du keystore_|
 |`validity`|_nombre de jours de validité_|
-|`storepass`|le mot de passe pour le keystore_|
+|`storepass`|le mot de passe pour le keystore : _mot de passe utilisé pour accéder au magasin de clés_|
 
 
 - _Exporter la clé publique et le certificat X509 dans un fichier_
@@ -66,15 +66,15 @@ $ keytool -exportcert -alias my-app-recette -file  my-app-recette.crt -keystore 
 - _Exporter au format PKCS12_
 
 Il est recommandé d'utiliser le format PKCS12 qui est un format standard de l'industrie. Ainis, pour obtenir les informations au format PKCS12, on peut :
-- Créer le magasin .p12 par import des informations du JKS
+- Créer le magasin .p12 par import des informations du JKS (Convertir le keystore JKS en PKCS12)
 - Générer directement le magasin .p12
 ```bash
 # 1°) - Import des informations du JKS
 # Avec le mot de passe de la source --> Confirmer avec le mot de passe de la clé privée : <valeur_keypass>
-$ keytool -v -importkeystore -srckeystore my-app-recette-keystore.jks -srcstoretype JKS -srcalias my-app-recette -srckeypass <valeur_keypass> -destkeystore my-app-recette.p12 -deststoretype PKCS12 -destalias my-app-recette -deststorepass <valeur_keypass>
+$ keytool -v -importkeystore -srckeystore my-app-recette-keystore.jks -srcstoretype JKS -srcalias my-app-recette -srckeypass <valeur_keypass> -destkeystore my-app-recette.p12 -deststoretype PKCS12 -destalias my-app-recette -deststorepass <valeur_storepass>
 
 # Sans le mot de passe de la source --> Confirmer avec le mot de passe de la clé privéé : <valeur_keypass>
-$ keytool -v -importkeystore -srckeystore my-app-recette-keystore.jks -srcstoretype JKS -srcalias my-app-recette -destkeystore my-app-recette.p12 -deststoretype PKCS12 -destalias my-app-recette -deststorepass <valeur_keypass>
+$ keytool -v -importkeystore -srckeystore my-app-recette-keystore.jks -srcstoretype JKS -srcalias my-app-recette -destkeystore my-app-recette.p12 -deststoretype PKCS12 -destalias my-app-recette -deststorepass <valeur_storepass>
 
 # 2°) - Générer directement le magasin .p12
 $ keytool -genkeypair -alias my-app-recette -keyalg RSA -keysize 4096 -storetype PKCS12 -keystore my-app-recette.p12 -validity 3650
@@ -123,5 +123,94 @@ public static PrivateKey getPrivateKey() throws NoSuchAlgorithmException, Invali
 }
 ```
 
-## Sécurité n iveau transport
+## Sécuriser les échanges
+La sécurisation des échanges entre l'application et d'autres SI consiste donc à mettre un mécansime permettant de :
+- Activer le support `TLS`
+- Exiger  que des requêtes `HTTPS`
+	- Soit par fichier de propriétés
+	- Soit de façon programmatique
+- Rediriger les requêtes `HTTP` vers `HTTPS`
+- Distribuer le certificat `TLS` aux clients (le Trust).
+
+### Activer le support TLS
+Pour ce faire, il faut à minima fournir les propriétés ci-dessous définies:
+
+```properties
+server.ssl.enabled=true 										# Activer le support TLS pour sécuriser les échanges
+server.port=8443 												# Activer le port d'écoute pour les accès sécurisé du serveur
+
+server.ssl.key-store-type=PKCS12  								# Le format ou type de stockage de clés : JKS ou PKCS12
+server.ssl.key-store=classpath:crypto/my-app-recette.p12		# Le chemin d'accès au magasin de clés contenant le certificat
+server.ssl.key-store-password=<valeur_storepass>				# Le mot de passe utilisé pour accéder au magasin de clés
+server.ssl.key-alias=<valeur_alias> 							# L'alias qui identifie la clé dans le magasin de clés.
+
+# Jusqu'ici la configuration suppose que seul le client vérifie le certificat du serveur (One-Way), pour basculer en 
+# Two-Way : forcer également l'authentification par certificat du client côté serveur, il faut définir la propriété : server.ssl.client-auth
+
+# Configuration Security (authentification basique)
+#spring.security.user.name=user
+#spring.security.user.password=user
+```
+
+### Exiger que des requêtes HTTPS
+Pour exiger que des requêtes HTTPS, il faut configurer des éléments de Spring Security à cet effet.
+- Par fichier de propriétés
+
+```properties
+# Spring Security
+security.require-ssl=true 										# Activer Spring Security, configurons-la pour n'accepter que les requêtes HTTPS
+```
+
+- Exiger que des requêtes HTTPS de façon programmatique
+Voici un exempele de code qui exige que des requêtes HTTPS
+```java 
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .requiresChannel()
+            .anyRequest()
+            .requiresSecure()
+            ;
+			/* 
+			* Pour les besoins de la démo, assurons-nous que Spring Security autorise toutes les demandes entrantes en ajoutant le bloc de code ci-dessous
+			.and() 
+			.authorizeRequests()
+			.antMatchers("/**")
+			 .permitAll()
+			;
+			*/
+    }
+}
+```
+
+### Rediriger les requêtes HTTP vers HTTPS
 TODO
+
+### Appel d'une URL HTTPS : Le Trust
+Maintenant que le protocole HTTPS est activé dans notre application, passer au client et explorer comment invoquer un point de terminaison HTTPS avec le certificat auto-signé.
+Tout d'abord, nous devons créer un magasin de confiance. Comme nous avons généré un fichier PKCS12, nous pouvons utiliser le même que le trust store. 
+Définissons de nouvelles propriétés pour les détails du trust store:
+
+```properties
+server.ssl.trust-store=classpath:crypto/my-app-recette.p12		# emplacement du magasin de confiance
+server.ssl.trust-store-password=<valeur_storepass>				# mot de passe du magasin de confiance
+server.ssl.client-auth=need 									# Bascule en Two-way authentification : le client vérifie le certificat du serveur et le certificat du client est vérifié côté serveur également
+```
+
+Dans ce cas de figure pour les besoins de la démo, assurons-nous que Spring Security autorise toutes les demandes entrantes en ajoutant la configuration suivante :
+```java 
+@EnableWebSecurity
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/**")
+                .permitAll();
+    }
+}
+```
+

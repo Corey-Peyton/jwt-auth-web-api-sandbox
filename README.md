@@ -112,30 +112,38 @@ package "Client (Front-End Angular)" as Client  {
 
 ' Défintion du serveur Back-End dans l'architecture (le noeud)
 node "Server (Back-End)" as Server  <<Execution Environnement>> {
-[REST API Controller] ..> [Web Security Config] : uses
-[Web Security Config] ..> [REST API Controller] : secure
-[Web Security Config] ..> [Services Provider] : secure
-[REST API Controller] ..> [Services Provider] : uses
-[REST API Controller] ..> [Model/DTO] : uses
-[Services Provider] ..> [Model/DTO] : uses
-[DAO (Spring Data Jpa)] ..> [Model/DTO] : uses
-[DAO (Spring Data Jpa)] ..> [ServerUtil] : uses
-[Services Provider] ..> [ServerUtil] : uses
-[REST API Controller] ..> [ServerUtil] : uses
-[Services Provider] .> [DAO (Spring Data Jpa)] : uses
+[REST API Controller] ..> [Web Security] : <<uses>>
+[Web Security] ..> [REST API Controller] : <<secure>>
+[Web Security] ..> [Services Provider] : <<secure>>
+[REST API Controller] ..> [Services Provider] : <<uses>>
+[REST API Controller] ..> [Model/DTO] : <<uses>>
+[Services Provider] ..> [Model/DTO] : <<uses>>
+[DAO (Spring Data Jpa)] ..> [Model/DTO] : <<uses>>
+[DAO (Spring Data Jpa)] ..> [ServerUtil] : <<uses>>
+[Services Provider] ..> [ServerUtil] : <<uses>>
+[REST API Controller] ..> [ServerUtil] : <<uses>>
+[Services Provider] ..> [DAO (Spring Data Jpa)] : <<uses>>
+[Services Provider] ..> [REST Exception Handler] : <<service exception cacth>>
+[REST Exception Handler] ..> [REST API Controller] : <<exception propaging>>
+[REST API Controller] ..> [App Config] : <<uses config beans>>
+[Services Provider] ..> [App Config] : <<uses config beans>>
+[DAO (Spring Data Jpa)] ..> [App Config] : <<uses config beans>>
+[Web Security] ..> [App Config] : <<uses config beans>>
 }
 
 ' Défintion des couleurs des composants du serveur
 [REST API Controller] #Yellow
-[Web Security Config] #fdad5c
+[Web Security] #fdad5c
 [Services Provider] #Pink
 [DAO (Spring Data Jpa)] #skyblue
 [Model/DTO] #lightgreen
 [ServerUtil] #teal
+[REST Exception Handler] #Gray
+[App Config] #lightgreen
 
 ' Défintion de la base de données dans l'architecture
 node "Base de Données" as BDD <<Execution Environnement>> {
-database "H2" #Yellow
+database "InMemory H2 DB" #Yellow
 database "MariaDB" #Green
 database "PostgreSQL" #Gray
 }
@@ -153,14 +161,17 @@ note right of Server
 - Traiter la requête selon la demande 
 - Générer le jeton JWT/ Construire la réponse à la demande
 - Retourner le jeton JWT et informations d'authentification
+- Fournir les beans de configuration
 end note
 
 ' Définition des interactions entres les composants de l'architecture
 User --> Client : Effectuer une demande (S'inscrire,Se Connecter,..)
 Client--> User : Afficher les détails (données, erreurs)
 Client  --> [REST API Controller] :  Call API
-[REST API Controller] --> Client   :  Retour Call API
+[REST API Controller] --> Client   :  Reponse Call API
 [DAO (Spring Data Jpa)] <--> BDD : Rechercher - Sauvegarder - Mettre à jour données en base
+'[App Config] --> Server : <<Config beans>>
+'Server  <-- [App Config] : <<Consommer Config beans>>
 @enduml
 ```
 Du schéma d'architecture ci-dessus, on remarque que le `Client` (le front-end) à la différence des autres composantes (qui sont des `noeuds`) de l'architecture est un `package`. 
@@ -644,10 +655,10 @@ Les configurations de l'application permettent de faciliter aussi bien le démar
 ## Configurations de la Sécurité dans l'application 
 Afin de rehausser le niveau de sécurité dans l'application, celle-ci sera abordée selon les points ci-dessous :
 - **`la sécurité applicative`** : sécurisé les accès aux ressources de l'application 
-- **`la sécurité au niveau transport`** : sécurisé les échanges avec l'application
+- **`la sécurité au niveau transport`** : sécurisé les échanges de l'application avec d'autres SI
 
-### Sécurité applicative
-Elle consiste à _sécuriser les ressources_ de l'application (donc les accès à celles-ci). Elle est mise en place dans l'application par les spécifications `JWT` et `Spring Security` consistant à produire/fournir les `jetons d'accès JWT`.
+### Sécuriser les ressources applicatives
+La sécurité applicative consiste à _sécuriser les ressources_ de l'application (donc les accès à celles-ci). Elle est mise en place dans l'application par les spécifications `JWT` et `Spring Security` consistant à produire/fournir les `jetons d'accès JWT`.
 Le choix opéré pour cette application (`rehausser le niveau de sécurité`) est de **signer/valider** les `jetons JWT` avec des **clés privées/publiques RSA**,au lieu d'utiliser le **secret HMAC partagé**.
 Ceci, offre l'avantage que le jeton JWT soit généré et signé par une autorité centrale (généralement un serveur d'autorisation).Ainsi, l'application (les services) 
 peut (peuvent) valider les `jetons JWT` à l'aide de la **_clé publique exposée à partir du serveur d'autorisation_**.
@@ -655,17 +666,25 @@ Les éléments permettant de fournir les `clés privées/publiques RSA` pour sig
 - en **`ligne de commande`** : en utilisant les outils `Keytool et OpenSSL` pour générer clés et fichiers, puis utiliser l'API Java dédiée pour recupérer les éléméents attendus. 
 - ou avec **`KeyStore Explorer`** : utiliser les fonctionnalités offertes par l'outil graphique pour explorer le magasin des clés (Keystore par exemple), produire les clés et fichiers, puis utiliser l'API Java dédiée pour recupérer les éléméents attendus.  
 
-### Sécurité au niveau transport : Activer le support `TLS`
+### Sécuriser les échanges
+Sécuriser les échanges consiste à Activer le support `TLS`. 
 La sécurité au niveau du transport `applique des contrôles de sécurité lors de l’établissement d’une connexion` entre les consommateurs de services (les clients), et le serveur. 
 Il assure donc la confidentialité des données échangées over `HTTP` -> donc utilisation de `HTTPS` pour le transport des données. Le protocole `HTTPS`utilise `TLS` pour sécuriser la communication. Ainsi donc :
 - Le `niveau de transport entrant` **sécurise** la _communication entre les clients et le serveur_.
 - Le `niveau de transport sortant` sécurise de façon implicite les trois techniques d'envoi de demandes sortantes à savoir : `actions de routage, actions de publication et actions d'appel`. 
 
-
 Les détails sur la mise en place et exploitation des éléments des configurations de sécurité sont fournis dans le fichier :
 [README](/jwt-auth-web-api-back-end/README.md).
 
 ## Base de données 
+Les configurations des éléments d'accès aux données en base dans l'application est effectuée selon les points ci-dessous cités:
+- Configuration de **`Flyway`** pour la migrations des scripts SQL (scripts DDL et DML).
+- Configuration des propriétés d'accès à la abse de données.
+
+### Migration de scripts avec `Flyway` 
+TODO
+
+### Propriétés d'accès à la abse de données  
 TODO
 
 ## Configuration applicatives 

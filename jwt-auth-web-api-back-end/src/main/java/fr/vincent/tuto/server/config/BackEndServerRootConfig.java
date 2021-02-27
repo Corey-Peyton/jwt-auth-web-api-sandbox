@@ -33,13 +33,16 @@ import fr.vincent.tuto.common.service.props.DatabasePropsService;
  */
 @Configuration
 @Import(value = { JavaMailSenderImpl.class, ApplicationPropsService.class, CommonBeansConfig.class, DatabasePropsService.class })
-@PropertySources(value = { @PropertySource(value = { "classpath:back-end-db.properties" }, ignoreResourceNotFound = false), @PropertySource(value = {
-        "classpath:back-end-application.properties" }, ignoreResourceNotFound = false) })
+@PropertySources(value = { @PropertySource(value = { "classpath:back-end-db-common.properties" }, ignoreResourceNotFound = false), //
+        @PropertySource(value = { "classpath:back-end-db-h2.properties" }, ignoreResourceNotFound = true), //
+        @PropertySource(value = { "classpath:back-end-db-mariadb.properties" }, ignoreResourceNotFound = true), //
+        @PropertySource(value = { "classpath:back-end-db-postgre.properties" }, ignoreResourceNotFound = true), //
+        @PropertySource(value = { "classpath:back-end-application.properties" }, ignoreResourceNotFound = false) })
 @ComponentScan(basePackages = { "fr.vincent.tuto.server", "fr.vincent.tuto.common" })
 @ConfigurationProperties(prefix = "vot", ignoreUnknownFields = true, ignoreInvalidFields = false)
 @EntityScan("fr.vincent.tuto.server.model.po")
 @EnableJpaRepositories(basePackages = "fr.vincent.tuto.server.dao", entityManagerFactoryRef = "entityManagerFactory", transactionManagerRef = "transactionManager")
-@EnableAspectJAutoProxy (proxyTargetClass = true)  // Activer le support  @AspectJ
+@EnableAspectJAutoProxy(proxyTargetClass = true) // Activer le support @AspectJ
 public class BackEndServerRootConfig
 {
     //
