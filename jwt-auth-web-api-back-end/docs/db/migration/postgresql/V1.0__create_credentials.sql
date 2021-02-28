@@ -5,16 +5,6 @@
 	---------------------------------------
 */
 
-/* 	---------------------------
-	-- Scripts de Suppressions 
-	---------------------------
-*/ 
-
--- Suppression de la séquence hibernate, la table T_USERS et éléments rattachés
--- DROP SEQUENCE IF EXISTS HIBERNATE_SEQUENCE;
--- DROP TABLE IF EXISTS T_USERS CASCADE; 
--- DROP TABLE IF EXISTS USER_ROLES CASCADE;
-
 /*  ----------------------------------------
 	-- Scripts de Création des Credentials
 	----------------------------------------

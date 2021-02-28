@@ -5,16 +5,6 @@
 	-------------------------------------
 */
 
-/* 	---------------------------
-	-- Scripts de Suppressions 
-	---------------------------
-*/ 
-
--- Suppression des tables : T_CATEGORIES, T_CATEGORIES_T_PRODUCTS, T_PRODUCTS
--- DROP TABLE IF EXISTS T_CATEGORIES CASCADE; 
--- DROP TABLE IF EXISTS T_CATEGORIES_T_PRODUCTS CASCADE;
--- DROP TABLE IF EXISTS T_PRODUCTS CASCADE; 
-
 -- Initialisation de la séquence pour les tables T_CATEGORIES et T_PRODUCTS
 INSERT INTO HIBERNATE_SEQUENCE VALUES (1);
 INSERT INTO HIBERNATE_SEQUENCE VALUES (1);

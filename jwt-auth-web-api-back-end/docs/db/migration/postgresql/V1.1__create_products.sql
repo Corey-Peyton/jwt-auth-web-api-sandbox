@@ -5,16 +5,6 @@
 	---------------------------------------
 */
 
-/* 	---------------------------
-	-- Scripts de Suppressions 
-	---------------------------
-*/ 
-
--- Suppression des tables : T_CATEGORIES, T_CATEGORIES_T_PRODUCTS, T_PRODUCTS
--- DROP TABLE IF EXISTS T_CATEGORIES CASCADE; 
--- DROP TABLE IF EXISTS T_CATEGORIES_T_PRODUCTS CASCADE;
--- DROP TABLE IF EXISTS T_PRODUCTS CASCADE;
-
 -- Création de la table : T_CATEGORIES
 CREATE TABLE IF NOT EXISTS T_CATEGORIES (
 	ID INT8 NOT NULL,
