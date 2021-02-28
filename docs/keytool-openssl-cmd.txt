@@ -34,6 +34,15 @@ keytool -v -importkeystore -srckeystore my-app-recette-keystore.jks -srcstoretyp
 # Sans le mot de passe de la source --> Confirmer avec le mot de passe de la clé privéé
 keytool -v -importkeystore -srckeystore my-app-recette-keystore.jks -srcstoretype JKS -srcalias my-app-recette -destkeystore my-app-recette.p12 -deststoretype PKCS12 -destalias my-app-recette -deststorepass my-app-recette
 
+####################################
+######### Export du certificat X509
+####################################
+# Format .cer : fichier lisible par un éditeur de texte de type Notepad parexemple
+keytool -exportcert -alias my-app-recette -file  my-app-recette.cer -keystore my-app-recette-keystore.jks
+
+# Format .crt :
+keytool -exportcert -alias my-app-recette -file  my-app-recette.crt -keystore my-app-recette-keystore.jks 
+
 
 ###############
 ###  OPENSSL 
