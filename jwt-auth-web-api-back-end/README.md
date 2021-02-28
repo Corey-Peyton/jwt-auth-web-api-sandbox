@@ -47,7 +47,6 @@ Le tableau ci-dessous fourni quelques détails sur certains paramètres de la co
 - _Exporter la clé publique et le certificat X509 dans un fichier_
 ```bash
 # L'export de la clé publique et du certificat dans un fichier à partir du JKS est effectué par la commande suivante :
-
 $ keytool -list -rfc --keystore my-app-recette-keystore.jks | openssl x509 -inform pem -pubkey -out my-app-recette.txt
 Enter keystore password:  <valeur_storepass>
 ```
@@ -139,19 +138,14 @@ Pour ce faire, il faut à minima fournir les propriétés ci-dessous définies:
 ```properties
 # Activer le support TLS pour sécuriser les échanges
 server.ssl.enabled=true 
-
 # Activer le port d'écoute pour les accès sécurisé du serveur										
 server.port=8443 										r
-
 # Le format ou type de stockage de clés : JKS ou PKCS12
 server.ssl.key-store-type=PKCS12  
-
 # Le chemin d'accès au magasin de clés contenant le certificat
 server.ssl.key-store=classpath:crypto/my-app-recette.p12 
-
 # Le mot de passe utilisé pour accéder au magasin de clés
 server.ssl.key-store-password=<valeur_storepass> 
-
 # L'alias qui identifie la clé dans le magasin de clés.
 server.ssl.key-alias=<valeur_alias> 
 
@@ -207,10 +201,8 @@ Définir de nouvelles propriétés pour les `détails du trust store` :
 ```properties
 # emplacement du magasin de confiance
 server.ssl.trust-store=classpath:crypto/my-app-recette.p12	
-
 # mot de passe du magasin de confiance
 server.ssl.trust-store-password=<valeur_storepass> 
-
 # Bascule en Two-way authentification : le client vérifie le certificat du serveur et le certificat du client est vérifié côté serveur également
 server.ssl.client-auth=need 
 ```
