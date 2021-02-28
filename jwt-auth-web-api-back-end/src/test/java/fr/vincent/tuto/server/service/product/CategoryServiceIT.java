@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -46,6 +47,7 @@ import fr.vincent.tuto.server.config.db.PersistanceContextConfig;
 import fr.vincent.tuto.server.enumeration.CategoryTypeEnum;
 import fr.vincent.tuto.server.model.po.Category;
 import fr.vincent.tuto.server.model.po.Product;
+import fr.vincent.tuto.server.util.ServerUtil;
 import fr.vincent.tuto.server.utils.TestsDataUtils;
 
 /**
@@ -54,12 +56,14 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
  * @author Vincent Otchoun
  */
 @RunWith(SpringRunner.class)
-@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties" })
-@ContextConfiguration(name = "categoryServiceIT", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistanceContextConfig.class,
-        ProductService.class, CategoryService.class })
-@SpringBootTest
+@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties",
+        "classpath:back-end-tls-test.properties" })
+@ContextConfiguration(name = "categoryServiceIT", classes = { BackEndServerRootConfig.class, DatabasePropsService.class,
+        PersistanceContextConfig.class, ProductService.class, CategoryService.class })
+@SpringBootTest(webEnvironment = WebEnvironment.NONE)
 @ActiveProfiles("test")
-@Sql(scripts = {"classpath:db/h2/drop-test-h2.sql", "classpath:db/h2/create-test-h2.sql", "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = { "classpath:db/h2/drop-test-h2.sql", "classpath:db/h2/create-test-h2.sql",
+        "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 @Transactional
 class CategoryServiceIT
 {
@@ -106,6 +110,8 @@ class CategoryServiceIT
     void testCreateCategory()
     {
         final Category savedCategory = this.categoryService.createCategory(this.category);
+
+        // System.err.println(">>>>> Identifiant catégorie insérée : \n" +savedCategory.getId());
 
         assertThat(savedCategory).isNotNull();
         assertThat(savedCategory.getId()).isPositive();
@@ -247,6 +253,23 @@ class CategoryServiceIT
     }
 
     @Test
+    void testGetCategoryByNameIgnoreCase_UpperCase()
+    {
+        final String EXIST_CATEGORY_NAME = "informatique";
+        final String upperCase = ServerUtil.UPPER_CASE.apply(EXIST_CATEGORY_NAME);
+        final Optional<Category> optional = this.categoryService.getCategoryByNameIgnoreCase(upperCase);
+
+        assertThat(optional).isPresent();
+        final Category category = optional.get();
+
+        assertThat(category).isNotNull();
+        assertThat(category.getName()).contains("INFORMATIQUE");
+        assertThat(category.getDescription()).contains("produits INFORMATIQUE");
+        assertThat(category.getEnabled()).isTrue();
+        assertThat(category.getProducts().size()).isEqualTo(3);
+    }
+
+    @Test
     void testGetCategoryByNameIgnoreCase_WithNotExistName()
     {
         final String NOT_EXIST_CATEGORY_NAME = "not_exist_category_name";
@@ -273,6 +296,72 @@ class CategoryServiceIT
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
     }
+
+    /**
+     * Test method for
+     * {@link fr.vincent.tuto.server.service.product.CategoryService#getCategoryWithProductsByNameIgnoreCase(java.lang.String)}.
+     */
+    @Test
+    void testGetCategoryWithProductsByNameIgnoreCase()
+    {
+        final var EXIST_CATEGORY_NAME = "informatique";
+        final var optional = this.categoryService.getCategoryWithProductsByNameIgnoreCase(EXIST_CATEGORY_NAME);
+
+        assertThat(optional).isPresent();
+        final var category = optional.get();
+
+        assertThat(category).isNotNull();
+        assertThat(category.getName()).contains("INFORMATIQUE");
+        assertThat(category.getDescription()).contains("produits INFORMATIQUE");
+        assertThat(category.getEnabled()).isTrue();
+        assertThat(category.getProducts().size()).isEqualTo(3);
+    }
+
+    @Test
+    void testGetCategoryWithProductsByNameIgnoreCase_UpperCase()
+    {
+        final var EXIST_CATEGORY_NAME = "informatique";
+        final var upperCase = ServerUtil.UPPER_CASE.apply(EXIST_CATEGORY_NAME);
+        final var optional = this.categoryService.getCategoryWithProductsByNameIgnoreCase(upperCase);
+
+        assertThat(optional).isPresent();
+        final var category = optional.get();
+
+        assertThat(category).isNotNull();
+        assertThat(category.getName()).contains("INFORMATIQUE");
+        assertThat(category.getDescription()).contains("produits INFORMATIQUE");
+        assertThat(category.getEnabled()).isTrue();
+        assertThat(category.getProducts().size()).isEqualTo(3);
+    }
+
+    @Test
+    void testGetCategoryWithProductsByNameIgnoreCase_WithNotExistName()
+    {
+        final var NOT_EXIST_CATEGORY_NAME = "not_exist_category_name";
+
+        final var exception = assertThrows(CustomAppException.class, () -> {
+            this.categoryService.getCategoryWithProductsByNameIgnoreCase(NOT_EXIST_CATEGORY_NAME);
+        });
+        final var expectedMessage = SEARCH_BY_NAME_MSG;
+        final var actualMessage = exception.getMessage();
+
+        assertThat(actualMessage.length()).isPositive();
+        assertThat(actualMessage).contains(expectedMessage);
+    }
+
+    @Test
+    void testGetCategoryWithProductsByNameIgnoreCase_WithNull()
+    {
+        final var exception = assertThrows(CustomAppException.class, () -> {
+            this.categoryService.getCategoryByNameIgnoreCase(null);
+        });
+        final var expectedMessage = SEARCH_BY_NAME_MSG;
+        final var actualMessage = exception.getMessage();
+
+        assertThat(actualMessage.length()).isPositive();
+        assertThat(actualMessage).contains(expectedMessage);
+    }
+
 
     /**
      * Test method for

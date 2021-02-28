@@ -43,9 +43,9 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
  * @author Vincent Otchoun
  */
 @RunWith(SpringRunner.class)
-@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties" })
+@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties", "classpath:back-end-tls-test.properties" })
 @ContextConfiguration(name = "productDAOTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistanceContextConfig.class })
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment=WebEnvironment.NONE) 
 @ActiveProfiles("test")
 @Sql(scripts = {"classpath:db/h2/drop-test-h2.sql", "classpath:db/h2/create-test-h2.sql", "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 class ProductDAOIT

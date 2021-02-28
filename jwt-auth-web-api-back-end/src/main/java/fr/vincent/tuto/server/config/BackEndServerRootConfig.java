@@ -37,7 +37,8 @@ import fr.vincent.tuto.common.service.props.DatabasePropsService;
         @PropertySource(value = { "classpath:back-end-db-h2.properties" }, ignoreResourceNotFound = true), //
         @PropertySource(value = { "classpath:back-end-db-mariadb.properties" }, ignoreResourceNotFound = true), //
         @PropertySource(value = { "classpath:back-end-db-postgre.properties" }, ignoreResourceNotFound = true), //
-        @PropertySource(value = { "classpath:back-end-application.properties" }, ignoreResourceNotFound = false) })
+        @PropertySource(value = { "classpath:back-end-tls.properties" }, ignoreResourceNotFound = true),//
+        @PropertySource(value = { "classpath:back-end-application.properties" }, ignoreResourceNotFound = false)})
 @ComponentScan(basePackages = { "fr.vincent.tuto.server", "fr.vincent.tuto.common" })
 @ConfigurationProperties(prefix = "vot", ignoreUnknownFields = true, ignoreInvalidFields = false)
 @EntityScan("fr.vincent.tuto.server.model.po")

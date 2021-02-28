@@ -684,7 +684,7 @@ La mise en place des éléments à exploiter nécessite donc de renseigner les p
 ######################
 server.ssl.enabled=true 
 # Activer le port d'écoute pour les accès sécurisé du serveur : Attention avec le port non sécurisé dejà défini, il faut renommer en http.port										
-server.port=8443 
+#server.port=8443 
 server.ssl.key-store-type=PKCS12  
 server.ssl.key-store=classpath:crypto/my-app-recette.p12 
 server.ssl.key-store-password=<valeur_storepass> 
@@ -692,7 +692,12 @@ server.ssl.key-alias=<valeur_alias>
 server.ssl.trust-store=classpath:crypto/my-app-recette.p12	
 server.ssl.trust-store-password=<valeur_storepass> 
 # Propritéé à activer uniquement si on veut faire du Two-way authentification 
-# server.ssl.client-auth=need 
+# server.ssl.client-auth=need
+
+# Autres propriétés
+#server.ssl.ciphers=TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_DHE_RSA_WITH_AES_128_GCM_SHA256, TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_DHE_RSA_WITH_AES_128_CBC_SHA, TLS_DHE_RSA_WITH_AES_256_CBC_SHA, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_DHE_RSA_WITH_AES_256_CBC_SHA256
+#server.ssl.enabled-protocols=TLSv1.2
+#server.http2.enabled=true  
 ```
 
 ## Base de données 
@@ -714,7 +719,7 @@ présentés dans le tableau ci-dessous selon le type de base de données.
 |`MariaDB`|mariadb|[back-end-db-mariadb.properties](/jwt-auth-web-api-back-end/docs/db/props/back-end-db-mariadb.properties)|
 |`PostgreSQL`|postgre|[back-end-db-postgre.properties](/jwt-auth-web-api-back-end/docs/db/props/back-end-db-postgre.properties)|
 
-Voici l'exemple de configuration : celle fournie pour la abse de données H2.
+Voici l'exemple de configuration : celle fournie pour la base de données H2.
 ```properties
 ###########################################
 ### H2 APPLICATION DATASOURCE PROPERTIES
@@ -738,11 +743,11 @@ vot.jpa-hibernate-props.dialect=org.hibernate.dialect.H2Dialect
 En plus des propriéts spécifiques fournies ci-dessus, les propriétés communes de gestion des accès à la base de données sont fournies dans le fichier :
 [back-end-db-common.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-common.properties). 
 Elles permettent de fournir à l'application principalement les composants suivants :
-- Le fournisseur du gestionnaire d'entités : `EntityManagerFactory` via `LocalContainerEntityManagerFactoryBean`
-- Le gestionnaire d'entités partégé de l'application : `SharedEntityManager` via `SharedEntityManagerBean`
-- Le gestionnaire des transactions d'accès aux données en base dans l'application : `TransactionManager` via `PlatformTransactionManager`
-- L'adaptateur du fournisseur Hibernate des accès aux données : `HibernateJpaVendorAdapter` via `JpaVendorAdapter`
-- La dialecte Hibernate des accès aux données : `HibernateJpaDialect` via `JpaDialect`
+	- Le fournisseur du gestionnaire d'entités : `EntityManagerFactory` via `LocalContainerEntityManagerFactoryBean`
+	- Le gestionnaire d'entités partégé de l'application : `SharedEntityManager` via `SharedEntityManagerBean`
+	- Le gestionnaire des transactions d'accès aux données en base dans l'application : `TransactionManager` via `PlatformTransactionManager`
+	- L'adaptateur du fournisseur Hibernate des accès aux données : `HibernateJpaVendorAdapter` via `JpaVendorAdapter`
+	- La dialecte Hibernate des accès aux données : `HibernateJpaDialect` via `JpaDialect`
 
 ### Flyway pour la migration des scripts
 Les configuration Flyway de migration des scripts SQL dans l'application, sont fournies dans les mêmes fichiers que ceux de la section  `Accès à la base de données` 

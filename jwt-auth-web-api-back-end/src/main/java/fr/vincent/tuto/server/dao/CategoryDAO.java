@@ -14,12 +14,15 @@ package fr.vincent.tuto.server.dao;
 import java.util.Collection;
 import java.util.Optional;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import fr.vincent.tuto.server.model.po.Category;
+import fr.vincent.tuto.server.util.ServerUtil;
 
 /**
  * Dépôt Spring Data JPA pour l'entité {@link Category}.
@@ -34,6 +37,10 @@ public interface CategoryDAO extends JpaRepository<Category, Long>
     Optional<Category> findOneByName(final String pName);
     
     Optional<Category> findOneByNameIgnoreCase(final String pName);
+    
+    @EntityGraph(attributePaths = ServerUtil.CATEGORY_PRODUCTS_ATTRIBUTE_PATHS)
+    @Cacheable(cacheNames = ServerUtil.CATEGORY_BY_NAME_CACHE)
+    Optional<Category> findOneWithProductsByNameIgnoreCase(final String pName);
     
     Boolean existsByName(final String pName);
     

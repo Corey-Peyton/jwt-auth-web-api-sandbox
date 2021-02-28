@@ -72,14 +72,12 @@ public class CategoryService implements ICategoryService
     @Override
     public Category createCategory(Category pCategory)
     {
-        try
-        {
+        try {
             final var category = this.categoryDAO.save(pCategory);
             Assert.notNull(category, SAVE_MESSAGE);
             return category;
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new CustomAppException(SAVE_MESSAGE, e);
         }
     }
@@ -128,6 +126,22 @@ public class CategoryService implements ICategoryService
     public Optional<Category> getCategoryByNameIgnoreCase(String pName)
     {
         return Optional.ofNullable(this.categoryDAO.findOneByNameIgnoreCase(pName))//
+        .filter(Optional::isPresent)//
+        .orElseThrow(() -> new CustomAppException(FIND_BY_NAME_MESSAGE));
+    }
+
+    /**
+     * Obtenir une catégorie de produits par son nom en ignorant la casse.
+     * 
+     * @param pName le nom de la catégorie de produit recherchée.
+     * @return la catégorie de produit recherchée si trouvé, sinon vide.
+     */
+    @Transactional(readOnly = true)
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
+    @Override
+    public Optional<Category> getCategoryWithProductsByNameIgnoreCase(String pName)
+    {
+        return Optional.ofNullable(this.categoryDAO.findOneWithProductsByNameIgnoreCase(pName))//
         .filter(Optional::isPresent)//
         .orElseThrow(() -> new CustomAppException(FIND_BY_NAME_MESSAGE));
     }
@@ -223,16 +237,14 @@ public class CategoryService implements ICategoryService
     @Override
     public void updateCategory(Long pCategoryId, Category pCategory)
     {
-        try
-        {
+        try {
             this.getCategoryById(pCategoryId).ifPresent(categorie -> {
                 final Long id = categorie.getId();
                 pCategory.setId(id);
                 this.createCategory(pCategory);
             });
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new CustomAppException(e);
         }
     }
@@ -246,13 +258,11 @@ public class CategoryService implements ICategoryService
     @Override
     public void deleteCategory(Long pCategoryId)
     {
-        try
-        {
+        try {
             this.getCategoryById(pCategoryId)//
             .ifPresent(this.categoryDAO::delete);
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new CustomAppException(e);
         }
     }
@@ -273,8 +283,7 @@ public class CategoryService implements ICategoryService
         final var productOptional = this.productService.getProductById(pProductId);
 
         // Si recherche infructueuse
-        if (categorieOptional.isEmpty() || productOptional.isEmpty())
-        {
+        if (categorieOptional.isEmpty() || productOptional.isEmpty()) {
             return Collections.emptyList();
         }
 
@@ -288,4 +297,5 @@ public class CategoryService implements ICategoryService
 
         return ServerUtil.setToList(products);
     }
+
 }

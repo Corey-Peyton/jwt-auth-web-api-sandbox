@@ -32,7 +32,6 @@ import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -56,7 +55,7 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
  * @author Vincent Otchoun
  */
 @RunWith(SpringRunner.class)
-@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties" })
+@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties", "classpath:back-end-tls-test.properties" })
 @ContextConfiguration(name = "userServiceTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistanceContextConfig.class,
         UserService.class })
 @SpringBootTest
@@ -114,7 +113,7 @@ class UserServiceTest
         final User userToSaved = this.user;
 
         BDDMockito.given(this.userDAO.save(Mockito.any(User.class))).willReturn(mockUser);
-        final User savedUser = this.userService.createUser(userToSaved);
+        final var savedUser = this.userService.createUser(userToSaved);
 
         assertThat(savedUser).isNotNull();
         TestsDataUtils.assertAllUser(mockUser, savedUser);
@@ -124,12 +123,12 @@ class UserServiceTest
     @Test
     void testCreateUser_ShouldThrowException()
     {
-        final Exception exception = assertThrows(CustomAppException.class, () -> {
+        final var exception = assertThrows(CustomAppException.class, () -> {
             this.userService.createUser(null);
         });
 
-        final String expectedMessage = SAVE_MSG;
-        final String actualMessage = exception.getMessage();
+        final var expectedMessage = SAVE_MSG;
+        final var actualMessage = exception.getMessage();
 
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
@@ -141,15 +140,15 @@ class UserServiceTest
     @Test
     void testGetByUsername()
     {
-        final Optional<User> optional = Optional.ofNullable(this.user);
+        final var optional = Optional.ofNullable(this.user);
 
         assertThat(optional).isPresent();
         final User user = optional.get();
         user.setId(1L);
-        final String username = user.getUsername();
+        final var username = user.getUsername();
 
         BDDMockito.given(this.userDAO.findOneByUsername(Mockito.any(String.class))).willReturn(optional);
-        final Optional<User> userFromDB = this.userService.getByUsername(username);
+        final var userFromDB = this.userService.getByUsername(username);
 
         assertThat(userFromDB).isPresent();
         TestsDataUtils.assertAllUser(user, userFromDB.get());
@@ -160,14 +159,14 @@ class UserServiceTest
     @Test
     void testGetByUsername_WithEmpty()
     {
-        final String username = "test";
+        final var username = "test";
         when(this.userDAO.findOneByUsername(username)).thenReturn(Optional.empty());
-        final Exception exception = assertThrows(CustomAppException.class, () -> {
+        final var exception = assertThrows(CustomAppException.class, () -> {
             this.userService.getByUsername(username);
         });
 
-        final String expectedMessage = FIND_BY_USERNAME_MSG;
-        final String actualMessage = exception.getMessage();
+        final var expectedMessage = FIND_BY_USERNAME_MSG;
+        final var actualMessage = exception.getMessage();
 
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
@@ -176,12 +175,12 @@ class UserServiceTest
     @Test
     void testGetByUsername_WithNull()
     {
-        final Exception exception = assertThrows(CustomAppException.class, () -> {
+        final var exception = assertThrows(CustomAppException.class, () -> {
             this.userService.getByUsername(null);
         });
 
-        final String expectedMessage = FIND_BY_USERNAME_MSG;
-        final String actualMessage = exception.getMessage();
+        final var expectedMessage = FIND_BY_USERNAME_MSG;
+        final var actualMessage = exception.getMessage();
 
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
@@ -193,15 +192,15 @@ class UserServiceTest
     @Test
     void testGetByEmailIgnoreCase()
     {
-        final Optional<User> optional = Optional.ofNullable(this.user);
+        final var optional = Optional.ofNullable(this.user);
 
         assertThat(optional).isPresent();
         final User user = optional.get();
         user.setId(1L);
-        final String email = user.getEmail();
+        final var email = user.getEmail();
 
         BDDMockito.given(this.userDAO.findOneByEmailIgnoreCase(Mockito.any(String.class))).willReturn(optional);
-        final Optional<User> userFromDB = this.userService.getByEmailIgnoreCase(email);
+        final var userFromDB = this.userService.getByEmailIgnoreCase(email);
 
         assertThat(userFromDB).isPresent();
         TestsDataUtils.assertAllUser(user, userFromDB.get());
@@ -212,16 +211,16 @@ class UserServiceTest
     @Test
     void testGetByEmailIgnoreCase_UpperCase()
     {
-        final Optional<User> optional = Optional.ofNullable(this.user);
+        final var optional = Optional.ofNullable(this.user);
 
         assertThat(optional).isPresent();
-        final User user = optional.get();
+        final var user = optional.get();
         user.setId(1L);
-        final String email = user.getEmail();
-        final String upper = email.toUpperCase();
+        final var email = user.getEmail();
+        final var upper = email.toUpperCase();
 
         BDDMockito.given(this.userDAO.findOneByEmailIgnoreCase(Mockito.any(String.class))).willReturn(optional);
-        final Optional<User> userFromDB = this.userService.getByEmailIgnoreCase(upper);
+        final var userFromDB = this.userService.getByEmailIgnoreCase(upper);
 
         assertThat(userFromDB).isPresent();
         TestsDataUtils.assertAllUser(user, userFromDB.get());
@@ -232,14 +231,14 @@ class UserServiceTest
     @Test
     void testGetByEmailIgnoreCase_WithEmpty()
     {
-        final String email = "test";
+        final var email = "test";
         BDDMockito.given(this.userDAO.findOneByEmailIgnoreCase(Mockito.any(String.class))).willReturn(Optional.empty());
-        final Exception exception = assertThrows(CustomAppException.class, () -> {
+        final var exception = assertThrows(CustomAppException.class, () -> {
             this.userService.getByEmailIgnoreCase(email);
         });
 
-        final String expectedMessage = FIND_BY_EMAIL_MSG;
-        final String actualMessage = exception.getMessage();
+        final var expectedMessage = FIND_BY_EMAIL_MSG;
+        final var actualMessage = exception.getMessage();
 
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
@@ -248,12 +247,12 @@ class UserServiceTest
     @Test
     void testGetByEmailIgnoreCase_WithNull()
     {
-        final Exception exception = assertThrows(CustomAppException.class, () -> {
+        final var exception = assertThrows(CustomAppException.class, () -> {
             this.userService.getByEmailIgnoreCase(null);
         });
 
-        final String expectedMessage = FIND_BY_EMAIL_MSG;
-        final String actualMessage = exception.getMessage();
+        final var expectedMessage = FIND_BY_EMAIL_MSG;
+        final var actualMessage = exception.getMessage();
 
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
@@ -265,9 +264,9 @@ class UserServiceTest
     @Test
     void testGetExistsByUsername()
     {
-        final String username = this.user.getUsername();
+        final var username = this.user.getUsername();
         BDDMockito.given(this.userDAO.existsByUsername(Mockito.any(String.class))).willReturn(Boolean.TRUE);
-        final Boolean exist = this.userService.getExistsByUsername(username);
+        final var exist = this.userService.getExistsByUsername(username);
 
         assertThat(exist).isNotNull();
         assertThat(exist.booleanValue()).isTrue();
@@ -278,10 +277,10 @@ class UserServiceTest
     @Test
     void testGetExistsByUsername_WithFalse()
     {
-        final String username = this.user.getUsername();
+        final var username = this.user.getUsername();
 
         BDDMockito.given(this.userDAO.existsByUsername(Mockito.any(String.class))).willReturn(Boolean.FALSE);
-        final Boolean exist = this.userService.getExistsByUsername(username);
+        final var exist = this.userService.getExistsByUsername(username);
 
         assertThat(exist).isNotNull();
         assertThat(exist.booleanValue()).isFalse();
@@ -292,7 +291,7 @@ class UserServiceTest
     @Test
     void testGetExistsByUsername_WithNull()
     {
-        final Boolean exist = this.userService.getExistsByUsername(null);
+        final var exist = this.userService.getExistsByUsername(null);
 
         assertThat(exist).isNotNull();
         assertThat(exist.booleanValue()).isFalse();
@@ -304,9 +303,9 @@ class UserServiceTest
     @Test
     void testGetExistsByEmail()
     {
-        final String email = this.user.getEmail();
+        final var email = this.user.getEmail();
         BDDMockito.given(this.userDAO.existsByEmail(Mockito.any(String.class))).willReturn(Boolean.TRUE);
-        final Boolean exist = this.userService.getExistsByEmail(email);
+        final var exist = this.userService.getExistsByEmail(email);
 
         assertThat(exist).isNotNull();
         assertThat(exist.booleanValue()).isTrue();
@@ -317,9 +316,9 @@ class UserServiceTest
     @Test
     void testGetExistsByEmail_WithFalse()
     {
-        final String email = this.user.getEmail();
+        final var email = this.user.getEmail();
         BDDMockito.given(this.userDAO.existsByEmail(Mockito.any(String.class))).willReturn(Boolean.FALSE);
-        final Boolean exist = this.userService.getExistsByEmail(email);
+        final var exist = this.userService.getExistsByEmail(email);
 
         assertThat(exist).isNotNull();
         assertThat(exist.booleanValue()).isFalse();
@@ -330,7 +329,7 @@ class UserServiceTest
     @Test
     void testGetExistsByEmail_WithNull()
     {
-        final Boolean exist = this.userService.getExistsByEmail(null);
+        final var exist = this.userService.getExistsByEmail(null);
 
         assertThat(exist).isNotNull();
         assertThat(exist.booleanValue()).isFalse();
@@ -342,12 +341,12 @@ class UserServiceTest
     @Test
     void testGetWithRolesById()
     {
-        final Optional<User> optional = Optional.ofNullable(this.user);
+        final var optional = Optional.ofNullable(this.user);
 
         assertThat(optional).isPresent();
-        final User user = optional.get();
+        final var user = optional.get();
         user.setId(1L);
-        final Long id = user.getId();
+        final var id = user.getId();
         BDDMockito.given(this.userDAO.findOneWithRolesById(Mockito.any(Long.class))).willReturn(optional);
         final Optional<User> userFromDB = this.userService.getWithRolesById(id);
 
@@ -361,19 +360,19 @@ class UserServiceTest
     @Test
     void testGetWithRolesById_ShouldThrowException()
     {
-        final Optional<User> optional = Optional.ofNullable(this.user);
+        final var optional = Optional.ofNullable(this.user);
 
         assertThat(optional).isPresent();
-        final User user = optional.get();
+        final var user = optional.get();
         user.setId(1L);
-        final Long id = user.getId();
+        final var id = user.getId();
         BDDMockito.given(this.userDAO.findOneWithRolesById(Mockito.any(Long.class))).willReturn(Optional.empty());
-        final Exception exception = assertThrows(CustomAppException.class, () -> {
+        final var exception = assertThrows(CustomAppException.class, () -> {
             this.userService.getWithRolesById(id);
         });
 
-        final String expectedMessage = SEARCH_BY_ID_MSG;
-        final String actualMessage = exception.getMessage();
+        final var expectedMessage = SEARCH_BY_ID_MSG;
+        final var actualMessage = exception.getMessage();
 
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
@@ -388,14 +387,14 @@ class UserServiceTest
     @Test
     void testGetWithRolesByUsernameIgnoreCase()
     {
-        final Optional<User> optional = Optional.ofNullable(this.user);
+        final var optional = Optional.ofNullable(this.user);
 
         assertThat(optional).isPresent();
-        final User user = optional.get();
+        final var user = optional.get();
         user.setId(1L);
-        final String username = user.getUsername();
+        final var username = user.getUsername();
         BDDMockito.given(this.userDAO.findOneWithRolesByUsernameIgnoreCase(Mockito.any(String.class))).willReturn(optional);
-        final Optional<User> userFromDB = this.userService.getWithRolesByUsernameIgnoreCase(username);
+        final var userFromDB = this.userService.getWithRolesByUsernameIgnoreCase(username);
 
         assertThat(userFromDB).isPresent();
         TestsDataUtils.assertAllUser(user, userFromDB.get());
@@ -406,15 +405,15 @@ class UserServiceTest
     @Test
     void testGetWithRolesByUsernameIgnoreCase_UpperCase()
     {
-        final Optional<User> optional = Optional.ofNullable(this.user);
+        final var optional = Optional.ofNullable(this.user);
 
         assertThat(optional).isPresent();
-        final User user = optional.get();
+        final var user = optional.get();
         user.setId(1L);
-        final String username = user.getUsername();
+        final var username = user.getUsername();
 
         BDDMockito.given(this.userDAO.findOneWithRolesByUsernameIgnoreCase(Mockito.any(String.class))).willReturn(optional);
-        final Optional<User> userFromDB = this.userService.getWithRolesByUsernameIgnoreCase(username.toUpperCase());
+        final var userFromDB = this.userService.getWithRolesByUsernameIgnoreCase(username.toUpperCase());
 
         assertThat(userFromDB).isPresent();
         TestsDataUtils.assertAllUser(user, userFromDB.get());
@@ -425,14 +424,14 @@ class UserServiceTest
     @Test
     void testGetWithRolesByUsernameIgnoreCase_WithEmpty()
     {
-        final String username = "test";
+        final var username = "test";
         BDDMockito.given(this.userDAO.findOneWithRolesByUsernameIgnoreCase(Mockito.any(String.class))).willReturn(Optional.empty());
-        final Exception exception = assertThrows(CustomAppException.class, () -> {
+        final var exception = assertThrows(CustomAppException.class, () -> {
             this.userService.getWithRolesByUsernameIgnoreCase(username);
         });
 
-        final String expectedMessage = FIND_BY_USERNAME_MSG;
-        final String actualMessage = exception.getMessage();
+        final var expectedMessage = FIND_BY_USERNAME_MSG;
+        final var actualMessage = exception.getMessage();
 
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
@@ -442,12 +441,12 @@ class UserServiceTest
     @Test
     void testGetWithRolesByUsernameIgnoreCase_WithNull()
     {
-        final Exception exception = assertThrows(CustomAppException.class, () -> {
+        final var exception = assertThrows(CustomAppException.class, () -> {
             this.userService.getWithRolesByUsernameIgnoreCase(null);
         });
 
-        final String expectedMessage = FIND_BY_USERNAME_MSG;
-        final String actualMessage = exception.getMessage();
+        final var expectedMessage = FIND_BY_USERNAME_MSG;
+        final var actualMessage = exception.getMessage();
 
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
@@ -460,15 +459,15 @@ class UserServiceTest
     @Test
     void testGetWithRolesByEmailIgnoreCase()
     {
-        final Optional<User> optional = Optional.ofNullable(this.user);
+        final var optional = Optional.ofNullable(this.user);
 
         assertThat(optional).isPresent();
-        final User user = optional.get();
+        final var user = optional.get();
         user.setId(1L);
-        final String email = user.getEmail();
+        final var email = user.getEmail();
 
         BDDMockito.given(this.userDAO.findOneWithRolesByEmailIgnoreCase(Mockito.any(String.class))).willReturn(optional);
-        final Optional<User> userFromDB = this.userService.getWithRolesByEmailIgnoreCase(email);
+        final var userFromDB = this.userService.getWithRolesByEmailIgnoreCase(email);
 
         assertThat(userFromDB).isPresent();
         TestsDataUtils.assertAllUser(user, userFromDB.get());
@@ -479,16 +478,16 @@ class UserServiceTest
     @Test
     void testGetWithRolesByEmailIgnoreCase_UpperCase()
     {
-        final Optional<User> optional = Optional.ofNullable(this.user);
+        final var optional = Optional.ofNullable(this.user);
 
         assertThat(optional).isPresent();
         final User user = optional.get();
         user.setId(1L);
-        final String email = user.getEmail();
-        final String upper = email.toUpperCase();
+        final var email = user.getEmail();
+        final var upper = email.toUpperCase();
 
         BDDMockito.given(this.userDAO.findOneWithRolesByEmailIgnoreCase(Mockito.any(String.class))).willReturn(optional);
-        final Optional<User> userFromDB = this.userService.getWithRolesByEmailIgnoreCase(upper);
+        final var userFromDB = this.userService.getWithRolesByEmailIgnoreCase(upper);
 
         assertThat(userFromDB).isPresent();
         TestsDataUtils.assertAllUser(user, userFromDB.get());
@@ -499,14 +498,14 @@ class UserServiceTest
     @Test
     void testGetWithRolesByEmailIgnoreCase_WithEmpty()
     {
-        final String email = "test";
+        final var email = "test";
         BDDMockito.given(this.userDAO.findOneWithRolesByEmailIgnoreCase(Mockito.any(String.class))).willReturn(Optional.empty());
-        final Exception exception = assertThrows(CustomAppException.class, () -> {
+        final var exception = assertThrows(CustomAppException.class, () -> {
             this.userService.getWithRolesByEmailIgnoreCase(email);
         });
 
-        final String expectedMessage = FIND_BY_EMAIL_MSG;
-        final String actualMessage = exception.getMessage();
+        final var expectedMessage = FIND_BY_EMAIL_MSG;
+        final var actualMessage = exception.getMessage();
 
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
@@ -516,12 +515,12 @@ class UserServiceTest
     @Test
     void testGetWithRolesByEmailIgnoreCase_WithNull()
     {
-        final Exception exception = assertThrows(CustomAppException.class, () -> {
+        final var exception = assertThrows(CustomAppException.class, () -> {
             this.userService.getWithRolesByEmailIgnoreCase(null);
         });
 
-        final String expectedMessage = FIND_BY_EMAIL_MSG;
-        final String actualMessage = exception.getMessage();
+        final var expectedMessage = FIND_BY_EMAIL_MSG;
+        final var actualMessage = exception.getMessage();
 
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
@@ -537,11 +536,11 @@ class UserServiceTest
         int pageNumber = 0; // zero-based page index, must NOT be negative.
         int pageSize = 5; // number of items in a page to be returned, must be greater than 0.
         Pageable paging = PageRequest.of(pageNumber, pageSize);
-        final Page<User> page = new PageImpl<User>(TestsDataUtils.creerJeuDeDonnees());
+        final var page = new PageImpl<User>(TestsDataUtils.creerJeuDeDonnees());
 
-        final String username = TestsDataUtils.USER_ADMIN_USERNAME;
+        final var username = TestsDataUtils.USER_ADMIN_USERNAME;
         BDDMockito.given(this.userDAO.findByUsernameContains(any(String.class), any(Pageable.class))).willReturn(page);
-        final Page<User> result = this.userService.getAllByUsernameContains(username, paging);
+        final var result = this.userService.getAllByUsernameContains(username, paging);
 
         assertThat(result).isNotNull();
         assertThat(result.getNumber()).isNotPositive(); // Le monmbre
@@ -560,9 +559,9 @@ class UserServiceTest
         int pageSize = 5; // number of items in a page to be returned, must be greater than 0.
         Pageable paging = PageRequest.of(pageNumber, pageSize);
 
-        final String username = TestsDataUtils.USER_ADMIN_USERNAME;
+        final var username = TestsDataUtils.USER_ADMIN_USERNAME;
         BDDMockito.given(this.userDAO.findByUsernameContains(any(String.class), any(Pageable.class))).willReturn(null);
-        final Page<User> result = this.userService.getAllByUsernameContains(username, paging);
+        final var result = this.userService.getAllByUsernameContains(username, paging);
 
         assertThat(result).isNull();
 
@@ -579,11 +578,11 @@ class UserServiceTest
         int pageNumber = 0; // zero-based page index, must NOT be negative.
         int pageSize = 5; // number of items in a page to be returned, must be greater than 0.
         Pageable paging = PageRequest.of(pageNumber, pageSize);
-        final Page<User> page = new PageImpl<User>(TestsDataUtils.creerJeuDeDonnees());
+        final var page = new PageImpl<User>(TestsDataUtils.creerJeuDeDonnees());
 
-        final String username = TestsDataUtils.USER_ADMIN_USERNAME;
+        final var username = TestsDataUtils.USER_ADMIN_USERNAME;
         BDDMockito.given(this.userDAO.findAllByUsername(any(String.class), any(Pageable.class))).willReturn(page);
-        final Page<User> result = this.userService.getAllByUsername(username, paging);
+        final var result = this.userService.getAllByUsername(username, paging);
 
         assertThat(result).isNotNull();
         assertThat(result.getNumber()).isNotPositive(); // Le monmbre
@@ -602,10 +601,10 @@ class UserServiceTest
         int pageSize = 5; // number of items in a page to be returned, must be greater than 0.
         Pageable paging = PageRequest.of(pageNumber, pageSize);
 
-        final String username = TestsDataUtils.USER_ADMIN_USERNAME;
-        final String upper = username.toUpperCase();
+        final var username = TestsDataUtils.USER_ADMIN_USERNAME;
+        final var upper = username.toUpperCase();
         BDDMockito.given(this.userDAO.findAllByUsername(any(String.class), any(Pageable.class))).willReturn(null);
-        final Page<User> result = this.userService.getAllByUsername(upper, paging);
+        final var result = this.userService.getAllByUsername(upper, paging);
 
         assertThat(result).isNull();
 
@@ -618,10 +617,10 @@ class UserServiceTest
     @Test
     void testGetUsers()
     {
-        final List<User> users = TestsDataUtils.creerJeuDeDonnees();
+        final var users = TestsDataUtils.creerJeuDeDonnees();
         when(this.userDAO.findAll()).thenReturn(users);
 
-        final List<User> result = (List<User>) this.userService.getUsers();
+        final var result = (List<User>) this.userService.getUsers();
 
         assertThat(result).isNotEmpty();
         assertThat(result.size()).isPositive();
@@ -634,9 +633,9 @@ class UserServiceTest
     @Test
     void testGetAllByEnabled()
     {
-        final List<User> users = TestsDataUtils.creerJeuDeDonnees();
+        final var users = TestsDataUtils.creerJeuDeDonnees();
         BDDMockito.given(this.userDAO.findAllByEnabled(any(Boolean.class))).willReturn(users);
-        final List<User> result = (List<User>) this.userService.getAllByEnabled(Boolean.TRUE);
+        final var result = (List<User>) this.userService.getAllByEnabled(Boolean.TRUE);
 
         assertThat(result).isNotEmpty();
         assertThat(result.size()).isPositive();
@@ -649,7 +648,7 @@ class UserServiceTest
     void testGetAllByEnabled_WithFalse()
     {
         BDDMockito.given(this.userDAO.findAllByEnabled(any(Boolean.class))).willReturn(Collections.emptyList());
-        final List<User> result = (List<User>) this.userService.getAllByEnabled(Boolean.FALSE);
+        final var result = (List<User>) this.userService.getAllByEnabled(Boolean.FALSE);
 
         assertThat(result).isEmpty();
         assertThat(result.size()).isNotPositive();
@@ -660,7 +659,7 @@ class UserServiceTest
     @Test
     void testGetAllByEnabled_WithNull()
     {
-        final List<User> result = (List<User>) this.userService.getAllByEnabled(null);
+        final var result = (List<User>) this.userService.getAllByEnabled(null);
 
         assertThat(result).isEmpty();
         assertThat(result.size()).isNotPositive();
@@ -672,14 +671,14 @@ class UserServiceTest
     @Test
     void testDeleteUser()
     {
-        final Optional<User> optional = Optional.ofNullable(this.user);
+        final var optional = Optional.ofNullable(this.user);
 
         assertThat(optional).isPresent();
-        final User user = optional.get();
+        final var user = optional.get();
         user.setId(1L);
-        final Long id = user.getId();
+        final var id = user.getId();
         BDDMockito.given(this.userDAO.findOneWithRolesById(any(Long.class))).willReturn(optional);
-        final Optional<User> userFromDB = this.userService.getWithRolesById(id);
+        final var userFromDB = this.userService.getWithRolesById(id);
 
         assertThat(userFromDB).isPresent();
         TestsDataUtils.assertAllUser(user, userFromDB.get());
@@ -693,19 +692,19 @@ class UserServiceTest
     @Test
     void testDeleteUser_ShouldThrowException()
     {
-        final Optional<User> optional = Optional.ofNullable(this.user);
+        final var optional = Optional.ofNullable(this.user);
 
         assertThat(optional).isPresent();
-        final User user = optional.get();
+        final var user = optional.get();
         user.setId(1L);
-        final Long id = user.getId();
+        final var id = user.getId();
         BDDMockito.given(this.userDAO.findOneWithRolesById(any(Long.class))).willReturn(Optional.empty());
-        final Exception exception = assertThrows(CustomAppException.class, () -> {
+        final var exception = assertThrows(CustomAppException.class, () -> {
             this.userService.deleteUser(id);
         });
 
-        final String expectedMessage = SEARCH_BY_ID_MSG;
-        final String actualMessage = exception.getMessage();
+        final var expectedMessage = SEARCH_BY_ID_MSG;
+        final var actualMessage = exception.getMessage();
 
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
@@ -716,12 +715,12 @@ class UserServiceTest
     @Test
     void testDeleteUser_ShouldThrowExceptionWithNull()
     {
-        final Exception exception = assertThrows(CustomAppException.class, () -> {
+        final var exception = assertThrows(CustomAppException.class, () -> {
             this.userService.deleteUser(null);
         });
 
-        final String expectedMessage = SEARCH_BY_ID_MSG;
-        final String actualMessage = exception.getMessage();
+        final var expectedMessage = SEARCH_BY_ID_MSG;
+        final var actualMessage = exception.getMessage();
 
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
@@ -734,19 +733,19 @@ class UserServiceTest
     @Test
     void testUpdateUser()
     {
-        final Optional<User> optional = Optional.ofNullable(this.user);
+        final var optional = Optional.ofNullable(this.user);
 
         assertThat(optional).isPresent();
-        final User userToUpdated = optional.get();
+        final var userToUpdated = optional.get();
         userToUpdated.setId(1L);
         userToUpdated.setEmail("update.test@test.com");
         userToUpdated.setEnabled(Boolean.FALSE);
 
-        final Long id = user.getId();
+        final var id = user.getId();
         BDDMockito.given(this.userDAO.save(any(User.class))).willReturn(userToUpdated);
         BDDMockito.given(this.userDAO.findOneWithRolesById(any(Long.class))).willReturn(Optional.of(userToUpdated));
 
-        final Optional<User> userFromDB = this.userService.getWithRolesById(id);
+        final var userFromDB = this.userService.getWithRolesById(id);
         assertThat(userFromDB).isPresent();
 
         this.userService.updateUser(userFromDB.get().getId(), userToUpdated);
@@ -761,21 +760,21 @@ class UserServiceTest
     @Test
     void testUpdateUser_ShouldThrowException()
     {
-        final Optional<User> optional = Optional.ofNullable(this.user);
+        final var optional = Optional.ofNullable(this.user);
 
         assertThat(optional).isPresent();
-        final User userToUpdated = optional.get();
+        final var userToUpdated = optional.get();
         userToUpdated.setId(1L);
-        final Long id = user.getId();
+        final var id = user.getId();
 
         BDDMockito.given(this.userDAO.save(any(User.class))).willReturn(userToUpdated);
         BDDMockito.given(this.userDAO.findOneWithRolesById(any(Long.class))).willReturn(Optional.empty());
-        final Exception exception = assertThrows(CustomAppException.class, () -> {
+        final var exception = assertThrows(CustomAppException.class, () -> {
             this.userService.updateUser(id, userToUpdated);
         });
 
-        final String expectedMessage = SEARCH_BY_ID_MSG;
-        final String actualMessage = exception.getMessage();
+        final var expectedMessage = SEARCH_BY_ID_MSG;
+        final var actualMessage = exception.getMessage();
 
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);
@@ -786,12 +785,12 @@ class UserServiceTest
     @Test
     void testUpdateUser_ShouldThrowExceptionWuithNull()
     {
-        final Exception exception = assertThrows(CustomAppException.class, () -> {
+        final var exception = assertThrows(CustomAppException.class, () -> {
             this.userService.updateUser(null, null);
         });
 
-        final String expectedMessage = SEARCH_BY_ID_MSG;
-        final String actualMessage = exception.getMessage();
+        final var expectedMessage = SEARCH_BY_ID_MSG;
+        final var actualMessage = exception.getMessage();
 
         assertThat(actualMessage.length()).isPositive();
         assertThat(actualMessage).contains(expectedMessage);

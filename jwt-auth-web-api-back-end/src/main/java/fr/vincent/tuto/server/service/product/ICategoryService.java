@@ -34,6 +34,12 @@ public interface ICategoryService
     Optional<Category> getCategoryByName(String pName);
 
     Optional<Category> getCategoryByNameIgnoreCase(String pName);
+    
+    /**
+     * @param pName
+     * @return
+     */
+    Optional<Category> getCategoryWithProductsByNameIgnoreCase(String pName);
 
     Boolean existsCategoryByName(String pName);
 

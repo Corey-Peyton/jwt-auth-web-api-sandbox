@@ -35,7 +35,6 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
  */
 class ServerUtilTest
 {
-
     private static final String USER_MSG_NOT_ACTIVATED = " est désactivé il ne peut être authentifié.";
 
     /**

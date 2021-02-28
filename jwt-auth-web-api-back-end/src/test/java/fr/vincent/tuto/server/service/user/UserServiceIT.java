@@ -59,7 +59,7 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
  * @author Vincent Otchoun
  */
 @RunWith(SpringRunner.class)
-@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties" })
+@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties", "classpath:back-end-tls-test.properties" })
 @ContextConfiguration(name = "userServiceIT", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistanceContextConfig.class,
         UserService.class })
 @SpringBootTest

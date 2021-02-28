@@ -46,10 +46,10 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
  * @author Vincent Otchoun
  */
 @RunWith(SpringRunner.class)
-@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties" })
+@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties", "classpath:back-end-tls-test.properties" })
 @ContextConfiguration(name = "productMapperTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistanceContextConfig.class,
         ProductMapper.class })
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment=WebEnvironment.NONE) 
 @ActiveProfiles("test")
 class ProductMapperTest
 {

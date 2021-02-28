@@ -82,13 +82,15 @@ public final class ServerUtil
     public static final String OPTLOCK_MSG_DEF = "Lock Optimiste, 0 par défaut.";
 
     // GESTION DU CACHE
+    public static final String CACHE_MANAGER_FORMAT = "%s%s";
     public static final String HIBERNATE_CACHE_MANAGER = "hibernate.javax.cache.cache_manager";
     public static final String POINT_ROLES = ".roles";
     public static final String POINT_PRODUCTS = ".products";
-
     public static final String USERS_BY_USERNAME_CACHE = "usersByUsername";
     public static final String USERS_BY_EMAIL_CACHE = "usersByEmail";
-    public static final String ATTRIBUTE_PATHS = "roles";
+    public static final String USERS_ROLES_ATTRIBUTE_PATHS = "roles";
+    public static final String CATEGORY_PRODUCTS_ATTRIBUTE_PATHS = "products";
+    public static final String CATEGORY_BY_NAME_CACHE = "categoriesByName";
 
     // Cross-Origin - CORS constants
     public static final String ALOW_ORIGIN = HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN;

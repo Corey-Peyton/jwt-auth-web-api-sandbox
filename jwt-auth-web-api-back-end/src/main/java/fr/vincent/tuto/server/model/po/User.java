@@ -72,7 +72,7 @@ import lombok.experimental.FieldDefaults;
 @EqualsAndHashCode(callSuper = false, of = "id") // génère equals et hashCode (et d'autres méthodes) sur les champs donnés.
 @FieldDefaults(level = AccessLevel.PRIVATE) // Passe tous les champs en private.
 @AllArgsConstructor(access = AccessLevel.PRIVATE) // le constructeur avec tous les arguments est nécessaire au Builder, mais pour le rendre
-                                                    // inaccessible depuis un autre
+                                                  // inaccessible depuis un autre
 // package, mais toujours depuis le Builder, je le place ici en protected
 @Builder // génère une classe interne de type « Builder »
 public class User extends AbstractPersistable<Long> implements Serializable
@@ -93,7 +93,7 @@ public class User extends AbstractPersistable<Long> implements Serializable
     @Column(name = "USER_NAME", nullable = false, unique = true)
     private String username; // le login utilisé pour authentifier l'utilisateur (non null et unique).
 
-    // @JsonIgnore
+    @JsonIgnore
     @NotNull(message = ServerUtil.PWD_VALIDATION_MSG)
     @Pattern(regexp = ServerUtil.PASSWORD_REGEX, message = ServerUtil.PWD_VALIDATION_MSG)
     @Size(min = 60, max = 60)

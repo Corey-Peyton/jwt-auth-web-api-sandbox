@@ -78,11 +78,12 @@ public class ServerCacheConfig
             createCache(cm, ServerUtil.USERS_BY_USERNAME_CACHE, propsService);
             createCache(cm, ServerUtil.USERS_BY_EMAIL_CACHE, propsService);
             createCache(cm, User.class.getName(), propsService);
-            createCache(cm, User.class.getName() + ServerUtil.POINT_ROLES, propsService);
+            createCache(cm, String.format(ServerUtil.CACHE_MANAGER_FORMAT, User.class.getName(), ServerUtil.POINT_ROLES), propsService);
 
             // Création du cache pour optimiser les accès aux données de la table T_CATEGORIES.
+            createCache(cm, ServerUtil.CATEGORY_BY_NAME_CACHE, propsService);
             createCache(cm, Category.class.getName(), propsService);
-            createCache(cm, Category.class.getName() + ServerUtil.POINT_PRODUCTS, propsService);
+            createCache(cm, String.format(ServerUtil.CACHE_MANAGER_FORMAT, Category.class.getName(), ServerUtil.POINT_PRODUCTS), propsService);
         };
     }
 
@@ -95,8 +96,7 @@ public class ServerCacheConfig
     private void createCache(final javax.cache.CacheManager cm, final String cacheName, final ApplicationPropsService propsService)
     {
         final var cache = cm.getCache(cacheName);
-        if (cache != null)
-        {
+        if (cache != null) {
             cm.destroyCache(cacheName);
         }
         cm.createCache(cacheName, this.jcacheConfiguration(propsService));

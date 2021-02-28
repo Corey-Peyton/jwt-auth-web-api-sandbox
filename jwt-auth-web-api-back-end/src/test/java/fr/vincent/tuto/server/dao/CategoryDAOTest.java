@@ -15,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
@@ -34,6 +35,8 @@ import fr.vincent.tuto.common.service.props.DatabasePropsService;
 import fr.vincent.tuto.server.config.BackEndServerRootConfig;
 import fr.vincent.tuto.server.config.db.PersistanceContextConfig;
 import fr.vincent.tuto.server.model.po.Category;
+import fr.vincent.tuto.server.model.po.Product;
+import fr.vincent.tuto.server.util.ServerUtil;
 import fr.vincent.tuto.server.utils.TestsDataUtils;
 
 /**
@@ -42,9 +45,9 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
  * @author Vincent Otchoun
  */
 @RunWith(SpringRunner.class)
-@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties" })
+@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties", "classpath:back-end-tls-test.properties" })
 @ContextConfiguration(name = "categoryDAOTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistanceContextConfig.class })
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment=WebEnvironment.NONE) 
 @ActiveProfiles("test")
 class CategoryDAOTest
 {
@@ -115,7 +118,45 @@ class CategoryDAOTest
 
         assertThat(optional).isNotPresent();
     }
+    
 
+    /**
+     * Test method for {@link fr.vincent.tuto.server.dao.CategoryDAO#findOneWithProductsByNameIgnoreCase(java.lang.String)}.
+     */
+    @Test
+    void testFindOneWithProductsByNameIgnoreCase()
+    {
+        final var optional = this.categoryDAO.findOneWithProductsByNameIgnoreCase(TestsDataUtils.CATEGORY_NAME_TO_SEARCH);
+
+        assertThat(optional).isPresent();
+
+        final var  category = optional.get();
+        assertThat(category).isNotNull();
+        
+        final Set<Product>  products = category.getProducts();
+        final List<Product> list = ServerUtil.setToList(products);
+        
+        assertThat(list).isNotEmpty();
+        assertThat(list.size()).isPositive();
+        assertThat(list.size()).isEqualTo(3); 
+    }
+    
+    @Test
+    void testFindOneWithProductsByNameIgnoreCase_WithNull()
+    {
+        final var optional = this.categoryDAO.findOneWithProductsByNameIgnoreCase(null);
+
+        assertThat(optional).isNotPresent();
+    }
+    
+    @Test
+    void testFindOneWithProductsByNameIgnoreCase_WithEmpty()
+    {
+        final var optional = this.categoryDAO.findOneWithProductsByNameIgnoreCase(StringUtils.EMPTY);
+
+        assertThat(optional).isNotPresent();
+    }
+    
     /**
      * Test method for {@link fr.vincent.tuto.server.dao.CategoryDAO#existsByName(java.lang.String)}.
      */

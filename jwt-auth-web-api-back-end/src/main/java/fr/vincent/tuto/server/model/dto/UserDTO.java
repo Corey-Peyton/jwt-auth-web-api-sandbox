@@ -80,6 +80,7 @@ public class UserDTO implements Serializable
     @ApiModelProperty(name = "username", dataType = "java.lang.String", value = "Le login utilisé pour authentifier l'utilisateur (non null et unique).", required = true, position = 1)
     private String username;
 
+    // @JsonIgnore
     @NotNull(message = ServerUtil.PWD_VALIDATION_MSG)
     @NotEmpty(message = ServerUtil.PWD_VALIDATION_MSG)
     @NotBlank(message = ServerUtil.PWD_VALIDATION_MSG)
@@ -122,7 +123,7 @@ public class UserDTO implements Serializable
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = ServerUtil.APP_DATE_TIME_ISO_FORMAT, locale = ServerUtil.FR_LOCALE, timezone = ServerUtil.CET_TIMEZONE)
     @ApiModelProperty(name = "updatedTime", dataType = "java.time.LocalDateTime", value = "Horodatage pour la mise à jour de l'objet en base de données.", position = 10)
-    private LocalDateTime updatedTime; 
+    private LocalDateTime updatedTime;
 
     @Override
     public String toString()

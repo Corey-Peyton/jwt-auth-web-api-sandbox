@@ -22,7 +22,7 @@ les `jetons JWT` avec des **clés privées/publiques RSA**. La démarche à suiv
 ### Générer le certificat auto-signé
 - _Générer le magasin des clés privées/publiques RSA au format JKS_
 ```bash
-# Lgth commande : nécessite la saisie de données supplémentaires (fournies par le paramètre -dname dans la commande full ci-dessous présentée)
+# Ligth commande : nécessite la saisie de données supplémentaires (fournies par le paramètre -dname dans la commande full ci-dessous présentée)
 $ keytool -genkeypair -alias my-app-recette -keyalg RSA -keysize 4096 -keystore my-app-recette-keystore.jks -validity 3650
 
 # Full commande
@@ -148,6 +148,10 @@ server.ssl.key-store=classpath:crypto/my-app-recette.p12
 server.ssl.key-store-password=<valeur_storepass> 
 # L'alias qui identifie la clé dans le magasin de clés.
 server.ssl.key-alias=<valeur_alias> 
+
+server.ssl.ciphers=TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_DHE_RSA_WITH_AES_128_GCM_SHA256, TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_DHE_RSA_WITH_AES_128_CBC_SHA, TLS_DHE_RSA_WITH_AES_256_CBC_SHA, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_DHE_RSA_WITH_AES_256_CBC_SHA256
+server.ssl.enabled-protocols=TLSv1.2
+server.http2.enabled=true
 
 # Jusqu'ici la configuration suppose que seul le client vérifie le certificat du serveur (One-Way), pour basculer en 
 # Two-Way : forcer également l'authentification par certificat du client côté serveur, il faut définir la propriété : server.ssl.client-auth

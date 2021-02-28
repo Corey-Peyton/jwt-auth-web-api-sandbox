@@ -72,7 +72,7 @@ public interface UserDAO extends JpaRepository<User, Long>
      * @param pId le critère de recherche (identifiant technique de l'utilisateur recherché).
      * @return informations de l'utilisateur recherché si existe, sinon vide.
      */
-    @EntityGraph(attributePaths = ServerUtil.ATTRIBUTE_PATHS)
+    @EntityGraph(attributePaths = ServerUtil.USERS_ROLES_ATTRIBUTE_PATHS)
     Optional<User> findOneWithRolesById(final Long pId);
 
     /**
@@ -82,7 +82,7 @@ public interface UserDAO extends JpaRepository<User, Long>
      * @param pUsername le critère de recherche (le login de l'utilisateur recherché).
      * @return informations de l'utilisateur recherché si existe, sinon vide.
      */
-    @EntityGraph(attributePaths = ServerUtil.ATTRIBUTE_PATHS)
+    @EntityGraph(attributePaths = ServerUtil.USERS_ROLES_ATTRIBUTE_PATHS)
     @Cacheable(cacheNames = ServerUtil.USERS_BY_USERNAME_CACHE)
     Optional<User> findOneWithRolesByUsernameIgnoreCase(final String pUsername);
 
@@ -93,7 +93,7 @@ public interface UserDAO extends JpaRepository<User, Long>
      * @param pEmail adresse mail de l'utilisateur recherché.
      * @return informations de l'utilisateur recherché si existe, sinon vide.
      */
-    @EntityGraph(attributePaths = ServerUtil.ATTRIBUTE_PATHS)
+    @EntityGraph(attributePaths = ServerUtil.USERS_ROLES_ATTRIBUTE_PATHS)
     @Cacheable(cacheNames = ServerUtil.USERS_BY_EMAIL_CACHE)
     Optional<User> findOneWithRolesByEmailIgnoreCase(final String pEmail);
 

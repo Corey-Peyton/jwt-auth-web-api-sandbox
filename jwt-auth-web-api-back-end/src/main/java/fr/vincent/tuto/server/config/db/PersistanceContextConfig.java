@@ -16,6 +16,7 @@ import java.util.Properties;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.SharedCacheMode;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.cfg.AvailableSettings;
@@ -79,8 +80,7 @@ public class PersistanceContextConfig
     public DataSourceProperties dataSourceProperties()
     {
         //
-        try
-        {
+        try {
             // les propréités de la datasourece à construire
             final var sourceProperties = new DataSourceProperties();
 
@@ -104,31 +104,26 @@ public class PersistanceContextConfig
             final String dml = this.databasePropsService.getDataSourceProps().getInitData().trim();
             final Boolean continueOnError = this.databasePropsService.getDataSourceProps().getInitContinueOnError();
 
-            if (StringUtils.isNotEmpty(intialMode))
-            {
+            if (StringUtils.isNotEmpty(intialMode)) {
                 sourceProperties.setInitializationMode(DataSourceInitializationMode.valueOf(intialMode.toUpperCase()));
             }
 
-            if (StringUtils.isNotEmpty(ddl))
-            {
+            if (StringUtils.isNotEmpty(ddl)) {
                 sourceProperties.setSchema(Arrays.asList(ddl));
             }
 
-            if (StringUtils.isNotEmpty(dml))
-            {
+            if (StringUtils.isNotEmpty(dml)) {
                 sourceProperties.setData(Arrays.asList(dml));
             }
 
-            if (null != continueOnError)
-            {
+            if (null != continueOnError) {
                 sourceProperties.setContinueOnError(continueOnError);
             }
 
             sourceProperties.afterPropertiesSet();
             return sourceProperties;
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new CustomAppException(DATASOURCE_ERR_MSG, e);
         }
     }
@@ -200,6 +195,15 @@ public class PersistanceContextConfig
         emf.setJpaDialect(this.hibernatJpaDialect());
         emf.setJpaProperties(this.additionalProperties());
 
+        // Spécifie comment le fournisseur doit utiliser un cache de second niveau pour l'unité de persistance.
+        emf.setSharedCacheMode(SharedCacheMode.ENABLE_SELECTIVE); // La mise en cache est activée pour toutes les entités pour lesquelles Cacheable
+                                                                  // (true) est spécifié.
+        
+        
+        // Le mode de validation à utiliser par le fournisseur de l'unité la persistance
+        emf.setValidationMode(javax.persistence.ValidationMode.AUTO); // Si un fournisseur de validation de bean est présent dans l'environnement, le
+                                                                      // fournisseur de persistance doit effectuer la validation automatique des
+                                                                      // entités.
         //
         emf.afterPropertiesSet();
         return emf;
@@ -336,8 +340,7 @@ public class PersistanceContextConfig
 
         // Chragement avec Hibernate
         final String immportFiles = this.databasePropsService.getJpaHibernateProps().getHbm2ddlImportFiles().trim();
-        if (StringUtils.isNotBlank(immportFiles))
-        {
+        if (StringUtils.isNotBlank(immportFiles)) {
             properties.put(AvailableSettings.HBM2DDL_IMPORT_FILES, immportFiles);
         }
         return properties;

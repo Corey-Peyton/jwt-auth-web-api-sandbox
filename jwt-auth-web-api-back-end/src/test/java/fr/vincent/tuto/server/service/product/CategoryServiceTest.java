@@ -26,8 +26,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.BDDMockito;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -54,10 +55,11 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
  * @author Vincent Otchoun
  */
 @RunWith(SpringRunner.class)
-@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties" })
-@ContextConfiguration(name = "categoryServiceTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistanceContextConfig.class,
-        ProductService.class, CategoryService.class })
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties",
+        "classpath:back-end-tls-test.properties" })
+@ContextConfiguration(name = "categoryServiceTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class,
+        PersistanceContextConfig.class, ProductService.class, CategoryService.class })
+@SpringBootTest
 @ActiveProfiles("test")
 class CategoryServiceTest
 {
@@ -256,7 +258,7 @@ class CategoryServiceTest
     }
 
     @Test
-    void testGetCategoryByNameIgnoreCase_ShouldThrowException()
+    void testGetCategoryByNameIgnoreCase_UpperCase()
     {
         final Optional<Category> optional = Optional.ofNullable(TestsDataUtils.CATEGORY_1);
 
@@ -266,10 +268,29 @@ class CategoryServiceTest
 
         final String name = category.getName();
         final String upperName = name.toUpperCase();
-        when(this.categoryDAO.findOneByNameIgnoreCase(name)).thenReturn(Optional.empty());
+        when(this.categoryDAO.findOneByNameIgnoreCase(name)).thenReturn(Optional.of(category));
 
+        final Optional<Category> categoryFromDB = this.categoryService.getCategoryByNameIgnoreCase(upperName);
+
+        assertThat(categoryFromDB).isPresent();
+        TestsDataUtils.assertAllCategories(category, categoryFromDB.get());
+
+        verify(this.categoryDAO, times(1)).findOneByNameIgnoreCase(any(String.class));
+    }
+
+    @Test
+    void testGetCategoryByNameIgnoreCase_ShouldThrowException()
+    {
+        final Optional<Category> optional = Optional.ofNullable(TestsDataUtils.CATEGORY_1);
+
+        assertThat(optional).isPresent();
+        final Category category = optional.get();
+        category.setId(1L);
+
+        final String name = category.getName();
+        when(this.categoryDAO.findOneByNameIgnoreCase(name)).thenReturn(Optional.empty());
         final Exception exception = assertThrows(CustomAppException.class, () -> {
-            this.categoryService.getCategoryByNameIgnoreCase(upperName);
+            this.categoryService.getCategoryByNameIgnoreCase(name);
         });
         final String expectedMessage = SEARCH_BY_NAME_MSG;
         final String actualMessage = exception.getMessage();
@@ -278,6 +299,74 @@ class CategoryServiceTest
         assertThat(actualMessage).contains(expectedMessage);
 
         verify(this.categoryDAO, times(1)).findOneByNameIgnoreCase(any(String.class));
+    }
+
+    /**
+     * Test method for
+     * {@link fr.vincent.tuto.server.service.product.CategoryService#getCategoryWithProductsByNameIgnoreCase(java.lang.String)}.
+     */
+    @Test
+    void testGetCategoryWithProductsByNameIgnoreCase()
+    {
+        final Optional<Category> optional = Optional.ofNullable(TestsDataUtils.CATEGORY_1);
+
+        assertThat(optional).isPresent();
+        final Category category = optional.get();
+        category.setId(1L);
+        final String categoryName = category.getName();
+
+        BDDMockito.given(this.categoryDAO.findOneWithProductsByNameIgnoreCase(Mockito.any(String.class))).willReturn(optional);
+        final Optional<Category> categoryFromDB = this.categoryService.getCategoryWithProductsByNameIgnoreCase(categoryName);
+
+        assertThat(categoryFromDB).isPresent();
+        TestsDataUtils.assertAllCategories(category, categoryFromDB.get());
+
+        verify(this.categoryDAO, times(1)).findOneWithProductsByNameIgnoreCase(any(String.class));
+    }
+
+    @Test
+    void testGetCategoryWithProductsByNameIgnoreCase_UpperCase()
+    {
+        final Optional<Category> optional = Optional.ofNullable(TestsDataUtils.CATEGORY_1);
+
+        assertThat(optional).isPresent();
+        final Category category = optional.get();
+        category.setId(1L);
+        final String categoryName = category.getName();
+        final String upperName = categoryName.toUpperCase();
+
+        BDDMockito.given(this.categoryDAO.findOneWithProductsByNameIgnoreCase(Mockito.any(String.class))).willReturn(optional);
+        final Optional<Category> categoryFromDB = this.categoryService.getCategoryWithProductsByNameIgnoreCase(upperName);
+
+        assertThat(categoryFromDB).isPresent();
+        TestsDataUtils.assertAllCategories(category, categoryFromDB.get());
+
+        verify(this.categoryDAO, times(1)).findOneWithProductsByNameIgnoreCase(any(String.class));
+    }
+
+    @Test
+    void testGetCategoryWithProductsByNameIgnoreCase_ShouldThrowException()
+    {
+
+        final Optional<Category> optional = Optional.ofNullable(TestsDataUtils.CATEGORY_1);
+
+        assertThat(optional).isPresent();
+        final Category category = optional.get();
+        category.setId(1L);
+        final String categoryName = category.getName();
+
+        BDDMockito.given(this.categoryDAO.findOneWithProductsByNameIgnoreCase(Mockito.any(String.class))).willReturn(Optional.empty());
+
+        final Exception exception = assertThrows(CustomAppException.class, () -> {
+            this.categoryService.getCategoryWithProductsByNameIgnoreCase(categoryName);
+        });
+        final String expectedMessage = SEARCH_BY_NAME_MSG;
+        final String actualMessage = exception.getMessage();
+
+        assertThat(actualMessage.length()).isPositive();
+        assertThat(actualMessage).contains(expectedMessage);
+
+        verify(this.categoryDAO, times(1)).findOneWithProductsByNameIgnoreCase(any(String.class));
     }
 
     /**

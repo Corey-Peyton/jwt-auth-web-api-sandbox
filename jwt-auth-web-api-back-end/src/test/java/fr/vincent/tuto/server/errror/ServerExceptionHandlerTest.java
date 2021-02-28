@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.core.MethodParameter;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -66,10 +67,10 @@ import io.jsonwebtoken.JwtException;
  * @author Vincent Otchoun
  */
 @RunWith(SpringRunner.class)
-@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties" })
+@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties", "classpath:back-end-tls-test.properties" })
 @ContextConfiguration(name = "serverExceptionHandlerTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class,
         PersistanceContextConfig.class, ServerCacheConfig.class })
-@SpringBootTest
+@SpringBootTest(webEnvironment=WebEnvironment.NONE) 
 @ActiveProfiles("test")
 class ServerExceptionHandlerTest
 {
