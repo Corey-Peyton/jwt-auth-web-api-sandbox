@@ -700,13 +700,14 @@ L'architecture technique et applicative définie ci-dessus, offre la possiblité
 de SGBDR un profil a été défini avec la configuration associée. 
 Les configurations des éléments d'accès aux données en base dans l'application sont mises en place selon les points ci-dessous cités :
 - Les propriétés d'accès à la base de données.
-- Les proprités **`Flyway`** pour la migrations des scripts SQL (scripts DDL et DML).
+- Les propriétés **`Flyway`** pour la migrations des scripts SQL (scripts DDL et DML).
 
 ### Accès à la base de données  
 Les configurations de gestion des accès à la base de données sont séparées en deux grandes catégories que sont :
 - Les propriétés spécifiques à chaque type de base de données : elles fournissent les propriétés nécessaires pour construire la configuration 
 du composant de gestion dans l'application de la source de données mutualisée HikariCP (`HikariDataSource` : pooled DataSource). Elles sont founrnies dans les fichiers
 présentés dans le tableau ci-dessous selon le type de base de données.
+
 |Type SGBDR|Profile Défini|Localisation du fichier de configuration|
 |---|---|---|
 |`H2`|h2|[back-end-db-h2.properties](/jwt-auth-web-api-back-end/docs/db/props/back-end-db-h2.properties)|
