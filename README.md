@@ -683,7 +683,7 @@ La mise en place des éléments à exploiter nécessite donc de renseigner les p
 ####  CRYPTO PROPS : 
 ######################
 server.ssl.enabled=true 
-# Activer le port d'écoute pour les accès sécurisé du serveur : Attention avec le prot non sécurisé dejà défini, il faut renommer eh http.port										
+# Activer le port d'écoute pour les accès sécurisé du serveur : Attention avec le port non sécurisé dejà défini, il faut renommer eh http.port										
 server.port=8443 
 server.ssl.key-store-type=PKCS12  
 server.ssl.key-store=classpath:crypto/my-app-recette.p12 
@@ -691,7 +691,7 @@ server.ssl.key-store-password=<valeur_storepass>
 server.ssl.key-alias=<valeur_alias> 
 server.ssl.trust-store=classpath:crypto/my-app-recette.p12	
 server.ssl.trust-store-password=<valeur_storepass> 
-# On activera cette propritéé uniquement si on veut faire du Two-way authentification 
+# Propritéé à activer uniquement si on veut faire du Two-way authentification 
 # server.ssl.client-auth=need 
 ```
 
@@ -700,10 +700,31 @@ Les configurations des éléments d'accès aux données en base dans l'applicati
 - Configuration de **`Flyway`** pour la migrations des scripts SQL (scripts DDL et DML).
 - Configuration des propriétés d'accès à la abse de données.
 
-### Migration de scripts avec `Flyway` 
-TODO
+### Migration de scripts avec Flyway 
+Selon le schéma d'architecture fourni ci-dessus, l'application offre la possibilité d'exécuter l'application sur le trois types de SGDBR pour lesquels
+des profils ont été définis avec les configurations associées. Le tableau ci-dessous fournit les détails à ce sujet.
+|Type SGBDR|Profile Défini|Localisation du fichier de configuration|
+|---|---|---|
+|H2|h2|(/jwt-auth-web-api-back-end/docs/db/props/back-end-db-h2.properties)|
+|MariaDB|mariadb|(/jwt-auth-web-api-back-end/docs/db/props/back-end-db-mariadb.properties)|
+|PostgreSQL|postgre|(/jwt-auth-web-api-back-end/docs/db/props/back-end-db-postgre.properties)|
 
-### Propriétés d'accès à la abse de données  
+Voici un exemple de configuration : celle fournie pour la base de données H2
+```properties
+############################################################
+### CONFIGURATION MIGRATION DE BASES DE DONNEES AVEC FLYWAY
+############################################################
+spring.flyway.enabled=true
+spring.flyway.group=true
+spring.flyway.baseline-on-migrate=true
+spring.flyway.sql-migration-prefix=V
+spring.flyway.sql-migration-separator=__
+spring.flyway.sql-migration-suffixes=.sql
+#spring.flyway.locations=classpath:db/migration/h2
+spring.flyway.locations=filesystem:docs/db/migration/h2
+```
+
+### Propriétés d'accès à la base de données  
 TODO
 
 ## Configuration applicatives 
