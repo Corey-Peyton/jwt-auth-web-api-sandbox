@@ -37,24 +37,24 @@ import fr.vincent.tuto.server.BackendApplicationStarter;
 import fr.vincent.tuto.server.config.BackEndServerRootConfig;
 
 /**
- * Classe des tests unitaires des objets de type {@link PersistanceConfig}
+ * Classe des tests unitaires des objets de type {@link PersistanceContextConfig}
  * 
  * @author Vincent Otchoun
  */
 @RunWith(SpringRunner.class)
 @TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties" })
 @ContextConfiguration(name = "persistanceContextConfigTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class,
-        PersistanceConfig.class })
+        PersistanceContextConfig.class })
 @SpringBootTest(classes = BackendApplicationStarter.class)
 @ActiveProfiles("test")
-class PersistanceConfigTest
+class PersistanceContextConfigTest
 {
 
     private static final String DRIVER_CLASS_NAME = "org.h2.Driver";
     private static final String PERSIT_UNIT_NAME = "JwtRestSecureServerPUTest";
 
     @Autowired
-    private PersistanceConfig persistanceConfig;
+    private PersistanceContextConfig persistanceContextConfig;
 
     @Autowired
     private DatabasePropsService databasePropsService;
@@ -65,7 +65,7 @@ class PersistanceConfigTest
     @BeforeEach
     void setUp() throws Exception
     {
-        this.persistanceConfig.setDatabasePropsService(this.databasePropsService);
+        this.persistanceContextConfig.setDatabasePropsService(this.databasePropsService);
     }
 
     /**
@@ -74,28 +74,28 @@ class PersistanceConfigTest
     @AfterEach
     void tearDown() throws Exception
     {
-        this.persistanceConfig = null;
+        this.persistanceContextConfig = null;
         this.databasePropsService = null;
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceConfig#dataSourceProperties()}.
+     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceContextConfig#dataSourceProperties()}.
      */
     @Test
     void testDataSourceProperties()
     {
-        final var dataSourceProperties = this.persistanceConfig.dataSourceProperties();
+        final var dataSourceProperties = this.persistanceContextConfig.dataSourceProperties();
 
         assertThat(dataSourceProperties).isNotNull();
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceConfig#dataSource()}.
+     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceContextConfig#dataSource()}.
      */
     @Test
     void testDataSource()
     {
-        final var dataSource = this.persistanceConfig.dataSource();
+        final var dataSource = this.persistanceContextConfig.dataSource();
 
         assertThat(dataSource).isNotNull();
         assertThat(dataSource.getClass()).isSameAs(HikariDataSource.class);
@@ -107,7 +107,7 @@ class PersistanceConfigTest
     @Test
     void testDataSource_ShouldThrowException()
     {
-        final var config = new PersistanceConfig();
+        final var config = new PersistanceContextConfig();
         config.setDatabasePropsService(null);
 
         final var exception = assertThrows(NullPointerException.class, () -> {
@@ -123,12 +123,12 @@ class PersistanceConfigTest
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceConfig#entityManagerFactory()}.
+     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceContextConfig#entityManagerFactory()}.
      */
     @Test
     void testEntityManagerFactory()
     {
-        final var bean = this.persistanceConfig.entityManagerFactory();
+        final var bean = this.persistanceContextConfig.entityManagerFactory();
 
         assertThat(bean).isNotNull();
         assertThat(bean.getDataSource()).isNotNull();
@@ -139,12 +139,12 @@ class PersistanceConfigTest
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceConfig#sharedEntityManager()}.
+     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceContextConfig#sharedEntityManager()}.
      */
     @Test
     void testSharedEntityManager()
     {
-        final var sharedEntity = this.persistanceConfig.sharedEntityManager();
+        final var sharedEntity = this.persistanceContextConfig.sharedEntityManager();
 
         assertThat(sharedEntity).isNotNull();
         assertThat(sharedEntity.getEntityManagerFactory()).isNotNull();
@@ -153,23 +153,23 @@ class PersistanceConfigTest
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceConfig#transactionManager()}.
+     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceContextConfig#transactionManager()}.
      */
     @Test
     void testTransactionManager()
     {
-        final var transactionManager = this.persistanceConfig.transactionManager();
+        final var transactionManager = this.persistanceContextConfig.transactionManager();
 
         assertThat(transactionManager).isExactlyInstanceOf(JpaTransactionManager.class);
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceConfig#hibernatJpaVendorAdapter()}.
+     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceContextConfig#hibernatJpaVendorAdapter()}.
      */
     @Test
     void testHibernatJpaVendorAdapter()
     {
-        final var vendorAdapter = this.persistanceConfig.hibernatJpaVendorAdapter();
+        final var vendorAdapter = this.persistanceContextConfig.hibernatJpaVendorAdapter();
 
         assertThat(vendorAdapter).isExactlyInstanceOf(HibernateJpaVendorAdapter.class);
         assertThat(vendorAdapter.getJpaDialect()).isNotNull();
@@ -177,46 +177,46 @@ class PersistanceConfigTest
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceConfig#hibernatJpaDialect()}.
+     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceContextConfig#hibernatJpaDialect()}.
      */
     @Test
     void testHibernatJpaDialect()
     {
-        final var dialect = this.persistanceConfig.hibernatJpaDialect();
+        final var dialect = this.persistanceContextConfig.hibernatJpaDialect();
 
         assertThat(dialect).isExactlyInstanceOf(HibernateJpaDialect.class);
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceConfig#exceptionTranslationPostProcessor()}.
+     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceContextConfig#exceptionTranslationPostProcessor()}.
      */
     @Test
     void testExceptionTranslationPostProcessor()
     {
-        final var processor = this.persistanceConfig.exceptionTranslationPostProcessor();
+        final var processor = this.persistanceContextConfig.exceptionTranslationPostProcessor();
 
         assertThat(processor).isExactlyInstanceOf(PersistenceExceptionTranslationPostProcessor.class);
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceConfig#sqlExceptionTranslator()}.
+     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceContextConfig#sqlExceptionTranslator()}.
      */
     @Test
     void testSqlExceptionTranslator()
     {
-        final var codeSQLExceptionTranslator = this.persistanceConfig.sqlExceptionTranslator();
+        final var codeSQLExceptionTranslator = this.persistanceContextConfig.sqlExceptionTranslator();
 
         assertThat(codeSQLExceptionTranslator).isExactlyInstanceOf(SQLErrorCodeSQLExceptionTranslator.class);
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceConfig#getDatabasePropsService()}.
+     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceContextConfig#getDatabasePropsService()}.
      */
     @Test
     void testGetDatabasePropsService()
     {
-        assertThat(this.persistanceConfig).isNotNull();
-        assertThat(this.persistanceConfig.getDatabasePropsService()).isNotNull();
+        assertThat(this.persistanceContextConfig).isNotNull();
+        assertThat(this.persistanceContextConfig.getDatabasePropsService()).isNotNull();
     }
 
 }

@@ -1,7 +1,7 @@
 /*  -------------------------------------
 	-- DDL : Data Definition Language
 	-- BASE DE DONNEES : H2
-	-- SCHEMA OR CATALOG :  
+	-- SCHEMA OR CATALOG : JWTAUTHWEB
 	-------------------------------------
 */
 

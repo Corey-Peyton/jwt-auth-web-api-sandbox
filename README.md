@@ -696,24 +696,60 @@ server.ssl.trust-store-password=<valeur_storepass>
 ```
 
 ## Base de données 
-Les configurations des éléments d'accès aux données en base dans l'application est effectuée selon les points ci-dessous cités:
-- Configuration de **`Flyway`** pour la migrations des scripts SQL (scripts DDL et DML).
-- Configuration des propriétés d'accès à la abse de données.
+L'architecture technique et applicative définie ci-dessus, offre la possiblité d'exécuter l'application sur **trois types de SGDBR**. Pour chaque type
+de SGBDR un profil a été défini avec la configuration associée. 
+Les configurations des éléments d'accès aux données en base dans l'application sont mises en place selon les points ci-dessous cités :
+- Les propriétés d'accès à la base de données.
+- Les proprités **`Flyway`** pour la migrations des scripts SQL (scripts DDL et DML).
 
-### Migration de scripts avec Flyway 
-Selon le schéma d'architecture fourni ci-dessus, l'application offre la possibilité d'exécuter l'application sur le trois types de SGDBR pour lesquels
-des profils ont été définis avec les configurations associées. Le tableau ci-dessous fournit les détails à ce sujet.
+### Accès à la base de données  
+Les configurations de gestion des accès à la base de données sont séparées en deux grandes catégories que sont :
+- Les propriétés spécifiques à chaque type de base de données : elles fournissent les propriétés nécessaires pour construire la configuration 
+du composant de gestion dans l'application de la source de données mutualisée HikariCP (`HikariDataSource` : pooled DataSource). Elles sont founrnies dans les fichiers
+présentés dans le tableau ci-dessous selon le type de base de données.
 |Type SGBDR|Profile Défini|Localisation du fichier de configuration|
 |---|---|---|
-|H2|h2|[profile-h2](/jwt-auth-web-api-back-end/docs/db/props/back-end-db-h2.properties)|
-|MariaDB|mariadb|[profile-mariadb](/jwt-auth-web-api-back-end/docs/db/props/back-end-db-mariadb.properties)|
-|PostgreSQL|postgre|[profile-postgresql](/jwt-auth-web-api-back-end/docs/db/props/back-end-db-postgre.properties)|
+|`H2`|h2|[back-end-db-h2.properties](/jwt-auth-web-api-back-end/docs/db/props/back-end-db-h2.properties)|
+|`MariaDB`|mariadb|[back-end-db-mariadb.properties](/jwt-auth-web-api-back-end/docs/db/props/back-end-db-mariadb.properties)|
+|`PostgreSQL`|postgre|[back-end-db-postgre.properties](/jwt-auth-web-api-back-end/docs/db/props/back-end-db-postgre.properties)|
 
-Voici un exemple de configuration : celle fournie pour la base de données H2
+Voici l'exemple de configuration : celle fournie pour la abse de données H2.
 ```properties
-############################################################
-### CONFIGURATION MIGRATION DE BASES DE DONNEES AVEC FLYWAY
-############################################################
+###########################################
+### H2 APPLICATION DATASOURCE PROPERTIES
+###########################################
+# datasource-props props custom
+vot.datasource-props.type=com.zaxxer.hikari.HikariDataSource
+vot.datasource-props.driver-class-name=org.h2.Driver
+vot.datasource-props.url=jdbc:h2:mem:security_permission;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+vot.datasource-props.jdbcUrl=${vot.datasource-props.url}
+vot.datasource-props.datasource-class-name=org.h2.jdbcx.JdbcDataSource
+vot.datasource-props.user-name=sa
+vot.datasource-props.password=
+vot.datasource-props.platform=H2
+
+# JPA Hibernate specific configs custom
+vot.jpa-hibernate-props.database-name=H2
+vot.jpa-hibernate-props.dialect=org.hibernate.dialect.H2Dialect
+```
+
+- Les propriétés communes de gestion des accès à la base de données
+En plus des propriéts spécifiques fournies ci-dessus, les propriétés communes de gestion des accès à la base de données sont fournies dans le fichier :
+[back-end-db-common.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-common.properties). 
+Elles permettent de fournir à l'application principalement les composants suivants :
+- Le fournisseur du gestionnaire d'entités : `EntityManagerFactory` via `LocalContainerEntityManagerFactoryBean`
+- Le gestionnaire d'entités partégé de l'application : `SharedEntityManager` via `SharedEntityManagerBean`
+- Le gestionnaire des transactions d'accès aux données en base dans l'application : `TransactionManager` via `PlatformTransactionManager`
+- L'adaptateur du fournisseur Hibernate des accès aux données : `HibernateJpaVendorAdapter` via `JpaVendorAdapter`
+- La dialecte Hibernate des accès aux données : `HibernateJpaDialect` via `JpaDialect`
+
+### Flyway pour la migration des scripts
+Les configuration Flyway de migration des scripts SQL dans l'application, sont fournies dans les mêmes fichiers que ceux de la section  `Accès à la base de données` 
+Voici un exemple de configuration : celle fournie pour la base de données H2.
+```properties
+################################################
+### CONFIGURATION FLYWAY MIGRATION SCRIPTS H2 
+################################################
 spring.flyway.enabled=true
 spring.flyway.group=true
 spring.flyway.baseline-on-migrate=true
@@ -723,9 +759,6 @@ spring.flyway.sql-migration-suffixes=.sql
 #spring.flyway.locations=classpath:db/migration/h2
 spring.flyway.locations=filesystem:docs/db/migration/h2
 ```
-
-### Propriétés d'accès à la base de données  
-TODO
 
 ## Configuration applicatives 
 TODO

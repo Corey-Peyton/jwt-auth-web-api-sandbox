@@ -1,7 +1,7 @@
 /*
  * ----------------------------------------------
  * Projet ou Module : jwt-auth-web-api-back-end
- * Nom de la classe : PersistanceConfig.java
+ * Nom de la classe : PersistanceContextConfig.java
  * Date de création : 26 janv. 2021
  * Heure de création : 09:23:15
  * Package : fr.vincent.tuto.server.config.db
@@ -66,7 +66,7 @@ import fr.vincent.tuto.common.service.props.DatabasePropsService;
  */
 @Configuration
 @EnableTransactionManagement
-public class PersistanceConfig
+public class PersistanceContextConfig
 {
     private static final String DATASOURCE_ERR_MSG = "[dataSource] - Erreur lors de la création du bean DataSource du pool Hikari";
 
@@ -177,7 +177,7 @@ public class PersistanceConfig
     }
 
     /**
-     * Obtenir le gestionnaire d'entités pour l'accès aux données en base.
+     * Obtenir le gestionnaire d'entités pour l'accès aux données en base dans l'application.
      * 
      * @return le gestionnaire d'entités.
      * @throws CustomAppException exception levée lorsque survient une erreur.
@@ -206,7 +206,7 @@ public class PersistanceConfig
     }
 
     /**
-     * Obtenir la référence partégée pour le créateur du gestionnaire d'entités.
+     * Obtenir la référence partégée du créateur de gestionnaire d'entités dans l'application.
      * 
      * @return la référence paratégée.
      * @throws CustomAppException exception levée lorsque survient une erreur.
@@ -222,7 +222,7 @@ public class PersistanceConfig
     }
 
     /**
-     * Obtenir le gestionnaire des transactions d'accès aux données en base.
+     * Obtenir le gestionnaire des transactions d'accès aux données en base dans l'application.
      * 
      * @return le gestionnaire de transactions.
      */

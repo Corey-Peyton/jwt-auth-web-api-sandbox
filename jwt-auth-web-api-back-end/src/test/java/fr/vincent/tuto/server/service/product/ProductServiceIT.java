@@ -39,7 +39,7 @@ import org.springframework.transaction.TransactionSystemException;
 import fr.vincent.tuto.common.exception.CustomAppException;
 import fr.vincent.tuto.common.service.props.DatabasePropsService;
 import fr.vincent.tuto.server.config.BackEndServerRootConfig;
-import fr.vincent.tuto.server.config.db.PersistanceConfig;
+import fr.vincent.tuto.server.config.db.PersistanceContextConfig;
 import fr.vincent.tuto.server.model.po.Product;
 
 /**
@@ -49,7 +49,7 @@ import fr.vincent.tuto.server.model.po.Product;
  */
 @RunWith(SpringRunner.class)
 @TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties" })
-@ContextConfiguration(name = "productServiceIT", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistanceConfig.class,
+@ContextConfiguration(name = "productServiceIT", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistanceContextConfig.class,
         ProductService.class })
 @SpringBootTest
 @ActiveProfiles("test")

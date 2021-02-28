@@ -1,7 +1,7 @@
 /*  --------------------------------------
 	-- DML : Data Manipulation Language
 	-- BASE DE DONNEES : POSTGRESQL
-	-- SCHEMA OR CATALOG :  
+	-- SCHEMA OR CATALOG : JWTAUTHWEB
 	-------------------------------------
 */
 

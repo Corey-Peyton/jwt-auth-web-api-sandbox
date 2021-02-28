@@ -1,7 +1,7 @@
 /*  ---------------------------------------
 	-- DDL : Data Definition Language
 	-- BASE DE DONNEES : POSTGRESQL 
-	-- SCHEMA OR CATALOG :  
+	-- SCHEMA OR CATALOG :  JWTAUTHWEB
 	---------------------------------------
 */
 

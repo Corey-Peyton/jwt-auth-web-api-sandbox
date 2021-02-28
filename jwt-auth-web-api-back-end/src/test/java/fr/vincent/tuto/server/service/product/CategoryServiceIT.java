@@ -42,7 +42,7 @@ import com.google.common.collect.Sets;
 import fr.vincent.tuto.common.exception.CustomAppException;
 import fr.vincent.tuto.common.service.props.DatabasePropsService;
 import fr.vincent.tuto.server.config.BackEndServerRootConfig;
-import fr.vincent.tuto.server.config.db.PersistanceConfig;
+import fr.vincent.tuto.server.config.db.PersistanceContextConfig;
 import fr.vincent.tuto.server.enumeration.CategoryTypeEnum;
 import fr.vincent.tuto.server.model.po.Category;
 import fr.vincent.tuto.server.model.po.Product;
@@ -55,7 +55,7 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
  */
 @RunWith(SpringRunner.class)
 @TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties" })
-@ContextConfiguration(name = "categoryServiceIT", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistanceConfig.class,
+@ContextConfiguration(name = "categoryServiceIT", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistanceContextConfig.class,
         ProductService.class, CategoryService.class })
 @SpringBootTest
 @ActiveProfiles("test")

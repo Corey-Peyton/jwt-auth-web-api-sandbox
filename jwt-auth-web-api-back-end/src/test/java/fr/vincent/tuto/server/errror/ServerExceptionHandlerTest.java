@@ -54,7 +54,7 @@ import fr.vincent.tuto.common.model.payload.GenericApiResponse;
 import fr.vincent.tuto.common.service.props.DatabasePropsService;
 import fr.vincent.tuto.server.config.BackEndServerRootConfig;
 import fr.vincent.tuto.server.config.cache.ServerCacheConfig;
-import fr.vincent.tuto.server.config.db.PersistanceConfig;
+import fr.vincent.tuto.server.config.db.PersistanceContextConfig;
 import fr.vincent.tuto.server.model.po.Product;
 import fr.vincent.tuto.server.model.po.User;
 import fr.vincent.tuto.server.util.ServerUtil;
@@ -68,7 +68,7 @@ import io.jsonwebtoken.JwtException;
 @RunWith(SpringRunner.class)
 @TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties" })
 @ContextConfiguration(name = "serverExceptionHandlerTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class,
-        PersistanceConfig.class, ServerCacheConfig.class })
+        PersistanceContextConfig.class, ServerCacheConfig.class })
 @SpringBootTest
 @ActiveProfiles("test")
 class ServerExceptionHandlerTest
