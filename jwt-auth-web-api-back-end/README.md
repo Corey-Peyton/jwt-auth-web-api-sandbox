@@ -137,13 +137,23 @@ La sécurisation des échanges entre l'application et d'autres SI consiste donc 
 Pour ce faire, il faut à minima fournir les propriétés ci-dessous définies:
 
 ```properties
-server.ssl.enabled=true # Activer le support TLS pour sécuriser les échanges										
-server.port=8443 # Activer le port d'écoute pour les accès sécurisé du serveu										r
+# Activer le support TLS pour sécuriser les échanges
+server.ssl.enabled=true 
 
-server.ssl.key-store-type=PKCS12  # Le format ou type de stockage de clés : JKS ou PKCS12
-server.ssl.key-store=classpath:crypto/my-app-recette.p12 # Le chemin d'accès au magasin de clés contenant le certificat
-server.ssl.key-store-password=<valeur_storepass> # Le mot de passe utilisé pour accéder au magasin de clés
-server.ssl.key-alias=<valeur_alias> # L'alias qui identifie la clé dans le magasin de clés.
+# Activer le port d'écoute pour les accès sécurisé du serveur										
+server.port=8443 										r
+
+# Le format ou type de stockage de clés : JKS ou PKCS12
+server.ssl.key-store-type=PKCS12  
+
+# Le chemin d'accès au magasin de clés contenant le certificat
+server.ssl.key-store=classpath:crypto/my-app-recette.p12 
+
+# Le mot de passe utilisé pour accéder au magasin de clés
+server.ssl.key-store-password=<valeur_storepass> 
+
+# L'alias qui identifie la clé dans le magasin de clés.
+server.ssl.key-alias=<valeur_alias> 
 
 # Jusqu'ici la configuration suppose que seul le client vérifie le certificat du serveur (One-Way), pour basculer en 
 # Two-Way : forcer également l'authentification par certificat du client côté serveur, il faut définir la propriété : server.ssl.client-auth
@@ -158,8 +168,8 @@ Pour exiger que des requêtes HTTPS, il faut configurer des éléments de Spring
 - Par fichier de propriétés
 
 ```properties
-# Spring Security
-security.require-ssl=true # Activer Spring Security, configurons-la pour n'accepter que les requêtes HTTPS
+# Activer Spring Security, configurons-la pour n'accepter que les requêtes HTTPS
+security.require-ssl=true 
 ```
 
 - Exiger que des requêtes HTTPS de façon programmatique
@@ -195,9 +205,14 @@ Tout d'abord, nous devons **créer un magasin de confiance**. Comme nous avons g
 Définir de nouvelles propriétés pour les `détails du trust store` :
 
 ```properties
-server.ssl.trust-store=classpath:crypto/my-app-recette.p12	# emplacement du magasin de confiance
-server.ssl.trust-store-password=<valeur_storepass> # mot de passe du magasin de confiance
-server.ssl.client-auth=need # Bascule en Two-way authentification : le client vérifie le certificat du serveur et le certificat du client est vérifié côté serveur également
+# emplacement du magasin de confiance
+server.ssl.trust-store=classpath:crypto/my-app-recette.p12	
+
+# mot de passe du magasin de confiance
+server.ssl.trust-store-password=<valeur_storepass> 
+
+# Bascule en Two-way authentification : le client vérifie le certificat du serveur et le certificat du client est vérifié côté serveur également
+server.ssl.client-auth=need 
 ```
 
 Dans ce cas de figure pour les besoins de la démo, assurons-nous que Spring Security autorise toutes les demandes entrantes en ajoutant la configuration suivante :
