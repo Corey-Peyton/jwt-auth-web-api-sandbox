@@ -676,6 +676,25 @@ Il assure donc la confidentialité des données échangées over `HTTP` -> donc 
 Les détails sur la mise en place et exploitation des éléments des configurations de sécurité sont fournis dans le fichier :
 [README](/jwt-auth-web-api-back-end/README.md).
 
+La mise en place des éléments à exploiter nécessite donc de renseigner les propriétés suivantes dans le fichier :
+[back-end-application.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-application.properties)
+```properties
+######################
+####  CRYPTO PROPS : 
+######################
+server.ssl.enabled=true 
+# Activer le port d'écoute pour les accès sécurisé du serveur : Attention avec le prot non sécurisé dejà défini, il faut renommer eh http.port										
+server.port=8443 
+server.ssl.key-store-type=PKCS12  
+server.ssl.key-store=classpath:crypto/my-app-recette.p12 
+server.ssl.key-store-password=<valeur_storepass> 
+server.ssl.key-alias=<valeur_alias> 
+server.ssl.trust-store=classpath:crypto/my-app-recette.p12	
+server.ssl.trust-store-password=<valeur_storepass> 
+# On activera cette propritéé uniquement si on veut faire du Two-way authentification 
+# server.ssl.client-auth=need 
+```
+
 ## Base de données 
 Les configurations des éléments d'accès aux données en base dans l'application est effectuée selon les points ci-dessous cités:
 - Configuration de **`Flyway`** pour la migrations des scripts SQL (scripts DDL et DML).

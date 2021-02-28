@@ -139,7 +139,7 @@ Pour ce faire, il faut à minima fournir les propriétés ci-dessous définies:
 # Activer le support TLS pour sécuriser les échanges
 server.ssl.enabled=true 
 # Activer le port d'écoute pour les accès sécurisé du serveur										
-server.port=8443 										r
+server.port=8443 
 # Le format ou type de stockage de clés : JKS ou PKCS12
 server.ssl.key-store-type=PKCS12  
 # Le chemin d'accès au magasin de clés contenant le certificat
