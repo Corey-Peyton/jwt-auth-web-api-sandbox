@@ -683,7 +683,7 @@ La mise en place des éléments à exploiter nécessite donc de renseigner les p
 ####  CRYPTO PROPS : 
 ######################
 server.ssl.enabled=true 
-# Activer le port d'écoute pour les accès sécurisé du serveur : Attention avec le port non sécurisé dejà défini, il faut renommer eh http.port										
+# Activer le port d'écoute pour les accès sécurisé du serveur : Attention avec le port non sécurisé dejà défini, il faut renommer en http.port										
 server.port=8443 
 server.ssl.key-store-type=PKCS12  
 server.ssl.key-store=classpath:crypto/my-app-recette.p12 
@@ -705,9 +705,9 @@ Selon le schéma d'architecture fourni ci-dessus, l'application offre la possibi
 des profils ont été définis avec les configurations associées. Le tableau ci-dessous fournit les détails à ce sujet.
 |Type SGBDR|Profile Défini|Localisation du fichier de configuration|
 |---|---|---|
-|H2|h2|(/jwt-auth-web-api-back-end/docs/db/props/back-end-db-h2.properties)|
-|MariaDB|mariadb|(/jwt-auth-web-api-back-end/docs/db/props/back-end-db-mariadb.properties)|
-|PostgreSQL|postgre|(/jwt-auth-web-api-back-end/docs/db/props/back-end-db-postgre.properties)|
+|H2|h2|[profile-h2](/jwt-auth-web-api-back-end/docs/db/props/back-end-db-h2.properties)|
+|MariaDB|mariadb|[profile-mariadb](/jwt-auth-web-api-back-end/docs/db/props/back-end-db-mariadb.properties)|
+|PostgreSQL|postgre|[profile-postgresql](/jwt-auth-web-api-back-end/docs/db/props/back-end-db-postgre.properties)|
 
 Voici un exemple de configuration : celle fournie pour la base de données H2
 ```properties
