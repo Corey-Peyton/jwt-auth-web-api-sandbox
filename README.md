@@ -183,14 +183,14 @@ consiste donc à intégrer les ressources distribuées du `Client Angular` dans 
 **NB** : La configuration modulaire du projet permet néanmoins une exécution séparée. Il suffira tout juste d'inhiber la configuration actuelle permettant d'intégration des ressources distribuées 
 du `Client Angular` lors du packaging du `Back-End Java`.
 
-## Fonctionnement global - Les USe Case
+## Fonctionnement global - Les Use Case
 Le fonctionnement global de l'application est fourni aux travers de `diagrammes de séquences` des cas d'utilisation (`use case`) présentés par le tableau ci-dessous :
 
 |Use Case|Description succincte |
 |---|---|
 |**`Ajouter un nouvel utilisateur`**|_persister/sauvegarder les informations d'un nouvel utilisateur dans le SI_|
-|**`S'Authentifier`** (_Se Connecter à l'application_)|_le client (utilisateur) fournit ses informations d'identification pour_ `authentification par le SI`|
-|**`Accéder aux ressources`** : _Cas afficher la liste de produits existant dans le SI_|_Il est composé principalement de deux phases : <ul><li>Demander/obtenir les jetons d'accès (phase d'authentification : voir use case du dessus)</li><li>Accéder aux ressources de l'application (produits, outils, services,... ) avec le jeton d'accès obtenu de la phase d'authentification</li></ul>_|
+|**`S'Authentifier`** (_Se Connecter à l'application_)|_le client fournit ses informations d'identification pour_ `authentification par le SI`|
+|**`Accéder aux ressources`** : _Cas afficher la liste de produits existant dans le SI_|_Il est composé principalement de deux phases : <ul><li>Demander/obtenir les jetons d'accès (phase d'authentification)</li><li>Accéder aux ressources de l'application (produits, outils, services,... ) avec le jeton d'accès obtenu de la phase d'authentification</li></ul>_|
 
 ### Ajouter un nouvel utilisateur dans le SI
 L'ajout ou la persistance des informations d'un nouvel utilisateur dans le SI est présenté par le diagramme de séquences ci-dessous (`PlantUML` au format markdown) :
@@ -502,8 +502,8 @@ deactivate User
 ```
 
 ## Le Modèle de données
-Le modèle de données fournit une représentation graphique des différents objets aussi bien **_métier_** que non impliqués dans le dévéloppement de l'application, pour la satisfaction
-des besoins exprimés. Ainsi, le diagramme de classes ci-dessous (au même format que les diagrammes précédents) présente les relations entre les entités 
+Le modèle de données fournit une représentation graphique des différents objets aussi bien **_métier_** que non, `impliqués dans le dévéloppement de l'application, pour la satisfaction
+des besoins exprimés`. Ainsi, le diagramme de classes ci-dessous (au même format que les diagrammes précédents) présente principalement les relations entre les entités 
 de gestion de la partie métier de l'application.
 
 ```plantuml
@@ -630,14 +630,13 @@ Une liste non exhaustive des technos utilsées pour le développement de cette a
 ![](https://img.shields.io/badge/Swagger_3.0_/OpenAPI-✓-blue.svg)
 ![](https://img.shields.io/badge/EhCache-✓-blue.svg)
 ![](https://img.shields.io/badge/Lombok-✓-blue.svg)
-![](https://img.shields.io/badge/PlantUML-✓-blue.svg)
 
 C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage `Java` : 
 - **`PlantUML`** pour la production au format markdown des éléments de modélisation et conception des spécifications techniques fournies.
-- **`Java 11`** est utilisé pour la compilation et cible pour l'environnement d'exécution.
+- **`Java 11`** langage de programmation utilisé pour la compilation et cible pour l'environnement d'exécution.
 - **`Spring Security`**, **`JWT`**, pour sécuriser les échanges (production de jetons, authentification et autorisation).
 - **`AOP`** pour la séparation des préoccupations transversales dans l'application. Ici, il s'agit de la journalisation dans le couches applicatives : `le logging`
-- **`JPA / Hibernate`** pour les concepts ORM et DAO.
+- **`JPA/Hibernate`** pour les concepts ORM et DAO.
 - **`H2`**, **`MariaDB`**, **`PostgreSQL`** configurations pour les accès aux données en base et pour la réalisation de TI (_`Tests d'Intégration`_ : système)
 - **`Flyway`** pour la migration de bases de données.
 - **`EhCache`** pour optimiser les accès aux données.
@@ -645,7 +644,7 @@ C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage `Java` :
 - **`Docker`** pour la conteneurisation des services/ de l'application
 - **`Lombok`** pour générer du code couramment utilisé et faciliter le maintien du code source propre, simplifier l'écriture des classes.
 - **`Keytool/OpenSSL`** pour la génération du magasin des `clés privées/publiques RSA`, export de la clé publique et du certificat dans des fichiers pour exploitation autraversde l'API Java dédiée. 
-- **`Swagger 3.0.0 /OpenAPI`** pour la documentation et tests de l'API.
+- **`Swagger 3.0.0/OpenAPI`** pour la documentation et tests de l'API.
 - **`JUnit 5`** pour l'écriture des codes sources des classes unitaires et d'intégration.
 - **`SonarLint`** intégré dans l'IDE (_STS_) pour `analyser la qualité du code` livré, poussé dans le `repository` (_bonnes pratiques de développement_).
 - **`MoreUnit`** intégré dans l'IDE (_STS_) pour `taguer` les classes du code source couvertes par des TU (_Tests Unitaires_).
@@ -674,7 +673,7 @@ Sécuriser les échanges consiste à Activer le support `TLS`.
 La sécurité au niveau du transport `applique des contrôles de sécurité lors de l’établissement d’une connexion` entre les consommateurs de services (les clients), et le serveur. 
 Il assure donc la confidentialité des données échangées over `HTTP` -> donc utilisation de `HTTPS` pour le transport des données. Le protocole `HTTPS`utilise `TLS` pour sécuriser la communication. Ainsi donc :
 - Le `niveau de transport entrant` **sécurise** la _communication entre les clients et le serveur_.
-- Le `niveau de transport sortant` sécurise de façon implicite les trois techniques d'envoi de demandes sortantes à savoir : `actions de routage, actions de publication et actions d'appel`. 
+- Le `niveau de transport sortant` sécurise de façon implicite les trois techniques d'envoi de demandes sortantes à savoir : _actions de routage, actions de publication et actions d'appel_. 
 
 Les détails sur la mise en place et exploitation des éléments des configurations de sécurité sont fournis dans le fichier :
 [README](/jwt-auth-web-api-back-end/README.md).
@@ -704,25 +703,25 @@ server.ssl.trust-store-password=<valeur_storepass>
 ```
 
 ## Base de données 
-L'architecture technique et applicative définie ci-dessus, offre la possiblité d'exécuter l'application sur **trois types de SGDBR**. Pour chaque type
-de SGBDR un profil a été défini avec la configuration associée. 
-Les configurations des éléments d'accès aux données en base dans l'application sont mises en place selon les points ci-dessous cités :
+L'architecture technique et applicative définie ci-dessus, offre la possiblité d'exécuter l'application sur **trois types de SGDBR**. Pour `chaque type
+de SGBDR un profil a été défini` avec la configuration associée. 
+Les configurations des éléments d'accès aux données en base proposeées dans l'application sont mises en place selon les points ci-dessous cités :
 - Les propriétés d'accès à la base de données.
-- Les propriétés **`Flyway`** pour la migrations des scripts SQL (scripts DDL et DML).
+- Les propriétés **`Flyway`** pour la migrations des scripts SQL (`scripts DDL et DML`).
 
 ### Accès à la base de données  
 Les configurations de gestion des accès à la base de données sont séparées en deux grandes catégories que sont :
-- Les propriétés spécifiques à chaque type de base de données : elles fournissent les propriétés nécessaires pour construire la configuration 
-du composant de gestion dans l'application de la source de données mutualisée HikariCP (`HikariDataSource` : pooled DataSource). Elles sont founrnies dans les fichiers
+- **`Les propriétés spécifiques à chaque type`** de base de données : elles fournissent les propriétés nécessaires pour construire la configuration 
+du composant de gestion dans l'application de la _source de données mutualisée HikariCP_ (`HikariDataSource` : pooled DataSource). Elles sont fournies dans les fichiers
 présentés dans le tableau ci-dessous selon le type de base de données. Par défaut la cible est **`H2`**.
 
-|Type SGBDR|Profile Défini|Localisation du fichier de configuration|
+|Type de SGBDR|Profile Défini|Fichier de configuration associé|
 |---|---|---|
 |`H2`|h2|[back-end-db-h2.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-h2.properties)|
 |`MariaDB`|mariadb|[back-end-db-mariadb.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-mariadb.properties)|
 |`PostgreSQL`|postgre|[back-end-db-postgre.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-postgre.properties)|
 
-Voici l'exemple de configuration : celle fournie pour la base de données H2.
+Voici l'exemple de configuration : celle de la cible par défaut H2.
 ```properties
 ###########################################
 ### H2 APPLICATION DATASOURCE PROPERTIES
@@ -742,7 +741,8 @@ vot.jpa-hibernate-props.database-name=H2
 vot.jpa-hibernate-props.dialect=org.hibernate.dialect.H2Dialect
 ```
 
-- Les propriétés communes de gestion des accès à la base de données
+- **`Les propriétés communes de gestion des accès`** à la base de données
+
 En plus des propriéts spécifiques fournies ci-dessus, les propriétés communes de gestion des accès à la base de données sont fournies dans le fichier :
 [back-end-db-common.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-common.properties). 
 Elles permettent de fournir à l'application principalement les composants suivants :
@@ -754,7 +754,7 @@ Elles permettent de fournir à l'application principalement les composants suiva
 
 ### Flyway pour la migration des scripts
 Les configuration Flyway de migration des scripts SQL dans l'application, sont fournies dans les mêmes fichiers que ceux de la section  `Accès à la base de données` 
-Voici un exemple de configuration : celle fournie pour la base de données H2.
+Voici un exemple de configuration : celle de la cible par défaut H2.
 ```properties
 ################################################
 ### CONFIGURATION FLYWAY MIGRATION SCRIPTS H2 
@@ -782,24 +782,24 @@ TODO
 ## Compilation et Packaging
 Tout ceci est fait dans le respect des spécifications de l'architecture technique et application qui offre la possiblité d'exécuter l'application sur `trois types de SGDBR`.
 Donc, fournir une archive exécutable selon le type de base de données choisi comme cible. Par défaut la cible est **`H2`**.
-Il s'agit principalement de mettre en palce le mécanisme suivant :
-- Définir des `profile maven` pour la compilation et l'archivage pour chaque type de base de données.
-- Transformer le `code source` (.java) en `code objet` (.class) contenant le `bytecode` (code portable ou p-code) permettant de créer programme exécutable. Puis construire `l'archive exécutablev (.jar) à partir du `code objet` (.class) contenant le `bytecode`.
+Il s'agit principalement de mettre en place tout le mécanisme en suivant les étapes ci-après :
+- Définir des `profile maven` de compilation et archivage pour chaque type de base de données.
+- Transformer le `code source` (**.java**) en `code objet` (**.class**) contenant le **`bytecode`** (_code portable ou p-code_) permettant de créer programme exécutable. Puis construire `l'exécutable` (.jar) à partir du `code objet` (.class) contenant le `bytecode`.
 
-### 1°)- Définir les profils Maven 
-La définition des `profile Maven` consste à ne livrer dans l'archive exécutable que les fichiers de propriétés nécessaires pour l'environnement d'exécution cilbe (le type de base de données choisi).
+### 1°) - Définir les profils Maven 
+La définition des `profile Maven` consiste à ne livrer dans l'exécutable que les fichiers de propriétés nécessaires pour l'environnement d'exécution cilbe (le type de base de données choisi).
 Le tableau ci-dessous fournit les attendus pour chaque environnement cible.
 
 |Type SGBDR|Profile Défini|Fichiers attendus|
 |---|---|---|
-|`H2`|h2|<ul><li>[back-end-db-common.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-common.properties)</li>[back-end-db-h2.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-h2.properties)<li></li><li>[back-end-tls.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-tls.properties)</li><li>[back-end-application.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-application.properties)</li></ul>|
-|`MariaDB`|mariadb|<ul><li>[back-end-db-common.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-common.properties)</li>[back-end-db-mariadb.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-mariadb.properties)<li></li><li>[back-end-tls.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-tls.properties)</li><li>[back-end-application.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-application.properties)</li></ul>|
-|`PostgreSQL`|postgre|<ul><li>[back-end-db-common.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-common.properties)</li>[back-end-db-postgre.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-postgre.properties)<li></li><li>[back-end-tls.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-tls.properties)</li><li>[back-end-application.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-application.properties)</li></ul>|
+|`H2`|h2|<ul><li>[back-end-db-common.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-common.properties)</li><li>[back-end-db-h2.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-h2.properties)</li><li>[back-end-tls.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-tls.properties)</li><li>[back-end-application.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-application.properties)</li></ul>|
+|`MariaDB`|mariadb|<ul><li>[back-end-db-common.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-common.properties)</li><li>[back-end-db-mariadb.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-mariadb.properties)</li><li>[back-end-tls.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-tls.properties)</li><li>[back-end-application.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-application.properties)</li></ul>|
+|`PostgreSQL`|postgre|<ul><li>[back-end-db-common.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-common.properties)</li><li>[back-end-db-postgre.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-postgre.properties)</li><li>[back-end-tls.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-tls.properties)</li><li>[back-end-application.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-application.properties)</li></ul>|
 
 La défintion des `profile Maven` est effectuée dans le fichier : [pom.xml](/jwt-auth-web-api-back-end/pom.xml).
 Les détails de la démarche de mise en place sont fournis dans le fichier : [README](/jwt-auth-web-api-back-end/README.md).
 
-### 2°)- Construire le code objet et l'archive exécutable 
+### 2°) - Construire le code objet et l'archive exécutable 
 TODO
 
 
