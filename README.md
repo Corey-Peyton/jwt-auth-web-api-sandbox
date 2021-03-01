@@ -805,7 +805,8 @@ TODO
 
 ## Exécution
 - A partir de l'IDE
-Pour pouvoir exécuter facilement le projet depuis l'IDE, **`il faut renseigner la JVM de la valeur du profile actvié par défaut`** (`h2`).
+
+Pour pouvoir exécuter facilement le projet depuis l'IDE,[color=#26B260] **`il faut renseigner la JVM de la valeur du profile actvié par défaut`** (`h2`).
 La démarche à suivre est donc la suivante :
 ```bash
 # Run Configurations > Spring Boot App > (x)=Arguments > VM Arguments
@@ -813,19 +814,21 @@ $ -Dspring.profiles.active=h2
 ```
 
 - Cycle de vie Maven
-Quelque soit la cilble chisie pour la base de données
+
+Quelque soit la cible choisie pour la base de données
 ```bash
 $ mvn spring-boot:run
 ```
 
 - Ligne de commande : 
-A partir de l'archive exécutable fournie pour chaque type de base de données
+
+A partir de l'exécutable fournie pour chaque type de base de données
 ```bash
 
 $ java -jar jwt-auth-web-api-back-end-${spring.profiles.active}-1.0.0-SNAPSHOT.jar
 
 avec 
-`spring.profiles.active`=h2 ou mariadb ou postgre
+spring.profiles.active=h2 ou mariadb ou postgre
 ```
 
 - Ligne de commande avec surcharge des fichiers de base
@@ -836,7 +839,7 @@ $ java -Dlogging.config=file:${SRVC_HOME}/logback-spring.xml -jar jwt-auth-web-a
 ou
 $ java -Dlogging.config=file:${SRVC_HOME}/logback-spring.xml -jar jwt-auth-web-api-back-end-${spring.profiles.active}-1.0.0-SNAPSHOT.jar --spring.config.location=file:${SRVC_HOME}/XXX.properties
 
-avec `SRVC_HOME` = <chemin d'accès aux fichiers concernés> avec les différents fichiers de propiétés externalisés séparés par des virgules.
+avec SRVC_HOME =<chemin d''accès aux fichiers concernés> avec les différents fichiers de propiétés externalisés séparés par des virgules.
 ```
 
 
