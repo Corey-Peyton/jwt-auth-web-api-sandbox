@@ -1,7 +1,7 @@
 /*
  * ----------------------------------------------
  * Projet ou Module : jwt-auth-web-api-back-end
- * Nom de la classe : PersistanceContextConfig.java
+ * Nom de la classe : PersistenceContextConfig.java
  * Date de création : 26 janv. 2021
  * Heure de création : 09:23:15
  * Package : fr.vincent.tuto.server.config.db
@@ -67,7 +67,7 @@ import fr.vincent.tuto.common.service.props.DatabasePropsService;
  */
 @Configuration
 @EnableTransactionManagement
-public class PersistanceContextConfig
+public class PersistenceContextConfig
 {
     private static final String DATASOURCE_ERR_MSG = "[dataSource] - Erreur lors de la création du bean DataSource du pool Hikari";
 

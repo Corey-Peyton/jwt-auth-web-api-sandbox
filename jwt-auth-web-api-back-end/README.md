@@ -3,6 +3,133 @@
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?branch=develop)
 ![Gitlab code coverage](https://img.shields.io/gitlab/coverage/oviok-group/jwt-auth-web-api-sandbox/jwt-auth-web-api-back-end) 
 
+## Définir les profils maven pour la construction des archives exécutables 
+La démarche consiste à utiliser le projet Maven pour la configuration multi-environnement et la désignation d'activation dynamique.
+
+### Créez les fichiers de configuration multi-environnement dans les `ressources` du projet
+Le tableau ci-dessous fournit l'ensemble des fichiers  de configuration multi-environnement crées pour le projet:
+
+|Type SGBDR|Profile|Localisation du fichier de configuration|
+|---|---|---|
+|`H2`|h2|[back-end-db-h2.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-h2.properties)|
+|`MariaDB`|mariadb|[back-end-db-mariadb.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-mariadb.properties)|
+|`PostgreSQL`|postgre|[back-end-db-postgre.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-postgre.properties)|
+
+Pour la sécurité un profil à été défini et le fichier est : [back-end-tls.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-tls.properties).
+Celui-ci sera systématiquement fourni dans cahcune des configurations des type de base de données (donc n'entrera pas dans la définition des profils).
+
+### Configurer les entrées des options dans le pom.xml du projet
+Les profiles maven pour le build selon le type de base de données cible choisi, sont fournis apr la configurationt suivante :
+- _Exporter la clé publique et le certificat X509 dans un fichier_
+```xml
+	<!-- Configuration de profiles d'environnement multiples : point d'entrée pour le filtrage des ressource du projet -->
+<profiles>
+	<!-- H2 est la cible par défaut -->
+	<profile>
+		<id>h2</id>
+		<activation>
+			<activeByDefault>true</activeByDefault>
+		</activation>
+		<properties>
+			<spring.profiles.active>h2</spring.profiles.active>
+		</properties>
+	</profile>
+	<!-- Définition du profile pour MARIADB -->
+	<profile>
+		<id>mariadb</id>
+		<properties>
+			<spring.profiles.active>mariadb</spring.profiles.active>
+		</properties>
+	</profile>
+	<!-- Définition du profile pour POSTGRESQL -->
+	<profile>
+		<id>postgre</id>
+		<properties>
+			<spring.profiles.active>postgre</spring.profiles.active>
+		</properties>
+	</profile>
+</profiles>
+```
+### Filtrer les ressources dans le fichier pom.xml du projet
+La configuration du filtrage des ressources du projet peut se faire des deux façons différentes que sont :
+- Utiliser directement le plugin `maven-resources-plugin` : C'est l'option choisie
+```xml
+<executions>
+	<!-- Filtrer les ressoursources du projet -->
+	<execution>
+		<id>default-resources</id>
+		<phase>validate</phase>
+		<goals>
+			<goal>copy-resources</goal>
+		</goals>
+		<configuration>
+			<encoding>UTF-8</encoding>
+			<outputDirectory>${project.build.directory}/classes</outputDirectory>
+			<useDefaultDelimiters>false</useDefaultDelimiters>
+			<delimiters>
+				<delimiter>#</delimiter>
+				<delimiter>@</delimiter>
+			</delimiters>
+			<resources>
+				<resource>
+					<directory>src/main/resources/</directory>
+					<filtering>false</filtering>
+					<excludes>
+						<exclude>**/*.properties</exclude>
+						<exclude>**/*.yml</exclude>
+						<exclude>**/*.java</exclude>
+						<exclude>*.test.*</exclude>
+					</excludes>
+				</resource>
+				<resource>
+					<directory>src/main/resources/</directory>
+					<filtering>true</filtering>
+					<includes>
+						<include>back-end-db-common.properties</include>
+						<include>back-end-db-${spring.profiles.active}.properties</include>
+						<include>back-end-tls.properties</include>
+						<include>back-end-application.properties</include>
+					</includes>
+				</resource>
+			</resources>
+		</configuration>
+	</execution>
+</executions>
+```
+
+- Configurer `resources` dans `build` sans passer par le plugin
+```xml
+<resources>
+	<resource>
+		<directory>src/main/resources/</directory>
+		<filtering>false</filtering>
+		<excludes>
+			<exclude>**/*.properties</exclude>
+			<exclude>**/*.yml</exclude>
+			<exclude>**/*.java</exclude>
+			<exclude>*.test.*</exclude>
+		</excludes>
+	</resource>
+	<resource>
+		<directory>src/main/resources/</directory>
+		<filtering>true</filtering>
+		<includes>
+			<include>back-end-db-common.properties</include>
+			<include>back-end-db-${spring.profiles.active}.properties</include>
+			<include>back-end-tls.properties</include>
+			<include>back-end-application.properties</include>
+		</includes>
+	</resource>
+</resources>
+```
+- Spécifier l'environnement activé dans le fichier de configuration
+L'objectif final est de récupérer de façon dynamique le profil correspondant à la cible choisie (le type de base de données). En exploitation les configirations
+précédentes, `la configuration permettant d'obtenir de façon dynamique le profil activé` est fournie dans le fichier :
+[back-end-application.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-application.properties). Elle est donc la suivante :
+```properties
+spring.profiles.active=@spring.profiles.active@
+```
+
 ## Sécuriser les ressources applicatives 
 Le point abordé est l'utilisation des outils `Keytool` et `OpenSSL` pour la production des éléments nécessaires à exploiter pour **signer/valider** 
 les `jetons JWT` avec des **clés privées/publiques RSA**. La démarche à suivre est l'une des options présentées ci-dessous :

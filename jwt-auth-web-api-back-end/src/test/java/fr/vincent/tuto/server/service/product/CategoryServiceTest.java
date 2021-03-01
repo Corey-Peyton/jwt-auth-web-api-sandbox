@@ -42,7 +42,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import fr.vincent.tuto.common.exception.CustomAppException;
 import fr.vincent.tuto.common.service.props.DatabasePropsService;
 import fr.vincent.tuto.server.config.BackEndServerRootConfig;
-import fr.vincent.tuto.server.config.db.PersistanceContextConfig;
+import fr.vincent.tuto.server.config.db.PersistenceContextConfig;
 import fr.vincent.tuto.server.dao.CategoryDAO;
 import fr.vincent.tuto.server.enumeration.CategoryTypeEnum;
 import fr.vincent.tuto.server.model.po.Category;
@@ -58,7 +58,7 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
 @TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties",
         "classpath:back-end-tls-test.properties" })
 @ContextConfiguration(name = "categoryServiceTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class,
-        PersistanceContextConfig.class, ProductService.class, CategoryService.class })
+        PersistenceContextConfig.class, ProductService.class, CategoryService.class })
 @SpringBootTest
 @ActiveProfiles("test")
 class CategoryServiceTest

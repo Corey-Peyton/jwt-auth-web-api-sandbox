@@ -176,24 +176,24 @@ Client  --> [REST API Controller] :  Call API
 ```
 Du schéma d'architecture ci-dessus, on remarque que le `Client` (le front-end) à la différence des autres composantes (qui sont des `noeuds`) de l'architecture est un `package`. 
 Ce choix a été opéré dans le cadre de cette réalisation par soucis de simplification pour les raisons suivantes :
-- pouvoir intégrer les éléments du `Client Angular` dans le `Back-End Java` pour une exécution dans un seul environnement fullstack (Client + Serveur). Ceci
-consite donc à intégrer les ressources distribuées du `Client Angular` lors du packaging du `back-end Java`.
+- pouvoir intégrer les éléments du `Client Angular` dans le `Back-End Java` pour `une exécution dans un seul environnement fullstack (Client + Serveur)`. Ceci
+consiste donc à intégrer les ressources distribuées du `Client Angular` dans l'archive exécutable du back lors du packaging du `back-end Java`.
 - éviter une exécution séparée des deux composantes (éviter d'avoir à adresser des ports d'écoutes différents pour l'exécution)
 
-**NB** : La configuration modulaire du projet permet néanmoins une exécution séparée. Il suffira tout juste d'inhiber la configuration actuelle permettant d'intégrer les ressources distribuées 
+**NB** : La configuration modulaire du projet permet néanmoins une exécution séparée. Il suffira tout juste d'inhiber la configuration actuelle permettant d'intégration des ressources distribuées 
 du `Client Angular` lors du packaging du `Back-End Java`.
 
 ## Fonctionnement global - Les USe Case
-Le fonctionnement global de l'application est fourni aux travers de `diagrammes de séquences` des cas d'utilisation (`use case`) présentés dans le tableau ci-dessous :
+Le fonctionnement global de l'application est fourni aux travers de `diagrammes de séquences` des cas d'utilisation (`use case`) présentés par le tableau ci-dessous :
 
 |Use Case|Description succincte |
 |---|---|
-|**`Ajouter un nouvel utilisateur`**|_permet de persister/sauvegarder les informations d'un nouvel utilisateur dans le système d'informations_|
-|**`S'Authentifier`** (_Se Connecter à l'application_)|_permet au client (utilisateur) de fournir les informations pour_ `authentification par le système d'informations`|
-|**`Accéder aux ressources`** : _Cas affichier la liste de produits existant dans le SI_|_Il est composé principalement de deux phases : <ul><li>La demande et obtention des jetons d'accès (phase d'authentification : voir use case du dessus)</li><li>L'accès proprement dit aux ressources de l'application (produits, outils, services,... ) avec le jeton d'accès obtenu de la phase d'authentification</li></ul>_|
+|**`Ajouter un nouvel utilisateur`**|_persister/sauvegarder les informations d'un nouvel utilisateur dans le SI_|
+|**`S'Authentifier`** (_Se Connecter à l'application_)|_le client (utilisateur) fournit ses informations d'identification pour_ `authentification par le SI`|
+|**`Accéder aux ressources`** : _Cas afficher la liste de produits existant dans le SI_|_Il est composé principalement de deux phases : <ul><li>Demander/obtenir les jetons d'accès (phase d'authentification : voir use case du dessus)</li><li>Accéder aux ressources de l'application (produits, outils, services,... ) avec le jeton d'accès obtenu de la phase d'authentification</li></ul>_|
 
 ### Ajouter un nouvel utilisateur dans le SI
-L'ajout ou la persistance des informations d'un nouvel utilisateur dans le système d'informations est présenté par le diagramme de séquences ci-dessous (`PlantUML` au format markdown) :
+L'ajout ou la persistance des informations d'un nouvel utilisateur dans le SI est présenté par le diagramme de séquences ci-dessous (`PlantUML` au format markdown) :
 
 ```plantuml
 @startuml
@@ -279,7 +279,7 @@ deactivate BDD
 ``` 
 
 ### S'Authentifier
-Le fonctionnement global de la phase d'authentification du client (valider/confirmer les informations d'identification) par le système d'informations est présenté par le diagramme de séquences ci-dessous (`PlantUML` au format markdown) :
+Le fonctionnement global de la phase d'authentification du client (valider/confirmer les informations d'identification) par le SI est présenté par le diagramme de séquences ci-dessous (`PlantUML` au format markdown) :
 
 ```plantuml
 @startuml
@@ -364,12 +364,12 @@ deactivate User
 @enduml
 ```
 
-### Accéder aux ressources de l'application - Cas : Afficher la liste des produits existant dans le SI
-Ce cas d'utlisation comporte principalement les deux phases suivantes :
-- La demande et obtention des jetons d'accès (phase d'authentification : voir use case du dessus)
-- L'accès proprement dit aux ressources de l'application (produits, outils, services,... ) avec le jeton d'accès obtenu de la phase d'authentification.
+### Accéder aux ressources de l'application - Cas : Afficher la liste de produits existant dans le SI
+Ce cas d'utlisation est composé principalement des deux phases ci-dessous :
+- Demander/Obtenir le jeton d'accès (phase d'authentification : voir use case du dessus)
+- Accéder aux ressources de l'application (produits, outils, services,... ) avec le jeton d'accès obtenu de la phase d'authentification.
 
-Son fonctionnement global est fourni par le diagramme de séquences ci-dessous (`PlantUML` au format markdown) :
+Le fonctionnement global de ce cas d'utilisation est fourni par le diagramme de séquences ci-dessous (`PlantUML` au format markdown) :
 
 ```plantuml
 @startuml
@@ -501,9 +501,10 @@ deactivate User
 @enduml
 ```
 
-## Modèles et Schémas de données
-Les modèles fournis sont relatifs au **_métier_**. Le diagramme de classes ci-dessous présente les relations entre les entités de gestion de la partie métier de l'application.
-Il est founi avec `PlantUML` au format .md.
+## Le Modèle de données
+Le modèle de données fournit une représentation graphique des différents objets aussi bien **_métier_** que non impliqués dans le dévéloppement de l'application, pour la satisfaction
+des besoins exprimés. Ainsi, le diagramme de classes ci-dessous (au même format que les diagrammes précédents) présente les relations entre les entités 
+de gestion de la partie métier de l'application.
 
 ```plantuml
 @startuml
@@ -619,6 +620,8 @@ Une liste non exhaustive des technos utilsées pour le développement de cette a
 ![](https://img.shields.io/badge/Jpa_2-✓-blue.svg)
 ![](https://img.shields.io/badge/Hibernate_5-✓-blue.svg)
 ![](https://img.shields.io/badge/PostgreSQL_10+-✓-blue.svg)
+![](https://img.shields.io/badge/MariaDB-✓-blue.svg)
+![](https://img.shields.io/badge/H2-✓-blue.svg)
 ![](https://img.shields.io/badge/Junit_5-✓-blue.svg)
 ![](https://img.shields.io/badge/Model_Mapper-✓-blue.svg)
 ![](https://img.shields.io/badge/Flyway-✓-blue.svg)
@@ -630,7 +633,7 @@ Une liste non exhaustive des technos utilsées pour le développement de cette a
 ![](https://img.shields.io/badge/PlantUML-✓-blue.svg)
 
 C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage `Java` : 
-- **`PlantUML`** avec intégration de `StarUML` pour la production au format markdown des éléments de modélisation et conception des spécifications techniques fournies.
+- **`PlantUML`** pour la production au format markdown des éléments de modélisation et conception des spécifications techniques fournies.
 - **`Java 11`** est utilisé pour la compilation et cible pour l'environnement d'exécution.
 - **`Spring Security`**, **`JWT`**, pour sécuriser les échanges (production de jetons, authentification et autorisation).
 - **`AOP`** pour la séparation des préoccupations transversales dans l'application. Ici, il s'agit de la journalisation dans le couches applicatives : `le logging`
@@ -677,7 +680,7 @@ Les détails sur la mise en place et exploitation des éléments des configurati
 [README](/jwt-auth-web-api-back-end/README.md).
 
 La mise en place des éléments à exploiter nécessite donc de renseigner les propriétés suivantes dans le fichier :
-[back-end-application.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-application.properties)
+[back-end-tls.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-tls.properties)
 ```properties
 ######################
 ####  CRYPTO PROPS : 
@@ -711,13 +714,13 @@ Les configurations des éléments d'accès aux données en base dans l'applicati
 Les configurations de gestion des accès à la base de données sont séparées en deux grandes catégories que sont :
 - Les propriétés spécifiques à chaque type de base de données : elles fournissent les propriétés nécessaires pour construire la configuration 
 du composant de gestion dans l'application de la source de données mutualisée HikariCP (`HikariDataSource` : pooled DataSource). Elles sont founrnies dans les fichiers
-présentés dans le tableau ci-dessous selon le type de base de données.
+présentés dans le tableau ci-dessous selon le type de base de données. Par défaut la cible est **`H2`**.
 
 |Type SGBDR|Profile Défini|Localisation du fichier de configuration|
 |---|---|---|
-|`H2`|h2|[back-end-db-h2.properties](/jwt-auth-web-api-back-end/docs/db/props/back-end-db-h2.properties)|
-|`MariaDB`|mariadb|[back-end-db-mariadb.properties](/jwt-auth-web-api-back-end/docs/db/props/back-end-db-mariadb.properties)|
-|`PostgreSQL`|postgre|[back-end-db-postgre.properties](/jwt-auth-web-api-back-end/docs/db/props/back-end-db-postgre.properties)|
+|`H2`|h2|[back-end-db-h2.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-h2.properties)|
+|`MariaDB`|mariadb|[back-end-db-mariadb.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-mariadb.properties)|
+|`PostgreSQL`|postgre|[back-end-db-postgre.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-postgre.properties)|
 
 Voici l'exemple de configuration : celle fournie pour la base de données H2.
 ```properties
@@ -762,7 +765,9 @@ spring.flyway.baseline-on-migrate=true
 spring.flyway.sql-migration-prefix=V
 spring.flyway.sql-migration-separator=__
 spring.flyway.sql-migration-suffixes=.sql
+# Si embarqué dans les ressources du projet
 #spring.flyway.locations=classpath:db/migration/h2
+# Externalisation : non embarqué dans les ressources du projet
 spring.flyway.locations=filesystem:docs/db/migration/h2
 ```
 
@@ -775,10 +780,65 @@ TODO
 
 # Compilation, Packaging, Exécution et Documentation
 ## Compilation et Packaging
+Tout ceci est fait dans le respect des spécifications de l'architecture technique et application qui offre la possiblité d'exécuter l'application sur `trois types de SGDBR`.
+Donc, fournir une archive exécutable selon le type de base de données choisi comme cible. Par défaut la cible est **`H2`**.
+Il s'agit principalement de mettre en palce le mécanisme suivant :
+- Définir des `profile maven` pour la compilation et l'archivage pour chaque type de base de données.
+- Transformer le `code source` (.java) en `code objet` (.class) contenant le `bytecode` (code portable ou p-code) permettant de créer programme exécutable. Puis construire `l'archive exécutablev (.jar) à partir du `code objet` (.class) contenant le `bytecode`.
+
+### 1°)- Définir les profils Maven 
+La définition des `profile Maven` consste à ne livrer dans l'archive exécutable que les fichiers de propriétés nécessaires pour l'environnement d'exécution cilbe (le type de base de données choisi).
+Le tableau ci-dessous fournit les attendus pour chaque environnement cible.
+
+|Type SGBDR|Profile Défini|Fichiers attendus|
+|---|---|---|
+|`H2`|h2|<ul><li>[back-end-db-common.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-common.properties)</li>[back-end-db-h2.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-h2.properties)<li></li><li>[back-end-tls.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-tls.properties)</li><li>[back-end-application.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-application.properties)</li></ul>|
+|`MariaDB`|mariadb|<ul><li>[back-end-db-common.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-common.properties)</li>[back-end-db-mariadb.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-mariadb.properties)<li></li><li>[back-end-tls.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-tls.properties)</li><li>[back-end-application.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-application.properties)</li></ul>|
+|`PostgreSQL`|postgre|<ul><li>[back-end-db-common.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-common.properties)</li>[back-end-db-postgre.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-postgre.properties)<li></li><li>[back-end-tls.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-tls.properties)</li><li>[back-end-application.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-application.properties)</li></ul>|
+
+La défintion des `profile Maven` est effectuée dans le fichier : [pom.xml](/jwt-auth-web-api-back-end/pom.xml).
+Les détails de la démarche de mise en place sont fournis dans le fichier : [README](/jwt-auth-web-api-back-end/README.md).
+
+### 2°)- Construire le code objet et l'archive exécutable 
 TODO
 
+
 ## Exécution
-TODO
+- A partir de l'IDE
+Pour pouvoir exécuter facilement le projet depuis l'IDE, **`il faut renseigner la JVM de la valeur du profile actvié par défaut`** (`h2`).
+La démarche à suivre est donc la suivante :
+```bash
+# Run Configurations > Spring Boot App > (x)=Arguments > VM Arguments
+$ -Dspring.profiles.active=h2
+```
+
+- Cycle de vie Maven
+Quelque soit la cilble chisie pour la base de données
+```bash
+$ mvn spring-boot:run
+```
+
+- Ligne de commande : 
+A partir de l'archive exécutable fournie pour chaque type de base de données
+```bash
+
+$ java -jar jwt-auth-web-api-back-end-${spring.profiles.active}-1.0.0-SNAPSHOT.jar
+
+avec 
+`spring.profiles.active`=h2 ou mariadb ou postgre
+```
+
+- Ligne de commande avec surcharge des fichiers de base
+
+Il peut y arriver qu'on veuille écraser les configurations de base par des fichiers externalisés (fichiers de propriétés, logger, ....). Dans ce cas la commande est la suivante :
+```bash
+$ java -Dlogging.config=file:${SRVC_HOME}/logback-spring.xml -jar jwt-auth-web-api-back-end-${spring.profiles.active}-1.0.0-SNAPSHOT.jar -Dspring.config.location=file:${SRVC_HOME}/XXX.properties
+ou
+$ java -Dlogging.config=file:${SRVC_HOME}/logback-spring.xml -jar jwt-auth-web-api-back-end-${spring.profiles.active}-1.0.0-SNAPSHOT.jar --spring.config.location=file:${SRVC_HOME}/XXX.properties
+
+avec `SRVC_HOME` = <chemin d'accès aux fichiers concernés> avec les différents fichiers de propiétés externalisés séparés par des virgules.
+```
+
 
 ## Documentation Swagger des REST API
 TODO

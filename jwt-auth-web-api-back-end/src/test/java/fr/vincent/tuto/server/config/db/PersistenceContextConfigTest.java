@@ -37,24 +37,24 @@ import fr.vincent.tuto.server.BackendApplicationStarter;
 import fr.vincent.tuto.server.config.BackEndServerRootConfig;
 
 /**
- * Classe des tests unitaires des objets de type {@link PersistanceContextConfig}
+ * Classe des tests unitaires des objets de type {@link PersistenceContextConfig}
  * 
  * @author Vincent Otchoun
  */
 @RunWith(SpringRunner.class)
 @TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties","classpath:back-end-tls-test.properties" })
-@ContextConfiguration(name = "persistanceContextConfigTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class,
-        PersistanceContextConfig.class })
+@ContextConfiguration(name = "persistenceContextConfigTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class,
+        PersistenceContextConfig.class })
 @SpringBootTest(classes = BackendApplicationStarter.class)
-@ActiveProfiles("test")
-class PersistanceContextConfigTest
+@ActiveProfiles("test, tsl")
+class PersistenceContextConfigTest
 {
 
     private static final String DRIVER_CLASS_NAME = "org.h2.Driver";
     private static final String PERSIT_UNIT_NAME = "JwtRestSecureServerPUTest";
 
     @Autowired
-    private PersistanceContextConfig persistanceContextConfig;
+    private PersistenceContextConfig persistenceContextConfig;
 
     @Autowired
     private DatabasePropsService databasePropsService;
@@ -65,7 +65,7 @@ class PersistanceContextConfigTest
     @BeforeEach
     void setUp() throws Exception
     {
-        this.persistanceContextConfig.setDatabasePropsService(this.databasePropsService);
+        this.persistenceContextConfig.setDatabasePropsService(this.databasePropsService);
     }
 
     /**
@@ -74,28 +74,28 @@ class PersistanceContextConfigTest
     @AfterEach
     void tearDown() throws Exception
     {
-        this.persistanceContextConfig = null;
+        this.persistenceContextConfig = null;
         this.databasePropsService = null;
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceContextConfig#dataSourceProperties()}.
+     * Test method for {@link fr.vincent.tuto.server.config.db.PersistenceContextConfig#dataSourceProperties()}.
      */
     @Test
     void testDataSourceProperties()
     {
-        final var dataSourceProperties = this.persistanceContextConfig.dataSourceProperties();
+        final var dataSourceProperties = this.persistenceContextConfig.dataSourceProperties();
 
         assertThat(dataSourceProperties).isNotNull();
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceContextConfig#dataSource()}.
+     * Test method for {@link fr.vincent.tuto.server.config.db.PersistenceContextConfig#dataSource()}.
      */
     @Test
     void testDataSource()
     {
-        final var dataSource = this.persistanceContextConfig.dataSource();
+        final var dataSource = this.persistenceContextConfig.dataSource();
 
         assertThat(dataSource).isNotNull();
         assertThat(dataSource.getClass()).isSameAs(HikariDataSource.class);
@@ -107,7 +107,7 @@ class PersistanceContextConfigTest
     @Test
     void testDataSource_ShouldThrowException()
     {
-        final var config = new PersistanceContextConfig();
+        final var config = new PersistenceContextConfig();
         config.setDatabasePropsService(null);
 
         final var exception = assertThrows(NullPointerException.class, () -> {
@@ -123,12 +123,12 @@ class PersistanceContextConfigTest
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceContextConfig#entityManagerFactory()}.
+     * Test method for {@link fr.vincent.tuto.server.config.db.PersistenceContextConfig#entityManagerFactory()}.
      */
     @Test
     void testEntityManagerFactory()
     {
-        final var bean = this.persistanceContextConfig.entityManagerFactory();
+        final var bean = this.persistenceContextConfig.entityManagerFactory();
 
         assertThat(bean).isNotNull();
         assertThat(bean.getDataSource()).isNotNull();
@@ -139,12 +139,12 @@ class PersistanceContextConfigTest
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceContextConfig#sharedEntityManager()}.
+     * Test method for {@link fr.vincent.tuto.server.config.db.PersistenceContextConfig#sharedEntityManager()}.
      */
     @Test
     void testSharedEntityManager()
     {
-        final var sharedEntity = this.persistanceContextConfig.sharedEntityManager();
+        final var sharedEntity = this.persistenceContextConfig.sharedEntityManager();
 
         assertThat(sharedEntity).isNotNull();
         assertThat(sharedEntity.getEntityManagerFactory()).isNotNull();
@@ -153,23 +153,23 @@ class PersistanceContextConfigTest
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceContextConfig#transactionManager()}.
+     * Test method for {@link fr.vincent.tuto.server.config.db.PersistenceContextConfig#transactionManager()}.
      */
     @Test
     void testTransactionManager()
     {
-        final var transactionManager = this.persistanceContextConfig.transactionManager();
+        final var transactionManager = this.persistenceContextConfig.transactionManager();
 
         assertThat(transactionManager).isExactlyInstanceOf(JpaTransactionManager.class);
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceContextConfig#hibernatJpaVendorAdapter()}.
+     * Test method for {@link fr.vincent.tuto.server.config.db.PersistenceContextConfig#hibernatJpaVendorAdapter()}.
      */
     @Test
     void testHibernatJpaVendorAdapter()
     {
-        final var vendorAdapter = this.persistanceContextConfig.hibernatJpaVendorAdapter();
+        final var vendorAdapter = this.persistenceContextConfig.hibernatJpaVendorAdapter();
 
         assertThat(vendorAdapter).isExactlyInstanceOf(HibernateJpaVendorAdapter.class);
         assertThat(vendorAdapter.getJpaDialect()).isNotNull();
@@ -177,46 +177,46 @@ class PersistanceContextConfigTest
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceContextConfig#hibernatJpaDialect()}.
+     * Test method for {@link fr.vincent.tuto.server.config.db.PersistenceContextConfig#hibernatJpaDialect()}.
      */
     @Test
     void testHibernatJpaDialect()
     {
-        final var dialect = this.persistanceContextConfig.hibernatJpaDialect();
+        final var dialect = this.persistenceContextConfig.hibernatJpaDialect();
 
         assertThat(dialect).isExactlyInstanceOf(HibernateJpaDialect.class);
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceContextConfig#exceptionTranslationPostProcessor()}.
+     * Test method for {@link fr.vincent.tuto.server.config.db.PersistenceContextConfig#exceptionTranslationPostProcessor()}.
      */
     @Test
     void testExceptionTranslationPostProcessor()
     {
-        final var processor = this.persistanceContextConfig.exceptionTranslationPostProcessor();
+        final var processor = this.persistenceContextConfig.exceptionTranslationPostProcessor();
 
         assertThat(processor).isExactlyInstanceOf(PersistenceExceptionTranslationPostProcessor.class);
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceContextConfig#sqlExceptionTranslator()}.
+     * Test method for {@link fr.vincent.tuto.server.config.db.PersistenceContextConfig#sqlExceptionTranslator()}.
      */
     @Test
     void testSqlExceptionTranslator()
     {
-        final var codeSQLExceptionTranslator = this.persistanceContextConfig.sqlExceptionTranslator();
+        final var codeSQLExceptionTranslator = this.persistenceContextConfig.sqlExceptionTranslator();
 
         assertThat(codeSQLExceptionTranslator).isExactlyInstanceOf(SQLErrorCodeSQLExceptionTranslator.class);
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.config.db.PersistanceContextConfig#getDatabasePropsService()}.
+     * Test method for {@link fr.vincent.tuto.server.config.db.PersistenceContextConfig#getDatabasePropsService()}.
      */
     @Test
     void testGetDatabasePropsService()
     {
-        assertThat(this.persistanceContextConfig).isNotNull();
-        assertThat(this.persistanceContextConfig.getDatabasePropsService()).isNotNull();
+        assertThat(this.persistenceContextConfig).isNotNull();
+        assertThat(this.persistenceContextConfig.getDatabasePropsService()).isNotNull();
     }
 
 }

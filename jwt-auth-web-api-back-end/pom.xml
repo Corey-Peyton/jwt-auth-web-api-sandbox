@@ -10,8 +10,8 @@
 	</parent>
 	<!-- BACK-END SERVER -->
 	<artifactId>jwt-auth-web-api-back-end</artifactId>
-	<name><![CDATA[Gestion de produits REST API - Back-End Server]]></name>
-	<description><![CDATA[Serveur Application Web de gestion sécurisée de produits.]]></description>
+	<name><![CDATA[Web REST API Gestion de produits - Back-End Server]]></name>
+	<description><![CDATA[Serveur Application Web sécurisée de gestion de produits.]]></description>
 	<inceptionYear>2021</inceptionYear>
 	<!-- ============== PROPRIETES ================= -->
 	<properties>
@@ -102,14 +102,6 @@
 			<!-- <optional>true</optional> -->
 			<scope>provided	</scope>
 		</dependency>
-
-		<!-- Partialize : est une bibliothèque basée sur Java qui vous aide à implémenter 
-			les réponses partielles JSON sur votre projet. -->
-		<!-- <dependency> -->
-		<!-- <groupId>com.github.thibaultmeyer</groupId> -->
-		<!-- <artifactId>partialize</artifactId> -->
-		<!-- <version>${partialize.version}</version> -->
-		<!-- </dependency> -->
 
 		<!-- TESTS -->
 		<dependency>
@@ -202,16 +194,6 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
-				<includes>
-					<include>**/*.properties</include>
-					<include>**/*.xml</include>
-					<include>**/**</include>
-					<!-- Inclure les dossiers par exemple : db/migration -->
-				</includes>
-				<excludes>
-					<exclude>**/*.java</exclude>
-					<exclude>*.test.*</exclude>
-				</excludes>
 			</resource>
 		</resources>
 		<testSourceDirectory>src/test/java</testSourceDirectory>
@@ -221,6 +203,7 @@
 				<filtering>true</filtering>
 			</testResource>
 		</testResources>
+		<finalName>${project.artifactId}-${spring.profiles.active}-${project.version}</finalName>
 		<!-- Plugins -->
 		<plugins>
 			<!-- Plugin Maven pour la compilation des sources -->
@@ -233,33 +216,73 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 			</plugin>
-			<!-- ajout des sources -->
+			<!-- Ajout des sources -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 			</plugin>
-			<!-- getion des ressources -->
+			<!-- Gestion des ressources -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<!-- Configuration pour intégrer le Client Angular -->
-				<!-- <executions> -->
-				<!-- <execution> -->
-				<!-- <id>copy-resources</id> -->
-				<!-- <phase>validate</phase> -->
-				<!-- <goals> -->
-				<!-- <goal>copy-resources</goal> -->
-				<!-- </goals> -->
-				<!-- <configuration> -->
-				<!-- <outputDirectory>${project.build.directory}/classes/resources/</outputDirectory> -->
-				<!-- <resources> -->
-				<!-- <resource> -->
-				<!-- <directory>${project.parent.basedir}/oauth-authorization-ui/src/main/web/dist/authorization-admin-ui/</directory> -->
-				<!-- </resource> -->
-				<!-- </resources> -->
-				<!-- </configuration> -->
-				<!-- </execution> -->
-				<!-- </executions> -->
+				<executions>
+					<!-- Filtrer les ressoursources du projet -->
+					<execution>
+						<id>default-resources</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<encoding>UTF-8</encoding>
+							<outputDirectory>${project.build.directory}/classes</outputDirectory>
+							<useDefaultDelimiters>false</useDefaultDelimiters>
+							<delimiters>
+								<delimiter>#</delimiter>
+								<delimiter>@</delimiter>
+							</delimiters>
+							<resources>
+								<resource>
+									<directory>src/main/resources/</directory>
+									<filtering>false</filtering>
+									<excludes>
+										<exclude>**/*.properties</exclude>
+										<exclude>**/*.yml</exclude>
+										<exclude>**/*.java</exclude>
+										<exclude>*.test.*</exclude>
+									</excludes>
+								</resource>
+								<resource>
+									<directory>src/main/resources/</directory>
+									<filtering>true</filtering>
+									<includes>
+										<include>back-end-db-common.properties</include>
+										<include>back-end-db-${spring.profiles.active}.properties</include>
+										<include>back-end-tls.properties</include>
+										<include>back-end-application.properties</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+
+					<!-- Configuration pour intégrer le Client Angular -->
+					<!-- <execution> -->
+					<!-- <id>copy-resources</id> -->
+					<!-- <phase>validate</phase> -->
+					<!-- <goals> -->
+					<!-- <goal>copy-resources</goal> -->
+					<!-- </goals> -->
+					<!-- <configuration> -->
+					<!-- <outputDirectory>${project.build.directory}/classes/resources/</outputDirectory> -->
+					<!-- <resources> -->
+					<!-- <resource> -->
+					<!-- <directory>${project.parent.basedir}/oauth-authorization-ui/src/main/web/dist/authorization-admin-ui/</directory> -->
+					<!-- </resource> -->
+					<!-- </resources> -->
+					<!-- </configuration> -->
+					<!-- </execution> -->
+				</executions>
 			</plugin>
 
 			<!-- Tests Unitaires -->
@@ -283,26 +306,6 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 			</plugin>
 
-			<!-- <plugin> -->
-			<!-- <groupId>org.codehaus.mojo</groupId> -->
-			<!-- <artifactId>build-helper-maven-plugin</artifactId> -->
-			<!-- <version>1.8</version> -->
-			<!-- <executions> -->
-			<!-- <execution> -->
-			<!-- <id>add-source</id> -->
-			<!-- <phase>generate-source</phase> -->
-			<!-- <goals> -->
-			<!-- <goal>add-source</goal> -->
-			<!-- </goals> -->
-			<!-- <configuration> -->
-			<!-- <sources> -->
-			<!-- <source>${project.build.directory}/generated-sources/annotations</source> -->
-			<!-- </sources> -->
-			<!-- </configuration> -->
-			<!-- </execution> -->
-			<!-- </executions> -->
-			<!-- </plugin> -->
-
 			<!-- BOOT -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -310,4 +313,32 @@
 			</plugin>
 		</plugins>
 	</build>
+	<!-- Configuration de profiles d'environnement multiples : point d'entrée 
+		pour le filtrage des ressource du projet -->
+	<profiles>
+		<!-- H2 est la cible par défaut -->
+		<profile>
+			<id>h2</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<spring.profiles.active>h2</spring.profiles.active>
+			</properties>
+		</profile>
+		<!-- Définition du profile pour MARIADB -->
+		<profile>
+			<id>mariadb</id>
+			<properties>
+				<spring.profiles.active>mariadb</spring.profiles.active>
+			</properties>
+		</profile>
+		<!-- Définition du profile pour POSTGRESQL -->
+		<profile>
+			<id>postgre</id>
+			<properties>
+				<spring.profiles.active>postgre</spring.profiles.active>
+			</properties>
+		</profile>
+	</profiles>
 </project>

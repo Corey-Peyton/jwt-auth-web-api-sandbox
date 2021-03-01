@@ -30,7 +30,7 @@ import fr.vincent.tuto.common.service.props.ApplicationPropsService;
 import fr.vincent.tuto.common.service.props.DatabasePropsService;
 import fr.vincent.tuto.server.BackendApplicationStarter;
 import fr.vincent.tuto.server.config.BackEndServerRootConfig;
-import fr.vincent.tuto.server.config.db.PersistanceContextConfig;
+import fr.vincent.tuto.server.config.db.PersistenceContextConfig;
 
 /**
  * Classe des tests unitares des objets de type {@link ServerCacheConfig}
@@ -40,7 +40,7 @@ import fr.vincent.tuto.server.config.db.PersistanceContextConfig;
 @RunWith(SpringRunner.class)
 @TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties",  "classpath:back-end-tls-test.properties" })
 @ContextConfiguration(name = "backendApplicationStarter", classes = { BackEndServerRootConfig.class, DatabasePropsService.class,
-        PersistanceContextConfig.class, ServerCacheConfig.class })
+        PersistenceContextConfig.class, ServerCacheConfig.class })
 @SpringBootTest(classes = BackendApplicationStarter.class)
 @ActiveProfiles("test")
 class ServerCacheConfigTest

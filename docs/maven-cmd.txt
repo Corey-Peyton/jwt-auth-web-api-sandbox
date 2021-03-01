@@ -1,0 +1,26 @@
+ #mvn deploy -Dusername=admin -Dpassword=351974Oviok# -Dbuildnumber=1
+# mvn clean -T8 -Partifactory -U install
+
+cd "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-back-end"
+
+################
+###  PROFILE H2 : Default
+################
+# mvn clean -T8 -Ph2 -U package
+# mvn clean -T8 -Ph2 -U install
+mvn clean -T8  -U package
+
+
+#####################
+###  PROFILE MARIADB
+#####################
+mvn clean -T8 -Pmariadb -U package
+
+mvn clean -T8 -Pmariadb -U install
+
+#########################
+###  PROFILE POSTGRESQL
+#########################
+mvn clean -T8 -Ppostgre -U package
+
+mvn clean -T8 -Ppostgre -U install

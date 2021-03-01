@@ -30,7 +30,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import fr.vincent.tuto.common.service.props.DatabasePropsService;
 import fr.vincent.tuto.server.config.BackEndServerRootConfig;
-import fr.vincent.tuto.server.config.db.PersistanceContextConfig;
+import fr.vincent.tuto.server.config.db.PersistenceContextConfig;
 import fr.vincent.tuto.server.enumeration.RoleEnum;
 import fr.vincent.tuto.server.model.dto.UserDTO;
 import fr.vincent.tuto.server.model.po.User;
@@ -43,7 +43,7 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
  */
 @RunWith(SpringRunner.class)
 @TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties", "classpath:back-end-tls-test.properties" })
-@ContextConfiguration(name = "userMapperTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistanceContextConfig.class,
+@ContextConfiguration(name = "userMapperTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistenceContextConfig.class,
         UserMapper.class })
 @SpringBootTest(webEnvironment=WebEnvironment.NONE) 
 @ActiveProfiles("test")

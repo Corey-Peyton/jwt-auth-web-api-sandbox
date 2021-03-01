@@ -8,7 +8,7 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name><![CDATA[Application Web de gestion de produits - Projet parent]]></name>
-	<description><![CDATA[Application Sécurisée avec JWT]]></description>
+	<description><![CDATA[Web REST API Sécurisée avec JWT et Spring Security]]></description>
 	<inceptionYear>2021</inceptionYear>
 	<!-- ========= ORGANISATION ============== -->
 	<organization>
