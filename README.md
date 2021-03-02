@@ -340,7 +340,7 @@ note left of Serveur
 Construire l'authentification
 Renseigner le contexte de sécurité de l'authentification
 end note
-Serveur -[#black]> Client : Retourner la réponse Authentification ( accesToken, tokenType, user info, authorities)
+Serveur -[#black]> Client : Retourner la réponse Authentification ( accesToken, tokenType, user info, rôles)
 
 ' Ajout de commentaires
 note left of Client
@@ -357,7 +357,7 @@ end note
 activate Client
 deactivate Serveur
 Client -[#black]> Client : Stocker le jeton JWT (interne)
-Client -[#black]> User : Retourner la réponse Authentification ( accesToken, tokenType, user info, authorities)
+Client -[#black]> User : Retourner la réponse Authentification ( accesToken, tokenType, user info, rôles)
 activate User
 deactivate Client
 deactivate User
@@ -500,6 +500,48 @@ deactivate Client
 deactivate User
 @enduml
 ```
+Le choix opéré pour cette application (`rehausser le niveau de sécurité`) est de **signer/valider** les `jetons JWT` avec des **clés privées/publiques RSA** (`algorithme asymétrique RSA256`), au lieu d'utiliser le **secret HMAC partagé** (`algorithme symétrique SHA-256`).
+Ceci, offre l'avantage que le jeton JWT soit généré et signé par une autorité centrale (généralement un serveur d'autorisation).Ainsi, l'application (les services) 
+peut (peuvent) valider les `jetons JWT` à l'aide de la **_clé publique exposée à partir du serveur d'autorisation_**.
+
+#### 1°) - Principe du fonctionnement global de la personnalisation de JWT pour utiliser RSA256
+L'algorithme asymétrique RSA256 utilise une paire de clés privées/publiques RSA et induit le fonctionnement global suivant :
+- **`Le serveur a une clé privée utilisée pour générer la signature`** et **`le consommateur du jeton obtient une clé publique pour valider la signature`**.
+- **`La clé publique n’a pas besoin d’être sécurisée`** et peut donc être facilement mise à la disposition des consommateurs.
+
+
+#### 2°) - Le Worflow de travail de la personnalisation
+Le Worflow est présenté par le diagramme de séquences ci-dessous. C'est le pendant du diagramme ci-dessus qui se concentre uniquement sur le JWT.
+```plantuml
+@startuml
+' Déclaration des participants (acteurs)
+participant Client #Yellow
+participant Serveur #SkyBlue
+
+' Déclaration des enchainements des séquences des traitements
+autonumber
+Client -[#black]> Serveur : Call API : /api/auth/authenticate : POST (username, password)
+activate Client 
+activate Serveur
+Serveur -[#black]> Serveur : Authentifier, générer le jeton JWT, le signer à l'aide de la clé privée
+deactivate Client 
+Serveur -[#black]> Client : Retourner Authentification ( accesToken, tokenType, user info, rôles)
+deactivate Serveur
+activate Client
+Client -[#black]> Client : Vérifier la signature du jeton JWT à l'aide de la clé publique
+Client -[#black]> Serveur : Envoyer la requête avec le jeton d'authentification
+deactivate Client 
+activate Serveur
+Serveur -[#black]> Serveur : Vérifier la signature avec la clé publique
+Serveur -[#black]> Serveur : Effectuer les traitements
+Serveur -[#black]> Client : Retourner la réponse (Si pas d'erreurs)
+activate Client
+deactivate Serveur
+deactivate Client
+@enduml
+```
+
+Les détails des éléments de configuration sont fournis dans la section : `Configurations de la Sécurité dans l'application`. 
 
 ## Le Modèle de données
 Le modèle de données fournit une représentation graphique des différents objets aussi bien **_métier_** que non, `impliqués dans le dévéloppement de l'application, pour la satisfaction
@@ -660,12 +702,14 @@ Afin de rehausser le niveau de sécurité dans l'application, celle-ci sera abor
 
 ### Sécuriser les ressources applicatives
 La sécurité applicative consiste à _sécuriser les ressources_ de l'application (donc les accès à celles-ci). Elle est mise en place dans l'application par les spécifications `JWT` et `Spring Security` consistant à produire/fournir les `jetons d'accès JWT`.
-Le choix opéré pour cette application (`rehausser le niveau de sécurité`) est de **signer/valider** les `jetons JWT` avec des **clés privées/publiques RSA**,au lieu d'utiliser le **secret HMAC partagé**.
-Ceci, offre l'avantage que le jeton JWT soit généré et signé par une autorité centrale (généralement un serveur d'autorisation).Ainsi, l'application (les services) 
-peut (peuvent) valider les `jetons JWT` à l'aide de la **_clé publique exposée à partir du serveur d'autorisation_**.
 Les éléments permettant de fournir les `clés privées/publiques RSA` pour signer/valider les jetons JWT d'accès aux ressources, peuvent être mise en place de deux façons différentes :
 - en **`ligne de commande`** : en utilisant les outils `Keytool et OpenSSL` pour générer clés et fichiers, puis utiliser l'API Java dédiée pour recupérer les éléméents attendus. 
 - ou avec **`KeyStore Explorer`** : utiliser les fonctionnalités offertes par l'outil graphique pour explorer le magasin des clés (Keystore par exemple), produire les clés et fichiers, puis utiliser l'API Java dédiée pour recupérer les éléméents attendus.  
+
+
+
+
+
 
 ### Sécuriser les échanges
 Sécuriser les échanges consiste à Activer le support `TLS`. 
@@ -745,6 +789,7 @@ vot.jpa-hibernate-props.dialect=org.hibernate.dialect.H2Dialect
 En plus des propriéts spécifiques fournies ci-dessus, les propriétés communes de gestion des accès à la base de données sont fournies dans le fichier :
 [back-end-db-common.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-common.properties). 
 Elles permettent de fournir à l'application principalement les composants suivants :
+
 	- Le fournisseur du gestionnaire d'entités : `EntityManagerFactory` via `LocalContainerEntityManagerFactoryBean`
 	- Le gestionnaire d'entités partégé de l'application : `SharedEntityManager` via `SharedEntityManagerBean`
 	- Le gestionnaire des transactions d'accès aux données en base dans l'application : `TransactionManager` via `PlatformTransactionManager`
@@ -752,7 +797,7 @@ Elles permettent de fournir à l'application principalement les composants suiva
 	- La dialecte Hibernate des accès aux données : `HibernateJpaDialect` via `JpaDialect`
 
 ### Flyway pour la migration des scripts
-Les configuration Flyway de migration des scripts SQL dans l'application, sont fournies dans les mêmes fichiers que ceux de la section  `Accès à la base de données` 
+Les configurations Flyway de migration des scripts SQL dans l'application, sont fournies dans les mêmes fichiers que ceux de la section  `Accès à la base de données` 
 Voici un exemple de configuration : celle de la cible par défaut H2.
 ```properties
 ################################################
