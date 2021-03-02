@@ -74,36 +74,35 @@ public class Category extends AbstractPersistable<Long> implements Serializable
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", updatable = false, nullable = false)
-    private Long id; // identifiant technique auto-généré de l'objet en base.
+    Long id; // identifiant technique auto-généré de l'objet en base.
 
     @NotNull(message = ServerUtil.CATEGORY_NAME)
     @Column(name = "NAME", nullable = false)
-    private String name; // le nom de la catégorie de produit.
-    
+    String name; // le nom de la catégorie de produit.
+
     @NotNull(message = ServerUtil.CATEGORY_DESC)
     @Column(name = "DESCRIPTION", nullable = false)
-    private String description; // la description de la catégorie de produit.
-    
+    String description; // la description de la catégorie de produit.
+
     @NotNull(message = ServerUtil.CATEGORY_ACTIVE)
     @Column(name = "ENABLED", nullable = false)
-    private Boolean enabled; // indique si la catégorie est active ou non.
-    
+    Boolean enabled; // indique si la catégorie est active ou non.
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Product> products; // la liste des produits de la catégorie.
-    
+
     @NotNull(message = ServerUtil.CATEGORY_TYPE)
     @Enumerated(EnumType.STRING)
     @Column(name = "CATEGORY_TYPE", nullable = false)
-    private CategoryTypeEnum categoryType;
-    
+    CategoryTypeEnum categoryType;
+
     @JsonIgnore
     @Version
     @Column(name = "OPTLOCK", nullable = false)
-    private Integer version; // Gestion de l'optimistic lock (lock optimiste).
-    
-    
+    Integer version; // Gestion de l'optimistic lock (lock optimiste).
+
     @PrePersist
     protected void onCreate()
     {
@@ -111,10 +110,9 @@ public class Category extends AbstractPersistable<Long> implements Serializable
         this.version = Integer.valueOf(0);
     }
 
-    
     @Override
     public String toString()
     {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    } 
+    }
 }

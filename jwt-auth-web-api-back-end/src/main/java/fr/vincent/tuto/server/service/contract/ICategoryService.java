@@ -9,7 +9,7 @@
  * Copyright © 2021 - All rights reserved.
  * ----------------------------------------------
  */
-package fr.vincent.tuto.server.service.product;
+package fr.vincent.tuto.server.service.contract;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -34,11 +34,7 @@ public interface ICategoryService
     Optional<Category> getCategoryByName(String pName);
 
     Optional<Category> getCategoryByNameIgnoreCase(String pName);
-    
-    /**
-     * @param pName
-     * @return
-     */
+
     Optional<Category> getCategoryWithProductsByNameIgnoreCase(String pName);
 
     Boolean existsCategoryByName(String pName);

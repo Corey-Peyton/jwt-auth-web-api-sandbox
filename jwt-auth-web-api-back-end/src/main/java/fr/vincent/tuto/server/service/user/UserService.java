@@ -19,12 +19,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import fr.vincent.tuto.common.exception.CustomAppException;
 import fr.vincent.tuto.server.dao.UserDAO;
 import fr.vincent.tuto.server.model.po.User;
+import fr.vincent.tuto.server.service.contract.IUserService;
 
 /**
  * Service des fonctionnalités de gestion des utilisateurs du SI.
@@ -83,6 +85,7 @@ public class UserService implements IUserService
      * @param pUsername le critère de recherche (login de l'utilisateur recherché).
      * @return informations de l'utilisateur recherché si existe, sinon vide.
      */
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
     @Override
     public Optional<User> getByUsername(String pUsername)
@@ -99,6 +102,7 @@ public class UserService implements IUserService
      * @param pEmail le critère de recherche(adresse email de l'utilisateur recherché).
      * @return informations de l'utilisateur recherché si existe, sinon vide.
      */
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
     @Override
     public Optional<User> getByEmailIgnoreCase(String pEmail)
@@ -114,6 +118,7 @@ public class UserService implements IUserService
      * @param pUsername le critère de recherche (le login de l'utilisateur recherché).
      * @return true si l'utilisateur existe, false sinon.
      */
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
     @Override
     public Boolean getExistsByUsername(String pUsername)
@@ -127,7 +132,7 @@ public class UserService implements IUserService
      * @param pEmail le critère de recherche (adresse email de l'utilisateur recherché).
      * @return true si l'utilisateur existe, false sinon.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
     @Override
     public Boolean getExistsByEmail(String pEmail)
@@ -142,7 +147,7 @@ public class UserService implements IUserService
      * @param pId le critère de recherche (identifiant technique de l'utilisateur recherché).
      * @return informations de l'utilisateur recherché si existe, sinon vide.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
     @Override
     public Optional<User> getWithRolesById(Long pId)
@@ -176,7 +181,7 @@ public class UserService implements IUserService
      * @param pEmail adresse mail de l'utilisateur recherché.
      * @return informations de l'utilisateur recherché si existe, sinon vide.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
     @Override
     public Optional<User> getWithRolesByEmailIgnoreCase(String pEmail)
@@ -194,7 +199,7 @@ public class UserService implements IUserService
      *                  retourner).
      * @return la liste paginée des informations recherchées.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
     @Override
     public Page<User> getAllByUsername(String pUsername, Pageable pPageable)
@@ -210,7 +215,7 @@ public class UserService implements IUserService
      *                  retourner).
      * @return la liste paginée des informations recherchées.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
     @Override
     public Page<User> getAllByUsernameContains(String pUsername, Pageable pPageable)
@@ -223,7 +228,7 @@ public class UserService implements IUserService
      * 
      * @return la liste de tous les utilisateurs enregistrés dans le système d'informations.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public Collection<User> getUsers()
     {
@@ -235,7 +240,7 @@ public class UserService implements IUserService
      * 
      * @return la liste des utilisateurs selon l'état spécifié.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
     @Override
     public Collection<User> getAllByEnabled(Boolean pEnabled)
@@ -245,6 +250,7 @@ public class UserService implements IUserService
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void deleteUser(final Long pUserId)
     {
         // Tentative de suppression des informations d'un utilisateur du SI.
@@ -261,6 +267,7 @@ public class UserService implements IUserService
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void updateUser(final Long pUserId, final User pUser)
     {
         // Tentative des mise à jour des informations d'un utilisateur existant dans le SI.

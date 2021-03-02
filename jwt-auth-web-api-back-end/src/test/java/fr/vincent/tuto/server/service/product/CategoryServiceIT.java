@@ -47,6 +47,7 @@ import fr.vincent.tuto.server.config.db.PersistenceContextConfig;
 import fr.vincent.tuto.server.enumeration.CategoryTypeEnum;
 import fr.vincent.tuto.server.model.po.Category;
 import fr.vincent.tuto.server.model.po.Product;
+import fr.vincent.tuto.server.service.contract.ICategoryService;
 import fr.vincent.tuto.server.util.ServerUtil;
 import fr.vincent.tuto.server.utils.TestsDataUtils;
 
@@ -56,14 +57,12 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
  * @author Vincent Otchoun
  */
 @RunWith(SpringRunner.class)
-@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties",
-        "classpath:back-end-tls-test.properties" })
-@ContextConfiguration(name = "categoryServiceIT", classes = { BackEndServerRootConfig.class, DatabasePropsService.class,
-        PersistenceContextConfig.class, ProductService.class, CategoryService.class })
+@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties", "classpath:back-end-tls-test.properties" })
+@ContextConfiguration(name = "categoryServiceIT", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistenceContextConfig.class, ProductService.class,
+        CategoryService.class })
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)
 @ActiveProfiles("test")
-@Sql(scripts = { "classpath:db/h2/drop-test-h2.sql", "classpath:db/h2/create-test-h2.sql",
-        "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = { "classpath:db/h2/drop-test-h2.sql", "classpath:db/h2/create-test-h2.sql", "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 @Transactional
 class CategoryServiceIT
 {
@@ -362,7 +361,6 @@ class CategoryServiceIT
         assertThat(actualMessage).contains(expectedMessage);
     }
 
-
     /**
      * Test method for
      * {@link fr.vincent.tuto.server.service.product.CategoryService#existsCategoryByName(java.lang.String)}.
@@ -551,8 +549,7 @@ class CategoryServiceIT
 
         final Product product = Product.builder().id(8L).name("TEFAL L2008902")//
         .description("Batterie de cuisine 10 pièces Ingenio Essential - Tous feux sauf induction")//
-        .quantity(5L).unitPrice(new BigDecimal("5.539")).price(new BigDecimal("55.39")).imageUrl(
-        "img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg").build();
+        .quantity(5L).unitPrice(new BigDecimal("5.539")).price(new BigDecimal("55.39")).imageUrl("img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg").build();
 
         products.add(product);
 
@@ -617,8 +614,7 @@ class CategoryServiceIT
 
         final Product product = Product.builder().id(8L).name("TEFAL L2008902")//
         .description("Batterie de cuisine 10 pièces Ingenio Essential - Tous feux sauf induction")//
-        .quantity(5L).unitPrice(new BigDecimal("5.539")).price(new BigDecimal("55.39")).imageUrl(
-        "img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg").build();
+        .quantity(5L).unitPrice(new BigDecimal("5.539")).price(new BigDecimal("55.39")).imageUrl("img/tefal-l2008902-batterie-de-cuisine-10-pieces-ingen.jpg").build();
 
         products.add(product);
 

@@ -69,9 +69,11 @@ import lombok.experimental.FieldDefaults;
 @Getter // génère tous les getters sur les champs.
 @Setter // génère tous les setters sur les champs.
 @NoArgsConstructor // génère le constructeur sans arguments.
-@EqualsAndHashCode(callSuper = false, of = "id") // génère equals et hashCode (et d'autres méthodes) sur les champs donnés.
+@EqualsAndHashCode(callSuper = false, of = "id") // génère equals et hashCode (et d'autres méthodes) sur les champs
+                                                 // donnés.
 @FieldDefaults(level = AccessLevel.PRIVATE) // Passe tous les champs en private.
-@AllArgsConstructor(access = AccessLevel.PRIVATE) // le constructeur avec tous les arguments est nécessaire au Builder, mais pour le rendre
+@AllArgsConstructor(access = AccessLevel.PRIVATE) // le constructeur avec tous les arguments est nécessaire au Builder,
+                                                  // mais pour le rendre
                                                   // inaccessible depuis un autre
 // package, mais toujours depuis le Builder, je le place ici en protected
 @Builder // génère une classe interne de type « Builder »
@@ -85,42 +87,42 @@ public class User extends AbstractPersistable<Long> implements Serializable
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", updatable = false, nullable = false)
-    private Long id; // identifiant technique auto-généré de l'objet en base.
+    Long id; // identifiant technique auto-généré de l'objet en base.
 
     @NotNull(message = ServerUtil.USERNAME_VALIDATION_MSG)
     @Size(min = 3, max = 80, message = ServerUtil.USERNAME_VALIDATION_MSG)
     @Pattern(regexp = ServerUtil.LOGIN_REGEX)
     @Column(name = "USER_NAME", nullable = false, unique = true)
-    private String username; // le login utilisé pour authentifier l'utilisateur (non null et unique).
+    String username; // le login utilisé pour authentifier l'utilisateur (non null et unique).
 
     @JsonIgnore
     @NotNull(message = ServerUtil.PWD_VALIDATION_MSG)
     @Pattern(regexp = ServerUtil.PASSWORD_REGEX, message = ServerUtil.PWD_VALIDATION_MSG)
     @Size(min = 60, max = 60)
     @Column(name = "USER_PASSWORD", length = 60, nullable = false)
-    private String password; // le mot de passe utilisé pour authentifier l'utilisateur(non null).
+    String password; // le mot de passe utilisé pour authentifier l'utilisateur(non null).
 
     @Email(message = ServerUtil.EMAIL_VALIDATION_MSG)
     @Size(min = 8, max = 254, message = ServerUtil.EMAIL_VALIDATION_MSG)
     @Column(name = "EMAIL", unique = true, length = 254, nullable = false)
-    private String email; // adresse mail de l'utilisateur.
+    String email; // adresse mail de l'utilisateur.
 
     @Column(name = "ACCOUNT_EXPIRED", nullable = false)
-    private Boolean accountExpired; // Indique si le compte de l'utilisateur a expiré. Un compte expiré ne peut pas être
-                                    // authentifié.
+    Boolean accountExpired; // Indique si le compte de l'utilisateur a expiré. Un compte expiré ne peut pas être
+                            // authentifié.
 
     @Column(name = "ACCOUNT_LOCKED", nullable = false)
-    private Boolean accountLocked;// Indique si l'utilisateur est verrouillé ou déverrouillé. Un utilisateur verrouillé
-                                  // ne peut pas être authentifié.
+    Boolean accountLocked;// Indique si l'utilisateur est verrouillé ou déverrouillé. Un utilisateur verrouillé
+                          // ne peut pas être authentifié.
 
     @Column(name = "CREDENTIALS_EXPIRED", nullable = false)
-    private Boolean credentialsExpired; // Indique si les informations d'identification de l'utilisateur (mot de
-                                        // passe)ont expiré. Les informations d'identification expirées empêchent
-                                        // l'authentification.
+    Boolean credentialsExpired; // Indique si les informations d'identification de l'utilisateur (mot de
+                                // passe)ont expiré. Les informations d'identification expirées empêchent
+                                // l'authentification.
 
     @Column(name = "ENABLED", nullable = false)
-    private Boolean enabled; // Indique si l'utilisateur est activé ou désactivé. Un utilisateur désactivé ne peut pas
-                             // être authentifié.
+    Boolean enabled; // Indique si l'utilisateur est activé ou désactivé. Un utilisateur désactivé ne peut pas
+                     // être authentifié.
 
     @ElementCollection(fetch = FetchType.EAGER)
     @OrderBy
@@ -128,16 +130,16 @@ public class User extends AbstractPersistable<Long> implements Serializable
 
     @Column(name = " CREATED_TIME", insertable = true, updatable = false)
     @DateTimeFormat(iso = ISO.DATE_TIME)
-    private LocalDateTime createdTime; // horodatage pour la création de l'objet en base.
+    LocalDateTime createdTime; // horodatage pour la création de l'objet en base.
 
     @Column(name = "UPDATED_TIME", insertable = false, updatable = true)
     @DateTimeFormat(iso = ISO.DATE_TIME)
-    private LocalDateTime updatedTime; // horodatage pour la modification de l'objet en base.
+    LocalDateTime updatedTime; // horodatage pour la modification de l'objet en base.
 
     @JsonIgnore
     @Version
     @Column(name = "OPTLOCK", nullable = false)
-    private Integer version; // Gestion de l'optimistic lock (lock optimiste).
+    Integer version; // Gestion de l'optimistic lock (lock optimiste).
 
     @PrePersist
     protected void onCreate()

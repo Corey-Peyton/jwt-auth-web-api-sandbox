@@ -46,6 +46,10 @@ import lombok.experimental.UtilityClass;
 public final class ServerUtil
 {
     
+    // FORMAT String
+    public static final String THREE_PATTERN = "%s%s%s";
+    public static final String TWO_PATTERN = "%s%s";
+
     public static final String SERVER_INTERNAL_ERROR = "Erreur interne du serveur.";
     public static final String SERVER_UNAVAILABLE_MSG = "Service non disponible suite à une erreur interne du serveur.";
     public static final String ACCESS_DENIED = "Accès non autorisés.";
@@ -82,7 +86,6 @@ public final class ServerUtil
     public static final String OPTLOCK_MSG_DEF = "Lock Optimiste, 0 par défaut.";
 
     // GESTION DU CACHE
-    public static final String CACHE_MANAGER_FORMAT = "%s%s";
     public static final String HIBERNATE_CACHE_MANAGER = "hibernate.javax.cache.cache_manager";
     public static final String POINT_ROLES = ".roles";
     public static final String POINT_PRODUCTS = ".products";
@@ -166,10 +169,11 @@ public final class ServerUtil
         final Boolean active = pUser.getEnabled();
         if (BooleanUtils.isFalse(active))
         {
-            throw new CustomAppException(USER_MSG + pUsername + USER_MSG_NOT_ACTIVATED);
+            final String message = String.format(THREE_PATTERN, USER_MSG, pUsername, USER_MSG_NOT_ACTIVATED);
+            throw new CustomAppException(message);
         }
 
-        Set<SimpleGrantedAuthority> grantedAuthorities = pUser.getRoles()//
+        final Set<SimpleGrantedAuthority> grantedAuthorities = pUser.getRoles()//
         .stream()//
         .map(role -> new SimpleGrantedAuthority(role.getAuthority()))//
         .collect(Collectors.toSet());

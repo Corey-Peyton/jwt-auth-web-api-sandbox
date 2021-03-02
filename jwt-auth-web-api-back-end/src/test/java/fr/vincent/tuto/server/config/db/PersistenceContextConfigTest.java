@@ -42,9 +42,8 @@ import fr.vincent.tuto.server.config.BackEndServerRootConfig;
  * @author Vincent Otchoun
  */
 @RunWith(SpringRunner.class)
-@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties","classpath:back-end-tls-test.properties" })
-@ContextConfiguration(name = "persistenceContextConfigTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class,
-        PersistenceContextConfig.class })
+@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties", "classpath:back-end-tls-test.properties" })
+@ContextConfiguration(name = "persistenceContextConfigTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistenceContextConfig.class })
 @SpringBootTest(classes = BackendApplicationStarter.class)
 @ActiveProfiles("test, tsl")
 class PersistenceContextConfigTest
@@ -188,7 +187,8 @@ class PersistenceContextConfigTest
     }
 
     /**
-     * Test method for {@link fr.vincent.tuto.server.config.db.PersistenceContextConfig#exceptionTranslationPostProcessor()}.
+     * Test method for
+     * {@link fr.vincent.tuto.server.config.db.PersistenceContextConfig#exceptionTranslationPostProcessor()}.
      */
     @Test
     void testExceptionTranslationPostProcessor()

@@ -617,7 +617,6 @@ Une liste non exhaustive des technos utilsées pour le développement de cette a
 ![](https://img.shields.io/badge/Spring_Security_5-✓-blue.svg)
 ![](https://img.shields.io/badge/Spring_AOP-✓-blue.svg)
 ![](https://img.shields.io/badge/JWT-✓-blue.svg)
-![](https://img.shields.io/badge/Jpa_2-✓-blue.svg)
 ![](https://img.shields.io/badge/Hibernate_5-✓-blue.svg)
 ![](https://img.shields.io/badge/PostgreSQL_10+-✓-blue.svg)
 ![](https://img.shields.io/badge/MariaDB-✓-blue.svg)

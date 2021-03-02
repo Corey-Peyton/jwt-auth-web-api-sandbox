@@ -9,7 +9,7 @@
  * Copyright © 2021 - All rights reserved.
  * ----------------------------------------------
  */
-package fr.vincent.tuto.server.service.user;
+package fr.vincent.tuto.server.service.contract;
 
 import java.util.Collection;
 import java.util.Optional;

@@ -343,7 +343,6 @@ server.ssl.client-auth=need
 Dans ce cas de figure pour les besoins de la démo, assurons-nous que Spring Security autorise toutes les demandes entrantes en ajoutant la configuration suivante :
 ```java 
 @EnableWebSecurity
-@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override

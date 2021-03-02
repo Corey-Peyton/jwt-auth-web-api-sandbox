@@ -47,11 +47,11 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
  * @author Vincent Otchoun
  */
 @RunWith(SpringRunner.class)
-@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties","classpath:back-end-tls-test.properties" })
+@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties", "classpath:back-end-tls-test.properties" })
 @ContextConfiguration(name = "categoryDAOTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistenceContextConfig.class })
-@SpringBootTest(webEnvironment=WebEnvironment.NONE) 
+@SpringBootTest(webEnvironment = WebEnvironment.NONE)
 @ActiveProfiles("test")
-@Sql(scripts = {"classpath:db/h2/drop-test-h2.sql", "classpath:db/h2/create-test-h2.sql", "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = { "classpath:db/h2/drop-test-h2.sql", "classpath:db/h2/create-test-h2.sql", "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 class CategoryDAOIT
 {
     @Autowired
@@ -121,8 +121,6 @@ class CategoryDAOIT
 
         assertThat(optional).isNotPresent();
     }
-    
-    
 
     /**
      * Test method for {@link fr.vincent.tuto.server.dao.CategoryDAO#findOneWithProductsByNameIgnoreCase(java.lang.String)}.
@@ -134,17 +132,17 @@ class CategoryDAOIT
 
         assertThat(optional).isPresent();
 
-        final var  category = optional.get();
+        final var category = optional.get();
         assertThat(category).isNotNull();
-        
-        final Set<Product>  products = category.getProducts();
+
+        final Set<Product> products = category.getProducts();
         final List<Product> list = ServerUtil.setToList(products);
-        
+
         assertThat(list).isNotEmpty();
         assertThat(list.size()).isPositive();
-        assertThat(list.size()).isEqualTo(3); 
+        assertThat(list.size()).isEqualTo(3);
     }
-    
+
     @Test
     void testFindOneWithProductsByNameIgnoreCase_WithNull()
     {
@@ -152,7 +150,7 @@ class CategoryDAOIT
 
         assertThat(optional).isNotPresent();
     }
-    
+
     @Test
     void testFindOneWithProductsByNameIgnoreCase_WithEmpty()
     {
@@ -206,35 +204,32 @@ class CategoryDAOIT
         int pageNumber = 0; // zero-based page index, must NOT be negative.
         int pageSize = 5; // number of items in a page to be returned, must be greater than 0.
         Pageable paging = PageRequest.of(pageNumber, pageSize);
-        
+
         final var categories = this.categoryDAO.findAllByEnabled(Boolean.TRUE, paging);
-        
 
         assertThat(categories).isNotNull();
         assertThat(categories.getContent()).isNotEmpty();
-        assertThat(categories.getContent().size()).isPositive(); 
+        assertThat(categories.getContent().size()).isPositive();
     }
-    
+
     @Test
     void testFindAllByEnabledBooleanPageable_WithFalse()
     {
         int pageNumber = 0; // zero-based page index, must NOT be negative.
         int pageSize = 5; // number of items in a page to be returned, must be greater than 0.
         Pageable paging = PageRequest.of(pageNumber, pageSize);
-        
+
         var categories = this.categoryDAO.findAllByEnabled(Boolean.FALSE, paging);
-        
 
         assertThat(categories).isNotNull();
         assertThat(categories.getContent()).isEmpty();
-        assertThat(categories.getContent().size()).isNotPositive(); 
+        assertThat(categories.getContent().size()).isNotPositive();
     }
-    
+
     @Test
     void testFindAllByEnabledBooleanPageable_WithNull()
     {
         var categories = this.categoryDAO.findAllByEnabled(null, null);
-        
 
         assertThat(categories).isNotNull();
         assertThat(categories.getContent()).isEmpty();
@@ -247,20 +242,19 @@ class CategoryDAOIT
     void testFindAllByEnabledBoolean()
     {
         final var categories = (List<Category>) this.categoryDAO.findAllByEnabled(Boolean.TRUE);
-        
+
         assertThat(categories.isEmpty()).isFalse();
         assertThat(categories.size()).isPositive();
     }
-    
+
     @Test
     void testFindAllByEnabledBoolean_WithFalse()
     {
         final var categories = (List<Category>) this.categoryDAO.findAllByEnabled(Boolean.FALSE);
-        
+
         assertThat(categories.isEmpty()).isTrue();
         assertThat(categories.size()).isNotPositive();
     }
-
 
     /**
      * Test method for {@link fr.vincent.tuto.server.dao.CategoryDAO#findAllByEnabledIsTrue()}.
@@ -269,7 +263,7 @@ class CategoryDAOIT
     void testFindAllByEnabledIsTrue()
     {
         final var categories = (List<Category>) this.categoryDAO.findAllByEnabledIsTrue();
-        
+
         assertThat(categories.isEmpty()).isFalse();
         assertThat(categories.size()).isPositive();
     }

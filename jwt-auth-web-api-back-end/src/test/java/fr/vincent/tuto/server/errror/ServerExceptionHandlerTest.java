@@ -68,9 +68,9 @@ import io.jsonwebtoken.JwtException;
  */
 @RunWith(SpringRunner.class)
 @TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties", "classpath:back-end-tls-test.properties" })
-@ContextConfiguration(name = "serverExceptionHandlerTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class,
-        PersistenceContextConfig.class, ServerCacheConfig.class })
-@SpringBootTest(webEnvironment=WebEnvironment.NONE) 
+@ContextConfiguration(name = "serverExceptionHandlerTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistenceContextConfig.class,
+        ServerCacheConfig.class })
+@SpringBootTest(webEnvironment = WebEnvironment.NONE)
 @ActiveProfiles("test")
 class ServerExceptionHandlerTest
 {
@@ -162,7 +162,6 @@ class ServerExceptionHandlerTest
         assertThat(response.getBody().getErrors().getValidationErrors()).isEmpty();
     }
 
-
     @Test
     void testHandleHttpCustomAppException_WithNull()
     {
@@ -191,7 +190,6 @@ class ServerExceptionHandlerTest
         String actualMessage = exception.getMessage();
         assertThat(actualMessage).isNull();
     }
-    
 
     @Test
     void testHandleHttpCustomAppException_AuthenticationException()
@@ -210,11 +208,11 @@ class ServerExceptionHandlerTest
         assertThat(response.getBody().getErrors().getDebugMessage()).isEqualTo(authenticationException.getMessage());
         assertThat(response.getBody().getErrors().getValidationErrors()).isEmpty();
     }
-    
+
     @Test
     void testHandleHttpCustomAppException_WithNull_AuthenticationException()
     {
-        final var customAppException = new AuthenticationExceptionCustom(null, null); 
+        final var customAppException = new AuthenticationExceptionCustom(null, null);
         final ResponseEntity<GenericApiResponse<Product>> response = this.exceptionHandler.handleHttpCustomAppException(customAppException);
 
         assertThat(response).isNotNull();
@@ -228,7 +226,7 @@ class ServerExceptionHandlerTest
         assertThat(response.getBody().getErrors().getDebugMessage()).isEqualTo(customAppException.getMessage());
         assertThat(response.getBody().getErrors().getValidationErrors()).isEmpty();
     }
-    
+
     @Test
     void testHandleHttpCustomAppException_ShouldTrowNPE_AuthenticationException()
     {
@@ -248,8 +246,7 @@ class ServerExceptionHandlerTest
     void testHandleNotReadableException()
     {
         MockHttpInputMessage inputMessage = new MockHttpInputMessage("mockInput".getBytes());
-        final HttpMessageNotReadableException notReadableException = new HttpMessageNotReadableException("HttpMessageNotReadableExceptione", null,
-        inputMessage);
+        final HttpMessageNotReadableException notReadableException = new HttpMessageNotReadableException("HttpMessageNotReadableExceptione", null, inputMessage);
         final ResponseEntity<GenericApiResponse<Product>> response = this.exceptionHandler.handleNotReadableException(notReadableException);
 
         assertThat(response).isNotNull();
@@ -319,8 +316,7 @@ class ServerExceptionHandlerTest
     void testHandleNoHandlerFoundException()
     {
         ServletServerHttpRequest req = new ServletServerHttpRequest(new MockHttpServletRequest("GET", "/resource"));
-        final NoHandlerFoundException noHandlerFoundException = new NoHandlerFoundException(req.getMethod().toString(), req.getServletRequest()
-        .getRequestURI(), req.getHeaders());
+        final NoHandlerFoundException noHandlerFoundException = new NoHandlerFoundException(req.getMethod().toString(), req.getServletRequest().getRequestURI(), req.getHeaders());
         final ResponseEntity<GenericApiResponse<Product>> response = this.exceptionHandler.handleNoHandlerFoundException(noHandlerFoundException);
 
         assertThat(response).isNotNull();
@@ -468,10 +464,8 @@ class ServerExceptionHandlerTest
     @Test
     void testHandleDataIntegrityException()
     {
-        final DataIntegrityViolationException dataIntegrityViolationException = new DataIntegrityViolationException(
-        "Violation intégrité des données.");
-        final ResponseEntity<GenericApiResponse<Product>> response = this.exceptionHandler.handleDataIntegrityException(
-        dataIntegrityViolationException);
+        final DataIntegrityViolationException dataIntegrityViolationException = new DataIntegrityViolationException("Violation intégrité des données.");
+        final ResponseEntity<GenericApiResponse<Product>> response = this.exceptionHandler.handleDataIntegrityException(dataIntegrityViolationException);
 
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
@@ -489,8 +483,7 @@ class ServerExceptionHandlerTest
     void testHandleDataIntegrityException_WithNull()
     {
         final DataIntegrityViolationException dataIntegrityViolationException = new DataIntegrityViolationException(null, null);
-        final ResponseEntity<GenericApiResponse<Product>> response = this.exceptionHandler.handleDataIntegrityException(
-        dataIntegrityViolationException);
+        final ResponseEntity<GenericApiResponse<Product>> response = this.exceptionHandler.handleDataIntegrityException(dataIntegrityViolationException);
 
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
@@ -527,8 +520,7 @@ class ServerExceptionHandlerTest
     {
         Method method = Product.class.getMethod("setDescription", String.class);
         MethodParameter methodParameter = new MethodParameter(method, 0);
-        MethodArgumentTypeMismatchException mismatchException = new MethodArgumentTypeMismatchException(null, Product.class, "name", methodParameter,
-        null);
+        MethodArgumentTypeMismatchException mismatchException = new MethodArgumentTypeMismatchException(null, Product.class, "name", methodParameter, null);
         final ResponseEntity<GenericApiResponse<Product>> response = this.exceptionHandler.handleMethodArgumentTypException(mismatchException);
 
         assertThat(response).isNotNull();

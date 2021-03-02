@@ -43,7 +43,6 @@ public class LoggingAspectConfig
     private static final String AROUND_VALUES = "securityLayerExecution() || endpointsLayerExecution() || businessLayerExecution() || errorLayerExecution() || configLayerExecution() || repoLayerExecution()";
     private static final String POINTCUT_VALUES = "securityLayerExecution() || endpointsLayerExecution() || businessLayerExecution() || errorLayerExecution() || configLayerExecution() || repoLayerExecution()";
 
-
     /*
      * Défintion des Pointcut : définir quand un appel à une méthode doit être intercepté.
      */
@@ -56,7 +55,7 @@ public class LoggingAspectConfig
     {
         //
     }
-    
+
     /**
      * Définiion du pointcu pour la couche des reférentiels.
      */
@@ -101,7 +100,7 @@ public class LoggingAspectConfig
     {
         //
     }
-    
+
     /**
      * Advice qui enregistre les méthodes lançant des exceptions.
      * 

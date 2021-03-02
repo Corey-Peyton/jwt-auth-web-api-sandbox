@@ -67,9 +67,9 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
  */
 @RunWith(SpringRunner.class)
 @TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties", "classpath:back-end-tls-test.properties" })
-@ContextConfiguration(name = "categoryJSONMapperTest", classes = { BackEndServerRootConfig.class, GenericJSONMapper.class,
-        StringHttpMessageConverter.class, ProductMapper.class, CategoryMapper.class })
-@SpringBootTest(webEnvironment=WebEnvironment.NONE) 
+@ContextConfiguration(name = "categoryJSONMapperTest", classes = { BackEndServerRootConfig.class, GenericJSONMapper.class, StringHttpMessageConverter.class, ProductMapper.class,
+        CategoryMapper.class })
+@SpringBootTest(webEnvironment = WebEnvironment.NONE)
 @ActiveProfiles("test")
 class CategoryJSONMapperTest
 {
@@ -406,9 +406,9 @@ class CategoryJSONMapperTest
         categoryStrList.add(noPrettyContent);
         categoryStrList.add(noPrettyContent);
         categoryStrList.add(noPrettyContent);
-        
+
         final List<CategoryDTO> dtos = (List<CategoryDTO>) this.genericJSONMapper.toJSONObjectList(categoryStrList, CategoryDTO.class);
-        
+
         assertThat(dtos).isNotEmpty();
         assertThat(dtos.size()).isPositive();
         assertThat(dtos.size()).isEqualTo(4);
@@ -420,15 +420,15 @@ class CategoryJSONMapperTest
     {
         final String noPrettyContent = this.ReadNotPrettyFileContent();
         final String prettyContent = this.readPrettyFileContent();
-        
+
         final List<String> categoryStrList = Lists.newArrayList();
         categoryStrList.add(noPrettyContent);
         categoryStrList.add(noPrettyContent);
         categoryStrList.add(prettyContent);
         categoryStrList.add(prettyContent);
-        
+
         final List<CategoryDTO> dtos = (List<CategoryDTO>) this.genericJSONMapper.toJSONObjectList(categoryStrList, CategoryDTO.class);
-        
+
         assertThat(dtos).isNotEmpty();
         assertThat(dtos.size()).isPositive();
         assertThat(dtos.size()).isEqualTo(4);
@@ -440,22 +440,22 @@ class CategoryJSONMapperTest
     {
         final String noPrettyContent = this.ReadNotPrettyFileContent();
         final String prettyContent = this.readPrettyFileContent();
-        
+
         final List<String> categoryStrList = Lists.newArrayList();
         categoryStrList.add(noPrettyContent);
         categoryStrList.add(noPrettyContent);
         categoryStrList.add(prettyContent);
         categoryStrList.add(prettyContent);
         categoryStrList.add(null);
-        
+
         final List<CategoryDTO> dtos = (List<CategoryDTO>) this.genericJSONMapper.toJSONObjectList(categoryStrList, CategoryDTO.class);
-        
+
         assertThat(dtos).isNotEmpty();
         assertThat(dtos.size()).isPositive();
         assertThat(dtos.size()).isEqualTo(4);
         assertThat(dtos.get(0).getName()).contains("ELCETROMENAGER");
     }
-    
+
     @Test
     void testToJSONObjectList_WithFullElementNull()
     {
@@ -494,56 +494,51 @@ class CategoryJSONMapperTest
     @Test
     void testWriteJSONFile()
     {
-        final String filename = String.format(QUATRE_FORMAT_STR, this.jsonFilePathLocation , CategoryDTO.class.getSimpleName() ,FILE_NAME_COMP , AppConstants.JSON_FILE_SUFFIXE);
+        final String filename = String.format(QUATRE_FORMAT_STR, this.jsonFilePathLocation, CategoryDTO.class.getSimpleName(), FILE_NAME_COMP, AppConstants.JSON_FILE_SUFFIXE);
         final Boolean isFileCreated = this.genericJSONMapper.writeJSONFile(filename, false, TestsDataUtils.CATEGORIES_DTO_SINGLE(), false);
 
         assertThat(isFileCreated).isTrue();
     }
-    
+
     @Test
     void testWriteJSONFile_WithFileInMemory()
     {
-        final String filename = String.format(TRIPLE_FORMAT_STR, this.jsonFilePathLocation , CategoryDTO.class.getSimpleName() , INMEMORY_FILE);
+        final String filename = String.format(TRIPLE_FORMAT_STR, this.jsonFilePathLocation, CategoryDTO.class.getSimpleName(), INMEMORY_FILE);
         final Boolean isFileCreated = this.genericJSONMapper.writeJSONFile(filename, false, TestsDataUtils.CATEGORIES_DTO_SINGLE(), false);
 
         assertThat(isFileCreated).isTrue();
     }
-    
-    
+
     @Test
     void testWriteJSONFile_WithPrettyPrintTrue()
     {
-        final String filename = String.format(QUATRE_FORMAT_STR, this.jsonFilePathLocation, CategoryDTO.class.getSimpleName(), PRETTY_FILE,
-        AppConstants.JSON_FILE_SUFFIXE);
+        final String filename = String.format(QUATRE_FORMAT_STR, this.jsonFilePathLocation, CategoryDTO.class.getSimpleName(), PRETTY_FILE, AppConstants.JSON_FILE_SUFFIXE);
         final Boolean isFileCreated = this.genericJSONMapper.writeJSONFile(filename, false, TestsDataUtils.CATEGORIES_DTO_SINGLE(), true);
 
         assertThat(isFileCreated).isTrue();
     }
-    
+
     @Test
     void testWriteJSONFile_WithPrettyPrintTrueFullData()
     {
-        final String filename = String.format(QUATRE_FORMAT_STR, this.jsonFilePathLocation, CategoryDTO.class.getSimpleName(), "_List_Pretty_2",
-        AppConstants.JSON_FILE_SUFFIXE);
+        final String filename = String.format(QUATRE_FORMAT_STR, this.jsonFilePathLocation, CategoryDTO.class.getSimpleName(), "_List_Pretty_2", AppConstants.JSON_FILE_SUFFIXE);
         final Boolean isFileCreated = this.genericJSONMapper.writeJSONFile(filename, false, TestsDataUtils.CATEGORIES_DTO(), true);
 
         assertThat(isFileCreated).isTrue();
     }
-    
+
     @Test
     void testWriteJSONFile_WithPrettyPrintTrue_ListAndSet()
     {
         final List<Category> categories = (List<Category>) this.categoryMapper.toCategories(TestsDataUtils.CATEGORIES_DTO());
-        final Set<Category> categoriesSet = ServerUtil.listToSet(categories); 
-        
+        final Set<Category> categoriesSet = ServerUtil.listToSet(categories);
+
         // Création du fichier au format JSON avec List
-        final String filename = String.format(QUATRE_FORMAT_STR, this.jsonFilePathLocation, ProductDTO.class.getSimpleName(), LIST_PRETTY_FILE,
-        AppConstants.JSON_FILE_SUFFIXE);
+        final String filename = String.format(QUATRE_FORMAT_STR, this.jsonFilePathLocation, ProductDTO.class.getSimpleName(), LIST_PRETTY_FILE, AppConstants.JSON_FILE_SUFFIXE);
         final Boolean isFileCreated = this.genericJSONMapper.writeJSONFile(filename, false, categories, true);
 
         // Création du fichier au format JSON avec Set
-        final String filename1 = String.format(QUATRE_FORMAT_STR, this.jsonFilePathLocation, ProductDTO.class.getSimpleName(), SET_PRETTY_FILE,
-        AppConstants.JSON_FILE_SUFFIXE);
+        final String filename1 = String.format(QUATRE_FORMAT_STR, this.jsonFilePathLocation, ProductDTO.class.getSimpleName(), SET_PRETTY_FILE, AppConstants.JSON_FILE_SUFFIXE);
         final Boolean isFileCreated1 = this.genericJSONMapper.writeJSONFile(filename1, false, categoriesSet, true);
 
         assertThat(isFileCreated).isTrue();

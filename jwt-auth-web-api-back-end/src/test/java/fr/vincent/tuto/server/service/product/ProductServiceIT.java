@@ -42,6 +42,7 @@ import fr.vincent.tuto.common.service.props.DatabasePropsService;
 import fr.vincent.tuto.server.config.BackEndServerRootConfig;
 import fr.vincent.tuto.server.config.db.PersistenceContextConfig;
 import fr.vincent.tuto.server.model.po.Product;
+import fr.vincent.tuto.server.service.contract.IProductService;
 
 /**
  * Classe des Tests d'Intégration (composants et système) des objets de type {@link ProductService}
@@ -50,11 +51,10 @@ import fr.vincent.tuto.server.model.po.Product;
  */
 @RunWith(SpringRunner.class)
 @TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties", "classpath:back-end-tls-test.properties" })
-@ContextConfiguration(name = "productServiceIT", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistenceContextConfig.class,
-        ProductService.class })
-@SpringBootTest(webEnvironment=WebEnvironment.NONE) 
+@ContextConfiguration(name = "productServiceIT", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistenceContextConfig.class, ProductService.class })
+@SpringBootTest(webEnvironment = WebEnvironment.NONE)
 @ActiveProfiles("test")
-@Sql(scripts = {"classpath:db/h2/drop-test-h2.sql", "classpath:db/h2/create-test-h2.sql", "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = { "classpath:db/h2/drop-test-h2.sql", "classpath:db/h2/create-test-h2.sql", "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 class ProductServiceIT
 {
     //

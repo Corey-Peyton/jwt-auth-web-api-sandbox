@@ -41,9 +41,9 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
  */
 @RunWith(SpringRunner.class)
 @TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties", "classpath:back-end-tls-test.properties" })
-@ContextConfiguration(name = "categoryMapperTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistenceContextConfig.class,
-        ProductMapper.class, CategoryMapper.class })
-@SpringBootTest(webEnvironment=WebEnvironment.NONE) 
+@ContextConfiguration(name = "categoryMapperTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistenceContextConfig.class, ProductMapper.class,
+        CategoryMapper.class })
+@SpringBootTest(webEnvironment = WebEnvironment.NONE)
 @ActiveProfiles("test")
 class CategoryMapperTest
 {
@@ -94,7 +94,6 @@ class CategoryMapperTest
 
         assertThat(category).isNull();
     }
-    
 
     /**
      * Test method for {@link fr.vincent.tuto.server.service.mapper.CategoryMapper#toCategories(java.util.Collection)}.
@@ -104,7 +103,7 @@ class CategoryMapperTest
     {
         final List<CategoryDTO> dtos = TestsDataUtils.CATEGORIES_DTO();
         final List<Category> categories = (List<Category>) this.categoryMapper.toCategories(dtos);
-        
+
         assertThat(categories).isNotEmpty();
         assertThat(categories.size()).isPositive();
         assertThat(categories.size()).isEqualTo(2);
@@ -116,11 +115,11 @@ class CategoryMapperTest
     void testToCategories_WithNull()
     {
         final List<Category> categories = (List<Category>) this.categoryMapper.toCategories(null);
-        
+
         assertThat(categories).isEmpty();
         assertThat(categories.size()).isNotPositive();
     }
-    
+
     /**
      * Test method for
      * {@link fr.vincent.tuto.server.service.mapper.CategoryMapper#toDestObject(fr.vincent.tuto.server.model.po.Category)}.
@@ -167,7 +166,5 @@ class CategoryMapperTest
         assertThat(dtos).isEmpty();
         assertThat(dtos.size()).isNotPositive();
     }
-
-
 
 }

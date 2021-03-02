@@ -55,7 +55,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false, of = "id")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PRIVATE) //Hides the constructor to force useage of the Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE) // Hides the constructor to force useage of the Builder
 @Builder
 public class Product extends AbstractPersistable<Long> implements Serializable
 {
@@ -67,40 +67,40 @@ public class Product extends AbstractPersistable<Long> implements Serializable
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", updatable = false, nullable = false)
-    private Long id; // identifiant technique auto-généré de l'objet en base.
+    Long id; // identifiant technique auto-généré de l'objet en base.
 
-    @NotNull(message  = ServerUtil.PRODUCT_NAME)
+    @NotNull(message = ServerUtil.PRODUCT_NAME)
     @Column(name = "NAME", nullable = false)
-    private String name; // le nom du produit.
+    String name; // le nom du produit.
 
-    @NotNull (message = ServerUtil.PRODUCT_DESC)
+    @NotNull(message = ServerUtil.PRODUCT_DESC)
     @Column(name = "DESCRIPTION", nullable = false)
-    private String description; // la description du produit.
+    String description; // la description du produit.
 
-    @NotNull(message =ServerUtil.PRODUCT_QTY ) 
+    @NotNull(message = ServerUtil.PRODUCT_QTY)
     @Column(name = "QUANTITY", nullable = false)
-    private Long quantity; // la quantité en stock pour le produit.
+    Long quantity; // la quantité en stock pour le produit.
 
     @NotNull(message = ServerUtil.PRODUCT_UNIT)
     @Column(name = "UNIT_PRICE", nullable = false)
-    private BigDecimal unitPrice; // le prix unitaire du produit.
+    BigDecimal unitPrice; // le prix unitaire du produit.
 
-    @NotNull(message = ServerUtil.PRODUCT_PRICE) 
+    @NotNull(message = ServerUtil.PRODUCT_PRICE)
     @Column(name = "PRICE", nullable = false)
-    private BigDecimal price; // le prix du produit.
+    BigDecimal price; // le prix du produit.
 
-    @NotNull(message = ServerUtil.PRODUCT_ACTIVE )
+    @NotNull(message = ServerUtil.PRODUCT_ACTIVE)
     @Column(name = "IS_ACTIVE", nullable = false)
-    private Boolean isActive; // indique si le produit est actif/disponible ou non
+    Boolean isActive; // indique si le produit est actif/disponible ou non
 
     @NotNull(message = ServerUtil.PRODUCT_IMG)
     @Column(name = "IMAGE_URL", nullable = false)
-    private String imageUrl;
+    String imageUrl;
 
     @JsonIgnore
     @Version
     @Column(name = "OPTLOCK", nullable = false)
-    private Integer version; // Gestion de l'optimistic lock (lock optimiste).
+    Integer version; // Gestion de l'optimistic lock (lock optimiste).
 
     @PrePersist
     protected void onCreate()

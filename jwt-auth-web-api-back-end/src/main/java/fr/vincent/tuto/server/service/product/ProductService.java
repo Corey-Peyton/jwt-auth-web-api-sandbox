@@ -24,12 +24,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import fr.vincent.tuto.common.exception.CustomAppException;
 import fr.vincent.tuto.server.dao.ProductDAO;
 import fr.vincent.tuto.server.model.po.Product;
+import fr.vincent.tuto.server.service.contract.IProductService;
 import fr.vincent.tuto.server.util.ServerUtil;
 
 /**
@@ -92,7 +94,7 @@ public class ProductService implements IProductService
      * @param pProductId identifiant du produit recherché.
      * @return le produit recherché.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
     @Override
     public Optional<Product> getProductById(Long pProductId)
@@ -108,7 +110,7 @@ public class ProductService implements IProductService
      * @param pName le nom du produit recherché.
      * @return les informations du produit correspondant aux critères de recherche.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
     @Override
     public Optional<Product> getProductByName(String pName)
@@ -124,7 +126,7 @@ public class ProductService implements IProductService
      * @param pName le nom du produit recherché.
      * @return les informations du produit correspondant aux critères de recherche.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
     @Override
     public Optional<Product> getProductByNameIgnoreCase(String pName)
@@ -140,7 +142,7 @@ public class ProductService implements IProductService
      * @param pName le nom du produi recherché.
      * @return true si le produit existe, false sinon.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
     @Override
     public Boolean existsProductByName(String pName)
@@ -155,7 +157,7 @@ public class ProductService implements IProductService
      * @param pPageable       pagination de la liste (index de la page, nombre d'éléments dans la page à retrourner).
      * @return la liste paginée des informations des produits correspondant.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
     @Override
     public Page<Product> getProductsByIsActive(Boolean productIsActive, Pageable pPageable)
@@ -169,7 +171,7 @@ public class ProductService implements IProductService
      * @param productIsActive état des des produits à remonter
      * @return la liste des informations des produits correspondant.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
     @Override
     public Collection<Product> getProductsByIsActive(Boolean productIsActive)
@@ -182,7 +184,7 @@ public class ProductService implements IProductService
      * 
      * @return la liste des informations des produits.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
     @Override
     public Collection<Product> getProducts()
@@ -196,7 +198,7 @@ public class ProductService implements IProductService
      * @param pQuery le modèle de requête donné.
      * @return la liste filtrée des produits correspondant aux critères de recherche.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
     @Override
     public Collection<Product> getFilteredProducts(String pQuery)
@@ -219,6 +221,7 @@ public class ProductService implements IProductService
      * 
      * @param pProductId identifiant du produit à supprimer du SI.
      */
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR')")
     @Override
     public void deleteProduct(Long pProductId)
@@ -240,6 +243,7 @@ public class ProductService implements IProductService
      * @param pProductId identifiant du produit à mettre à jour.
      * @param pProduct   les informations du produit à mettre à jour.
      */
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR')")
     @Override
     public void updateProduct(Long pProductId, Product pProduct)

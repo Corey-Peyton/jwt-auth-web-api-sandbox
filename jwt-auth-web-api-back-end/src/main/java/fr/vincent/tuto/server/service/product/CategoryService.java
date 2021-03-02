@@ -23,6 +23,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -30,6 +31,7 @@ import fr.vincent.tuto.common.exception.CustomAppException;
 import fr.vincent.tuto.server.dao.CategoryDAO;
 import fr.vincent.tuto.server.model.po.Category;
 import fr.vincent.tuto.server.model.po.Product;
+import fr.vincent.tuto.server.service.contract.ICategoryService;
 import fr.vincent.tuto.server.util.ServerUtil;
 
 /**
@@ -72,12 +74,14 @@ public class CategoryService implements ICategoryService
     @Override
     public Category createCategory(Category pCategory)
     {
-        try {
+        try
+        {
             final var category = this.categoryDAO.save(pCategory);
             Assert.notNull(category, SAVE_MESSAGE);
             return category;
         }
-        catch (Exception e) {
+        catch (Exception e)
+        {
             throw new CustomAppException(SAVE_MESSAGE, e);
         }
     }
@@ -88,7 +92,7 @@ public class CategoryService implements ICategoryService
      * @param pCategoryId identifiant de la catégorie recherchée.
      * @return la catégorie de produit ayant l'dentifiant recherche.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
     @Override
     public Optional<Category> getCategoryById(Long pCategoryId)
@@ -104,7 +108,7 @@ public class CategoryService implements ICategoryService
      * @param pName le nom de la catégorie de produit recherchée.
      * @return la catégorie de produit recherchée si trouvé, sinon vide.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
     @Override
     public Optional<Category> getCategoryByName(String pName)
@@ -120,7 +124,7 @@ public class CategoryService implements ICategoryService
      * @param pName le nom de la catégorie de produit recherchée.
      * @return la catégorie de produit recherchée si trouvé, sinon vide.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
     @Override
     public Optional<Category> getCategoryByNameIgnoreCase(String pName)
@@ -136,7 +140,7 @@ public class CategoryService implements ICategoryService
      * @param pName le nom de la catégorie de produit recherchée.
      * @return la catégorie de produit recherchée si trouvé, sinon vide.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
     @Override
     public Optional<Category> getCategoryWithProductsByNameIgnoreCase(String pName)
@@ -152,7 +156,7 @@ public class CategoryService implements ICategoryService
      * @param pName le nom de la catégorie de produits.
      * @return true si la catégorie de produits existe, false sinon.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
     @Override
     public Boolean existsCategoryByName(String pName)
@@ -167,7 +171,7 @@ public class CategoryService implements ICategoryService
      * @param pPageable       pagination de la liste (index de la page, nombre d'éléments dans la page à retourner).
      * @return la liste paginée des catégories de produits correspondant.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
     @Override
     public Page<Category> getCategoriesByEnabled(Boolean pCategoryEnable, Pageable pPageable)
@@ -181,7 +185,7 @@ public class CategoryService implements ICategoryService
      * @param pCategoryEnable état des catégories de produits à remonter.
      * @return la liste de catégories de produits correspondant aux critères de recherche.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
     @Override
     public Collection<Category> getCategoriesByEnabled(Boolean pCategoryEnable)
@@ -194,7 +198,7 @@ public class CategoryService implements ICategoryService
      * 
      * @return la liste des catégories de produits.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
     @Override
     public Collection<Category> getCategories()
@@ -208,7 +212,7 @@ public class CategoryService implements ICategoryService
      * @param pQuery le modèle de requête donné.
      * @return la liste filtrée de caagories de produits.
      */
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')")
     @Override
     public Collection<Category> getFilteredCategoriesByProductName(String pQuery)
@@ -233,18 +237,21 @@ public class CategoryService implements ICategoryService
      * @param pCategoryId identifiant de la catégorie de produits à mettre à jour.
      * @param pCategory   la catégorie de produits à mettre à jour.
      */
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
     @Override
     public void updateCategory(Long pCategoryId, Category pCategory)
     {
-        try {
+        try
+        {
             this.getCategoryById(pCategoryId).ifPresent(categorie -> {
                 final Long id = categorie.getId();
                 pCategory.setId(id);
                 this.createCategory(pCategory);
             });
         }
-        catch (Exception e) {
+        catch (Exception e)
+        {
             throw new CustomAppException(e);
         }
     }
@@ -254,15 +261,18 @@ public class CategoryService implements ICategoryService
      * 
      * @param pCategoryId identifiant de la catégorie de produits à supprimer.
      */
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
     @Override
     public void deleteCategory(Long pCategoryId)
     {
-        try {
+        try
+        {
             this.getCategoryById(pCategoryId)//
             .ifPresent(this.categoryDAO::delete);
         }
-        catch (Exception e) {
+        catch (Exception e)
+        {
             throw new CustomAppException(e);
         }
     }
@@ -274,6 +284,7 @@ public class CategoryService implements ICategoryService
      * @param pProductId  identifiant du nouveau produit à ajouter.
      * @return la liste de produits mise à jour.
      */
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
     @Override
     public Collection<Product> addProduct(Long pCategoryId, Long pProductId)
@@ -283,7 +294,8 @@ public class CategoryService implements ICategoryService
         final var productOptional = this.productService.getProductById(pProductId);
 
         // Si recherche infructueuse
-        if (categorieOptional.isEmpty() || productOptional.isEmpty()) {
+        if (categorieOptional.isEmpty() || productOptional.isEmpty())
+        {
             return Collections.emptyList();
         }
 
@@ -297,5 +309,4 @@ public class CategoryService implements ICategoryService
 
         return ServerUtil.setToList(products);
     }
-
 }

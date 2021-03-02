@@ -46,7 +46,7 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
 @RunWith(SpringRunner.class)
 @TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties", "classpath:back-end-tls-test.properties" })
 @ContextConfiguration(name = "userDAOTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistenceContextConfig.class })
-@SpringBootTest(webEnvironment=WebEnvironment.NONE) 
+@SpringBootTest(webEnvironment = WebEnvironment.NONE)
 @ActiveProfiles("test")
 class UserDAOTest
 {

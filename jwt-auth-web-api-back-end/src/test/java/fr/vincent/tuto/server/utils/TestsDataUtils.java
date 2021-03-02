@@ -56,6 +56,7 @@ public final class TestsDataUtils
     public static final String ADMIN_EMAIL = "ADMIN.TEST@LIVE.FR";
     public static final String ADMIN_EMAIL_LOWER = "admin.test@live.fr";
     public static final String INACTIVE_USER_MAIL = "client3.test@live.fr";
+    public static final String USER_TWO_EMAIL = "admin2.test@live.fr";
 
     public static final String IMAGE_URL_TO_SEARCH = "img/lave-vaisselle-pose-libre-electrolux-esf8650row.jpg";
     public static final String CATEGORY_NAME_TO_SEARCH = "MEUBLES-DECO";

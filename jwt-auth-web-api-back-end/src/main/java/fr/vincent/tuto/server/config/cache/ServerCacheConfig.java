@@ -52,8 +52,8 @@ public class ServerCacheConfig
     public javax.cache.configuration.Configuration<Object, Object> jcacheConfiguration(@Autowired final ApplicationPropsService propsService)
     {
         final var ehcacheProps = propsService.getEhcacheProps();
-        return Eh107Configuration.fromEhcacheCacheConfiguration(CacheConfigurationBuilder.newCacheConfigurationBuilder(Object.class, Object.class,
-        ResourcePoolsBuilder.heap(ehcacheProps.getMaxEntries()))//
+        return Eh107Configuration.fromEhcacheCacheConfiguration(CacheConfigurationBuilder.newCacheConfigurationBuilder(Object.class, Object.class, ResourcePoolsBuilder.heap(
+        ehcacheProps.getMaxEntries()))//
         .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.ofSeconds(ehcacheProps.getTimeToLiveSeconds())))//
         .build());
     }
@@ -78,12 +78,12 @@ public class ServerCacheConfig
             createCache(cm, ServerUtil.USERS_BY_USERNAME_CACHE, propsService);
             createCache(cm, ServerUtil.USERS_BY_EMAIL_CACHE, propsService);
             createCache(cm, User.class.getName(), propsService);
-            createCache(cm, String.format(ServerUtil.CACHE_MANAGER_FORMAT, User.class.getName(), ServerUtil.POINT_ROLES), propsService);
+            createCache(cm, String.format(ServerUtil.TWO_PATTERN, User.class.getName(), ServerUtil.POINT_ROLES), propsService);
 
             // Création du cache pour optimiser les accès aux données de la table T_CATEGORIES.
             createCache(cm, ServerUtil.CATEGORY_BY_NAME_CACHE, propsService);
             createCache(cm, Category.class.getName(), propsService);
-            createCache(cm, String.format(ServerUtil.CACHE_MANAGER_FORMAT, Category.class.getName(), ServerUtil.POINT_PRODUCTS), propsService);
+            createCache(cm, String.format(ServerUtil.TWO_PATTERN, Category.class.getName(), ServerUtil.POINT_PRODUCTS), propsService);
         };
     }
 
@@ -96,7 +96,8 @@ public class ServerCacheConfig
     private void createCache(final javax.cache.CacheManager cm, final String cacheName, final ApplicationPropsService propsService)
     {
         final var cache = cm.getCache(cacheName);
-        if (cache != null) {
+        if (cache != null)
+        {
             cm.destroyCache(cacheName);
         }
         cm.createCache(cacheName, this.jcacheConfiguration(propsService));

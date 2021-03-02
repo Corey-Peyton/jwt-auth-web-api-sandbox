@@ -29,17 +29,17 @@ import fr.vincent.tuto.server.model.po.Product;
 @Repository
 public interface ProductDAO extends JpaRepository<Product, Long>
 {
-    
+
     Optional<Product> findOneByName(final String pName);
-    
+
     Optional<Product> findOneByNameIgnoreCase(final String pName);
-    
+
     Boolean existsByName(final String pName);
-    
+
     Page<Product> findAllByIsActive(final Boolean productIsActive, final Pageable pPageable);
-    
+
     Collection<Product> findAllByIsActive(final Boolean categoryEnable);
-    
+
     Collection<Product> findAllByIsActiveIsTrue();
 
 }

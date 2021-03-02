@@ -47,7 +47,7 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
 @RunWith(SpringRunner.class)
 @TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties", "classpath:back-end-tls-test.properties" })
 @ContextConfiguration(name = "categoryDAOTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistenceContextConfig.class })
-@SpringBootTest(webEnvironment=WebEnvironment.NONE) 
+@SpringBootTest(webEnvironment = WebEnvironment.NONE)
 @ActiveProfiles("test")
 class CategoryDAOTest
 {
@@ -118,7 +118,6 @@ class CategoryDAOTest
 
         assertThat(optional).isNotPresent();
     }
-    
 
     /**
      * Test method for {@link fr.vincent.tuto.server.dao.CategoryDAO#findOneWithProductsByNameIgnoreCase(java.lang.String)}.
@@ -130,17 +129,17 @@ class CategoryDAOTest
 
         assertThat(optional).isPresent();
 
-        final var  category = optional.get();
+        final var category = optional.get();
         assertThat(category).isNotNull();
-        
-        final Set<Product>  products = category.getProducts();
+
+        final Set<Product> products = category.getProducts();
         final List<Product> list = ServerUtil.setToList(products);
-        
+
         assertThat(list).isNotEmpty();
         assertThat(list.size()).isPositive();
-        assertThat(list.size()).isEqualTo(3); 
+        assertThat(list.size()).isEqualTo(3);
     }
-    
+
     @Test
     void testFindOneWithProductsByNameIgnoreCase_WithNull()
     {
@@ -148,7 +147,7 @@ class CategoryDAOTest
 
         assertThat(optional).isNotPresent();
     }
-    
+
     @Test
     void testFindOneWithProductsByNameIgnoreCase_WithEmpty()
     {
@@ -156,7 +155,7 @@ class CategoryDAOTest
 
         assertThat(optional).isNotPresent();
     }
-    
+
     /**
      * Test method for {@link fr.vincent.tuto.server.dao.CategoryDAO#existsByName(java.lang.String)}.
      */

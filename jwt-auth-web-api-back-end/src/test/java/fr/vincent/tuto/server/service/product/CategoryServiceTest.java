@@ -55,10 +55,9 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
  * @author Vincent Otchoun
  */
 @RunWith(SpringRunner.class)
-@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties",
-        "classpath:back-end-tls-test.properties" })
-@ContextConfiguration(name = "categoryServiceTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class,
-        PersistenceContextConfig.class, ProductService.class, CategoryService.class })
+@TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties", "classpath:back-end-tls-test.properties" })
+@ContextConfiguration(name = "categoryServiceTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistenceContextConfig.class, ProductService.class,
+        CategoryService.class })
 @SpringBootTest
 @ActiveProfiles("test")
 class CategoryServiceTest
