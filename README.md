@@ -500,13 +500,15 @@ deactivate Client
 deactivate User
 @enduml
 ```
+
 Le choix opéré pour cette application (`rehausser le niveau de sécurité`) est de **signer/valider** les `jetons JWT` avec des **clés privées/publiques RSA** (`algorithme asymétrique RSA256`), au lieu d'utiliser le **secret HMAC partagé** (`algorithme symétrique SHA-256`).
+
 Ceci, offre l'avantage que le jeton JWT soit généré et signé par une autorité centrale (généralement un serveur d'autorisation).Ainsi, l'application (les services) 
 peut (peuvent) valider les `jetons JWT` à l'aide de la **_clé publique exposée à partir du serveur d'autorisation_**.
 
 #### 1°) - Principe du fonctionnement global de la personnalisation de JWT pour utiliser RSA256
 L'algorithme asymétrique RSA256 utilise une paire de clés privées/publiques RSA et induit le fonctionnement global suivant :
-- **`Le serveur a une clé privée utilisée pour générer la signature`** et **`le consommateur du jeton obtient une clé publique pour valider la signature`**.
+- Le serveur a une **`clé privée utilisée pour générer la signature`** et le consommateur du jeton obtient une **`clé publique pour valider la signature`**.
 - **`La clé publique n’a pas besoin d’être sécurisée`** et peut donc être facilement mise à la disposition des consommateurs.
 
 
