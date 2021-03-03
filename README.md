@@ -509,7 +509,7 @@ peut (peuvent) valider les `jetons JWT` à l'aide de la **_clé publique exposé
 #### 1°) - Principe du fonctionnement global de la personnalisation de JWT pour utiliser RSA256
 L'algorithme asymétrique RSA256 utilise une paire de clés privées/publiques RSA et induit le fonctionnement global suivant :
 - Le serveur a une **`clé privée utilisée pour générer la signature`** et le consommateur du jeton obtient une **`clé publique pour valider la signature`**.
-- **`La clé publique n’a pas besoin d’être sécurisée`** et peut donc être facilement mise à la disposition des consommateurs.
+- `La clé publique n’a pas besoin d’être sécurisée` et peut donc être facilement mise à la disposition des consommateurs.
 
 
 #### 2°) - Le Worflow de travail de la personnalisation
@@ -522,7 +522,7 @@ participant Serveur #SkyBlue
 
 ' Déclaration des enchainements des séquences des traitements
 autonumber
-Client -[#black]> Serveur : Call API : /api/auth/authenticate : POST (username, password)
+Client -[#black]> Serveur : Call API POST : /api/auth/authenticate : (username, password)
 activate Client 
 activate Serveur
 Serveur -[#black]> Serveur : Authentifier, générer le jeton JWT, le signer à l'aide de la clé privée
@@ -535,11 +535,21 @@ Client -[#black]> Serveur : Envoyer la requête avec le jeton d'authentification
 deactivate Client 
 activate Serveur
 Serveur -[#black]> Serveur : Vérifier la signature avec la clé publique
-Serveur -[#black]> Serveur : Effectuer les traitements
+Serveur -[#black]> Serveur : Effectuer les traitements liés à la requête envoyée
 Serveur -[#black]> Client : Retourner la réponse (Si pas d'erreurs)
+activate Client
+deactivate Client
+autonumber stop
+' Traitement alternatif s'il y a erreurs
+alt [Si erreurs]
+autonumber 8
+Serveur -[#red]> Serveur : Si erreur, construire le message avec le code statut HTTP
+'activate Serveur
+Serveur -[#red]> Client : Retourner la réponse avec le message d'erreurs
 activate Client
 deactivate Serveur
 deactivate Client
+end
 @enduml
 ```
 
@@ -697,56 +707,6 @@ de codes et fournit des rapports détaillés de l'analyse de la couverture.
 # Configurations
 Les configurations de l'application permettent de faciliter aussi bien le démarrage, l'exécution que l'exploitation de celle-ci.
 
-## Configurations de la Sécurité dans l'application 
-Afin de rehausser le niveau de sécurité dans l'application, celle-ci sera abordée selon les points ci-dessous :
-- **`la sécurité applicative`** : sécurisé les accès aux ressources de l'application 
-- **`la sécurité au niveau transport`** : sécurisé les échanges de l'application avec d'autres SI
-
-### Sécuriser les ressources applicatives
-La sécurité applicative consiste à _sécuriser les ressources_ de l'application (donc les accès à celles-ci). Elle est mise en place dans l'application par les spécifications `JWT` et `Spring Security` consistant à produire/fournir les `jetons d'accès JWT`.
-Les éléments permettant de fournir les `clés privées/publiques RSA` pour signer/valider les jetons JWT d'accès aux ressources, peuvent être mise en place de deux façons différentes :
-- en **`ligne de commande`** : en utilisant les outils `Keytool et OpenSSL` pour générer clés et fichiers, puis utiliser l'API Java dédiée pour recupérer les éléméents attendus. 
-- ou avec **`KeyStore Explorer`** : utiliser les fonctionnalités offertes par l'outil graphique pour explorer le magasin des clés (Keystore par exemple), produire les clés et fichiers, puis utiliser l'API Java dédiée pour recupérer les éléméents attendus.  
-
-
-
-
-
-
-### Sécuriser les échanges
-Sécuriser les échanges consiste à Activer le support `TLS`. 
-La sécurité au niveau du transport `applique des contrôles de sécurité lors de l’établissement d’une connexion` entre les consommateurs de services (les clients), et le serveur. 
-Il assure donc la confidentialité des données échangées over `HTTP` -> donc utilisation de `HTTPS` pour le transport des données. Le protocole `HTTPS`utilise `TLS` pour sécuriser la communication. Ainsi donc :
-- Le `niveau de transport entrant` **sécurise** la _communication entre les clients et le serveur_.
-- Le `niveau de transport sortant` sécurise de façon implicite les trois techniques d'envoi de demandes sortantes à savoir : _actions de routage, actions de publication et actions d'appel_. 
-
-Les détails sur la mise en place et exploitation des éléments des configurations de sécurité sont fournis dans le fichier :
-[README](/jwt-auth-web-api-back-end/README.md).
-
-La mise en place des éléments à exploiter nécessite donc de renseigner les propriétés suivantes dans le fichier :
-[back-end-tls.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-tls.properties)
-```properties
-######################
-####  CRYPTO PROPS : 
-######################
-server.ssl.enabled=true 
-# Activer le port d'écoute pour les accès sécurisé du serveur : Attention avec le port non sécurisé dejà défini, il faut renommer en http.port										
-#server.port=8443 
-server.ssl.key-store-type=PKCS12  
-server.ssl.key-store=classpath:crypto/my-app-recette.p12 
-server.ssl.key-store-password=<valeur_storepass> 
-server.ssl.key-alias=<valeur_alias> 
-server.ssl.trust-store=classpath:crypto/my-app-recette.p12	
-server.ssl.trust-store-password=<valeur_storepass> 
-# Propritéé à activer uniquement si on veut faire du Two-way authentification 
-# server.ssl.client-auth=need
-
-# Autres propriétés
-#server.ssl.ciphers=TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_DHE_RSA_WITH_AES_128_GCM_SHA256, TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_DHE_RSA_WITH_AES_128_CBC_SHA, TLS_DHE_RSA_WITH_AES_256_CBC_SHA, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_DHE_RSA_WITH_AES_256_CBC_SHA256
-#server.ssl.enabled-protocols=TLSv1.2
-#server.http2.enabled=true  
-```
-
 ## Base de données 
 L'architecture technique et applicative définie ci-dessus, offre la possiblité d'exécuter l'application sur **trois types de SGDBR**. Pour `chaque type
 de SGBDR un profil a été défini` avec la configuration associée. 
@@ -790,13 +750,13 @@ vot.jpa-hibernate-props.dialect=org.hibernate.dialect.H2Dialect
 
 En plus des propriéts spécifiques fournies ci-dessus, les propriétés communes de gestion des accès à la base de données sont fournies dans le fichier :
 [back-end-db-common.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-db-common.properties). 
-Elles permettent de fournir à l'application principalement les composants suivants :
 
-	- Le fournisseur du gestionnaire d'entités : `EntityManagerFactory` via `LocalContainerEntityManagerFactoryBean`
-	- Le gestionnaire d'entités partégé de l'application : `SharedEntityManager` via `SharedEntityManagerBean`
-	- Le gestionnaire des transactions d'accès aux données en base dans l'application : `TransactionManager` via `PlatformTransactionManager`
-	- L'adaptateur du fournisseur Hibernate des accès aux données : `HibernateJpaVendorAdapter` via `JpaVendorAdapter`
-	- La dialecte Hibernate des accès aux données : `HibernateJpaDialect` via `JpaDialect`
+Elles permettent de fournir à l'application principalement les composants suivants :
+- Le fournisseur du gestionnaire d'entités : `EntityManagerFactory` via `LocalContainerEntityManagerFactoryBean`
+- Le gestionnaire d'entités partégé de l'application : `SharedEntityManager` via `SharedEntityManagerBean`
+- Le gestionnaire des transactions d'accès aux données en base dans l'application : `TransactionManager` via `PlatformTransactionManager`
+- L'adaptateur du fournisseur Hibernate des accès aux données : `HibernateJpaVendorAdapter` via `JpaVendorAdapter`
+- La dialecte Hibernate des accès aux données : `HibernateJpaDialect` via `JpaDialect`
 
 ### Flyway pour la migration des scripts
 Les configurations Flyway de migration des scripts SQL dans l'application, sont fournies dans les mêmes fichiers que ceux de la section  `Accès à la base de données` 
@@ -815,6 +775,52 @@ spring.flyway.sql-migration-suffixes=.sql
 #spring.flyway.locations=classpath:db/migration/h2
 # Externalisation : non embarqué dans les ressources du projet
 spring.flyway.locations=filesystem:docs/db/migration/h2
+```
+
+## La Sécurité applicative
+Afin de rehausser le niveau de sécurité dans l'application, celle-ci sera abordée selon les points ci-dessous :
+- **`la sécurité applicative`** : sécurisé les accès aux ressources de l'application 
+- **`la sécurité au niveau transport`** : sécurisé les échanges de l'application avec d'autres SI
+
+### Sécuriser les ressources applicatives
+La sécurité applicative consiste à _sécuriser les ressources_ de l'application (donc les accès à celles-ci). Elle est mise en place dans l'application par les spécifications `JWT` et `Spring Security` consistant à produire/fournir les `jetons d'accès JWT`.
+Les éléments permettant de fournir les `clés privées/publiques RSA` pour signer/valider les jetons JWT d'accès aux ressources, peuvent être mise en place de deux façons différentes :
+- en **`ligne de commande`** : en utilisant les outils `Keytool et OpenSSL` pour générer clés et fichiers, puis utiliser l'API Java dédiée pour recupérer les éléméents attendus. 
+- ou avec **`KeyStore Explorer`** : utiliser les fonctionnalités offertes par l'outil graphique pour explorer le magasin des clés (Keystore par exemple), produire les clés et fichiers, puis utiliser l'API Java dédiée pour recupérer les éléméents attendus.  
+
+### Sécuriser les échanges
+Sécuriser les échanges consiste à Activer le support `TLS`. 
+La sécurité au niveau du transport `applique des contrôles de sécurité lors de l’établissement d’une connexion` entre les consommateurs de services (les clients), et le serveur. 
+Il assure donc la confidentialité des données échangées over `HTTP` -> donc utilisation de `HTTPS` pour le transport des données. Le protocole `HTTPS`utilise `TLS` pour sécuriser la communication. Ainsi donc :
+- Le `niveau de transport entrant` **sécurise** la _communication entre les clients et le serveur_.
+- Le `niveau de transport sortant` sécurise de façon implicite les trois techniques d'envoi de demandes sortantes à savoir : _actions de routage, actions de publication et actions d'appel_. 
+
+Les détails sur la mise en place et exploitation des éléments des configurations de sécurité sont fournis dans le fichier :
+[README](/jwt-auth-web-api-back-end/README.md).
+
+La mise en place des éléments à exploiter nécessite donc de renseigner les propriétés suivantes dans le fichier :
+[back-end-tls.properties](/jwt-auth-web-api-back-end/src/main/resources/back-end-tls.properties)
+
+```properties
+######################
+####  CRYPTO PROPS : 
+######################
+server.ssl.enabled=true 
+# Activer le port d'écoute pour les accès sécurisé du serveur : Attention avec le port non sécurisé dejà défini, il faut renommer en http.port										
+#server.port=8443 
+server.ssl.key-store-type=PKCS12  
+server.ssl.key-store=classpath:crypto/my-app-recette.p12 
+server.ssl.key-store-password=<valeur_storepass> 
+server.ssl.key-alias=<valeur_alias> 
+server.ssl.trust-store=classpath:crypto/my-app-recette.p12	
+server.ssl.trust-store-password=<valeur_storepass> 
+# Propritéé à activer uniquement si on veut faire du Two-way authentification 
+# server.ssl.client-auth=need
+
+# Autres propriétés
+#server.ssl.ciphers=TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_DHE_RSA_WITH_AES_128_GCM_SHA256, TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_DHE_RSA_WITH_AES_128_CBC_SHA, TLS_DHE_RSA_WITH_AES_256_CBC_SHA, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_DHE_RSA_WITH_AES_256_CBC_SHA256
+#server.ssl.enabled-protocols=TLSv1.2
+#server.http2.enabled=true  
 ```
 
 ## Configuration applicatives 
