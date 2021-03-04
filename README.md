@@ -145,7 +145,7 @@ node "Server (Back-End)" as Server  <<Execution Environnement>> {
 
 ' Défintion de la base de données dans l'architecture
 node "Base de Données" as BDD <<Execution Environnement>> {
-database "InMemory H2 DB" #Yellow
+database "InMem H2 DB" #Yellow
 database "MariaDB" #Green
 database "PostgreSQL" #Gray
 }
