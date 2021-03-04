@@ -13,7 +13,7 @@ Il comporte principalement deux modules :
 - un **Back-End Java** , basée sur une architecture **`REST`** et embarquant :
 	- _les exigences fonctionnelles ou métier_, 
 	- _les exigences non fonctionnelles_. 
-- un **Front-End Angular** (`Client Web`) fournissant les interfaces utilisateur pour consommer les fonctionnalités exposées par le Back-End Java (le serveur).
+- un **Front-End** (`Client Web` en Angular JS ou React JS) fournissant les interfaces utilisateur pour consommer les fonctionnalités exposées par le Back-End Java (le serveur).
 
 **NB** :
 - _Les données/informations sont stockées dans une base de données relationnelles_.
@@ -98,7 +98,7 @@ Il est fourni par le diagramme ci-dessous (`PlantUML` au format markdown) :
 actor User #red
 
 ' Défintion du serveur Front-End dans l'architecture (le noeud)
-package "Client (Front-End Angular)" as Client  {
+package "Client (Front-End)" as Client  {
 [Routeur]  .> [Components/Templates] : uses
 [Components/Templates] <.> [Services] : exchange
 [Services] <.> [HTTP Client] : exchange
@@ -556,7 +556,7 @@ end
 Les détails des éléments de configuration sont fournis dans la section : `Configurations de la Sécurité dans l'application`. 
 
 ## Le Modèle de données
-Le modèle de données fournit une représentation graphique des différents objets aussi bien **_métier_** que non, `impliqués dans le dévéloppement de l'application, pour la satisfaction
+Le modèle de données fournit une représentation graphique des différents objets aussi bien **_métier_** que non, `impliqués dans le développement de l'application pour la satisfaction
 des besoins exprimés`. Ainsi, le diagramme de classes ci-dessous (au même format que les diagrammes précédents) présente principalement les relations entre les entités 
 de gestion de la partie métier de l'application.
 
