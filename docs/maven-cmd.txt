@@ -3,19 +3,17 @@
 
 cd "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-back-end"
 
-################
+##########################
 ###  PROFILE H2 : Default
-################
+##########################
 # mvn clean -T8 -Ph2 -U package
 # mvn clean -T8 -Ph2 -U install
 mvn clean -T8  -U package
-
 
 #####################
 ###  PROFILE MARIADB
 #####################
 mvn clean -T8 -Pmariadb -U package
-
 mvn clean -T8 -Pmariadb -U install
 
 #########################

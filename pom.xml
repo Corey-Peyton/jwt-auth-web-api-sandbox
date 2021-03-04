@@ -63,7 +63,7 @@
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
 		<maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
-		
+
 		<!-- Jacoco -->
 		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
 		<jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
@@ -76,7 +76,7 @@
 		<project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
 		<oracle.version>11.2.0.3</oracle.version>
 		<modelmapper.version>2.3.5</modelmapper.version>
-		
+
 		<!-- Node JS Version -->
 		<node.version>v12.17.0</node.version>
 		<npm.version>6.14.4</npm.version>
@@ -386,7 +386,6 @@
 	<!-- ============== MODULES APPLICATIFS ========= -->
 	<modules>
 		<module>jwt-auth-web-api-back-end</module>
-		<module>jwt-auth-web-api-ui</module>
 		<module>jwt-auth-web-api-angular-ui</module>
 	</modules>
 </project>
