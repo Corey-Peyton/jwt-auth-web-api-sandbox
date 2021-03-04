@@ -102,6 +102,7 @@ package "Client (Front-End)" as Client  {
 [Routeur]  .> [Components/Templates] : uses
 [Components/Templates] <.> [Services] : exchange
 [Services] <.> [HTTP Client] : exchange
+[Services] <.> [Axios(React)] : exchange
 }
 
 ' Défintion des couleurs des composants du serveur
@@ -109,6 +110,7 @@ package "Client (Front-End)" as Client  {
 [Components/Templates] #fdad5c
 [Services] #skyblue
 [HTTP Client] #lightgreen
+[Axios(React)] #Yellow
 
 ' Défintion du serveur Back-End dans l'architecture (le noeud)
 node "Server (Back-End)" as Server  <<Execution Environnement>> {
