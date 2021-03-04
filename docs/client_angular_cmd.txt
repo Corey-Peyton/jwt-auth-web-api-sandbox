@@ -5,8 +5,8 @@
 --------------------------------------------
 1°) Créer le projet ou le module avec maven 
 --------------------------------------------
-emplacement du projet parent :  "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-ui"
-nom du module :  jwt-auth-web-api-ui
+emplacement du projet parent :  "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-angular-ui"
+nom du module :  jwt-auth-web-api-angular-ui
 
 --------------------------------------------
 2°) Créer le projet Angular avec Angular CLI 
@@ -31,23 +31,23 @@ ng --version
 	----------------------------------------------
 	- Générer le projet Angular avec Angular CLI
 	---------------------------------------------	
-le projet sera généré sous le répertoire : "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-ui\src\main\web"
-		- Se déplacer dans le répertoire : "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-ui\src\main\"
-cd "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-ui\src\main"
+le projet sera généré sous le répertoire : "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-angular-ui\src\main\web"
+		- Se déplacer dans le répertoire : "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-angular-ui\src\main\"
+cd "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-angular-ui\src\main"
 		- Exécuter la commande suivante :
 
-ng new --directory web jwt-auth-web-api-ui
+ng new --directory web jwt-auth-web-api-angular-ui
 
 ? Would you like to add Angular routing? Yes
 ? Which stylesheet format would you like to use? CSS
 
 avec : --directory=spécifie le répertoire de sortie dnas lequel l'application sera généré (ici dans le dossier "web")
-jwt-auth-web-api-ui= nom de l'applicaion
+jwt-auth-web-api-angular-ui= nom de l'applicaion
 
 --------------------------------------------
 3°) Construire le projet Angular avec maven 
 --------------------------------------------
-Modifier le fichier pom.xml de "jwt-auth-web-api-ui" et ajouter la configuration suivante sous <build><plugins>..... :
+Modifier le fichier pom.xml de "jwt-auth-web-api-angular-ui" et ajouter la configuration suivante sous <build><plugins>..... :
 
 <plugin>
 	<groupId>com.github.eirslett</groupId>

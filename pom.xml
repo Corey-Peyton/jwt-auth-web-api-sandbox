@@ -76,6 +76,12 @@
 		<project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
 		<oracle.version>11.2.0.3</oracle.version>
 		<modelmapper.version>2.3.5</modelmapper.version>
+		
+		<!-- Node JS Version -->
+		<node.version>v12.17.0</node.version>
+		<npm.version>6.14.4</npm.version>
+		<npx.version>6.14.4</npx.version>
+		<yarn.version>1.22.10</yarn.version>
 	</properties>
 	<!-- ========== DEPENDENCIES MANAGEMENT ========= -->
 	<!-- BOOT dependencies management si on utilise pas BOOT Parent -->
@@ -381,5 +387,6 @@
 	<modules>
 		<module>jwt-auth-web-api-back-end</module>
 		<module>jwt-auth-web-api-ui</module>
+		<module>jwt-auth-web-api-angular-ui</module>
 	</modules>
 </project>
