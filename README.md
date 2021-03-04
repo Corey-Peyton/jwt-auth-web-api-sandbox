@@ -18,7 +18,7 @@ Il comporte principalement deux modules :
 **NB** :
 - _Les données/informations sont stockées dans une base de données relationnelles_.
 - Voir la section **`Exigences`** pour plus de détails sur les fonctionnalités embarquées.
-- Voir la section **`Stack Technique`** pour plus de détails sur l'ensemble des technos utilisées pour le développment de l'application.
+- Voir la section **`Stack Technique`** pour plus de détails sur l'ensemble des technos utilisées pour le développement de l'application.
 - **SI** : **S**ystème d'**I**nformations.	
 
 	
@@ -694,8 +694,8 @@ C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage `Java` :
 - **`H2`**, **`MariaDB`**, **`PostgreSQL`** configurations pour les accès aux données en base et pour la réalisation de TI (_`Tests d'Intégration`_ : système)
 - **`Flyway`** pour la migration de bases de données.
 - **`EhCache`** pour optimiser les accès aux données.
-- **`Angular JS`** Framework MVC dans sa verson 11  pour le développment de l'interface utilisateur (le Clent Web).
-- **`React JS`** open-source JavaScript librairie pour le développment de l'interface utilisateur (le Clent Web).
+- **`Angular JS`** Framework MVC dans sa verson 11  pour le développement de l'interface utilisateur (le Clent Web).
+- **`React JS`** librairie open-source `JavaScript`  pour le développement de l'interface utilisateur (le Clent Web).
 - **`Docker`** pour la conteneurisation des services/ de l'application
 - **`Lombok`** pour générer du code couramment utilisé et faciliter le maintien du code source propre, simplifier l'écriture des classes.
 - **`Keytool/OpenSSL`** pour la génération du magasin des `clés privées/publiques RSA`, export de la clé publique et du certificat dans des fichiers pour exploitation autraversde l'API Java dédiée. 
