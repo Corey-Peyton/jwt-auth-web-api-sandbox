@@ -13,7 +13,7 @@ Il comporte principalement deux modules :
 - un **Back-End Java** , basée sur une architecture **`REST`** et embarquant :
 	- _les exigences fonctionnelles ou métier_, 
 	- _les exigences non fonctionnelles_. 
-- un **Front-End** (`Client Web` en Angular JS ou React JS) fournissant les interfaces utilisateur pour consommer les fonctionnalités exposées par le Back-End Java (le serveur).
+- un **Front-End** (`Client Web` avec **`Angular JS`** ou **`React JS`**) fournissant les interfaces utilisateur pour consommer les fonctionnalités exposées par le Back-End Java (le serveur).
 
 **NB** :
 - _Les données/informations sont stockées dans une base de données relationnelles_.
@@ -176,12 +176,12 @@ Client  --> [REST API Controller] :  Call API
 ```
 Du schéma d'architecture ci-dessus, on remarque que le `Client` (le front-end) à la différence des autres composantes (qui sont des `noeuds`) de l'architecture est un `package`. 
 Ce choix a été opéré dans le cadre de cette réalisation par soucis de simplification pour les raisons suivantes :
-- pouvoir intégrer les éléments du `Client Angular` dans le `Back-End Java` pour `une exécution dans un seul environnement fullstack (Client + Serveur)`. Ceci
-consiste donc à intégrer les ressources distribuées du `Client Angular` dans l'archive exécutable du back lors du packaging du `back-end Java`.
+- pouvoir intégrer les éléments du `Client` dans le `Back-End Java` pour `une exécution dans un seul environnement fullstack (Client + Serveur)`. Ceci
+consiste donc à intégrer les ressources distribuées du `Client` dans l'archive exécutable du back lors du packaging du `back-end Java`.
 - éviter une exécution séparée des deux composantes (éviter d'avoir à adresser des ports d'écoutes différents pour l'exécution)
 
 **NB** : La configuration modulaire du projet permet néanmoins une exécution séparée. Il suffira tout juste d'inhiber la configuration actuelle permettant d'intégration des ressources distribuées 
-du `Client Angular` lors du packaging du `Back-End Java`.
+du `Client` lors du packaging du `Back-End Java`.
 
 ## Fonctionnement global - Les Use Case
 Le fonctionnement global de l'application est fourni aux travers de `diagrammes de séquences` des cas d'utilisation (`use case`) présentés par le tableau ci-dessous :
@@ -678,7 +678,8 @@ Une liste non exhaustive des technos utilsées pour le développement de cette a
 ![](https://img.shields.io/badge/Junit_5-✓-blue.svg)
 ![](https://img.shields.io/badge/Model_Mapper-✓-blue.svg)
 ![](https://img.shields.io/badge/Flyway-✓-blue.svg)
-![](https://img.shields.io/badge/Angular_11-✓-blue.svg)
+![](https://img.shields.io/badge/Angular_JS-✓-blue.svg)
+![](https://img.shields.io/badge/React_JS-✓-blue.svg)
 ![](https://img.shields.io/badge/Docker-✓-blue.svg)
 ![](https://img.shields.io/badge/Swagger_3.0_/OpenAPI-✓-blue.svg)
 ![](https://img.shields.io/badge/EhCache-✓-blue.svg)
@@ -693,7 +694,7 @@ C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage `Java` :
 - **`H2`**, **`MariaDB`**, **`PostgreSQL`** configurations pour les accès aux données en base et pour la réalisation de TI (_`Tests d'Intégration`_ : système)
 - **`Flyway`** pour la migration de bases de données.
 - **`EhCache`** pour optimiser les accès aux données.
-- **`Angular`** pour le développment de l'interface utilisateur (le Clent Web).
+- **`Angular JS`** ou **`React JS`**  pour le développment de l'interface utilisateur (le Clent Web).
 - **`Docker`** pour la conteneurisation des services/ de l'application
 - **`Lombok`** pour générer du code couramment utilisé et faciliter le maintien du code source propre, simplifier l'écriture des classes.
 - **`Keytool/OpenSSL`** pour la génération du magasin des `clés privées/publiques RSA`, export de la clé publique et du certificat dans des fichiers pour exploitation autraversde l'API Java dédiée. 
