@@ -26,10 +26,6 @@
 			<artifactId>oauth-common-app</artifactId>
 			<version>${project.parent.version}</version>
 			<exclusions>
-				<!-- <exclusion> -->
-				<!-- <groupId>org.postgresql</groupId> -->
-				<!-- <artifactId>postgresql</artifactId> -->
-				<!-- </exclusion> -->
 				<!-- les dépendances OAuth2 -->
 				<exclusion>
 					<groupId>org.springframework.security.oauth</groupId>
@@ -277,7 +273,7 @@
 					<!-- <outputDirectory>${project.build.directory}/classes/resources/</outputDirectory> -->
 					<!-- <resources> -->
 					<!-- <resource> -->
-					<!-- <directory>${project.parent.basedir}/oauth-authorization-ui/src/main/web/dist/authorization-admin-ui/</directory> -->
+					<!-- <directory>${project.parent.basedir}/jwt-auth-web-api-angular-ui/src/main/web/dist/jwt-auth-web-api-angular-ui/</directory> -->
 					<!-- </resource> -->
 					<!-- </resources> -->
 					<!-- </configuration> -->

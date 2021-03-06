@@ -82,6 +82,7 @@
 		<npm.version>6.14.4</npm.version>
 		<npx.version>6.14.4</npx.version>
 		<yarn.version>1.22.10</yarn.version>
+		<frontend-maven-plugin.version>1.8.0</frontend-maven-plugin.version>
 	</properties>
 	<!-- ========== DEPENDENCIES MANAGEMENT ========= -->
 	<!-- BOOT dependencies management si on utilise pas BOOT Parent -->
@@ -181,7 +182,7 @@
 						<encoding>UTF-8</encoding>
 					</configuration>
 				</plugin>
-				<!-- Surefire pour les Tests Unitaires -->
+				<!-- Surefire : Tests Unitaires -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
@@ -208,7 +209,7 @@
 						</execution>
 					</executions>
 				</plugin>
-				<!-- Failsafe les Tests d'intégration -->
+				<!-- Failsafe : Tests d'intégration composant ou système -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-failsafe-plugin</artifactId>
@@ -387,5 +388,6 @@
 	<modules>
 		<module>jwt-auth-web-api-back-end</module>
 		<module>jwt-auth-web-api-angular-ui</module>
+		<module>jwt-auth-web-api-react-ui</module>
 	</modules>
 </project>

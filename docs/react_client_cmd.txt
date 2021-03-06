@@ -1,0 +1,154 @@
+#########################################################
+####  COMMANDES ET ETAPES DE CREATION DU CLIENT REACT
+#########################################################
+La création de l'interface utilisateur avec REACT peut se faire de trois façons :
+- avec npx 
+- avec npm
+- avec yarn
+
+Node JS étant déj installé sur la machine, celui-ci est complété par Yarn avec la commande suivante :
+npm install --global yarn
+ou 
+npm install -g yarn
+-- Voir la version de Yarn installée
+yarn --version
+
+--------------------------------------------
+1°) Créer le projet ou le module avec maven 
+--------------------------------------------
+emplacement du projet parent :  "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-react-ui"
+nom du module :  jwt-auth-web-api-react-ui
+
+------------------------------------------------------
+2°) Créer le projet React avec "Create React App CLI" 
+-----------------------------------------------------
+
+
+	--------------------------------------
+	- Vérifier les versions de Node et NPM
+	--------------------------------------
+node -v
+npm -v
+
+	-----------------------
+	- Installer TypeScript
+	-----------------------
+		TypeScript: 
+npm install -g typescript  
+ng --version
+
+	----------------------------------------------
+	- Générer le projet Angular avec Angular CLI
+	---------------------------------------------
+le projet devra être généré sous le répertoire : "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-react-ui\src\main\web"
+		- Se déplacer dans le répertoire : "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-react-ui\src\main\"
+cd "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-react-ui\src\main"
+			- Exécuter l'une des commandes suivantes :
+
+	----------------------			
+	-- Utilisation de NPX
+	----------------------
+npx create-react-app web
+
+	----------------------
+	-- Utilisation de NPM
+	----------------------
+npm create-react-app web
+
+	----------------------
+	-- Utilisation de Yarn
+	----------------------	
+yarn  create-react-app web
+
+-------------------------------------------------------------------
+3°) Exécutez Yarn avec maven pour la construction du client React
+-------------------------------------------------------------------
+Modifier le fichier pom.xml de "jwt-auth-web-api-react-ui" et ajouter la configuration suivante sous <build><plugins>..... :
+	-- Utilisation de : "frontend-maven-plugin" de "com.github.eirslett"
+<plugin>
+	<groupId>com.github.eirslett</groupId>
+	<artifactId>frontend-maven-plugin</artifactId>
+	<version>${frontend-maven-plugin.version}</version>
+	<configuration>
+		<nodeVersion>${node.version}</nodeVersion>
+		<yarnVersion>${yarn.version}</yarnVersion>
+		<workingDirectory>src/main/web/</workingDirectory>
+	</configuration>
+	<executions>
+		<execution>
+			<id>install node</id>
+			<goals>
+				<goal>install-node-and-yarn</goal>
+			</goals>
+		</execution>
+		<execution>
+			<id>yarn install</id>
+			<goals>
+				<goal>yarn</goal>
+			</goals>
+		</execution>
+		<execution>
+			<id>yarn test</id>
+			<goals>
+				<goal>yarn</goal>
+			</goals>
+			<phase>test</phase>
+			<configuration>
+				<arguments>test</arguments>
+				<environmentVariables>
+					<CI>true</CI>
+				</environmentVariables>
+			</configuration>
+		</execution>
+		<execution>
+			<id>yarn build</id>
+			<goals>
+				<goal>yarn</goal>
+			</goals>
+			<configuration>
+				<arguments>run build</arguments>
+			</configuration>
+		</execution>
+		<execution>
+			<id>prod</id>
+			<goals>
+				<goal>yarn</goal>
+			</goals>
+			<phase>generate-resources</phase>
+			<configuration>
+				<arguments>run-script build</arguments>
+				<environmentVariables>
+					<APP_VERSION>${project.version}</APP_VERSION>
+				</environmentVariables>
+				<npmInheritsProxyConfigFromMaven>false</npmInheritsProxyConfigFromMaven>
+			</configuration>
+		</execution>
+	</executions>
+</plugin>
+
+--------------------------------------------------------------------------------
+4°) Inclure les fichiers de construction frontend React dans le jar du serveur
+--------------------------------------------------------------------------------
+ Je vais maintenant copier les fichiers dans target / classes / public afin de s'en servir en tant que ressources statiques à partir de l'application Spring Boot
+Ceci peut se faire soit par : 
+- le plugin ant pour cela :
+<plugin>
+    <artifactId>maven-antrun-plugin</artifactId>
+    <executions>
+        <execution>
+            <phase>generate-resources</phase>
+            <configuration>
+                <target>
+                    <copy todir="${project.build.directory}/classes/public">
+                        <fileset dir="${project.basedir}/frontend/build"/>
+                    </copy>
+                </target>
+            </configuration>
+            <goals>
+                <goal>run</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+
+- Définr des "profile maven" pour recupérer les ressources lors du packaging

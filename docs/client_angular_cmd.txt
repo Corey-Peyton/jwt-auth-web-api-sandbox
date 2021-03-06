@@ -31,7 +31,7 @@ ng --version
 	----------------------------------------------
 	- Générer le projet Angular avec Angular CLI
 	---------------------------------------------	
-le projet sera généré sous le répertoire : "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-angular-ui\src\main\web"
+le projet devra être généré sous le répertoire : "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-angular-ui\src\main\web"
 		- Se déplacer dans le répertoire : "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-angular-ui\src\main\"
 cd "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-angular-ui\src\main"
 		- Exécuter la commande suivante :
@@ -44,11 +44,12 @@ ng new --directory web jwt-auth-web-api-angular-ui
 avec : --directory=spécifie le répertoire de sortie dnas lequel l'application sera généré (ici dans le dossier "web")
 jwt-auth-web-api-angular-ui= nom de l'applicaion
 
---------------------------------------------
-3°) Construire le projet Angular avec maven 
---------------------------------------------
+-------------------------------------------------------------------
+3°) Exécutez NPM avec maven pour la construction du client Angular
+-------------------------------------------------------------------
 Modifier le fichier pom.xml de "jwt-auth-web-api-angular-ui" et ajouter la configuration suivante sous <build><plugins>..... :
 
+	-- Utilisation de : "frontend-maven-plugin" de "com.github.eirslett"
 <plugin>
 	<groupId>com.github.eirslett</groupId>
 	<artifactId>frontend-maven-plugin</artifactId>
