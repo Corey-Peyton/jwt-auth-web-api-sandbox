@@ -1,0 +1,17 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<!-- =========== PROJET PARENT ========== -->
+	<parent>
+		<groupId>fr.vincent.tuto</groupId>
+		<artifactId>jwt-auth-web-api-sandbox</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<!-- =========== FRONT-END REACT JS ========== -->
+	<artifactId>jwt-auth-web-api-react-ui</artifactId>
+	<name><![CDATA[Web REST API Gestion de produits - React JS Client UI]]></name>
+	<description><![CDATA[UI React Application Web sécurisée de gestion de produits.]]></description>
+	<inceptionYear>2021</inceptionYear>
+	<!-- ================= BUILD ================= -->
+</project>
