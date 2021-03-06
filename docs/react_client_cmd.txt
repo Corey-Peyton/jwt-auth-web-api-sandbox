@@ -117,6 +117,11 @@ Modifier le fichier pom.xml de "jwt-auth-web-api-react-ui" et ajouter la configu
 	</executions>
 </plugin>
 
+
+A ce stade on a :
+	- le back-end démarre sous : http://localhost:XXXX/
+	- le client Angular sous : 	http://localhost:3000/
+
 --------------------------------------------------------------------------------
 4°) Inclure les fichiers de construction frontend React dans le jar du serveur
 --------------------------------------------------------------------------------

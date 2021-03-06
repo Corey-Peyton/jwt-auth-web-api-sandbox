@@ -698,7 +698,7 @@ C'est un projet `Maven` avec `Spring Boot` donc basé sur le langage `Java` :
 - **`EhCache`** pour optimiser les accès aux données.
 - **`Angular JS`** Framework MVC dans sa verson 11  pour le développement de l'interface utilisateur (le Clent Web).
 - **`React JS`** librairie open-source `JavaScript`  pour le développement de l'interface utilisateur (le Clent Web).
-- **`Docker`** pour la conteneurisation des services/ de l'application
+- **`Docker`** pour la conteneurisation de l'application
 - **`Lombok`** pour générer du code couramment utilisé et faciliter le maintien du code source propre, simplifier l'écriture des classes.
 - **`Keytool/OpenSSL`** pour la génération du magasin des `clés privées/publiques RSA`, export de la clé publique et du certificat dans des fichiers pour exploitation autraversde l'API Java dédiée. 
 - **`Swagger 3.0.0/OpenAPI`** pour la documentation et tests de l'API.
