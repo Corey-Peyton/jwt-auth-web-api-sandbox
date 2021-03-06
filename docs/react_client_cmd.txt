@@ -64,7 +64,7 @@ yarn  create-react-app web
 3°) Exécutez Yarn avec maven pour la construction du client React
 -------------------------------------------------------------------
 Modifier le fichier pom.xml de "jwt-auth-web-api-react-ui" et ajouter la configuration suivante sous <build><plugins>..... :
-	-- Utilisation de : "frontend-maven-plugin" de "com.github.eirslett"
+	-- Utilisation de : "frontend-maven-plugin" de "com.github.eirslett" pour Yarn
 <plugin>
 	<groupId>com.github.eirslett</groupId>
 	<artifactId>frontend-maven-plugin</artifactId>
