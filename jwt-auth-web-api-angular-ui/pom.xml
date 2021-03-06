@@ -10,7 +10,7 @@
 	</parent>
 	<!-- =========== FRONT-END ANGULAR JS ========== -->
 	<artifactId>jwt-auth-web-api-angular-ui</artifactId>
-	<name><![CDATA[Web REST API Gestion de produits - UI Angular Client]]></name>
+	<name><![CDATA[Web REST API Gestion de produits - Angular JS Client UI]]></name>
 	<description><![CDATA[UI Angular Application Web sécurisée de gestion de produits.]]></description>
 	<inceptionYear>2021</inceptionYear>
 	<!-- ================= BUILD ================= -->

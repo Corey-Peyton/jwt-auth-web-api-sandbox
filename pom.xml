@@ -81,7 +81,7 @@
 		<node.version>v12.17.0</node.version>
 		<npm.version>6.14.4</npm.version>
 		<npx.version>6.14.4</npx.version>
-		<yarn.version>1.22.10</yarn.version>
+		<yarn.version>v1.22.10</yarn.version>
 		<frontend-maven-plugin.version>1.8.0</frontend-maven-plugin.version>
 	</properties>
 	<!-- ========== DEPENDENCIES MANAGEMENT ========= -->

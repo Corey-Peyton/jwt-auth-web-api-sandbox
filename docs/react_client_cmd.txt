@@ -58,7 +58,7 @@ npm create-react-app web
 	----------------------
 	-- Utilisation de Yarn
 	----------------------	
-yarn  create-react-app web
+yarn create react-app web
 
 -------------------------------------------------------------------
 3°) Exécutez Yarn avec maven pour la construction du client React
@@ -101,22 +101,13 @@ Modifier le fichier pom.xml de "jwt-auth-web-api-react-ui" et ajouter la configu
 			</configuration>
 		</execution>
 		<execution>
-			<id>yarn build</id>
-			<goals>
-				<goal>yarn</goal>
-			</goals>
-			<configuration>
-				<arguments>run build</arguments>
-			</configuration>
-		</execution>
-		<execution>
 			<id>prod</id>
 			<goals>
 				<goal>yarn</goal>
 			</goals>
 			<phase>generate-resources</phase>
 			<configuration>
-				<arguments>run-script build</arguments>
+				<arguments>run build</arguments>
 				<environmentVariables>
 					<APP_VERSION>${project.version}</APP_VERSION>
 				</environmentVariables>
