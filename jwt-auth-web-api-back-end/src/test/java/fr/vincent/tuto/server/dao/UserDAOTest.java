@@ -15,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
@@ -29,6 +30,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import fr.vincent.tuto.common.service.props.DatabasePropsService;
@@ -48,6 +51,7 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
 @ContextConfiguration(name = "userDAOTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistenceContextConfig.class })
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)
 @ActiveProfiles("test")
+@Sql(scripts = { "classpath:db/h2/drop-test-h2.sql", "classpath:db/h2/create-test-h2.sql", "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 class UserDAOTest
 {
     @Autowired
@@ -68,7 +72,7 @@ class UserDAOTest
     @Test
     void testFindOneByUsername()
     {
-        final var optional = this.userDAO.findOneByUsername(TestsDataUtils.ADMIN);
+        final Optional<User> optional = this.userDAO.findOneByUsername(TestsDataUtils.ADMIN);
 
         assertThat(optional).isPresent();
         assertThat(optional.get()).isNotNull();
@@ -104,7 +108,7 @@ class UserDAOTest
     @Test
     void testFindOneByEmailIgnoreCase_WithEmpty()
     {
-        final var optional = this.userDAO.findOneByEmailIgnoreCase(StringUtils.EMPTY);
+        final Optional<User> optional = this.userDAO.findOneByEmailIgnoreCase(StringUtils.EMPTY);
 
         assertThat(optional).isEmpty();
     }
@@ -368,12 +372,5 @@ class UserDAOTest
         final var users = (List<User>) this.userDAO.findAllByEnabled(Boolean.FALSE);
 
         assertThat(users).isEmpty();
-    }
-
-    @SuppressWarnings("unused")
-    private void initData()
-    {
-        TestsDataUtils.creerJeuDeDonnees()//
-        .forEach(user -> this.userDAO.saveAndFlush(user));
     }
 }

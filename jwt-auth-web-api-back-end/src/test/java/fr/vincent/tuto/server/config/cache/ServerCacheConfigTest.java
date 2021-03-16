@@ -15,8 +15,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import javax.cache.CacheManager;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,22 +51,6 @@ class ServerCacheConfigTest
 
     @Autowired
     private ServerCacheConfig serverCacheConfig;
-
-    /**
-     * @throws java.lang.Exception
-     */
-    @BeforeEach
-    void setUp() throws Exception
-    {
-    }
-
-    /**
-     * @throws java.lang.Exception
-     */
-    @AfterEach
-    void tearDown() throws Exception
-    {
-    }
 
     /**
      * Test method for
@@ -108,5 +90,4 @@ class ServerCacheConfigTest
 
         assertThat(cacheManagerCustomizer).isNotNull();
     }
-
 }

@@ -23,15 +23,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import fr.vincent.tuto.common.service.props.DatabasePropsService;
+import fr.vincent.tuto.server.BackendApplicationStarter;
 import fr.vincent.tuto.server.config.BackEndServerRootConfig;
 import fr.vincent.tuto.server.config.db.PersistenceContextConfig;
 import fr.vincent.tuto.server.model.po.Category;
@@ -40,15 +42,17 @@ import fr.vincent.tuto.server.util.ServerUtil;
 import fr.vincent.tuto.server.utils.TestsDataUtils;
 
 /**
- * Classe des Tests nitares des objets de type {@link CategoryDAO}
+ * Classe des Tests d'intégration des objets de type {@link CategoryDAO}
  * 
  * @author Vincent Otchoun
  */
 @RunWith(SpringRunner.class)
 @TestPropertySource(value = { "classpath:back-end-db-common-test.properties", "classpath:back-end-application-test.properties", "classpath:back-end-tls-test.properties" })
 @ContextConfiguration(name = "categoryDAOTest", classes = { BackEndServerRootConfig.class, DatabasePropsService.class, PersistenceContextConfig.class })
-@SpringBootTest(webEnvironment = WebEnvironment.NONE)
+// @SpringBootTest(webEnvironment = WebEnvironment.NONE)
+@SpringBootTest(classes = BackendApplicationStarter.class)
 @ActiveProfiles("test")
+@Sql(scripts = { "classpath:db/h2/drop-test-h2.sql", "classpath:db/h2/create-test-h2.sql", "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 class CategoryDAOTest
 {
     @Autowired
@@ -69,7 +73,7 @@ class CategoryDAOTest
     @Test
     void testFindOneByName()
     {
-        final Optional<Category> optional = this.categoryDAO.findOneByName(TestsDataUtils.CATEGORY_NAME_TO_SEARCH);
+        final var optional = this.categoryDAO.findOneByName(TestsDataUtils.CATEGORY_NAME_TO_SEARCH);
 
         assertThat(optional).isPresent();
         assertThat(optional.get()).isNotNull();
@@ -125,7 +129,7 @@ class CategoryDAOTest
     @Test
     void testFindOneWithProductsByNameIgnoreCase()
     {
-        final var optional = this.categoryDAO.findOneWithProductsByNameIgnoreCase(TestsDataUtils.CATEGORY_NAME_TO_SEARCH);
+        final Optional<Category> optional = this.categoryDAO.findOneWithProductsByNameIgnoreCase(TestsDataUtils.CATEGORY_NAME_TO_SEARCH);
 
         assertThat(optional).isPresent();
 
@@ -143,7 +147,7 @@ class CategoryDAOTest
     @Test
     void testFindOneWithProductsByNameIgnoreCase_WithNull()
     {
-        final var optional = this.categoryDAO.findOneWithProductsByNameIgnoreCase(null);
+        final Optional<Category> optional = this.categoryDAO.findOneWithProductsByNameIgnoreCase(null);
 
         assertThat(optional).isNotPresent();
     }
@@ -151,7 +155,7 @@ class CategoryDAOTest
     @Test
     void testFindOneWithProductsByNameIgnoreCase_WithEmpty()
     {
-        final var optional = this.categoryDAO.findOneWithProductsByNameIgnoreCase(StringUtils.EMPTY);
+        final Optional<Category> optional = this.categoryDAO.findOneWithProductsByNameIgnoreCase(StringUtils.EMPTY);
 
         assertThat(optional).isNotPresent();
     }
@@ -216,7 +220,7 @@ class CategoryDAOTest
         int pageSize = 5; // number of items in a page to be returned, must be greater than 0.
         Pageable paging = PageRequest.of(pageNumber, pageSize);
 
-        final var categories = this.categoryDAO.findAllByEnabled(Boolean.FALSE, paging);
+        var categories = this.categoryDAO.findAllByEnabled(Boolean.FALSE, paging);
 
         assertThat(categories).isNotNull();
         assertThat(categories.getContent()).isEmpty();
@@ -226,7 +230,7 @@ class CategoryDAOTest
     @Test
     void testFindAllByEnabledBooleanPageable_WithNull()
     {
-        final var categories = this.categoryDAO.findAllByEnabled(null, null);
+        var categories = this.categoryDAO.findAllByEnabled(null, null);
 
         assertThat(categories).isNotNull();
         assertThat(categories.getContent()).isEmpty();
@@ -263,12 +267,5 @@ class CategoryDAOTest
 
         assertThat(categories.isEmpty()).isFalse();
         assertThat(categories.size()).isPositive();
-    }
-
-    @SuppressWarnings("unused")
-    private void initData()
-    {
-        TestsDataUtils.CATEGORIES()//
-        .forEach(category -> this.categoryDAO.saveAndFlush(category));
     }
 }

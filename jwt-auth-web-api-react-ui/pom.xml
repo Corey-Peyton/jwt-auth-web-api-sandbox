@@ -38,19 +38,19 @@
 							<goal>yarn</goal>
 						</goals>
 					</execution>
-					<execution>
-						<id>yarn test</id>
-						<goals>
-							<goal>yarn</goal>
-						</goals>
-						<phase>test</phase>
-						<configuration>
-							<arguments>test</arguments>
-							<environmentVariables>
-								<CI>true</CI>
-							</environmentVariables>
-						</configuration>
-					</execution>
+					<!-- <execution> -->
+					<!-- <id>yarn test</id> -->
+					<!-- <goals> -->
+					<!-- <goal>yarn</goal> -->
+					<!-- </goals> -->
+					<!-- <phase>test</phase> -->
+					<!-- <configuration> -->
+					<!-- <arguments>test</arguments> -->
+					<!-- <environmentVariables> -->
+					<!-- <CI>true</CI> -->
+					<!-- </environmentVariables> -->
+					<!-- </configuration> -->
+					<!-- </execution> -->
 					<execution>
 						<id>prod</id>
 						<goals>

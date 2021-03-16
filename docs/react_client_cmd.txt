@@ -44,7 +44,6 @@ le projet devra être généré sous le répertoire : "G:\Workspace_STS_Gitlab\j
 		- Se déplacer dans le répertoire : "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-react-ui\src\main\"
 cd "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-react-ui\src\main"
 			- Exécuter l'une des commandes suivantes :
-
 	----------------------			
 	-- Utilisation de NPX
 	----------------------

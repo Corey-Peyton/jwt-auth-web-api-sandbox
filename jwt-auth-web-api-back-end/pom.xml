@@ -17,6 +17,10 @@
 	<properties>
 		<start-class>fr.vincent.tuto.server.BackendApplicationStarter</start-class>
 		<partialize.version>release-20.10</partialize.version> <!-- release-20.10 release~20.05 -->
+		<!-- Ceux-ci restent vides sauf si le profil correspondant est actif -->
+		<profile.h2>h2</profile.h2>
+		<profile.postgre>postgre</profile.postgre>
+		<profile.mariadb>mariadb</profile.mariadb>
 	</properties>
 	<!-- =========== DEPENDANCES ========== -->
 	<dependencies>
@@ -30,6 +34,19 @@
 				<exclusion>
 					<groupId>org.springframework.security.oauth</groupId>
 					<artifactId>spring-security-oauth2</artifactId>
+				</exclusion>
+				<!-- Les BDD pour intégration dans les différents preofiles maven -->
+				<exclusion>
+					<groupId>org.postgresq</groupId>
+					<artifactId>postgresql</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.h2database</groupId>
+					<artifactId>h2</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-devtools</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -74,16 +91,16 @@
 		</dependency>
 
 		<!-- Migration de base avec Flyway -->
-		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
-		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>org.flywaydb</groupId> -->
+		<!-- <artifactId>flyway-core</artifactId> -->
+		<!-- </dependency> -->
 
 		<!-- MariaDB -->
-		<dependency>
-			<groupId>org.mariadb.jdbc</groupId>
-			<artifactId>mariadb-java-client</artifactId>
-		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>org.mariadb.jdbc</groupId> -->
+		<!-- <artifactId>mariadb-java-client</artifactId> -->
+		<!-- </dependency> -->
 
 		<!-- JDBC -->
 		<dependency>
@@ -261,23 +278,6 @@
 							</resources>
 						</configuration>
 					</execution>
-
-					<!-- Configuration pour intégrer le Client Angular -->
-					<!-- <execution> -->
-					<!-- <id>copy-resources</id> -->
-					<!-- <phase>validate</phase> -->
-					<!-- <goals> -->
-					<!-- <goal>copy-resources</goal> -->
-					<!-- </goals> -->
-					<!-- <configuration> -->
-					<!-- <outputDirectory>${project.build.directory}/classes/resources/</outputDirectory> -->
-					<!-- <resources> -->
-					<!-- <resource> -->
-					<!-- <directory>${project.parent.basedir}/jwt-auth-web-api-angular-ui/src/main/web/dist/jwt-auth-web-api-angular-ui/</directory> -->
-					<!-- </resource> -->
-					<!-- </resources> -->
-					<!-- </configuration> -->
-					<!-- </execution> -->
 				</executions>
 			</plugin>
 
@@ -318,25 +318,158 @@
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
+			<dependencies>
+				<!-- Add H2 dependency for embedded testing database -->
+				<dependency>
+					<groupId>com.h2database</groupId>
+					<artifactId>h2</artifactId>
+					<scope>runtime</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-devtools</artifactId>
+					<optional>true</optional>
+					<scope>runtime</scope>
+				</dependency>
+			</dependencies>
 			<properties>
-				<spring.profiles.active>h2</spring.profiles.active>
+				<spring.profiles.active>${profile.h2}</spring.profiles.active>
 			</properties>
 		</profile>
+
 		<!-- Définition du profile pour MARIADB -->
 		<profile>
 			<id>mariadb</id>
+			<dependencies>
+				<!-- MariaDB -->
+				<dependency>
+					<groupId>org.mariadb.jdbc</groupId>
+					<artifactId>mariadb-java-client</artifactId>
+				</dependency>
+			</dependencies>
 			<properties>
-				<spring.profiles.active>mariadb</spring.profiles.active>
+				<spring.profiles.active>${profile.mariadb}</spring.profiles.active>
 			</properties>
 		</profile>
+
 		<!-- Définition du profile pour POSTGRESQL -->
 		<profile>
 			<id>postgre</id>
+			<dependencies>
+				<!-- POSTGRESQL -->
+				<dependency>
+					<groupId>org.postgresql</groupId>
+					<artifactId>postgresql</artifactId>
+					<scope>runtime</scope>
+				</dependency>
+			</dependencies>
 			<properties>
-				<spring.profiles.active>postgre</spring.profiles.active>
+				<spring.profiles.active>${profile.postgre}</spring.profiles.active>
 			</properties>
 		</profile>
-		
-		<!-- Créer des profiles maven pour embarquer les UI React JS ou Angular JS -->
+
+		<!-- Créer des profiles maven pour embarquer les UI React JS ou Angular 
+			JS -->
+		<!-- Angular JS pour le profile par défaut: H2 -->
+		<profile>
+			<id>angular-h2</id>
+			<dependencies>
+				<!-- Add H2 dependency for embedded testing database -->
+				<dependency>
+					<groupId>com.h2database</groupId>
+					<artifactId>h2</artifactId>
+					<scope>runtime</scope>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<executions>
+							<!-- Configuration pour intégrer le Client Angular -->
+							<execution>
+								<id>copy-resources</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${project.build.directory}/classes/static/</outputDirectory>
+									<resources>
+										<resource>
+											<directory>${project.parent.basedir}/jwt-auth-web-api-angular-ui/src/main/web/dist/jwt-auth-web-api-angular-ui</directory>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+							<!-- Configuration pour Flyway -->
+							<!-- <execution> -->
+							<!-- <id>copy-flyway</id> -->
+							<!-- <phase>validate</phase> -->
+							<!-- <goals> -->
+							<!-- <goal>copy-resources</goal> -->
+							<!-- </goals> -->
+							<!-- <configuration> -->
+							<!-- <outputDirectory>${project.build.directory}/classes/db/migration/h2</outputDirectory> -->
+							<!-- <resources> -->
+							<!-- <resource> -->
+							<!-- <directory>${project.parent.basedir}/jwt-auth-web-api-back-end/docs/db/migration/h2</directory> -->
+							<!-- </resource> -->
+							<!-- </resources> -->
+							<!-- </configuration> -->
+							<!-- </execution> -->
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<properties>
+				<spring.profiles.active>${profile.h2}</spring.profiles.active>
+			</properties>
+		</profile>
+		<!-- Angular JS pour le profile : MARIADB -->
+		<!-- Angular JS pour le profile : POSTGRESQL -->
+
+		<!-- React JS pour le profile par défaut: H2 -->
+		<profile>
+			<id>react-h2</id>
+			<dependencies>
+				<!-- Add H2 dependency for embedded testing database -->
+				<dependency>
+					<groupId>com.h2database</groupId>
+					<artifactId>h2</artifactId>
+					<scope>runtime</scope>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<executions>
+							<!-- Configuration pour intégrer le Client React -->
+							<execution>
+								<id>copy-ui</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${project.build.directory}/classes/static/</outputDirectory>
+									<resources>
+										<resource>
+											<directory>${project.parent.basedir}/jwt-auth-web-api-react-ui/src/main/web/dist/jwt-auth-web-api-react-ui</directory>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<properties>
+				<spring.profiles.active>${profile.h2}</spring.profiles.active>
+			</properties>
+		</profile>
+		<!-- React JS pour le profile : MARIADB -->
+		<!-- React JS pour le profile : POSTGRESQL -->
 	</profiles>
 </project>

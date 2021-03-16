@@ -1,6 +1,44 @@
+################################
+###  Arguments de débogage Java
+################################
+Par défaut, la JVM n'active pas le débogage. Cela est dû au fait que le débogage crée une surcharge supplémentaire à l'intérieur de la JVM.
+ Cela peut également constituer un problème de sécurité pour les applications accessibles au public.
+ 
+Par conséquent, le débogage ne doit être effectué que pendant le développement et jamais sur les systèmes de production.
+Avant de pouvoir attacher un débogueur, nous devons d'abord configurer la JVM pour permettre le débogage. 
+Nous faisons cela en définissant un argument de ligne de commande pour la JVM : 
+
+-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000
+
+------------
+-- Détails
+------------
+	agentlib:jdwp  --> Activez l'agent JDWP (Java Debug Wire Protocol) dans la JVM. Il s'agit de l'argument de ligne de commande principal qui permet le débogage.
+transport=dt_socket --> Utilisez une prise réseau pour les connexions de débogage. Les autres options incluent les sockets Unix et la mémoire partagée.
+	server=y --> Écoutez les connexions du débogueur entrantes. Lorsqu'il est défini sur n, le processus essaiera de se connecter à un débogueur au lieu d'attendre les connexions entrantes. 
+Des arguments supplémentaires sont requis lorsque ce paramètre est défini sur n.
+	suspend=n  --> N'attendez pas une connexion de débogage au démarrage. 
+L'application démarre et s'exécute normalement jusqu'à ce qu'un débogueur soit connecté. Lorsqu'il est défini sur y, le processus ne démarre pas tant qu'un débogueur n'est pas connecté
+	address=8000  --> Le port réseau que la JVM écoutera pour les connexions de débogage.
+	
+----------------------------------------
+-- Commandes : Spring Boot applications
+----------------------------------------
+-- Pour activer le débogage, nous ajouterions simplement l'argument de débogage en utilisant l'option -D:
+java -jar myapp.jar -Dagentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000
+
+-- Avec Maven, nous pouvons utiliser l'objectif d'exécution fourni pour démarrer notre application avec le débogage activé:
+mvn spring-boot:run -Dagentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000
+
+
+#################################################
+###
+#################################################
+
  #mvn deploy -Dusername=admin -Dpassword=351974Oviok# -Dbuildnumber=1
 # mvn clean -T8 -Partifactory -U install
 
+cd "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox"
 cd "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-back-end"
 
 ##########################
@@ -10,10 +48,17 @@ cd "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-back-end"
 # mvn clean -T8 -Ph2 -U install
 mvn clean -T8  -U package
 
+-- Avec UI Angular JS
+mvn clean -T8 -U -Pangular-h2 package
+
+-- Avec UI React JS
+mvn clean -T8 -U -Preact-h2 package
+
 #####################
 ###  PROFILE MARIADB
 #####################
 mvn clean -T8 -Pmariadb -U package
+
 mvn clean -T8 -Pmariadb -U install
 
 #########################
@@ -22,3 +67,8 @@ mvn clean -T8 -Pmariadb -U install
 mvn clean -T8 -Ppostgre -U package
 
 mvn clean -T8 -Ppostgre -U install
+
+cd "C:\Users\Vincent\Desktop\quarkus-essai\jwt-web-api"
+java -jar jwt-auth-web-api-back-end-h2-1.0.0-SNAPSHOT.jar
+
+java -jar jwt-auth-sandbox-0.0.1-SNAPSHOT.jar 

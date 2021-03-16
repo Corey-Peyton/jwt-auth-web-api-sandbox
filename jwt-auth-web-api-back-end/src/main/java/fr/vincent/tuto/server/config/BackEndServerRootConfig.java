@@ -31,17 +31,22 @@ import fr.vincent.tuto.common.service.props.DatabasePropsService;
  * 
  * @author Vincent Otchoun
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @Import(value = { JavaMailSenderImpl.class, ApplicationPropsService.class, CommonBeansConfig.class, DatabasePropsService.class })
-@PropertySources(value = { @PropertySource(value = { "classpath:back-end-db-common.properties",
-        "classpath:back-end-tls.properties" }, ignoreResourceNotFound = false), //
-         @PropertySource(value = { "classpath:back-end-db-${spring.profiles.active}.properties" }, ignoreResourceNotFound = true),//
-        @PropertySource(value = { "classpath:back-end-application.properties" }, ignoreResourceNotFound = false)})
+@PropertySources(value = { @PropertySource(value = { "classpath:back-end-db-common.properties", "classpath:back-end-tls.properties" }, ignoreResourceNotFound = false), //
+        @PropertySource(value =
+        { "classpath:back-end-db-${spring.profiles.active}.properties" }, ignoreResourceNotFound = true), //
+        @PropertySource(value =
+        { "classpath:back-end-application.properties" }, ignoreResourceNotFound = false) })
 @ComponentScan(basePackages = { "fr.vincent.tuto.server", "fr.vincent.tuto.common" })
 @ConfigurationProperties(prefix = "vot", ignoreUnknownFields = true, ignoreInvalidFields = false)
 @EntityScan("fr.vincent.tuto.server.model.po")
 @EnableJpaRepositories(basePackages = "fr.vincent.tuto.server.dao", entityManagerFactoryRef = "entityManagerFactory", transactionManagerRef = "transactionManager")
 @EnableAspectJAutoProxy // Activer le support @AspectJ
+// @EnableAutoConfiguration(exclude = { FlywayAutoConfiguration.class })
+// @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class,
+// DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class,
+// JdbcTemplateAutoConfiguration.class })
 public class BackEndServerRootConfig
 {
     // OK aussi : classpath:back-end-db-${envTarget:h2}.properties
