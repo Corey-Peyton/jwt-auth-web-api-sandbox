@@ -1,7 +1,7 @@
 /*
  * ----------------------------------------------
  * Projet ou Module : jwt-auth-web-api-back-end
- * Nom de la classe : CustomUserDetailsServiceITest.java
+ * Nom de la classe : CustomUserDetailsServiceIT.java
  * Date de création : 2 mars 2021
  * Heure de création : 10:38:56
  * Package : fr.vincent.tuto.server.security
@@ -61,7 +61,7 @@ import fr.vincent.tuto.server.utils.TestsDataUtils;
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(OrderAnnotation.class)
 @Sql(scripts = { "classpath:db/h2/drop-test-h2.sql", "classpath:db/h2/create-test-h2.sql", "classpath:db/h2/data-test-h2.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-class CustomUserDetailsServiceITest
+class CustomUserDetailsServiceIT
 {
     private static final String USER_MAIL_SEARCH_MSG = "Erreur lors de la recherche des informations";
 

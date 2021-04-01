@@ -1,7 +1,6 @@
 ####################################################################
 ###  COMMANDES POUR LA GENERATION DE CLEFS ET CERTIFICATS : KEYTOOL
 ####################################################################
-
 cd "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-back-end\src\main\resources\crypto"
 
 keytool -genkeypair -dname "CN=server.tuto.vincent.fr,OU=IT,O=OVIOK Group,L=ANTIBES,S=ALPES MARITIMES,C=FR" -alias my-app-recette -keyalg RSA -keysize 4096 -keypass my-app-recette -validity  3650 -storetype JKS -keystore my-app-recette-keystore.jks -storepass my-app-recette -file my-app-recette-keystore.jks
@@ -37,7 +36,7 @@ keytool -v -importkeystore -srckeystore my-app-recette-keystore.jks -srcstoretyp
 ####################################
 ######### Export du certificat X509
 ####################################
-# Format .cer : fichier lisible par un éditeur de texte de type Notepad parexemple
+# Format .cer : fichier lisible par un éditeur de texte de type Notepad par exemple
 keytool -exportcert -alias my-app-recette -file  my-app-recette.cer -keystore my-app-recette-keystore.jks
 
 # Format .crt :
@@ -54,15 +53,13 @@ et chaque microservice peut valider le jeton JWT à l'aide de la clé publique e
 Avant de voir comment générer un jeton JWT avec une clé privée/publique, voyons comment générer une paire de clés RSA privée et publique avec OpenSSL.
 
 -----------------------------------------
-Générer une clé RSA privée et publique
+-- Générer une clé RSA privée et publique
 -----------------------------------------
 
----------------------------------------------------------------------------------------------
 1°) Générer une clé privée RSA, de taille 4096, et exportez-la dans un fichier nommé key.pem
 ---------------------------------------------------------------------------------------------
 $ openssl genrsa -out key.pem 4096
 
----------------------------------------------------------------------------------------------
 2°) Extraire la clé publique de la paire de clés, qui peut être utilisée dans un certificat
 ---------------------------------------------------------------------------------------------
 $ openssl rsa -in key.pem -outform PEM -pubout -out public.pem
