@@ -662,6 +662,5 @@ class ServerExceptionHandlerTest
         {
             super(msg);
         }
-
     }
 }
