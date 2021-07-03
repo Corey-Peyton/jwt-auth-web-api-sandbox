@@ -38,10 +38,10 @@ mvn spring-boot:run -Dagentlib:jdwp=transport=dt_socket,server=y,suspend=n,addre
  #mvn deploy -Dusername=admin -Dpassword=351974Oviok# -Dbuildnumber=1
 # mvn clean -T8 -Partifactory -U install
 
-# cd "G:\Workspace_STS_Gitlab\oauth2-jwt-rest-secure-sandbox"
+# cd "..\oauth2-jwt-rest-secure-sandbox"
 
-cd "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox"
-cd "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-back-end"
+cd "..\jwt-auth-web-api-sandbox"
+cd "..\jwt-auth-web-api-sandbox\jwt-auth-web-api-back-end"
 
 ##########################
 ###  PROFILE H2 : Default

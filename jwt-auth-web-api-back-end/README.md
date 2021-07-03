@@ -1,7 +1,6 @@
 # Secure Web REST API (Back-End)
 
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?branch=develop)
-![Gitlab code coverage](https://img.shields.io/gitlab/coverage/oviok-group/jwt-auth-web-api-sandbox/jwt-auth-web-api-back-end) 
 
 ## Définir les profils maven pour la construction des archives exécutables 
 La démarche consiste à utiliser `le projet Maven` pour la configuration multi-environnement et l'activation dynamique du profile activé.

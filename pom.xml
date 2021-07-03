@@ -43,9 +43,9 @@
 	</developers>
 	<!-- =========== SOURCES MANAGEMENT ============== -->
 	<scm>
-		<connection>scm:git:https://gitlab.com/oviok-group/jwt-auth-web-api-sandbox/</connection>
-		<developerConnection>scm:git:https://gitlab.com/oviok-group/jwt-auth-web-api-sandbox/</developerConnection>
-		<url>https://gitlab.com/oviok-group/jwt-auth-web-api-sandbox/</url>
+		<connection>scm:git:https://github.com/stevensam0109/jwt-auth-web-api-sandbox/</connection>
+		<developerConnection>scm:git:https://github.com/stevensam0109/jwt-auth-web-api-sandbox/</developerConnection>
+		<url>https://github.com/stevensam0109/jwt-auth-web-api-sandbox/</url>
 	</scm>
 	<!-- =========== PROJET PROPERTIES ========== -->
 	<properties>

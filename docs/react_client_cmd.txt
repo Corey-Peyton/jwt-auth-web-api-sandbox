@@ -16,7 +16,7 @@ yarn --version
 --------------------------------------------
 1°) Créer le projet ou le module avec maven 
 --------------------------------------------
-emplacement du projet parent :  "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-react-ui"
+emplacement du projet parent :  "..\jwt-auth-web-api-sandbox\jwt-auth-web-api-react-ui"
 nom du module :  jwt-auth-web-api-react-ui
 
 ------------------------------------------------------
@@ -40,9 +40,9 @@ ng --version
 	---------------------------------------
 	- Générer le projet React avec CLI
 	---------------------------------------
-le projet devra être généré sous le répertoire : "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-react-ui\src\main\web"
-		- Se déplacer dans le répertoire : "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-react-ui\src\main\"
-cd "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-react-ui\src\main"
+le projet devra être généré sous le répertoire : "..\jwt-auth-web-api-sandbox\jwt-auth-web-api-react-ui\src\main\web"
+		- Se déplacer dans le répertoire : "..\jwt-auth-web-api-sandbox\jwt-auth-web-api-react-ui\src\main\"
+cd "..\jwt-auth-web-api-sandbox\jwt-auth-web-api-react-ui\src\main"
 			- Exécuter l'une des commandes suivantes :
 	----------------------			
 	-- Utilisation de NPX

@@ -5,7 +5,7 @@
 --------------------------------------------
 1°) Créer le projet ou le module avec maven 
 --------------------------------------------
-emplacement du projet parent :  "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-angular-ui"
+emplacement du projet parent :  "..\jwt-auth-web-api-sandbox\jwt-auth-web-api-angular-ui"
 nom du module :  jwt-auth-web-api-angular-ui
 
 --------------------------------------------
@@ -31,9 +31,9 @@ ng --version
 	----------------------------------------------
 	- Générer le projet Angular avec Angular CLI
 	---------------------------------------------	
-le projet devra être généré sous le répertoire : "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-angular-ui\src\main\web"
-		- Se déplacer dans le répertoire : "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-angular-ui\src\main\"
-cd "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-angular-ui\src\main"
+le projet devra être généré sous le répertoire : "..\jwt-auth-web-api-sandbox\jwt-auth-web-api-angular-ui\src\main\web"
+		- Se déplacer dans le répertoire : "..\jwt-auth-web-api-sandbox\jwt-auth-web-api-angular-ui\src\main\"
+cd "..\jwt-auth-web-api-sandbox\jwt-auth-web-api-angular-ui\src\main"
 		- Exécuter la commande suivante :
 
 ng new --directory web jwt-auth-web-api-angular-ui

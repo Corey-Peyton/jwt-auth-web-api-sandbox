@@ -1,7 +1,6 @@
 # Secure Web REST API (Products Management)    
 
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?branch=develop)
-![Gitlab code coverage](https://img.shields.io/gitlab/coverage/oviok-group/jwt-auth-web-api-sandbox/jwt-auth-web-api-back-end) 
 
 # A Propos
 **`My Products`** est une application Web sécurisée de gestion de produits avec leur catégorie (**`service Web RESTFul Sécurisé`**) écrit en **Java** et embarque **Spring** 

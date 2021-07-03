@@ -1,7 +1,7 @@
 ####################################################################
 ###  COMMANDES POUR LA GENERATION DE CLEFS ET CERTIFICATS : KEYTOOL
 ####################################################################
-cd "G:\Workspace_STS_Gitlab\jwt-auth-web-api-sandbox\jwt-auth-web-api-back-end\src\main\resources\crypto"
+cd "..\jwt-auth-web-api-sandbox\jwt-auth-web-api-back-end\src\main\resources\crypto"
 
 keytool -genkeypair -dname "CN=server.tuto.vincent.fr,OU=IT,O=OVIOK Group,L=ANTIBES,S=ALPES MARITIMES,C=FR" -alias my-app-recette -keyalg RSA -keysize 4096 -keypass my-app-recette -validity  3650 -storetype JKS -keystore my-app-recette-keystore.jks -storepass my-app-recette -file my-app-recette-keystore.jks
 
